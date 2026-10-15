@@ -7,9 +7,7 @@
   const hoods=["송림1동","한강로3가"], liked=new Set(), memo={}, NAME="우요";
   const BOOKS="linear-gradient(90deg,#cfcabd 0 12%,#1d1f22 12% 22%,#34373b 22% 34%,#1d1f22 34% 46%,#3a3d41 46% 56%,#58d68d 56% 72%,#2b2d30 72%)";
   const products=[
-    {id:1,title:"10월 16일 화도진축제 퍼레이드",meta:"송현동 · 300m · 알바",price:"일급 45,000원",cat:"알바",ph:1,near:1,st:["people",79,44],seller:"화도진축제",sloc:"송현동",temp:"36.5",time:"3시간 전",chat:12,like:44,view:612,imgs:1,desc:"10월 16일 화도진축제 퍼레이드 스태프를 모집해요.\n일급 45,000원, 식사 제공해요.\n편한 복장으로 오세요."},
-    {id:2,title:"동인천 컴포즈 화,목 마감 파트타이머 구인합니다~",meta:"송림동 · 400m · 알바",price:"시급 10,500원",cat:"알바",ph:1,near:1,st:["people",1,2],seller:"컴포즈 동인천점",sloc:"송림동",temp:"38.1",time:"1일 전",chat:1,like:2,view:48,imgs:1,desc:"화, 목 마감 파트타이머 구합니다.\n시급 10,500원\n성실하신 분이면 좋아요."},
-    {id:3,title:"반수 포기해서 팝니다",meta:"1일 전",price:43000,cat:"도서/문구",bg:BOOKS,buy:1,st:["chat",1,1],seller:"반수생",sloc:"송림1동",temp:"36.8",time:"1일 전",chat:1,like:1,view:73,imgs:3,desc:"반수 포기해서 인강 교재 일괄 팝니다.\n미적분, 국어 포함이에요.\n바로구매 가능해요."},
+    {id:3,title:"반수 포기해서 팝니다",meta:"송림1동 · 1일 전",price:43000,cat:"도서/문구",bg:BOOKS,buy:1,st:["chat",1,1],seller:"반수생",sloc:"송림1동",temp:"36.8",time:"1일 전",chat:1,like:1,view:73,imgs:3,desc:"반수 포기해서 인강 교재 일괄 팝니다.\n미적분, 국어 포함이에요.\n바로구매 가능해요."},
     {id:4,title:"리센느 포토카드 원이&별이",meta:"용현1,4동 · 4km · 5일 전",price:"100만원",cat:"기타",near:1,bg:"linear-gradient(#c3beb7,#a39d95)",emoji:"🎴",st:["chat",3,12],seller:"포카러버",sloc:"용현1,4동",temp:"37.4",time:"5일 전",chat:3,like:12,view:230,imgs:2,desc:"리센느 포토카드 원이&별이 판매합니다.\n상태 좋아요."},
     {id:5,title:"아이폰17 퍼플 256GB",meta:"신흥동3가 · 끌올 15시간 전",price:523000,pay:1,cat:"디지털기기",bg:"linear-gradient(160deg,#b9b7c9,#8f8ca9)",emoji:"📱",st:["chat",9,19],seller:"뽀끔이",sloc:"제물포구 신흥동3가",temp:"37.9",time:"끌올 15시간 전",chat:9,like:19,view:1128,imgs:8,desc:"사용기간 11개월\n박스X\n배터리 성능 94\n액정 파손으로 교체이력 있어요 (정품X)\n프레임 깨진 곳 있음 (사진 참고)\n외관 하자 외에 다른 하자 없습니다"},
     {id:6,title:"이케아 원목 협탁",meta:"송림동 · 600m · 2시간 전",price:15000,cat:"가구/인테리어",bg:"#e8d8c5",emoji:"🪑",st:["chat",2,4],seller:"오늘도정리",sloc:"송림동",temp:"38.2",time:"2시간 전",chat:2,like:4,view:96,imgs:3,desc:"방 정리하면서 내놓아요.\n생활 기스 조금 있지만 튼튼해요."},
@@ -378,7 +376,7 @@
     const tt=t.closest("[data-toast]");if(tt){toast(tt.dataset.toast);return}
     const a=t.closest("[data-act]");if(a){act(a.dataset.act,a);return}
     const tab=t.closest("[data-tab]");if(tab){const k=tab.dataset.tab;if(k==="community"||k==="map"){toast("준비 중이에요");return}stack=[];page=k;sheet=null;render();return}
-    const c=t.closest("[data-cat]");if(c){const k=c.dataset.cat;if(k==="중고차"||k==="부동산"){return}category=k;render();return}
+    const c=t.closest("[data-cat]");if(c){const k=c.dataset.cat;if(k==="중고차"||k==="부동산"||k==="알바"){return}category=k;render();return}
     const h=t.closest("[data-hood]");if(h){hoodIdx=Number(h.dataset.hood);sheet=null;render();return}
     const st=t.closest("[data-saletab]");if(st){saleTab=st.dataset.saletab;render();return}
     const pr=t.closest("[data-product]");if(pr){selected=Number(pr.dataset.product);go("detail");return}

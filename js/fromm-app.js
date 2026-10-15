@@ -6,7 +6,7 @@
 
   /* ---------- 데이터 ---------- */
   const G = ["linear-gradient(135deg,#caa27c,#6d4a38)", "linear-gradient(135deg,#2b2b33,#7b5a4a)", "linear-gradient(135deg,#9db7d6,#34445c)", "linear-gradient(135deg,#e6c3c3,#a56e7a)", "linear-gradient(135deg,#d9cfa5,#7e7a52)", "linear-gradient(135deg,#b9a3d6,#5a4a86)", "linear-gradient(135deg,#a7d3c4,#3f7c6c)", "linear-gradient(135deg,#f3c58c,#c0703a)"];
-  const me = { n: "춘삼이", s: "", ph: 1 };
+  const me = { n: "떵화", s: "", ph: 1 };
   const best = [{ n: "내 행복❤️", s: "하튜", g: G[0], hearts: "+1100" }];
   const arts = [
     { n: "애옹이", s: "🤍🪽", g: G[1] }, { n: "도동이", s: "동코리타🌱", g: G[2] }, { n: "민기", s: "", ph: 1 }, { n: "정우영", s: "🤦‍♂️", g: G[4] },
@@ -27,7 +27,7 @@
   const stores = [["🧸", "아티 인형", "18,000원"], ["💿", "앨범 세트", "24,500원"], ["🎫", "포토카드", "3,000원"], ["👕", "공식 티셔츠", "32,000원"], ["🕯️", "응원봉", "39,000원"], ["📒", "다이어리", "9,900원"]];
 
   /* ---------- 상태 ---------- */
-  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, showReplies = false, curR = 0;
+  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, opn = {};
   const memo = {};
 
   /* ---------- 유틸 / 아이콘 ---------- */
@@ -55,25 +55,23 @@
   const navH = () => `<nav class="fmx-nav">${NAVS.map(([k, l]) => `<button class="${k === tab ? "on" : ""}" data-fx="tab" data-id="${k}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round">${NAV[k](k === tab)}</svg><span>${l}</span></button>`).join("")}</nav>`;
   const ava = (u, z = 48) => u.img ? `<i class="fmx-av" style="width:${z}px;height:${z}px;overflow:hidden"><img src="${u.img}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></i>` : u.ph ? `<i class="fmx-av" style="width:${z}px;height:${z}px"><svg viewBox="0 0 48 48" width="${z}" height="${z}"><circle cx="24" cy="24" r="24" fill="#f1f1f2"/><circle cx="24" cy="18.500" r="6.500" fill="#fff"/><rect x="12.500" y="28" width="23" height="9.500" rx="4.750" fill="#fff"/></svg></i>` : `<i class="fmx-av" style="width:${z}px;height:${z}px;background:${u.g}"></i>`;
   const hm = () => { const d = new Date(), h = d.getHours(), m = String(d.getMinutes()).padStart(2, "0"); return { en: (h < 12 ? "AM " : "PM ") + (h % 12 || 12) + ":" + m, ko: (h < 12 ? "오전 " : "오후 ") + (h % 12 || 12) + ":" + m }; };
+  const rpH = m => m.me ? `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>` : `<div class="fmx-lm"><i class="fmx-av" style="width:32px;height:32px;background:${m.g}"></i><div><span class="fmx-nm">${E(m.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(m.t)}</div><small>${m.time}</small></div></div></div>`;
   const fr = (u, i) => `<div class="fmx-fr" data-fx="prof" data-id="${u.n}">${ava(u)}<div class="fmx-fn"><b>${E(u.n)}</b>${u.s ? `<small>${E(u.s)}</small>` : ""}</div>${u.hearts ? `<span class="fmx-hs">${heart(22)}${u.hearts}</span>` : ""}</div>`;
 
   /* ---------- 페이지 ---------- */
   const top = (t, r = "") => `<header class="fmx-top"><h1>${t}</h1>${r}</header>`;
   const PAGES = {
     list: () => `<div class="fmx-pg">${top("목록", `<div class="fmx-pl"><button data-fx="toast" data-m="친구 추가는 준비 중이에요">${ic("uadd", 28, 1.7)}</button><button data-fx="toast" data-m="설정은 준비 중이에요">${ic("gear", 28, 1.7)}</button></div>`)}
-<div class="fmx-sc" data-k="list"><div class="fmx-fr me" data-fx="prof" data-id="춘삼이">${ava(me, 48)}<div class="fmx-fn"><b>춘삼이</b></div></div>
+<div class="fmx-sc" data-k="list"><div class="fmx-fr me" data-fx="prof" data-id="${E(me.n)}">${ava(me, 48)}<div class="fmx-fn"><b>${E(me.n)}</b></div></div>
 </div>${navH()}</div>`,
 
     chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:${room.g}"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
 
     room: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back", 28, 1.8)}</button><h2>채팅방</h2><div class="fmx-hr"><button class="fmx-lv" data-fx="live"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 3C9 3 3 8.500 3 15.200c0 3.500 1.600 6.600 4.300 8.800L6 30l5.700-3.200c1.700.5 3.500.7 5.300.7 8 0 14-5.500 14-12.300S25 3 17 3z" fill="#d8d9dd"/><text x="17" y="19.500" text-anchor="middle" font-size="9.500" font-weight="900" fill="#222" font-family="Arial">LIVE</text></svg></button><button class="fmx-ib" data-fx="toast" data-m="채팅방 메뉴는 준비 중이에요">${ic("menu", 28, 1.7)}</button></div></header>
-<div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}">답장보기 ${ic("chev", 17, 1.8)}</button></div>`).join("")}</div>${inputBar(1)}</div>`,
+<div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}" aria-expanded="${opn[i] ? "true" : "false"}">${opn[i] ? "답장 접기" : "답장보기"} <span class="fmx-chv${opn[i] ? " on" : ""}">${ic("chev", 17, 1.8)}</span></button></div>${opn[i] && m.rp && m.rp.length ? `<div class="fmx-rpl">${m.rp.map(rpH).join("")}</div>` : ""}`).join("")}</div>${inputBar(1)}</div>`,
 
     live: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("down", 32, 1.7)}</button><h2>실시간 채팅</h2><div class="fmx-hr"><button class="fmx-ib" data-fx="toast" data-m="실시간 채팅 안내: 프롬친구 모두에게 보여요">${ic("info", 34, 1.7)}</button></div></header>
 <div class="fmx-sc fmx-ms lv" data-k="live">${live.map(m => m.me ? `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>` : `<div class="fmx-lm"><i class="fmx-av" style="width:32px;height:32px;background:${m.g}"></i><div><span class="fmx-nm">${E(m.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(m.t)}</div><small>${m.time}</small></div></div></div>`).join("")}</div>${inputBar(0)}</div>`,
-
-    replies: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("down", 32, 1.7)}</button><h2>실시간 채팅</h2><div class="fmx-hr"><button class="fmx-ib" data-fx="toast" data-m="실시간 채팅 안내: 프롬친구 모두에게 보여요">${ic("info", 34, 1.7)}</button></div></header>
-<div class="fmx-sc fmx-ms lv" data-k="replies">${room.msgs[curR].rp.map(m => `<div class="fmx-lm"><i class="fmx-av" style="width:32px;height:32px;background:${m.g}"></i><div><span class="fmx-nm">${E(m.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(m.t)}</div><small>${m.time}</small></div></div></div>`).join("")}</div>${inputBar(0)}</div>`,
 
     channel: () => `<div class="fmx-pg">${top("채널")}<div class="fmx-sc"><div class="fmx-cc">${["아티 소식", "공식 공지", "라이브 일정", "팬레터"].map((n, i) => `<button data-fx="toast" data-m="${n} 채널은 준비 중이에요"><i style="background:${G[i + 1]}"></i><b>${n}</b><small>구독 중</small></button>`).join("")}</div></div>${navH()}</div>`,
     store: () => `<div class="fmx-pg">${top("스토어")}<div class="fmx-sc"><div class="fmx-sg">${stores.map(([e, n, p]) => `<button data-fx="toast" data-m="${n}을(를) 담았어요"><i>${e}</i><b>${n}</b><small>${p}</small></button>`).join("")}</div></div>${navH()}</div>`,
@@ -88,7 +86,7 @@
     const s0 = $(".fmx-sc"); if (s0 && rendered) memo[rendered] = s0.scrollTop;
     el.innerHTML = PAGES[page]() + (sheet ? sheetH() : "");
     rendered = page; const s = $(".fmx-sc"); if (!s) return;
-    s.scrollTop = (page === "room" || page === "live" || page === "replies") ? s.scrollHeight : (memo[page] || 0);
+    s.scrollTop = keep && memo[page] != null ? memo[page] : (page === "room" || page === "live") ? s.scrollHeight : (memo[page] || 0);
   }
   const go = p => { stack.push(page); page = p; sheet = null; prof = null; render(); };
   const back = () => { page = stack.pop() || tab; sheet = null; prof = null; render(); };
@@ -106,13 +104,13 @@
       case "toast": toast(b.dataset.m); break;
       case "room": room.unread = 0; prof = null; sheet = null; if (page !== "room") go("room"); else render(); break;
       case "live": go("live"); break;
-      case "rview": curR = +id; go("replies"); break;
+      case "rview": opn[id] = !opn[id]; render(true); break;
       case "back": back(); break;
       case "sheet": prof = null; sheet = true; render(); break;
       case "closesheet": sheet = null; prof = null; render(); break;
       case "sendhint": sheet = true; prof = null; render(); break;
       case "send": send(b.dataset.m); break;
-      case "prof": prof = id === "춘삼이" ? me : arts.concat(best).find(u => u.n === id) || me; sheet = true; render(); break;
+      case "prof": prof = id === me.n ? me : arts.concat(best).find(u => u.n === id) || me; sheet = true; render(); break;
     }
   }
 
@@ -120,7 +118,7 @@
   el.addEventListener("click", e => { const b = e.target.closest("[data-fx]"); if (b && el.contains(b)) { e.stopPropagation(); act(b.dataset.fx, b); } });
   function open() {
     if (opened) return; opened = true;
-    el.className = ""; el.style.display = ""; el.innerHTML = ""; page = "list"; tab = "list"; stack = []; sheet = null; prof = null; rendered = null; Object.keys(memo).forEach(k => delete memo[k]);
+    el.className = ""; el.style.display = ""; el.innerHTML = ""; page = "list"; tab = "list"; stack = []; sheet = null; prof = null; rendered = null; Object.keys(memo).forEach(k => delete memo[k]); opn = {};
     try { originFrom(el, "fromm"); } catch (_) {}
     el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false");
     render(); setTimeout(() => { if (opened) screen.classList.add("app-light"); }, 140);
@@ -156,6 +154,7 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .fmx-ml{display:flex}.fmx-mr{display:flex;justify-content:flex-end;align-items:flex-end;gap:7px}.fmx-mr small{font-size:14px;color:#9a9aa0;padding-bottom:2px}
 .fmx-bb{min-height:46px;padding:11px 22px;border-radius:23px;font-size:17.5px;line-height:1.4;letter-spacing:-.03em;max-width:76%;word-break:break-all;display:flex;align-items:center}
 .fmx-bb.me{background:#fa5673;color:#fff;border-top-right-radius:5px}.fmx-bb.rp{background:#f1f2f4;color:#333;border-top-left-radius:5px;gap:10px;padding:0 20px 0 18px;height:46px}.fmx-bb.rp svg{color:#b3b3b8}
+.fmx-rpl{display:flex;flex-direction:column;gap:14px;padding:2px 0 4px 6px}.fmx-chv{display:inline-flex;transition:transform .2s}.fmx-chv.on{transform:rotate(90deg)}
 .fmx-lm{display:flex;gap:7px;align-items:flex-start}.fmx-lm>i{margin-top:2px}.fmx-nm{display:block;font-size:13px;color:#8d8d93;margin:0 0 4px 6px}.fmx-lr{display:flex;align-items:flex-end;gap:8px}.fmx-lr .fmx-bb{background:#f1f2f4;color:#222;border-top-left-radius:23px;padding:11px 22px}.fmx-lr small{font-size:14px;color:#9a9aa0;padding-bottom:3px;white-space:nowrap}.lv{gap:20px}
 .fmx-ib2{flex:none;display:flex;align-items:center;gap:6px;padding:8px 16px 38px 12px;background:#fff}.fmx-ib2.room{padding-left:6px}.fmx-pl2{width:46px;height:48px;display:grid;place-items:center;color:#111;flex:none}
 .fmx-fd{flex:1;height:48px;border-radius:24px;background:#f1f2f4;display:flex;align-items:center;justify-content:space-between;padding:0 14px 0 20px;font-size:17px;color:#b8b9bf;text-align:left}.fmx-ib2:not(.room) .fmx-fd{height:50px}.fmx-sd,.fmx-cm{display:grid;place-items:center;font-style:normal}.fmx-sd{color:#f9a2b1}.fmx-cm{color:#b0b1b8}

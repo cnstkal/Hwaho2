@@ -100,7 +100,7 @@ const EtApp = (() => {
   function addCmt() { const i = $("#et-cin"), t = i.value.trim(), p = post(pid); if (!t || !p) return; S.cm = S.cm || {}; const arr = (S.cm[pid] = S.cm[pid] || []); const mine = p.me; const used = [...p.cm, ...arr].filter(c => c.me).map(c => c.n)[0]; const next = used != null ? used : (mine ? 0 : 1 + Math.max(0, ...[...p.cm, ...arr].map(c => c.n))); arr.push({ id: pid + "m" + Date.now().toString(36), n: next, t, ts: Date.now(), likes: 0, me: 1, nm: S.anon === false ? "성윤대" : undefined, pr: rpTo ? rpTo.id : undefined }); rpTo = null; save(); const keep = $("#et-ds"), top = keep ? keep.scrollTop : 0; $("#et-det").innerHTML = detHtml(); const s = $("#et-ds"); s.scrollTop = s.scrollHeight; toast("댓글을 등록했습니다"); }
   el.addEventListener("click", e => { const link = e.target.closest("[data-et-link]"); if (link) { e.preventDefault(); const target = "https://entertain.naver.com/article/sample/4"; document.dispatchEvent(new CustomEvent("app:close", {detail:{id:"everytime"}})); if (window.Home && typeof Home.openApp === "function") Home.openApp("safari"); else document.dispatchEvent(new CustomEvent("app:open", {detail:{id:"safari"}})); setTimeout(() => { if (window.SafariApp && typeof window.SafariApp.navigate === "function") window.SafariApp.navigate(target); }, 250); return; } const t = e.target.closest("[data-e]"); if (!t) return; const d = t.dataset;
     switch (d.e) {
-      case "board": board = d.b; from = d.from || "boards"; rList(); show("list"); break;
+      case "board": if (d.b === "secret") break; board = d.b; from = d.from || "boards"; rList(); show("list"); break;
       case "back": closeTop(); break;
       case "tabb": show("boards"); rBoards(); break;
       case "tabh": show("home"); rHome(); break;

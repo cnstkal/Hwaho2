@@ -39,13 +39,13 @@ const SpApp = (() => {
   const AR = [...new Set(AL.map(a => a[1]))].map((n, i) => ({ id: i, n, h: AL.find(a => a[1] === n)[2] }));
   const byG = (...g) => T.filter(t => g.includes(AL[t.ai][3])).map(t => t.id);
   const PL = [
-    ["오늘의 인기 곡 Top 20", 140, T.filter(t => t.n <= 2).map(t => t.id)], ["새벽 감성", 265, byG("인디", "어쿠스틱", "재즈")], ["집중이 필요할 때", 190, byG("일렉트로닉", "재즈")],
-    ["드라이브 믹스", 20, byG("록", "팝", "힙합")], ["데일리 믹스 2", 90, T.filter(t => t.id % 2 === 1).map(t => t.id)], ["R&B 무드", 45, byG("R&B", "팝")],
+    ["오늘의 인기 곡 Top 20", 140, T.filter(t => t.n <= 2).map(t => t.id)], ["집중이 필요할 때", 190, byG("일렉트로닉", "재즈")],
+    ["드라이브 믹스", 20, byG("록", "팝", "힙합")], ["R&B 무드", 45, byG("R&B", "팝")],
   ];
   const GN = [["팝", "#8d67ab"], ["힙합", "#ba5d07"], ["인디", "#1e3264"], ["록", "#e8115b"], ["일렉트로닉", "#0d73ec"], ["재즈", "#477d95"], ["R&B", "#dc148c"], ["어쿠스틱", "#148a08"]];
   const KEY = "ios-spotify-v1";
-  let S = { liked: [], ups: [], recent: ["a0", "a3", "a5", "p1"] };
-  try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.liked)) S = { liked: d.liked, ups: d.ups || [], recent: d.recent || S.recent }; } catch (e) {}
+  let S = { liked: [], ups: [], recent: ["a0", "a3", "a5", "p0"] };
+  try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.liked)) S = { liked: d.liked, ups: d.ups || [], recent: Array.isArray(d.recent) ? d.recent.filter(x => !/^p\d+$/.test(x)) : S.recent }; } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const fm = s => { s = Math.max(0, Math.floor(s)); return (s / 60 | 0) + ":" + String(s % 60).padStart(2, "0"); };
@@ -136,7 +136,7 @@ const SpApp = (() => {
     const h = new Date().getHours(), gr = h < 5 || h >= 21 ? "좋은 밤이에요" : h < 12 ? "좋은 아침이에요" : h < 18 ? "좋은 오후예요" : "좋은 저녁이에요";
     const sec = (t, l) => `<h2 class="sp-h">${t}</h2><div class="sp-hs">${l}</div>`, rc = [...new Set(S.recent)].map(ent).filter(Boolean).slice(0, 10);
     return `<div class="sp-hd"><button class="sp-av" data-a="set" aria-label="설정">떵</button><b>${gr}</b><span class="sp-sp"></span><button class="sp-ib" data-a="bell" aria-label="알림">${I.bell}</button><button class="sp-ib" data-a="sch" aria-label="검색" aria-disabled="true" style="opacity:.38;pointer-events:none">${I.search()}</button></div>`
-      + `<div class="sp-qg">${["liked", "p0", "a0", "p1", "a3", "p4"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
+      + `<div class="sp-qg">${["liked", "p0", "a0", "p1", "a3", "p2"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
       + sec("최근 재생", rc.map(cd).join(""))
       + sec("추천 아티스트", AR.map((_, i) => cd(ent("r" + i))).join(""));
   }
@@ -248,7 +248,7 @@ const SpApp = (() => {
       case "lg": lib.grid = lib.grid ? 0 : 1; lbBody(); break;
       case "lq": lib.qo = !lib.qo; lib.q = ""; $("#sp-lbf").innerHTML = lib.qo ? `<div class="sp-lqf">${I.search()}<input id="sp-lq" placeholder="내 라이브러리에서 찾기"></div>` : ""; if (lib.qo) $("#sp-lq").focus(); lbBody(); break;
       case "set": sheet(`<div class="sp-sh1"><b style="font-size:18px">떵화</b></div><p>설정</p><p>좋아요와 플레이리스트는 이 기기의 브라우저에만 저장돼요.</p>` + si(I.trash, "좋아요·플레이리스트 초기화", "reset")); break;
-      case "reset": if (b.dataset.s) { S = { liked: [], ups: [], recent: ["a0", "a3", "a5", "p1"] }; save(); shut(); refresh(); toast("초기화했어요"); } else { b.dataset.s = 1; b.querySelector("span").textContent = "정말 초기화할까요? 한 번 더 탭하세요"; } break;
+      case "reset": if (b.dataset.s) { S = { liked: [], ups: [], recent: ["a0", "a3", "a5", "p0"] }; save(); shut(); refresh(); toast("초기화했어요"); } else { b.dataset.s = 1; b.querySelector("span").textContent = "정말 초기화할까요? 한 번 더 탭하세요"; } break;
     }
   });
   el.addEventListener("input", e => {
