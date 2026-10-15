@@ -1,0 +1,54 @@
+name: Static site validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          set -e
+          for file in js/*.js; do
+            echo "Checking $file"
+            node --check "$file"
+          done
+      - name: Verify index asset references
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from html.parser import HTMLParser
+          from urllib.parse import urlsplit
+
+          root = Path(".")
+          missing = []
+
+          class AssetParser(HTMLParser):
+              def handle_starttag(self, tag, attrs):
+                  attrs = dict(attrs)
+                  for key in ("src", "href"):
+                      value = attrs.get(key, "")
+                      if not value or value.startswith(("#", "data:", "http://", "https://", "//", "javascript:")):
+                          continue
+                      path = urlsplit(value).path
+                      if path and not (root / path.lstrip("/")).is_file():
+                          missing.append((tag, key, value))
+
+          parser = AssetParser()
+          parser.feed((root / "index.html").read_text(encoding="utf-8"))
+          if missing:
+              for tag, key, value in missing:
+                  print(f"Missing {tag} {key}: {value}")
+              raise SystemExit(1)
+          print("All local CSS/JS references in index.html exist.")
+          PY
