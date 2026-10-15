@@ -16,7 +16,7 @@ const KakaoApp = (() => {
   const FR = [["f0", "울윤호", "", 1], ["f3", "엄마", "건강이 최고", 1], ["h6", "아빠", "", 1], ["f5", "홍중", "작업실", 0], ["f4", "민기", "🎧", 0], ["f1", "철수", "결혼 생활 중 💍", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
     ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 0, 1], ["f9", "지안", "Be happy", 0, 1], ["f6", "도현", "", 0, 1], ["f10", "레도형", "Be humble", 0, 1], ["h1", "최PD(무대감독)", "", 0, 1], ["h2", "박팀장(조명)", "", 0, 1], ["h3", "김팀장님(레코드)", "", 0, 1], ["h4", "성민(동창)", "", 0, 1], ["h5", "수아 실장", "", 0, 1], ["ad1", "배달의민족", "", 0, 1], ["ad2", "CGV", "", 0, 1], ["ad3", "올리브영", "", 0, 1], ["ad4", "CJ대한통운", "", 0, 1]];
   const TOTAL = 302;
-  let D = null; try { D = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  let D = null; try { D = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!D || !D.chats) {
     const H = 36e5, n = Date.now(), m = (from, text, ago) => ({ id: uid(), from, text, ts: n - ago * H });
     D = { friends: FR.map(([id, name, st, fav, hid]) => ({ id, name, st, fav, hid })), chats: [
@@ -39,7 +39,7 @@ const KakaoApp = (() => {
     ] };
   }
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
