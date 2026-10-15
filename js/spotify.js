@@ -46,7 +46,7 @@ const SpApp = (() => {
   const KEY = "ios-spotify-v1";
   let S = { liked: [], ups: [], recent: ["a0", "a3", "a5", "p0"] };
   try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.liked)) S = { liked: d.liked, ups: d.ups || [], recent: Array.isArray(d.recent) ? d.recent.filter(x => !/^p\d+$/.test(x)) : S.recent }; } catch (e) {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const fm = s => { s = Math.max(0, Math.floor(s)); return (s / 60 | 0) + ":" + String(s % 60).padStart(2, "0"); };
   const PAT = [
@@ -74,7 +74,7 @@ const SpApp = (() => {
   /* ---------- 재생 상태 ---------- */
   const PLAY_KEY = "ios-spotify-playback-v1";
   let restored = null;
-  try { restored = JSON.parse(localStorage.getItem(PLAY_KEY)); } catch (e) {}
+  try { restored = window.HwahoStability ? window.HwahoStability.readJSON(PLAY_KEY, null) : JSON.parse(localStorage.getItem(PLAY_KEY)); } catch (e) {}
   let Q = restored && Array.isArray(restored.Q) ? restored.Q : [], qi = restored && Number.isInteger(restored.qi) ? restored.qi : -1,
       pos = restored && Number.isFinite(restored.pos) ? restored.pos : 0,
       playing = !!(restored && restored.playing && restored.qi >= 0),
