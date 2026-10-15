@@ -51,12 +51,18 @@ window.IgApp = (() => {
     "_starhwa_": "IMG_7064.jpeg",
     "hoodie.hooligan": "229FB30C-0EDC-48D6-A1D0-BDE553DFDD46.png",
     "himothy._": "3111F199-6B45-451B-80CD-6B4B281AD868.png",
-    "0fficiallyheytaaaaa": "4DFB4DC8-305C-46AF-A502-DADB9385E6C4.png"
+    "0fficiallyheytaaaaa": "4DFB4DC8-305C-46AF-A502-DADB9385E6C4.png",
+    "xnn****": "IMG_7263.jpeg",
+    "iwaitedfortherightmo****": "IMG_7268.jpeg",
+    "sgyun***": "IMG_7267.jpeg"
   };
   const av = (u, s, extra = "") => {
     const id = String(u.id || "");
     const photo = PROFILE_PHOTOS[id];
-    const src = photo ? "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo) : "";
+    const newProfileIds = ["xnn****", "iwaitedfortherightmo****", "sgyun***"];
+    const src = photo ? (newProfileIds.includes(id)
+      ? "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
+      : "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)) : "";
     return `<div class="ig-av ${extra}" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${Math.round(s * .42)}px;background:linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))"><span>${esc([...u.name][0])}</span>${src ? `<img alt="" src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : ""}</div>`;
   };
   const ago = ts => { const m = Math.floor((Date.now() - ts) / 6e4); return m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전"; };
@@ -151,6 +157,15 @@ window.IgApp = (() => {
      "fixon_n_on": { times: ["12시간 전", "11시간 전"], fr: [
        "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/Instagram/Stories/fixon_n_on/5E333DA5-1F07-45F4-AA86-1F0520663002.jpeg",
        "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/Instagram/Stories/fixon_n_on/5E9EF00A-ABEB-4E68-B214-475B107A4271.jpeg"
+     ] },
+     "xnn****": { times: ["방금"], fr: [
+       "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/Instagram/Stories/xnn****/IMG_7260.jpeg"
+     ] },
+     "iwaitedfortherightmo****": { times: ["방금"], fr: [
+       "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/Instagram/Stories/iwaitedfortherightmo****/IMG_7270.jpeg"
+     ] },
+     "sgyun***": { times: ["방금"], fr: [
+       "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/Instagram/Stories/sgyun***/IMG_7266.jpeg"
      ] }
    };
    Object.values(STORY_DATA).forEach(g => g.fr.forEach(src => { const im = new Image(); im.decoding = "async"; im.src = src; }));
