@@ -45,7 +45,7 @@ const SpApp = (() => {
   const GN = [["팝", "#8d67ab"], ["힙합", "#ba5d07"], ["인디", "#1e3264"], ["록", "#e8115b"], ["일렉트로닉", "#0d73ec"], ["재즈", "#477d95"], ["R&B", "#dc148c"], ["어쿠스틱", "#148a08"]];
   const KEY = "ios-spotify-v1";
   let S = { liked: [], ups: [], recent: ["a0", "a3", "a5", "p0"] };
-  try { const d = JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.liked)) S = { liked: d.liked, ups: d.ups || [], recent: Array.isArray(d.recent) ? d.recent.filter(x => !/^p\d+$/.test(x)) : S.recent }; } catch (e) {}
+  try { const d = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); if (d && Array.isArray(d.liked)) S = { liked: d.liked, ups: d.ups || [], recent: Array.isArray(d.recent) ? d.recent.filter(x => !/^p\d+$/.test(x)) : S.recent }; } catch (e) {}
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const fm = s => { s = Math.max(0, Math.floor(s)); return (s / 60 | 0) + ":" + String(s % 60).padStart(2, "0"); };
@@ -80,7 +80,7 @@ const SpApp = (() => {
       playing = !!(restored && restored.playing && restored.qi >= 0),
       shuf = !!(restored && restored.shuf), rep = restored && Number.isInteger(restored.rep) ? restored.rep : 0,
       src = restored && restored.src || null, orig = null, seek = false;
-  const savePlayback = () => { try { localStorage.setItem(PLAY_KEY, JSON.stringify({ Q, qi, pos, playing, shuf, rep, src })); } catch (e) {} };
+  const savePlayback = () => { try { const data = { Q, qi, pos, playing, shuf, rep, src }; if (window.HwahoStability) window.HwahoStability.writeJSON(PLAY_KEY, data); else localStorage.setItem(PLAY_KEY, JSON.stringify(data)); } catch (e) {} };
   let tab = "hm", stack = [], mT = null, mC = null, isOpen = false, toastT = null;
   const lib = { f: null, sort: 0, grid: 0, q: "", qo: 0 }, se = { q: "", f: "all" };
   const cur = () => T[Q[qi]];
