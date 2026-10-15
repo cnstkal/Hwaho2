@@ -5,7 +5,7 @@
     ["instagram.js", "ig-app"], ["twitter.js", "x-app"], ["safari.js", "saf-app"],
     ["photos.js", "pho-app"], ["chatgpt.js", "gp-app"], ["spotify.js", "sp-app"],
     ["kakaotalk.js", "kko-app"], ["notes.js", "nt-app"], ["youtube.js", "yt-app"],
-    ["netflix.js", "nf-app"], ["baemin.js", "bm-app"], ["fromm.js", "fm-app"],
+    ["netflix.js", "nf-app"], ["baemin.js", "bm-app"], ["fromm.js", "fm-app"], ["fromm-app.js", "fm-app"],
     ["everytime.js", "et-app"], ["calendar.js", "cal-app"], ["imessage.js", "msg-app"],
     ["phone.js", "tel-app"], ["clock.js", "clk-app"], ["karrot.js", "dg-app"],
     ["albamon.js", "am-app"]
