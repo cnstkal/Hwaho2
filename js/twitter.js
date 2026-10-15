@@ -83,7 +83,7 @@ const XApp = (() => {
     "hoodie.hooligan": "229FB30C-0EDC-48D6-A1D0-BDE553DFDD46.png",
     "himothy._": "3111F199-6B45-451B-80CD-6B4B281AD868.png",
     "opps.on.read": "02C80B49-B038-4C9D-9CEA-65F2544D4E50.png",
-    "private.ego": "3B08977C-3980-44AE-895D-D9762D4C6D4DF.png"
+    "private.ego": "3B08977C-3980-44AE-895D-D9762DC6D4DF.png"
   };
   const X_PROFILE_FILES = {
     "_starhwa_": "IMG_7232.jpeg",
@@ -95,7 +95,8 @@ const XApp = (() => {
   };
   const av = (u, s) => {
     const file = X_PROFILE_FILES[u.id];
-    const base = file ? `images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}` : "";
+    const shared = window.HwahoIdentity && window.HwahoIdentity.avatar(u.id);
+    const base = shared || (file ? `images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}` : "");
     const fallback = X_PROFILE_FALLBACK[u.id];
     const fallbackUrl = fallback ? `images/app/Instagram/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(fallback)}` : "";
     const bg = u.blank ? "#cfd9de" : `linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))`;
