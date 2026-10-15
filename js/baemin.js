@@ -95,7 +95,7 @@
 <div class="bmx-cg">${cats.map(catTile).join("")}</div><button class="bmx-more" data-bx="cat" data-id="전체">음식배달<span>에서 더보기</span> ${ic("chev", 18, 2.4)}</button></div>
 <section class="bmx-sec bmx-ts"><div class="bmx-sh"><div><h3>주키님을 위한 타임세일 <i class="bmx-i">i</i></h3><div class="bmx-tr"><span class="bmx-tmw">${tmBoxes()}</span> 후 5,000원 할인이 사라져요</div></div><svg class="bmx-al" viewBox="0 0 48 48" width="62" height="62"><circle cx="24" cy="27" r="16" fill="#e8402f"/><circle cx="24" cy="27" r="12" fill="#fff"/><circle cx="9" cy="12" r="7" fill="#e8402f"/><circle cx="39" cy="12" r="7" fill="#e8402f"/><text x="24" y="33" text-anchor="middle" font-size="17" font-weight="900" fill="#222">%</text></svg></div>
 <div class="bmx-hs-row">${[1, 2, 8].map(i => timeCard(sOf(i))).join("")}</div><button class="bmx-pill" data-bx="cat" data-id="타임세일"><b>타임세일 가게</b> 더보기 ${ic("chev", 16, 2.4)}</button></section>
-<section class="bmx-sec bmx-hg"><div class="bmx-sh2"><h3>최소주문금액 없는 한그릇 <i class="bmx-i">i</i></h3><button data-bx="cat" data-id="한그릇">전체보기 ${ic("chev", 16, 2.4)}</button></div><div class="bmx-hs-row">${hot.map(hotCard).join("")}</div></section>
+
 <div style="height:120px"></div></div>${navH("home")}</div>`,
 
     orders: () => `<div class="bmx-pg bmx-ordpg"><header class="bmx-hd bmx-big"><h1>주문내역</h1><div class="bmx-hr">${cartBtn()}</div></header>
