@@ -2,8 +2,8 @@
 (function(){'use strict';
 var SCR=document.getElementById('screen');if(!SCR)return;
 var KEY={n:'nt.notes.v1',f:'nt.folders.v1',a:'nt.att.v1',t:'nt.tags.v1',p:'nt.prefs.v1'};
-function ld(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
-function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('저장 공간이 부족합니다');return false}}
+function ld(k,d){if(window.HwahoStability)return window.HwahoStability.readJSON(k,d);try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
+function sv(k,v){try{if(window.HwahoStability){var ok=window.HwahoStability.writeJSON(k,v);if(!ok)toast('저장 공간이 부족합니다');return ok}localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('저장 공간이 부족합니다');return false}}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 var S={n:ld(KEY.n,null),f:ld(KEY.f,null),a:ld(KEY.a,{}),p:ld(KEY.p,{view:'list'}),scr:'f',prev:'f',scope:'all',q:'',fq:'',sel:false,ids:{},cur:null,fedit:false,ro:false,sup:false};
