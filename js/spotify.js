@@ -40,7 +40,7 @@ const SpApp = (() => {
   const byG = (...g) => T.filter(t => g.includes(AL[t.ai][3])).map(t => t.id);
   const PL = [
     ["오늘의 인기 곡 Top 20", 140, T.filter(t => t.n <= 2).map(t => t.id)], ["새벽 감성", 265, byG("인디", "어쿠스틱", "재즈")], ["집중이 필요할 때", 190, byG("일렉트로닉", "재즈")],
-    ["드라이브 믹스", 20, byG("록", "팝", "힙합")], ["데일리 믹스 1", 320, T.filter(t => t.id % 2 === 0).map(t => t.id)], ["데일리 믹스 2", 90, T.filter(t => t.id % 2 === 1).map(t => t.id)], ["R&B 무드", 45, byG("R&B", "팝")],
+    ["드라이브 믹스", 20, byG("록", "팝", "힙합")], ["데일리 믹스 2", 90, T.filter(t => t.id % 2 === 1).map(t => t.id)], ["R&B 무드", 45, byG("R&B", "팝")],
   ];
   const GN = [["팝", "#8d67ab"], ["힙합", "#ba5d07"], ["인디", "#1e3264"], ["록", "#e8115b"], ["일렉트로닉", "#0d73ec"], ["재즈", "#477d95"], ["R&B", "#dc148c"], ["어쿠스틱", "#148a08"]];
   const KEY = "ios-spotify-v1";
@@ -137,8 +137,8 @@ const SpApp = (() => {
     const sec = (t, l) => `<h2 class="sp-h">${t}</h2><div class="sp-hs">${l}</div>`, rc = [...new Set(S.recent)].map(ent).filter(Boolean).slice(0, 10);
     return `<div class="sp-hd"><button class="sp-av" data-a="set" aria-label="설정">떵</button><b>${gr}</b><span class="sp-sp"></span><button class="sp-ib" data-a="bell" aria-label="알림">${I.bell}</button><button class="sp-ib" data-a="sch" aria-label="검색">${I.search()}</button></div>`
       + `<div class="sp-qg">${["liked", "p0", "a0", "p1", "a3", "p4"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
-      + sec("최근 재생", rc.map(cd).join("")) + sec("맞춤 추천 믹스", ["p4", "p5", "p6"].map(ent).map(cd).join("")) + sec("인기 플레이리스트", ["p0", "p1", "p2", "p3"].map(ent).map(cd).join(""))
-      + sec("추천 아티스트", AR.map((_, i) => cd(ent("r" + i))).join("")) + sec("새로 나온 앨범", AL.map((_, i) => cd(ent("a" + i))).reverse().join(""));
+      + sec("최근 재생", rc.map(cd).join(""))
+      + sec("추천 아티스트", AR.map((_, i) => cd(ent("r" + i))).join(""));
   }
   function seBody() {
     const q = se.q.trim().toLowerCase(), b = $("#sp-sbd");
@@ -182,7 +182,7 @@ const SpApp = (() => {
     ["hm", "se", "lb"].forEach(t => $("#sp-" + t).classList.toggle("on", t === tab));
     if (tab === "hm") v.innerHTML = home(); else if (tab === "se") seBody(); else lbBody();
     v.scrollTop = s; sync();
-    $("#sp-tabs").innerHTML = [["hm", "홈", I.home], ["se", "검색", I.search], ["lb", "내 라이브러리", I.lib]].map(x => `<button class="${tab === x[0] ? "on" : ""}" data-a="tab" data-t="${x[0]}">${x[2](tab === x[0])}<span>${x[1]}</span></button>`).join("");
+    $("#sp-tabs").innerHTML = [["hm", "홈", I.home], ["se", "검색", I.search], ["lb", "내 라이브러리", I.lib]].map(x => `<button class="${tab === x[0] ? "on" : ""}" data-a="${x[0] === "hm" ? "tab" : "inactive"}" data-t="${x[0]}" ${x[0] !== "hm" ? "aria-disabled=\"true\" style=\"opacity:.38;pointer-events:none\"" : ""}>${x[2](tab === x[0])}<span>${x[1]}</span></button>`).join("");
   }
   const refresh = () => { paintTab(); paintDt(); };
   function go(t) { stack = []; tab = t; if (t === "hm") $("#sp-hm").scrollTop = 0; paintTab(); paintDt(); }
