@@ -99,9 +99,12 @@ window.APPS = {
   /* ---------- 앱 열기/홈 복귀 훅 (앱 UI는 추후 구현) ---------- */
 
   const HOME_STATE_KEY = "hwaho-last-screen-v1";
+  let closeTimer = null;
   const Home = {
     current: null,
     openApp(id) {
+      if (!id || Home.current === id) return;
+      if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
       // Clear any stale invisible app layers left behind by a previous home-indicator gesture.
       document.querySelectorAll("#screen [id$='-app']").forEach(app => {
         app.style.pointerEvents = "";
@@ -119,6 +122,7 @@ window.APPS = {
       if (id === "instagram" && window.IgApp) window.IgApp.open();
     },
     goHome() {
+      if (closeTimer) return;
       const had = Home.current; Home.current = null;
       try { localStorage.removeItem(HOME_STATE_KEY); } catch (_) {}
       document.dispatchEvent(new CustomEvent("app:close", { detail: { id: had } }));
@@ -129,7 +133,8 @@ window.APPS = {
       h.style.pointerEvents = "auto";
       h.classList.remove("returning"); void h.offsetWidth; h.classList.add("returning");
       // After the closing animation, fully deactivate every app layer so it cannot block later taps.
-      setTimeout(() => {
+      closeTimer = setTimeout(() => {
+        closeTimer = null;
         if (Home.current !== null) return;
         document.querySelectorAll("#screen [id$='-app']").forEach(app => {
           app.classList.remove("open", "show", "on", "active", "opening", "in-app");
