@@ -18,16 +18,16 @@
     { n: "별이", g: G[4], t: "지구야 미안해", time: "오전 03:48" }, { n: "해리", g: G[0], t: "지구야 미안해", time: "오전 03:48" }
   ];
   const room = { name: "바보", g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
-    { me: 1, t: "나는 작업주웅", time: "PM 10:50", rp: [{ n: "지구", g: G[0], t: "ㅋㅋ 작업 화이팅", time: "PM 10:51" }, { n: "별이", g: G[4], t: "무리하지 말아요 ㅠㅠ", time: "PM 10:51" }, { n: "해리", g: G[0], t: "오늘도 고생이네요!!", time: "PM 10:52" }] },
-    { me: 1, t: "엉 곧 퇴근", time: "PM 10:50", rp: [{ n: "달이", g: G[7], t: "빨리 퇴근해요 ㅎㅎ", time: "PM 10:52" }, { n: "은솔", g: G[7], t: "오늘도 수고했어요", time: "PM 10:52" }, { n: "유찬이", g: G[0], t: "퇴근하고 푹 쉬어요!", time: "PM 10:53" }] },
-    { me: 1, t: "너네도 밥 잘 챙겨", time: "PM 10:51", rp: [{ n: "세훈이", g: G[2], t: "형도요!! 밥 꼭 챙겨 먹어요", time: "PM 10:53" }, { n: "지구", g: G[0], t: "저 방금 먹었어요 ㅎㅎ", time: "PM 10:53" }, { n: "별이", g: G[4], t: "잘 챙겨 먹을게요 💗", time: "PM 10:54" }] },
-    { me: 1, t: "간다 빠잉", time: "PM 10:51", rp: [{ n: "지구", g: G[0], t: "기사 진짜야?", time: "PM 10:55" }, { n: "달이", g: G[7], t: "축하해", time: "PM 10:55" }, { n: "해리", g: G[0], t: "연애중이셨구나 ㅋㅋ..", time: "PM 10:55" }, { n: "은솔", g: G[7], t: "잠깐 이게 무슨 소리야 ㅠㅠ", time: "PM 10:56" }, { n: "유찬이", g: G[0], t: "솔직히 좀 배신감 든다..", time: "PM 10:56" }, { n: "별이", g: G[4], t: "얼떨떨하다 진짜.. 일단 축하는 해요", time: "PM 10:57" }, { n: "세훈이", g: G[2], t: "간다 빠잉이 왜 이렇게 슬프지", time: "PM 10:57" }] }
+    { me: 1, t: "나는 작업주웅", time: "PM 2:41", rp: [{ n: "지민", g: G[3], t: "ㅋㅋ 작업 화이팅이에요", time: "PM 2:42" }, { n: "시은", g: G[4], t: "무리하지 마세요 ㅠㅠ", time: "PM 2:42" }, { n: "예은", g: G[0], t: "오늘도 고생이네요!!", time: "PM 2:43" }] },
+    { me: 1, t: "엉 곧 퇴근", time: "PM 2:44", rp: [{ n: "현지", g: G[7], t: "빨리 퇴근해요 ㅎㅎ", time: "PM 2:45" }, { n: "다현", g: G[2], t: "오늘도 수고했어요", time: "PM 2:45" }, { n: "하은", g: G[5], t: "퇴근하고 푹 쉬어요!", time: "PM 2:46" }] },
+    { me: 1, t: "너네도 밥 잘 챙겨", time: "PM 2:48", rp: [{ n: "서윤", g: G[6], t: "님도요!! 밥 꼭 챙겨 먹어요", time: "PM 2:49" }, { n: "수아", g: G[3], t: "저 방금 먹었어요 ㅎㅎ", time: "PM 2:49" }, { n: "지안", g: G[4], t: "잘 챙겨 먹을게요 💗", time: "PM 2:50" }] },
+    { me: 1, t: "간다 빠잉", time: "PM 2:52", rp: [{ n: "지우", g: G[0], t: "기사 진짜야?", time: "PM 2:53" }, { n: "서연", g: G[3], t: "축하해", time: "PM 2:53" }, { n: "하윤", g: G[7], t: "연애중이셨구나 ㅋㅋ..", time: "PM 2:53" }, { n: "채원", g: G[2], t: "잠깐 이게 무슨 소리야 ㅠㅠ", time: "PM 2:54" }, { n: "유진", g: G[5], t: "솔직히 좀 배신감 든다..", time: "PM 2:54" }, { n: "민서", g: G[4], t: "얼떨떨하다 진짜.. 일단 축하는 해요", time: "PM 2:54" }, { n: "다은", g: G[6], t: "와 충격;; 연애 하셨다고요?", time: "PM 2:55" }, { n: "예린", g: G[0], t: "행복하시면 됐는데 마음이 좀 이상하네요", time: "PM 2:55" }, { n: "지현", g: G[7], t: "기사 뜬 거 보고 손 떨렸어요 ㅠㅠ", time: "PM 2:55" }, { n: "소영", g: G[3], t: "믿기지가 않아요 ㅋㅋㅋㅋ", time: "PM 2:56" }, { n: "나연", g: G[2], t: "팬들한텐 말도 없이.. 좀 서운하다", time: "PM 2:56" }, { n: "은지", g: G[5], t: "일단 축하해요 일단..", time: "PM 2:57" }, { n: "가은", g: G[4], t: "간다 빠잉이 이런 뜻이었어요? ㅠㅠ", time: "PM 2:58" }, { n: "혜원", g: G[6], t: "얼른 설명해주세요 제발", time: "PM 2:58" }, { n: "보라", g: G[0], t: "축하는 하는데 눈물 나네요", time: "PM 2:59" }] }
   ] };
   const quick = ["안녕! 👋", "ㅋㅋㅋㅋㅋ", "보고싶다 💗", "오늘 뭐해?", "지구야 미안해", "좋아!", "잠깐만~", "사랑해 ❤️"];
   const stores = [["🧸", "아티 인형", "18,000원"], ["💿", "앨범 세트", "24,500원"], ["🎫", "포토카드", "3,000원"], ["👕", "공식 티셔츠", "32,000원"], ["🕯️", "응원봉", "39,000원"], ["📒", "다이어리", "9,900원"]];
 
   /* ---------- 상태 ---------- */
-  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, showReplies = false, openR = {};
+  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, showReplies = false, curR = 0;
   const memo = {};
 
   /* ---------- 유틸 / 아이콘 ---------- */
@@ -67,10 +67,13 @@
     chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:${room.g}"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
 
     room: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back", 28, 1.8)}</button><h2>채팅방</h2><div class="fmx-hr"><button class="fmx-lv" data-fx="live"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 3C9 3 3 8.500 3 15.200c0 3.500 1.600 6.600 4.300 8.800L6 30l5.700-3.200c1.700.5 3.500.7 5.300.7 8 0 14-5.500 14-12.300S25 3 17 3z" fill="#d8d9dd"/><text x="17" y="19.500" text-anchor="middle" font-size="9.500" font-weight="900" fill="#222" font-family="Arial">LIVE</text></svg></button><button class="fmx-ib" data-fx="toast" data-m="채팅방 메뉴는 준비 중이에요">${ic("menu", 28, 1.7)}</button></div></header>
-<div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>${openR[i] ? m.rp.map(q => `<div class="fmx-lm fmx-inline-reply" style="margin-left:8px"><i class="fmx-av" style="width:32px;height:32px;background:${q.g}"></i><div><span class="fmx-nm">${E(q.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(q.t)}</div><small>${q.time}</small></div></div></div>`).join("") : `<div class="fmx-ml"><button class="fmx-bb rp" data-fx="live" data-id="${i}">답장보기 ${ic("chev", 17, 1.8)}</button></div>`}`).join("")}</div>${inputBar(1)}</div>`,
+<div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}">답장보기 ${ic("chev", 17, 1.8)}</button></div>`).join("")}</div>${inputBar(1)}</div>`,
 
     live: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("down", 32, 1.7)}</button><h2>실시간 채팅</h2><div class="fmx-hr"><button class="fmx-ib" data-fx="toast" data-m="실시간 채팅 안내: 프롬친구 모두에게 보여요">${ic("info", 34, 1.7)}</button></div></header>
 <div class="fmx-sc fmx-ms lv" data-k="live">${live.map(m => m.me ? `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>` : `<div class="fmx-lm"><i class="fmx-av" style="width:32px;height:32px;background:${m.g}"></i><div><span class="fmx-nm">${E(m.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(m.t)}</div><small>${m.time}</small></div></div></div>`).join("")}</div>${inputBar(0)}</div>`,
+
+    replies: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("down", 32, 1.7)}</button><h2>실시간 채팅</h2><div class="fmx-hr"><button class="fmx-ib" data-fx="toast" data-m="실시간 채팅 안내: 프롬친구 모두에게 보여요">${ic("info", 34, 1.7)}</button></div></header>
+<div class="fmx-sc fmx-ms lv" data-k="replies">${room.msgs[curR].rp.map(m => `<div class="fmx-lm"><i class="fmx-av" style="width:32px;height:32px;background:${m.g}"></i><div><span class="fmx-nm">${E(m.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(m.t)}</div><small>${m.time}</small></div></div></div>`).join("")}</div>${inputBar(0)}</div>`,
 
     channel: () => `<div class="fmx-pg">${top("채널")}<div class="fmx-sc"><div class="fmx-cc">${["아티 소식", "공식 공지", "라이브 일정", "팬레터"].map((n, i) => `<button data-fx="toast" data-m="${n} 채널은 준비 중이에요"><i style="background:${G[i + 1]}"></i><b>${n}</b><small>구독 중</small></button>`).join("")}</div></div>${navH()}</div>`,
     store: () => `<div class="fmx-pg">${top("스토어")}<div class="fmx-sc"><div class="fmx-sg">${stores.map(([e, n, p]) => `<button data-fx="toast" data-m="${n}을(를) 담았어요"><i>${e}</i><b>${n}</b><small>${p}</small></button>`).join("")}</div></div>${navH()}</div>`,
@@ -85,7 +88,7 @@
     const s0 = $(".fmx-sc"); if (s0 && rendered) memo[rendered] = s0.scrollTop;
     el.innerHTML = PAGES[page]() + (sheet ? sheetH() : "");
     rendered = page; const s = $(".fmx-sc"); if (!s) return;
-    s.scrollTop = (page === "room" || page === "live") ? s.scrollHeight : (memo[page] || 0);
+    s.scrollTop = (page === "room" || page === "live" || page === "replies") ? s.scrollHeight : (memo[page] || 0);
   }
   const go = p => { stack.push(page); page = p; sheet = null; prof = null; render(); };
   const back = () => { page = stack.pop() || tab; sheet = null; prof = null; render(); };
@@ -102,7 +105,8 @@
       case "tab": tab = id; stack = []; page = id; sheet = null; render(); break;
       case "toast": toast(b.dataset.m); break;
       case "room": room.unread = 0; prof = null; sheet = null; if (page !== "room") go("room"); else render(); break;
-      case "live": if (id === undefined) { const all = room.msgs.every((_, k) => openR[k]); room.msgs.forEach((_, k) => { openR[k] = !all; }); } else openR[id] = !openR[id]; render(); break;
+      case "live": go("live"); break;
+      case "rview": curR = +id; go("replies"); break;
       case "back": back(); break;
       case "sheet": prof = null; sheet = true; render(); break;
       case "closesheet": sheet = null; prof = null; render(); break;
