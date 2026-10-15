@@ -167,7 +167,7 @@ const GptApp = (() => {
     <button class="gp-ib" data-a="new" aria-label="새 채팅">${I.compose}</button><button class="gp-ib" data-a="sbclose" aria-label="사이드바 닫기">${I.x}</button></div>
     <label class="gp-sq">${I.search}<input id="gp-q" type="search" placeholder="검색" autocomplete="off"></label>
     <div class="gp-sl" id="gp-sl"></div>
-    <button class="gp-sset" data-a="set"><i>게</i><span>게스트</span>${I.gear}</button></aside>
+    <button class="gp-sset" data-a="set"><i>박</i><span>박성화</span>${I.gear}</button></aside>
   <div class="gp-dim" id="gp-dim" data-a="setclose"></div>
   <div class="gp-sheet" id="gp-sh"><div class="gp-grab"></div><h3>설정</h3>
     <p>대화 기록은 이 기기의 브라우저에만 저장됩니다.</p>
