@@ -14,10 +14,10 @@ const SafariApp = (() => {
   const uid = () => Math.random().toString(36).slice(2, 9), esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const KEY = "ios-safari-v1", newTab = () => ({ id: uid(), hist: [], idx: -1, title: "", p: (typeof S !== "undefined" && S && S.pm) ? 1 : 0 });
   const DEF = [["네이버", "https://www.naver.com/"], ["디시인사이드", "https://dcinside.com/"]];
-  let S = null; try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  let S = null; try { S = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!S || !S.tabs || !S.tabs.length) { const t = newTab(); S = { tabs: [t], cur: t.id, bm: DEF.map(([title, url]) => ({ id: uid(), title, url })), rl: [], hist: [], searches: [] }; }
   S.bm = (S.bm || []).filter(b => !/(apple\\.com|google\\.com|wikipedia\\.org|github\\.com|news\\.ycombinator\\.com)/i.test(b.url || ""));
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const RT = {}, rt = t => RT[t.id] || (RT[t.id] = { req: 0, loading: false, ctl: null, err: null, note: "", scroll: 0 });
   const cache = new Map(), tab = () => S.tabs.find(t => t.id === S.cur) || S.tabs[0], cu = t => (t.hist[t.idx] || {}).url || "";
   const host = u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return u; } };
