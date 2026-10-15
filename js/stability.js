@@ -15,12 +15,16 @@
   function recover(id, reason) {
     const layer = document.getElementById(id);
     if (!layer) return;
+    const currentByLayer = {"ig-app":"instagram","x-app":"x","saf-app":"safari","pho-app":"photos","cam-app":"camera","gp-app":"chatgpt","sp-app":"spotify","kko-app":"kakaotalk","nt-app":"notes","yt-app":"youtube","nf-app":"netflix","bm-app":"baemin","fm-app":"fromm","et-app":"everytime","cal-app":"calendar","msg-app":"messages","tel-app":"phone","clk-app":"clock","dg-app":"danggeun","am-app":"albamon"};
+    if (!window.Home || window.Home.current !== currentByLayer[id]) {
+      console.error("[Hwaho stability] Background app error:", id, reason);
+      return;
+    }
     console.error("[Hwaho stability] App isolated:", id, reason);
     layer.setAttribute("aria-hidden", "true");
     layer.style.pointerEvents = "none";
     layer.style.display = "none";
     layer.classList.remove("open", "show", "on", "active", "opening", "in-app");
-    const currentByLayer = {"ig-app":"instagram","x-app":"x","saf-app":"safari","pho-app":"photos","cam-app":"camera","gp-app":"chatgpt","sp-app":"spotify","kko-app":"kakaotalk","nt-app":"notes","yt-app":"youtube","nf-app":"netflix","bm-app":"baemin","fm-app":"fromm","et-app":"everytime","cal-app":"calendar","msg-app":"messages","tel-app":"phone","clk-app":"clock","dg-app":"danggeun","am-app":"albamon"};
     const appId = currentByLayer[id];
     if (window.Home && window.Home.current === appId) {
       window.Home.current = null;
