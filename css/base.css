@@ -863,3 +863,11 @@ html.pvo #screen:has(#pv.on) #home-indicator{opacity:0;transition:opacity .15s}
 .cm-iris::after{bottom:0;transform:translateY(100%);animation:irisB .3s ease-in-out}
 @keyframes irisT{0%{transform:translateY(-100%)}35%{transform:translateY(0)}100%{transform:translateY(-100%)}}
 @keyframes irisB{0%{transform:translateY(100%)}35%{transform:translateY(0)}100%{transform:translateY(100%)}}
+
+
+/* 수정: X 본문-액션바 간격 축소 */
+#x-app .x-ac{margin-top:0!important}
+#x-app .x-a{height:28px!important}
+#x-app .x-im{margin-top:8px!important}
+#x-app .x-dm{margin-top:8px!important}
+#x-app .x-post .x-tx{margin-bottom:0!important}
