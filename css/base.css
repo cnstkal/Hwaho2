@@ -875,3 +875,6 @@ html.pvo #screen:has(#pv.on) #home-indicator{opacity:0;transition:opacity .15s}
   margin-left:0!important;
   transform:translateX(-50%)!important;
 }
+
+/* 사진 상세 화면 하단의 썸네일 필름 스트립 제거 */
+.pv .pv-th{display:none!important}
