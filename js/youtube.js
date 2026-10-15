@@ -176,7 +176,7 @@
   el.addEventListener("click",e=>{
     if(e.target.closest('.yt-sec[data-act="history"], .yt-hrow')) return;
     const tabBtn=e.target.closest("[data-tab]"),videoBtn=e.target.closest("[data-video]"),act=e.target.closest("[data-act]"),filter=e.target.closest("[data-filter]");
-    if(tabBtn){tab=tabBtn.dataset.tab;query="";if(playTimer){clearInterval(playTimer);playTimer=null}render();return}
+    if(tabBtn){if(["shorts","subs","you"].includes(tabBtn.dataset.tab))return;tab=tabBtn.dataset.tab;query="";if(playTimer){clearInterval(playTimer);playTimer=null}render();return}
     if(videoBtn){activeVideo=videoBtn.dataset.video;playing=true;progress=0;if(playTimer)clearInterval(playTimer);playTimer=setInterval(tick,100);el.innerHTML=detailView(activeVideo);return}
     if(filter){el.querySelectorAll("[data-filter]").forEach(b=>b.classList.toggle("on",b===filter));const f=filter.dataset.filter;query=f==="음악"?"playlist":f==="게임"?"게임":"";const feed=el.querySelector(".yt-feed");if(feed){const base=tab==="subs"?videos.filter(v=>subChannels.includes(v.channel)||subscribed.has(v.channel)):videos;const l=filtered(base);feed.innerHTML=l.length?l.map(card).join(""):`<div class="yt-empty">영상이 없습니다.</div>`}return}
     if(!act)return;
