@@ -150,10 +150,10 @@ const SafariApp = (() => {
     const seonghwa = /박성화|마스|mars/i.test(q);
     const displayName = seonghwa ? "마스" : "정윤호";
     const profile = seonghwa ? {
-      image: "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/naver/Seonghwa/1969d38e20fc29da97dda95cfb8fd503.jpg",
+      image: "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/Naver/Seonghwa/1969d38e20fc29da97dda95cfb8fd503.jpg",
       rows: `${row("출생", "1998.04.03")}${row("소속사", "IH레코드")}${row("데뷔", "2018.02.12 EP 앨범 [SKIN]")}${row("사이트", lk(["인스타그램", "X(트위터)", "유튜브"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
     } : {
-      image: "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/naver/Yunho/d9ac4246460057e1170dbb1f7c0ffabd.jpg",
+      image: "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/Naver/Yunho/d9ac4246460057e1170dbb1f7c0ffabd.jpg",
       rows: `${row("출생", "1999.03.23")}${row("신체", "186cm")}${row("소속사", lk(["몰라몰라컴퍼니"]))}${row("학력", lk(["서울공연예술고등학교"]))}${row("수상", "2025년 아시아 아티스트 어워즈 AAA 뉴웨이브")}${row("사이트", lk(["공식홈페이지", "인스타그램", "팬카페"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
     };
     return `<div class="nv rs"><div class="rs-sb"><svg class="n" viewBox="0 0 24 24"><path d="M3 3h6.200l5.800 9V3h6v18h-6.200L9 12v9H3z" fill="#03c75a"/></svg><b>${displayName}</b><button data-nv="rclr" class="cl" aria-label="지우기"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#8e9096"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><svg class="mic" viewBox="0 0 24 24" fill="none" stroke="#1ec997" stroke-width="2" stroke-linecap="round"><rect x="8.500" y="2.500" width="7" height="12" rx="3.500"/><path d="M5 11.500a7 7 0 0 0 14 0M12 18.500V22"/></svg></div>
@@ -447,7 +447,7 @@ ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"><
       { title: "디스패치", url: "https://www.dispatch.co.kr/" }
     ];
     const tile = (item) => {
-      const logo = item.title === "네이버" ? "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/Apps/Naver/IMG_7151.png" : item.title === "디시인사이드" ? "https://raw.githubusercontent.com/cnstkal/hwaho/main/Images/Apps/DCInside/IMG_7147.png" : "";
+      const logo = item.title === "네이버" ? "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/Naver/IMG_7151.png" : item.title === "디시인사이드" ? "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/DCInside/IMG_7147.png" : "";
       const face = logo ? `<img src="${logo}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block">` : esc([...item.title][0] || "?");
       return `<a class="sf-tile" href="#" data-go="${esc(item.url)}" style="justify-self:start;width:108px;display:flex;flex-direction:column;align-items:center;text-align:center"><div class="sf-ti" style="width:76px;height:76px;overflow:hidden;background:${hue(host(item.url))};border-radius:22px;display:grid;place-items:center">${face}</div><span style="display:block;width:108px;margin-top:8px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(item.title)}</span></a>`;
     };
