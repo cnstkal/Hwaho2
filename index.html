@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Home">
+<meta name="theme-color" content="#000000">
+<meta name="format-detection" content="telephone=no">
+<title>Home</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="css/base.css?v=20261015-2"><link rel="stylesheet" href="css/notes.css?v=20261015-2"></head>
+<body>
+<div id="device">
+  <div id="screen">
+    <div id="wallpaper"></div>
+
+    <header id="statusbar">
+      <div class="sb-left"><span id="clock">9:41</span></div>
+      <div class="island" id="isl" role="button" aria-label="다이내믹 아일랜드"><div class="isl-m"><span class="isl-th"></span><span class="isl-bars"><i></i><i></i><i></i><i></i></span></div><div class="isl-x"><div class="isl-r1"><span class="isl-th big"></span><div class="isl-tx"><b></b><small></small></div><span class="isl-bars"><i></i><i></i><i></i><i></i></span></div><div class="isl-pg"><small class="a">0:00</small><div class="isl-bar"><i></i></div><small class="b">0:00</small></div><div class="isl-ct"><button data-i="prev" aria-label="이전 곡"></button><button data-i="pp" aria-label="재생/일시정지"></button><button data-i="next" aria-label="다음 곡"></button></div></div></div>
+      <div class="sb-right">
+                <svg class="sb-wifi" viewBox="0 0 18 14" aria-label="Wi-Fi"><path d="M1 4.2C5.5.3 12.5.3 17 4.2L15.4 5.8C11.8 2.7 6.2 2.7 2.6 5.8Z"/><path d="M4 7.2c2.9-2.5 7.1-2.5 10 0l-1.6 1.6c-2-1.7-4.8-1.7-6.8 0Z"/><path d="M7 10.2c1.2-1 2.8-1 4 0L9 12.3Z"/></svg>
+        <div class="sb-battery" aria-label="배터리">
+          <div class="bat-body"><i id="bat-level"></i><svg class="bat-bolt" viewBox="0 0 10 14" aria-hidden="true"><path d="M6.3 0L.8 7.7h3.5L3.4 14l5.8-8.1H5.7z" fill="#000"/></svg></div>
+          <div class="bat-cap"></div>
+        </div>
+      </div>
+    </header>
+
+    <main id="home">
+      <section class="grid" id="grid" aria-label="앱"></section>
+      <div class="spacer"></div>
+      <div class="page-dots" aria-hidden="true"><i class="on"></i><i></i></div>
+      <nav class="dock-wrap" aria-label="독"><div class="dock" id="dock"></div></nav>
+    </main>
+
+    <div id="cal-app" aria-hidden="true"></div>
+    <div id="cam-app" aria-hidden="true"></div>
+    <div id="pho-app" aria-hidden="true"></div>
+    <div id="msg-app" aria-hidden="true"></div>
+    <div id="tel-app" aria-hidden="true"></div>
+    <div id="saf-app" aria-hidden="true"></div>
+    <div id="kko-app" aria-hidden="true"></div>
+    <div id="ig-app" aria-hidden="true"></div>
+    <div id="clk-app" aria-hidden="true"></div>
+    <div id="x-app" aria-hidden="true"></div>
+    <div id="et-app" aria-hidden="true"></div>
+    <div id="gp-app" aria-hidden="true"></div>
+    <div id="sp-app" aria-hidden="true"></div>
+    <div id="fm-app" aria-hidden="true"></div>
+    <div id="nt-app" aria-hidden="true"></div>
+    <div id="yt-app" aria-hidden="true"></div>
+    <div id="nf-app" aria-hidden="true"></div>
+    <div id="dg-app" aria-hidden="true"></div>
+    <div id="bm-app" aria-hidden="true"></div>
+    <div id="am-app" aria-hidden="true"></div>
+    <div id="home-indicator-zone" aria-label="홈으로 이동"><div id="home-indicator" aria-hidden="true"></div></div>
+  </div>
+</div>
+<script src="js/home.js?v=20261015-2"></script>
+<script src="js/calendar.js?v=20261015-2"></script>
+<script src="js/photos.js?v=20261015-2"></script>
+<script src="js/imessage.js?v=20261015-2"></script>
+<script src="js/phone.js?v=20261015-2"></script>
+<script src="js/safari.js?v=20261015-2"></script>
+<script src="js/kakaotalk.js?v=20261015-2"></script>
+<script src="js/instagram.js?v=20261015-2"></script>
+<script src="js/clock.js?v=20261015-2"></script>
+<script src="js/twitter.js?v=20261015-2"></script>
+<script src="js/everytime.js?v=20261015-2"></script>
+<script src="js/chatgpt.js?v=20261015-2"></script>
+<script src="js/spotify.js?v=20261015-2"></script>
+<script src="js/fromm.js?v=20261015-2"></script>
+<script src="js/netflix.js?v=20261015-2"></script>
+<script src="js/karrot.js?v=20261015-2"></script>
+<script src="js/notes.js?v=20261015-2"></script>
+<script src="js/youtube.js?v=20261015-2"></script>
+<script src="js/baemin.js?v=20261015-2"></script>
+<script src="js/fromm-app.js?v=20261015-2"></script>
+<script src="js/view-only.js?v=20261015-2"></script>
+
+
+<!-- 새로고침 시 앱 화면을 복원하지 않고 항상 홈 화면에서 시작 -->
+</body>
+</html>
