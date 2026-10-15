@@ -848,8 +848,8 @@ html.pvo #screen:has(#pv.on) #home-indicator{opacity:0;transition:opacity .15s}
 #cal-app #cal-main{box-sizing:border-box;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 #cal-app .cal-top{padding-left:0;padding-right:0}
 
-/* ===== 갤러리 썸네일 1:1 정사각형, 3열 ===== */
-#pho-app .pl-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:auto!important;container-type:normal!important;gap:2px!important;padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 24px)!important}
+/* ===== 수정: 갤러리 - 축소 없이 화면 너비 가득, 상하 여백만 ===== */
+#pho-app .pl-grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:auto!important;container-type:normal!important;gap:2px!important;padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 24px)!important;align-content:start!important}
 #pho-app .pl-cell{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1/1!important;overflow:hidden;border-radius:0;padding:0!important}
 #pho-app .pl-cell img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;display:block}
 #pho-app .pl-cell .g{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;aspect-ratio:1/1!important}
@@ -864,10 +864,6 @@ html.pvo #screen:has(#pv.on) #home-indicator{opacity:0;transition:opacity .15s}
 @keyframes irisT{0%{transform:translateY(-100%)}35%{transform:translateY(0)}100%{transform:translateY(-100%)}}
 @keyframes irisB{0%{transform:translateY(100%)}35%{transform:translateY(0)}100%{transform:translateY(100%)}}
 
-
-/* 수정: X 본문-액션바 간격 축소 */
-#x-app .x-ac{margin-top:0!important}
-#x-app .x-a{height:28px!important}
-#x-app .x-im{margin-top:8px!important}
-#x-app .x-dm{margin-top:8px!important}
-#x-app .x-post .x-tx{margin-bottom:0!important}
+/* ===== 수정: 사진 앱 썸네일 정사각형 (행 높이 계산 오류 방지, 원본은 object-fit:cover로 중앙 잘라 표시) ===== */
+#pho-app .pl-grid .pl-cell{height:0!important;padding:0 0 100%!important;aspect-ratio:auto!important;box-sizing:border-box!important}
+#pho-app .pl-grid .pl-cell img,#pho-app .pl-grid .pl-cell .g{object-fit:cover!important;object-position:center!important}
