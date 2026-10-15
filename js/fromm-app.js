@@ -6,7 +6,7 @@
 
   /* ---------- 데이터 ---------- */
   const G = ["linear-gradient(135deg,#caa27c,#6d4a38)", "linear-gradient(135deg,#2b2b33,#7b5a4a)", "linear-gradient(135deg,#9db7d6,#34445c)", "linear-gradient(135deg,#e6c3c3,#a56e7a)", "linear-gradient(135deg,#d9cfa5,#7e7a52)", "linear-gradient(135deg,#b9a3d6,#5a4a86)", "linear-gradient(135deg,#a7d3c4,#3f7c6c)", "linear-gradient(135deg,#f3c58c,#c0703a)"];
-  const me = { n: "춘삼이", s: "", ph: 1 };
+  const me = { n: "떵화", s: "", ph: 1 };
   const best = [{ n: "내 행복❤️", s: "하튜", g: G[0], hearts: "+1100" }];
   const arts = [
     { n: "애옹이", s: "🤍🪽", g: G[1] }, { n: "도동이", s: "동코리타🌱", g: G[2] }, { n: "민기", s: "", ph: 1 }, { n: "정우영", s: "🤦‍♂️", g: G[4] },
@@ -58,7 +58,7 @@
   const top = (t, r = "") => `<header class="fmx-top"><h1>${t}</h1>${r}</header>`;
   const PAGES = {
     list: () => `<div class="fmx-pg">${top("목록", `<div class="fmx-pl"><button data-fx="toast" data-m="친구 추가는 준비 중이에요">${ic("uadd", 28, 1.7)}</button><button data-fx="toast" data-m="설정은 준비 중이에요">${ic("gear", 28, 1.7)}</button></div>`)}
-<div class="fmx-sc" data-k="list"><div class="fmx-fr me" data-fx="prof" data-id="춘삼이">${ava(me, 48)}<div class="fmx-fn"><b>춘삼이</b></div></div>
+<div class="fmx-sc" data-k="list"><div class="fmx-fr me" data-fx="prof" data-id="떵화">${ava(me, 48)}<div class="fmx-fn"><b>떵화</b></div></div>
 </div>${navH()}</div>`,
 
     chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:${room.g}"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
@@ -105,7 +105,7 @@
       case "closesheet": sheet = null; prof = null; render(); break;
       case "sendhint": sheet = true; prof = null; render(); break;
       case "send": send(b.dataset.m); break;
-      case "prof": prof = id === "춘삼이" ? me : arts.concat(best).find(u => u.n === id) || me; sheet = true; render(); break;
+      case "prof": prof = id === "떵화" ? me : arts.concat(best).find(u => u.n === id) || me; sheet = true; render(); break;
     }
   }
 
