@@ -43,10 +43,10 @@ const XApp = (() => {
   const now0 = Date.now(), MIN = 6e4;
   /* 게시물: ago(분 전), im: [시드, 가로비, 세로비] */
   const SEED = [
-    { id: "s1", u: "_starhwa_", ago: 180000, t: "좋사좋시", im: [8271, 1, 1], l: 680, rt: 42, rp: 8, v: 6820, cm: [] },
+    { id: "s1", u: "_starhwa_", ago: 180000, t: "좋사좋시", im: ["https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/Twitter/Posts/1/IMG_1.jpeg", 1, 1], l: 680, rt: 42, rp: 8, v: 6820, cm: [] },
     { id: "s2", u: "_starhwa_", ago: 120000, t: "잠이 안온당 야메추 좀", im: null, l: 520, rt: 18, rp: 21, v: 4100, cm: [] },
     { id: "s3", u: "_starhwa_", ago: 60000, t: "내일 사클에 뭐 하나 올라가는데 관심좀…", im: null, l: 890, rt: 130, rp: 35, v: 12300, cm: [] },
-    { id: "s4", u: "_starhwa_", ago: 120, t: "빠이이이", im: [8272, 1, 1], l: 1250, rt: 96, rp: 17, v: 17800, cm: [] },
+    { id: "s4", u: "_starhwa_", ago: 120, t: "빠이이이", im: ["https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/Twitter/Posts/2/IMG_1.jpeg", 1, 1], l: 1250, rt: 96, rp: 17, v: 17800, cm: [] },
     { id: "t1", u: "ddinghoo***", ago: 0.2, t: "혹시 이거 멜라토닌 먹고 꾸는 꿈?", im: null, l: 3, rt: 0, rp: 0, v: 120, cm: [] },
     { id: "t2", u: "tjdghkdbsg***", ago: 1.0, t: "려러분 이게 무슨일이죠?", im: null, l: 0, rt: 0, rp: 2, v: 26, cm: [] },
     { id: "t3", u: "hyung1r***", ago: 1.6, t: "안어울림 헤어져", im: null, l: 23, rt: 0, rp: 0, v: 430, cm: [] },
@@ -102,7 +102,7 @@ const XApp = (() => {
     return `<div class="x-av" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${R(s * .42)}px;background:${bg}">${u.blank ? "" : esc([...u.name][0] || "?")}<img alt="" src="${base}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="${fallbackUrl ? `this.onerror=function(){this.style.display='none'};this.src='${fallbackUrl}'` : "this.style.display='none'"}"></div>`;
   };
   const txt = t => esc(t).replace(/(#[\p{L}\p{N}_]+|@[A-Za-z0-9_]+)/gu, m => `<span class="x-lk" data-g="tag" data-q="${m}">${m}</span>`);
-  const imHtml = im => `<div class="x-im" style="aspect-ratio:${im[1]}/${im[2]}"><img src="${art(im[0], im[1], im[2])}" width="${im[1] * 100}" height="${im[2] * 100}" alt="" draggable="false"></div>`;
+  const imHtml = im => `<div class="x-im" style="aspect-ratio:${im[1]}/${im[2]}"><img src="${typeof im[0] === "string" ? im[0] : art(im[0], im[1], im[2])}" width="${im[1] * 100}" height="${im[2] * 100}" alt="" draggable="false"></div>`;
   const actHtml = p => { const lk = !!S.like[p.id], rt = !!S.rt[p.id];
     return `<button class="x-a rp" data-g="reply" aria-label="답글">${I.reply}<span>${cnt(nRp(p))}</span></button><button class="x-a rt${rt ? " on" : ""}"${usr(p.u).lock ? ' disabled style="opacity:.3;pointer-events:none"' : ""} data-g="rt" aria-label="재게시" aria-pressed="${rt}">${I.repost}<span>${cnt(nRt(p))}</span></button><button class="x-a lk${lk ? " on" : ""}" data-g="like" aria-label="좋아요" aria-pressed="${lk}">${lk ? I.heartF : I.heart}<span>${cnt(nLike(p))}</span></button><span class="x-a vw" aria-label="조회수">${I.views}<span>${cnt(p.v)}</span></span>`; };
   const postHtml = (p, o = {}) => { const u = usr(p.u), re = p.re && o.ctx ? post(p.re) : null;
