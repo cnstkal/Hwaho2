@@ -447,7 +447,7 @@ ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"><
       { title: "디스패치", url: "https://www.dispatch.co.kr/" }
     ];
     const tile = (item) => {
-      const logo = item.title === "네이버" ? "images/app/Naver/IMG_7151.png" : item.title === "디시인사이드" ? "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/DCInside/IMG_7147.png" : "";
+      const logo = item.title === "네이버" ? "images/app/Naver/IMG_7151.png" : item.title === "디시인사이드" ? "images/app/DCInside/IMG_7147.png" : "";
       const face = logo ? `<img src="${logo}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block">` : esc([...item.title][0] || "?");
       return `<a class="sf-tile" href="#" data-go="${esc(item.url)}" style="justify-self:start;width:108px;display:flex;flex-direction:column;align-items:center;text-align:center"><div class="sf-ti" style="width:76px;height:76px;overflow:hidden;background:${hue(host(item.url))};border-radius:22px;display:grid;place-items:center">${face}</div><span style="display:block;width:108px;margin-top:8px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(item.title)}</span></a>`;
     };
