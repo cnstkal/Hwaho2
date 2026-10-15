@@ -6,7 +6,8 @@
 
   /* ---------- 데이터 ---------- */
   const G = ["linear-gradient(135deg,#caa27c,#6d4a38)", "linear-gradient(135deg,#2b2b33,#7b5a4a)", "linear-gradient(135deg,#9db7d6,#34445c)", "linear-gradient(135deg,#e6c3c3,#a56e7a)", "linear-gradient(135deg,#d9cfa5,#7e7a52)", "linear-gradient(135deg,#b9a3d6,#5a4a86)", "linear-gradient(135deg,#a7d3c4,#3f7c6c)", "linear-gradient(135deg,#f3c58c,#c0703a)"];
-  const me = { n: "떵화", s: "", ph: 1 };
+  const FROMM_PROFILE = "images/Fromm/profile/profile.png";
+  const me = { n: "떵화", s: "", ph: 1, photo: FROMM_PROFILE };
   const best = [{ n: "내 행복❤️", s: "하튜", g: G[0], hearts: "+1100" }];
   const arts = [
     { n: "애옹이", s: "🤍🪽", g: G[1] }, { n: "도동이", s: "동코리타🌱", g: G[2] }, { n: "민기", s: "", ph: 1 }, { n: "정우영", s: "🤦‍♂️", g: G[4] },
@@ -17,7 +18,7 @@
     { n: "지구", g: G[0], t: "지구야 미안해", time: "오전 03:48" }, { n: "달이", g: G[7], t: "미안해", time: "오전 03:48" },
     { n: "별이", g: G[4], t: "지구야 미안해", time: "오전 03:48" }, { n: "해리", g: G[0], t: "지구야 미안해", time: "오전 03:48" }
   ];
-  const room = { name: "바보", g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
+  const room = { name: "떵화", photo: FROMM_PROFILE, g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
     { r: 1 }, { me: 1, t: "그런 기능은 없는데", time: "PM 10:51" }, { r: 1 }, { me: 1, t: "스크롤해서", time: "PM 10:51" }, { r: 1 }, { me: 1, t: "찾아야함", time: "PM 10:51" }, { r: 1 }, { me: 1, t: "나는 보통 프롬 실시간으로 하는데", time: "PM 10:52" }, { r: 1 }
   ] };
   const quick = ["안녕! 👋", "ㅋㅋㅋㅋㅋ", "보고싶다 💗", "오늘 뭐해?", "지구야 미안해", "좋아!", "잠깐만~", "사랑해 ❤️"];
@@ -50,7 +51,7 @@
   };
   const NAVS = [["list", "목록"], ["chat", "채팅"], ["channel", "채널"], ["store", "스토어"], ["more", "더보기"]];
   const navH = () => `<nav class="fmx-nav">${NAVS.map(([k, l]) => `<button class="${k === tab ? "on" : ""}" data-fx="tab" data-id="${k}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round">${NAV[k](k === tab)}</svg><span>${l}</span></button>`).join("")}</nav>`;
-  const ava = (u, z = 48) => u.ph ? `<i class="fmx-av" style="width:${z}px;height:${z}px"><svg viewBox="0 0 48 48" width="${z}" height="${z}"><circle cx="24" cy="24" r="24" fill="#f1f1f2"/><circle cx="24" cy="18.500" r="6.500" fill="#fff"/><rect x="12.500" y="28" width="23" height="9.500" rx="4.750" fill="#fff"/></svg></i>` : `<i class="fmx-av" style="width:${z}px;height:${z}px;background:${u.g}"></i>`;
+  const ava = (u, z = 48) => u.photo ? `<i class="fmx-av" style="width:${z}px;height:${z}px;background:#f1f1f2;overflow:hidden"><img src="${u.photo}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.remove()"></i>` : u.ph ? `<i class="fmx-av" style="width:${z}px;height:${z}px"><svg viewBox="0 0 48 48" width="${z}" height="${z}"><circle cx="24" cy="24" r="24" fill="#f1f1f2"/><circle cx="24" cy="18.500" r="6.500" fill="#fff"/><rect x="12.500" y="28" width="23" height="9.500" rx="4.750" fill="#fff"/></svg></i>` : `<i class="fmx-av" style="width:${z}px;height:${z}px;background:${u.g}"></i>`;
   const hm = () => { const d = new Date(), h = d.getHours(), m = String(d.getMinutes()).padStart(2, "0"); return { en: (h < 12 ? "AM " : "PM ") + (h % 12 || 12) + ":" + m, ko: (h < 12 ? "오전 " : "오후 ") + (h % 12 || 12) + ":" + m }; };
   const fr = (u, i) => `<div class="fmx-fr" data-fx="prof" data-id="${u.n}">${ava(u)}<div class="fmx-fn"><b>${E(u.n)}</b>${u.s ? `<small>${E(u.s)}</small>` : ""}</div>${u.hearts ? `<span class="fmx-hs">${heart(22)}${u.hearts}</span>` : ""}</div>`;
 
@@ -61,7 +62,7 @@
 <div class="fmx-sc" data-k="list"><div class="fmx-fr me" data-fx="prof" data-id="떵화">${ava(me, 48)}<div class="fmx-fn"><b>떵화</b></div></div>
 </div>${navH()}</div>`,
 
-    chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:${room.g}"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
+    chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:#f1f1f2;overflow:hidden"><img src="${room.photo}" alt="" style="width:100%;height:100%;object-fit:cover;display:block" onerror="this.remove()"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
 
     room: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back", 28, 1.8)}</button><h2>채팅방</h2><div class="fmx-hr"><button class="fmx-lv" data-fx="live"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 3C9 3 3 8.500 3 15.200c0 3.500 1.600 6.600 4.300 8.800L6 30l5.700-3.200c1.700.5 3.500.7 5.300.7 8 0 14-5.500 14-12.300S25 3 17 3z" fill="#d8d9dd"/><text x="17" y="19.500" text-anchor="middle" font-size="9.500" font-weight="900" fill="#222" font-family="Arial">LIVE</text></svg></button><button class="fmx-ib" data-fx="toast" data-m="채팅방 메뉴는 준비 중이에요">${ic("menu", 28, 1.7)}</button></div></header>
 <div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => m.me ? `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>${showReplies ? live.map((q, j) => `<div class="fmx-lm fmx-inline-reply" style="margin-left:8px"><i class="fmx-av" style="width:32px;height:32px;background:${q.g}"></i><div><span class="fmx-nm">${E(q.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(q.t)}</div><small>${q.time}</small></div></div></div>`).join("") : ""}` : showReplies ? "" : `<div class="fmx-ml"><button class="fmx-bb rp" data-fx="live">답장보기 ${ic("chev", 17, 1.8)}</button></div>`).join("")}</div>${inputBar(1)}</div>`,
@@ -96,7 +97,7 @@
   function act(a, b) {
     const id = b.dataset.id;
     switch (a) {
-      case "tab": tab = id; stack = []; page = id; sheet = null; render(); break;
+      case "tab": if (["channel", "store", "more"].includes(id)) return; tab = id; stack = []; page = id; sheet = null; render(); break;
       case "toast": toast(b.dataset.m); break;
       case "room": room.unread = 0; prof = null; sheet = null; if (page !== "room") go("room"); else render(); break;
       case "live": showReplies = !showReplies; render(); break;
