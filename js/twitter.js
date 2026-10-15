@@ -35,9 +35,9 @@ const XApp = (() => {
   };
   const DEF_BIO = "";
   const KEY = "ios-x-v2";
-  let S = {}; try { S = JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { S = {}; }
+  let S = {}; try { S = (window.HwahoStability ? window.HwahoStability.readJSON(KEY, {}) : JSON.parse(localStorage.getItem(KEY))) || {}; } catch (e) { S = {}; }
   S.like = S.like || {}; S.rt = S.rt || {}; S.fol = S.fol || {}; S.my = Array.isArray(S.my) ? S.my : []; S.me = S.me || {}; S.rec = Array.isArray(S.rec) ? S.rec : [];
-  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const persist = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const usr = id => { const a = US[id] || [id, 200, 0, ""]; return { id, name: id === ME ? (S.me.name || a[0]) : a[0], hue: a[1], bio: a[3], lock: a[4], blank: a[5] }; };
   const isFol = id => id === ME || (id in S.fol ? !!S.fol[id] : !!(US[id] || [])[2]);
   const now0 = Date.now(), MIN = 6e4;
