@@ -512,7 +512,7 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">ÏùºÏ
 #cal-app .mc .mt{display:block;flex:1;min-width:0;overflow:hidden;white-space:nowrap;font-weight:inherit;-webkit-mask-image:linear-gradient(90deg,#000 70%,rgba(0,0,0,.1));mask-image:linear-gradient(90deg,#000 70%,rgba(0,0,0,.1))}
 #cal-app .mc u,#cal-app .chip u{width:15px;height:15px;font-size:9px;margin-right:3px}
 #cal-app .ytitle{font-size:30px;font-weight:500;padding-left:36%;margin-top:-60px;pointer-events:none;position:relative;z-index:0}
-#cal-app .year{padding:4px 14px 0;gap:8px 8px}
+#cal-app .year{padding:28px 14px 0;gap:8px 8px}
 #cal-app .ym b{font-size:19px;margin-bottom:6px}
 #cal-app .mg{font-size:9.5px;font-weight:500;line-height:18px;letter-spacing:0!important}
 #cal-app .tg-ad .chip{font-size:13px;height:24px}
