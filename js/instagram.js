@@ -118,10 +118,10 @@ window.IgApp = (() => {
   el.addEventListener("click", e => { const t = e.target.closest("[data-g]"); if (!t) return; const d = t.dataset;
     if (d.g === "nav") { if (tab === d.t) { const sc = $(d.t === "home" ? "#ig-home .ig-sc" : "#ig-prof .ig-sc"); sc.scrollTo({ top: 0, behavior: "smooth" }); } tab = d.t; $("#ig-det").classList.remove("on"); setNav(); }
     else if (d.g === "like" || d.g === "save") { const id = t.closest(".ig-post").dataset.id, k = d.g === "like" ? "like" : "save"; S[k][id] = !S[k][id]; persist(); sync(id); }
-    else if (d.g === "open") { const p = post(d.id); $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>게시물</div>`, "") + `<div class="ig-sc">${postHtml(p)}</div>`; $("#ig-det").classList.add("on"); }
+    else if (d.g === "open") { const p = post(d.id); $("#ig-det").dataset.backProfile = p && p.u === "yunou._.u" ? "yunou._.u" : ""; $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>게시물</div>`, "") + `<div class="ig-sc">${postHtml(p)}</div>`; $("#ig-det").classList.add("on"); }
     else if (d.g === "fing") { $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>팔로잉</div>`, "") + `<div class="ig-sc">${FOLLOWING.map(k => { const u = usr(k); return `<div class="ig-fr"${k === "yunou._.u" ? ' data-g="uprof" data-id="yunou._.u" style="cursor:pointer"' : ""}>${av(u, 48)}<div class="ig-fn"><b>${esc(k)}</b><small>${esc(u.name)}</small></div><span class="ig-fb">${MUTUAL.has(k) ? "맞팔" : "팔로잉"}</span></div>`; }).join("")}</div>`; $("#ig-det").classList.add("on"); }
     else if (d.g === "uprof") { $("#ig-det").innerHTML = uProfHtml(d.id); $("#ig-det").classList.add("on"); }
-    else if (d.g === "back") $("#ig-det").classList.remove("on");
+    else if (d.g === "back") { const backProfile = $("#ig-det").dataset.backProfile; if (backProfile) { $("#ig-det").innerHTML = uProfHtml(backProfile); delete $("#ig-det").dataset.backProfile; } else $("#ig-det").classList.remove("on"); }
     else if (d.g === "cmt") cmOpen(t.closest(".ig-post").dataset.id);
     else if (d.g === "cmx") { $("#ig-cs").classList.remove("on"); $("#ig-cb").classList.remove("on"); $("#ig-ci") && $("#ig-ci").blur(); }
     else if (d.g === "cmp") cmPost();
