@@ -504,8 +504,7 @@ const PhotosApp = (() => {
   function pvSync(j, snap) {
     const v = pv(), it = pvL[j]; if (!it) return; pvJ = j;
     const d = pvDate(it.ts) || pvDate(pvFake(it)), t = v.querySelector(".pv-ttl"); t.innerHTML = d ? `<b>${d[0]}</b><span>${d[1]}</span>` : `<b>사진</b><span></span>`;
-    const th = v.querySelector(".pv-th"); [...th.children].forEach((b, i) => b.classList.toggle("on", i === j));
-    const c = th.children[j]; if (c) th.scrollTo({ left: c.offsetLeft - th.clientWidth / 2 + (c.offsetWidth + 14) / 2 - 7, behavior: snap ? "auto" : "smooth" });
+    const th = v.querySelector(".pv-th"); if (th) { [...th.children].forEach((b, i) => b.classList.toggle("on", i === j)); const c = th.children[j]; if (c) th.scrollTo({ left: c.offsetLeft - th.clientWidth / 2 + (c.offsetWidth + 14) / 2 - 7, behavior: snap ? "auto" : "smooth" }); }
     v.querySelector(".pv-info").innerHTML = `<b>${it.name || (it.type === "video" ? "비디오" : "사진")}</b><span>${d ? d.join(" ") : ""}</span>`;
   }
   async function openViewer(id) {
