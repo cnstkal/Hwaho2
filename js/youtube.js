@@ -174,6 +174,7 @@
   document.addEventListener("app:open",e=>{if(e.detail?.id==="youtube")open()});
   document.addEventListener("app:close",e=>{if(!e.detail?.id||e.detail.id==="youtube")close()});
   el.addEventListener("click",e=>{
+    if(e.target.closest('.yt-sec[data-act="history"], .yt-hrow')) return;
     const tabBtn=e.target.closest("[data-tab]"),videoBtn=e.target.closest("[data-video]"),act=e.target.closest("[data-act]"),filter=e.target.closest("[data-filter]");
     if(tabBtn){tab=tabBtn.dataset.tab;query="";if(playTimer){clearInterval(playTimer);playTimer=null}render();return}
     if(videoBtn){activeVideo=videoBtn.dataset.video;playing=true;progress=0;if(playTimer)clearInterval(playTimer);playTimer=setInterval(tick,100);el.innerHTML=detailView(activeVideo);return}
