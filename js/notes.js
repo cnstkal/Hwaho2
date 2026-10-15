@@ -1,7 +1,7 @@
 /* Notes (메모) 앱 — 독립 모듈. 전역 오염 없음(IIFE). 저장소: localStorage nt.* 키 */
 (function(){'use strict';
 var SCR=document.getElementById('screen');if(!SCR)return;
-var KEY={n:'nt.notes.v1',f:'nt.folders.v1',a:'nt.att.v1',t:'nt.tags.v1',p:'nt.prefs.v1'};
+var KEY={n:'nt.notes.v2',f:'nt.folders.v2',a:'nt.att.v1',t:'nt.tags.v1',p:'nt.prefs.v1'};
 function ld(k,d){try{var v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('저장 공간이 부족합니다');return false}}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
@@ -9,8 +9,20 @@ function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {'&':'&am
 var S={n:ld(KEY.n,null),f:ld(KEY.f,null),a:ld(KEY.a,{}),p:ld(KEY.p,{view:'list'}),scr:'f',prev:'f',scope:'all',q:'',fq:'',sel:false,ids:{},cur:null,fedit:false,ro:false,sup:false};
 function saveN(){sv(KEY.n,S.n);var t={};S.n.forEach(function(n){n.tags.forEach(function(x){t[x]=1})});sv(KEY.t,Object.keys(t))}
 function saveF(){sv(KEY.f,S.f)}function saveA(){sv(KEY.a,S.a)}function saveP(){sv(KEY.p,S.p)}
-if(!S.f){S.f=[{id:'f0',name:'메모'}];saveF()}
-if(!S.n){var now=Date.now();S.n=[{id:uid(),title:'메모에 오신 것을 환영합니다',text:'체크리스트로 할 일을 정리하고, 표·이미지·그리기로 메모를 꾸며 보세요.\n할 일 하나\n할 일 둘',html:'<div>체크리스트로 할 일을 정리하고, 표·이미지·그리기로 메모를 꾸며 보세요.</div><div class="nt-ck" data-c="1">할 일 하나</div><div class="nt-ck" data-c="0">할 일 둘</div>',fid:'f0',pin:false,tags:['환영'],updated:now}];saveN()}
+if(!S.f){S.f=[{id:'f0',name:'메모'},{id:'f1',name:'가사 모음'},{id:'f2',name:'작업 노트'}];saveF()}
+if(!S.n){var now=Date.now(),H=36e5;function mkN(t,fid,tags,ago,pin,ls){var tx=[],hh=[];ls.forEach(function(l){var m=/^\[( |x)\] /.exec(l);if(m){var c=m[1]==='x'?1:0,v=l.slice(4);tx.push(v);hh.push('<div class="nt-ck" data-c="'+c+'">'+esc(v)+'</div>')}else{tx.push(l);hh.push('<div>'+(l?esc(l):'<br>')+'</div>')}});return {id:uid(),title:t,text:tx.join('\n'),html:hh.join(''),fid:fid,pin:!!pin,tags:tags,updated:now-ago*H}}
+S.n=[
+mkN('이번 주 작업 일정','f0',['작업'],2,true,['[x] 화 믹스 v3 피드백 정리','[ ] 수 14시 녹음실 코러스 2번 재녹음','[ ] 목 마스터링 파일 전달','[ ] 금 콘서트 리허설 큐시트 확인','[ ] 토 19시 동네 친구들 모임']),
+mkN('후속곡 가사 초안','f1',['가사'],5,false,['[Verse 1]','새벽 세 시의 창문 위로','식은 커피가 먼저 말을 걸어','쓰다 만 문장들을 주워 담다가','네 이름만 또 한 줄 남겨뒀어','','[Hook]','돌아보지 않고 걸어가도','결국 같은 자리에 서 있더라','Be loud, be low, be mine','밤이 끝나기 전에','','[메모] 2절은 템포 낮추고 라임 줄이기']),
+mkN('훅 아이디어 모음','f1',['가사','아이디어'],30,false,['- 불 꺼진 스튜디오 / 아직 켜진 마음','- 늦어도 괜찮아, 어차피 내 박자','- 숨소리까지 비트에 넣고 싶어','- 도시는 잠들고 나만 리플레이','- 후렴 끝에 한 박 쉬고 들어가기']),
+mkN('트랙별 BPM / 키','f2',['작업'],26,false,['1. 인트로 - 78 BPM / Am','2. 타이틀 - 92 BPM / F#m','3. 후속곡 - 104 BPM / Cm','4. 피처링곡 - 88 BPM / Gm','5. 아웃트로 - 70 BPM / Dm','','* 3번 브릿지에서 키 반음 올리는 안 테스트']),
+mkN('믹싱 피드백 (승호형)','f2',['작업','믹싱'],20,false,['[x] 킥 로우 살짝 줄이기','[x] 보컬 디에서 2kHz 정리','[ ] 코러스 리버브 길이 줄이기','[ ] 2절 베이스 사이드체인 다시 확인','[ ] 마스터 -1dB 여유 두고 뽑기']),
+mkN('영감 메모','f1',['아이디어'],70,false,['새벽 산책하다 들은 소리들','- 편의점 문 열리는 알림음 (샘플링해보기)','- 빗소리 + 먼 곳 사이렌','- 버스 정류장 안내방송 톤 그대로 후렴에 깔기','','질감: 거칠게 녹음한 어쿠스틱 + 차가운 신스']),
+mkN('콘서트 준비 체크','f0',['공연'],48,false,['[x] 셋리스트 확정 (12곡)','[x] 리허설 시간 스태프 단톡 공유','[ ] 인이어 몰드 상태 확인','[ ] 무대 의상 2벌 챙기기','[ ] 앵콜 곡 편곡 마지막 점검']),
+mkN('장비 구매 목록','f0',[],120,false,['[x] 팝필터','[x] XLR 케이블 3m x2','[ ] 모니터 스피커 스탠드','[ ] 오디오 인터페이스 케이블 여분','[ ] 스튜디오 흡음패널 4장']),
+mkN('엄마 생일 선물','f0',['가족'],200,false,['[ ] 목도리 or 스카프','[ ] 주말에 집 갈 때 케이크 예약','[ ] 아빠 몰래 가족 단톡에서 의견 모으기']),
+mkN('음원 발매 일정 메모','f0',['작업'],9,false,['김팀장님 통화 내용','- 티저 먼저 공개 후 일주일 뒤 정식 발매','- 가사지 / 크레딧 표기 확인 요청','- 정산 관련 서류는 발매 후 메일로 받기'])
+];saveN()}
 S.n.forEach(function(n){n.tags=n.tags||[];n.html=n.html||'';n.text=n.text||''});
 S.n=S.n.filter(function(n){return !(n.del&&Date.now()-n.del>30*864e5)});
 /* ---------- 유틸 ---------- */

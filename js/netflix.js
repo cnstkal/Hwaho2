@@ -95,19 +95,14 @@ const NfApp = (() => {
 <section class="nf-fc"><div class="nf-fa" data-work="drx">${SIL}<div class="nf-fl"><strong>닥터<i>X</i></strong><small>하 얀 마 피 아 의 시 대</small></div></div><p>매주 금요일 새로운 에피소드 공개</p><button class="nf-fp" data-act="hplay">${I.play}<span>시리즈 재생</span></button><button class="nf-fs" data-act="hsave">${ic('<path d="M12 4v16M4 12h16"/>', 2)}<span>${savedWorks.includes("drx") ? "찜한 리스트에 추가됨" : "내가 찜한 리스트"}</span></button></section>`;
   const nw = k => card(k, "새로운 에피소드", 1, "지금 시청하기");
   const homeV = () => heroV()
-    + row("오늘 대한민국의 <b>TOP 10</b> 시리즈", rank(1, "drx") + rank(2, "lie") + rank(3, "kim"))
     + row("해외 시리즈", card("bb") + card("ob") + card("mha") + card("p8"))
     + row("한국 드라마", card("edu") + card("four", "새로운 에피소드", 0, "지금 시청하기") + card("scan", "최신 등록") + card("rat"))
-    + row("넷플릭스에 새로 올라온 콘텐츠", nw("drx") + nw("lie") + nw("kim") + card("p9", "", 1))
-    + row("어워드 수상 시리즈", card("gian", "새로운 시즌", 1) + card("saul") + card("end") + card("p8"))
     + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cont("ssang"))
-    + row("애니", card("mun", "최신 등록") + card("yak", "새로운 시즌", 1) + card("one", "새로운 시즌") + card("p4"))
-    + row("오직 넷플릭스에서", card("gian", "새로운 시즌", 1, "", "big") + card("down", "최신 등록", 0, "", "big") + card("p3", "", 0, "", "big"))
-    + row("다들 보는 예능·교양! 최신 회차부터 보기", card("solo", "", 0, "", "wide") + card("p6", "", 0, "", "wide"));
+    + row("오직 넷플릭스에서", card("gian", "새로운 시즌", 1, "", "big") + card("down", "최신 등록", 0, "", "big") + card("p3", "", 0, "", "big"));
   const srchV = () => `<div class="nf-sb2">${I.search}<input id="nf-q" placeholder="시리즈, 영화, 게임을 검색해 보세요..." value="${esc(q)}"></div><h3 class="nf-h">추천 시리즈 &amp; 영화</h3><div id="nf-sl">${listV()}</div>`;
   const listV = () => SL.filter(s => s[1].includes(q)).map(s => `<button class="nf-li" data-work="${s[0]}"><div class="nf-th" style="background:${bg(s[0])}"><b>${esc(PO[s[0]][0])}</b></div><span>${esc(s[1])}</span><div class="nf-lp">${I.play}</div></button>`).join("") || '<p class="nf-em">검색 결과가 없습니다</p>';
   const myV = () => `<div class="nf-sv"><div>${I.dl}</div><div><b>저장한 콘텐츠 목록</b><small>저장하신 시리즈와 영화가 여기에 표시됩니다.</small></div>${I.chev}</div>`
-    + row("시청 중인 콘텐츠", cont("ssang")) + row("마음에 들어 하신 시리즈와 영화", share("st") + share("kai") + share("reb") + share("p7"))
+    + row("시청 중인 콘텐츠", cont("ssang"))
     + row("내가 찜한 리스트", card("one") + card("kai") + card("reb") + card("p7"), 1);
   const tb = () => `<nav class="nf-tb">${[["hm", I.home, "홈"], ["sr", I.search, "검색"], ["my", av(prof, 36), "나의 넷플릭스"]].map(t => `<button data-t="${t[0]}" class="${tab === t[0] ? "on" : ""}">${t[1]}<span>${t[2]}</span></button>`).join("")}</nav>`;
 

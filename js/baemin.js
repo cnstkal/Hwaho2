@@ -27,13 +27,13 @@
     ["배짱할인", "bk"], ["타임세일", "alarm"], ["한그릇", "han"], ["돈까스·회", "🍣", "돈까스·회"], ["BHC", "bhc"]
   ];
   const orders = [
-    { id: 1, sid: 5, date: "9. 8 (화)", full: "2026년 9월 8일 오후 12:31", no: "T2G40000L03C", items: [{ n: "로제메뉴", o: ["가격: (16,000원)", "메뉴 선택: 로제떡볶이", "맛 선택: 착한맛"], p: 16000, q: 1 }], tip: 2700, club: 2700, coupon: 2000 },
-    { id: 2, sid: 6, date: "8. 18 (화)", full: "2026년 8월 18일 오후 6:42", no: "T2G40000K88A", bolt: 1, items: [{ n: "꿀고구마스틱", o: [], p: 7900, q: 1 }, { n: "토마토 치즈 스파게티", o: [], p: 9800, q: 1 }], tip: 2700, club: 2700, coupon: 6300 },
-    { id: 3, sid: 3, date: "8. 12 (수)", full: "2026년 8월 12일 오후 7:18", no: "T2G40000J31B", items: [{ n: "[1인분] 갱스터 닭강정", o: [], p: 12000, q: 1 }], tip: 3000, club: 0, coupon: 2400 },
-    { id: 4, sid: 1, date: "7. 29 (수)", full: "2026년 7월 29일 오후 12:05", no: "T2G40000H27C", items: [{ n: "까르보나라 파스타", o: [], p: 9800, q: 1 }, { n: "베이컨 필라프", o: [], p: 10500, q: 1 }], tip: 2500, club: 2500, coupon: 1500 },
-    { id: 5, sid: 7, date: "7. 16 (목)", full: "2026년 7월 16일 오후 6:51", no: "T2G40000G16D", items: [{ n: "[한그릇] 돼지 짜글이", o: [], p: 11250, q: 1 }], tip: 2500, club: 0, coupon: 2800 },
-    { id: 6, sid: 4, date: "6. 30 (화)", full: "2026년 6월 30일 오후 8:12", no: "T2G40000F04E", items: [{ n: "후라이드 치킨", o: [], p: 18000, q: 1 }], tip: 3000, club: 3000, coupon: 1800 },
-    { id: 7, sid: 5, date: "6. 11 (목)", full: "2026년 6월 11일 오후 12:24", no: "T2G40000E91F", items: [{ n: "오리지널 떡볶이", o: [], p: 14000, q: 1 }], tip: 2500, club: 2500, coupon: 2000 }
+    { id: 1, sid: 5, date: "9. 8 (화)", full: "9월 8일 오후 12:31", no: "T2G40000L03C", items: [{ n: "로제메뉴", o: ["가격: (16,000원)", "메뉴 선택: 로제떡볶이", "맛 선택: 착한맛"], p: 16000, q: 1 }], tip: 2700, club: 2700, coupon: 2000 },
+    { id: 2, sid: 6, date: "8. 18 (화)", full: "8월 18일 오후 6:42", no: "T2G40000K88A", bolt: 1, items: [{ n: "꿀고구마스틱", o: [], p: 7900, q: 1 }, { n: "토마토 치즈 스파게티", o: [], p: 9800, q: 1 }], tip: 2700, club: 2700, coupon: 6300 },
+    { id: 3, sid: 3, date: "8. 12 (수)", full: "8월 12일 오후 7:18", no: "T2G40000J31B", items: [{ n: "[1인분] 갱스터 닭강정", o: [], p: 12000, q: 1 }], tip: 3000, club: 0, coupon: 2400 },
+    { id: 4, sid: 1, date: "7. 29 (수)", full: "7월 29일 오후 12:05", no: "T2G40000H27C", items: [{ n: "까르보나라 파스타", o: [], p: 9800, q: 1 }, { n: "베이컨 필라프", o: [], p: 10500, q: 1 }], tip: 2500, club: 2500, coupon: 1500 },
+    { id: 5, sid: 7, date: "7. 16 (목)", full: "7월 16일 오후 6:51", no: "T2G40000G16D", items: [{ n: "[한그릇] 돼지 짜글이", o: [], p: 11250, q: 1 }], tip: 2500, club: 0, coupon: 2800 },
+    { id: 6, sid: 4, date: "6. 30 (화)", full: "6월 30일 오후 8:12", no: "T2G40000F04E", items: [{ n: "후라이드 치킨", o: [], p: 18000, q: 1 }], tip: 3000, club: 3000, coupon: 1800 },
+    { id: 7, sid: 5, date: "6. 11 (목)", full: "6월 11일 오후 12:24", no: "T2G40000E91F", items: [{ n: "오리지널 떡볶이", o: [], p: 14000, q: 1 }], tip: 2500, club: 2500, coupon: 2000 }
   ];
 
   /* ---------- 상태 ---------- */
@@ -95,7 +95,7 @@
 <div class="bmx-cg">${cats.map(catTile).join("")}</div><button class="bmx-more" data-bx="cat" data-id="전체">음식배달<span>에서 더보기</span> ${ic("chev", 18, 2.4)}</button></div>
 <section class="bmx-sec bmx-ts"><div class="bmx-sh"><div><h3>주키님을 위한 타임세일 <i class="bmx-i">i</i></h3><div class="bmx-tr"><span class="bmx-tmw">${tmBoxes()}</span> 후 5,000원 할인이 사라져요</div></div><svg class="bmx-al" viewBox="0 0 48 48" width="62" height="62"><circle cx="24" cy="27" r="16" fill="#e8402f"/><circle cx="24" cy="27" r="12" fill="#fff"/><circle cx="9" cy="12" r="7" fill="#e8402f"/><circle cx="39" cy="12" r="7" fill="#e8402f"/><text x="24" y="33" text-anchor="middle" font-size="17" font-weight="900" fill="#222">%</text></svg></div>
 <div class="bmx-hs-row">${[1, 2, 8].map(i => timeCard(sOf(i))).join("")}</div><button class="bmx-pill" data-bx="cat" data-id="타임세일"><b>타임세일 가게</b> 더보기 ${ic("chev", 16, 2.4)}</button></section>
-
+<section class="bmx-sec bmx-hg"><div class="bmx-sh2"><h3>최소주문금액 없는 한그릇 <i class="bmx-i">i</i></h3><button data-bx="cat" data-id="한그릇">전체보기 ${ic("chev", 16, 2.4)}</button></div><div class="bmx-hs-row">${hot.map(hotCard).join("")}</div></section>
 <div style="height:120px"></div></div>${navH("home")}</div>`,
 
     orders: () => `<div class="bmx-pg bmx-ordpg"><header class="bmx-hd bmx-big"><h1>주문내역</h1><div class="bmx-hr">${cartBtn()}</div></header>
@@ -170,7 +170,7 @@
       }
       case "order": {
         const s = sOf(cartSid), d = new Date(), h = d.getHours(), dn = ["일", "월", "화", "수", "목", "금", "토"][d.getDay()];
-        orders.unshift({ id: Date.now(), sid: s.id, live: "조리 중이에요", date: (d.getMonth() + 1) + ". " + d.getDate() + " (" + dn + ")", full: d.getFullYear() + "년 " + (d.getMonth() + 1) + "월 " + d.getDate() + "일 " + (h < 12 ? "오전 " : "오후 ") + (h % 12 || 12) + ":" + String(d.getMinutes()).padStart(2, "0"), no: "T2G" + String(Date.now()).slice(-8) + "X", items: cart.map(c => ({ n: c.n, o: [], p: c.p, q: c.q })), tip: 2700, club: 2700, coupon: 0 });
+        orders.unshift({ id: Date.now(), sid: s.id, live: "조리 중이에요", date: (d.getMonth() + 1) + ". " + d.getDate() + " (" + dn + ")", full: (d.getMonth() + 1) + "월 " + d.getDate() + "일 " + (h < 12 ? "오전 " : "오후 ") + (h % 12 || 12) + ":" + String(d.getMinutes()).padStart(2, "0"), no: "T2G" + String(Date.now()).slice(-8) + "X", items: cart.map(c => ({ n: c.n, o: [], p: c.p, q: c.q })), tip: 2700, club: 2700, coupon: 0 });
         cart.length = 0; cartSid = null; otab = 0; root("orders"); toast("주문이 접수됐어요"); break;
       }
     }
