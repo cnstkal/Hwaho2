@@ -89,7 +89,7 @@ window.IgApp = (() => {
   (() => { const st = document.createElement("style"); st.textContent = "#ig-app .ig-stat button{font:inherit;color:inherit;background:none;border:0;padding:0;text-align:center}#ig-app .ig-fr{display:flex;align-items:center;gap:12px;padding:8px 16px}#ig-app .ig-fn{flex:1;min-width:0;display:flex;flex-direction:column}#ig-app .ig-fn b{font-size:14px;font-weight:600}#ig-app .ig-fn small{font-size:13px;color:#8e8e8e}#ig-app .ig-fb{background:#efefef;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600}"; document.head.appendChild(st); })();
   const hls = [["일상", 330]];
   const profHtml = () => { const u = usr("_starhwa_"); return hdr(`<div class="ig-un">${ME.id}<i>${I.chev}</i></div>`, `<span>${I.plus}</span><span>${I.menu}</span>`) +
-    `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${MINE.length}</b>게시물</div><div><b>2.3만</b>팔로워</div><button data-g="fing"><b>${${FOLLOWING.length}</b>팔로잉</button></div></div>
+    `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${MINE.length}</b>게시물</div><div><b>2.3만</b>팔로워</div><button data-g="fing"><b>${FOLLOWING.length}</b>팔로잉</button></div></div>
 <div class="ig-bio"><b>${esc(ME.name)}</b>${ME.bio ? `<p>${esc(ME.bio)}</p>` : ""}${ME.link ? `<span class="ig-link">${ME.link}</span>` : ""}</div>
 <div class="ig-bt"><span>프로필 편집</span><span>프로필 공유</span></div>
 <div class="ig-hl">${hls.map(([t, h], n) => `<button data-g="hl" data-i="${n}"><div class="ig-hc"><i style="background:linear-gradient(135deg,hsl(${h} 65% 70%),hsl(${(h + 50) % 360} 60% 50%))"></i></div><span>${t}</span></button>`).join("")}</div>

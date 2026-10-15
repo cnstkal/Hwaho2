@@ -52,8 +52,8 @@ window.APPS = {
   // 하단 독
   dock: [
     { id: "phone", label: "전화", img: "", svg:
-      g("ph", "#5ee677", "#1db954") +
-      `<path d="M22.500 16.500c-1-1-2.600-1-3.600 0l-1.700 1.700c-1.300 1.300-1.500 3.400-.5 5 3.600 6 8.500 10.900 14.500 14.500 1.600 1 3.700.8 5-.5l1.700-1.700c1-1 1-2.600 0-3.600l-3.200-3.200c-.9-.9-2.300-1-3.300-.2l-1.500 1.100c-3-1.600-5.500-4.100-7.100-7.100l1.100-1.500c.8-1 .7-2.400-.2-3.300z" fill="#fff" transform="translate(2.500 1.500) scale(.92)"/>` },
+      g("ph", "#6cf27f", "#17b934") +
+      `<path d="M0 0h60v28H0z" fill="#fff" opacity=".07"/><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="#fff" transform="translate(12.2 12.2) scale(1.48)"/>` },
     { id: "safari", label: "Safari", img: "images/app/Safari/safari.svg", svg:
       g("sf", "#ffffff", "#e5e5ea") +
       `<circle cx="30" cy="30" r="20" fill="#0a84ff"/><circle cx="30" cy="30" r="20" fill="none" stroke="#fff" stroke-width="1.200" opacity=".7"/><path d="M30 12v3M30 45v3M12 30h3M45 30h3" stroke="#fff" stroke-width="1.400" stroke-linecap="round"/><path d="M37.500 22.500L33 33l-10.500 4.500L27 27z" fill="#ff3b30"/><path d="M22.500 37.500L27 27l6 6z" fill="#fff"/>` },

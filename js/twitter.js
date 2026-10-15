@@ -32,6 +32,9 @@ const XApp = (() => {
     "hyung1r***": ["개도리", 200, 0, "", 1, 1],
     "myfirstha***": ["ㄲㅇ", 200, 0, "", 1, 1],
     "iwanna***": ["cut (상태:망함)", 200, 0, "", 0, 1],
+    "mintchoco_88": ["민초단장", 160, 0, "", 0, 1],
+    "late.night.nuri": ["새벽누리", 280, 0, "", 0, 1],
+    "cafe_dduck": ["카페떡", 30, 0, "", 0, 1],
   };
   const DEF_BIO = "";
   const KEY = "ios-x-v2";
@@ -43,31 +46,18 @@ const XApp = (() => {
   const now0 = Date.now(), MIN = 6e4;
   /* 게시물: ago(분 전), im: [시드, 가로비, 세로비] */
   const SEED = [
-    { id: "s1", u: "_starhwa_", ago: 4457, t: "작업실 형광등 하나 나갔는데 안 갈고 있음. 어두운 게 더 잘 써짐", im: null, l: 480, rt: 142, rp: 18, v: 4746, cm: [] },
-    { id: "s2", u: "_starhwa_", ago: 8914, t: "배고픈데 귀찮다. 이 둘이 30분째 싸우는 중", im: null, l: 390, rt: 108, rp: 12, v: 3834, cm: [] },
-    { id: "s3", u: "_starhwa_", ago: 13371, t: "가사 쓰다가 내 가사에 내가 찔림", im: null, l: 980, rt: 236, rp: 31, v: 9528, cm: [] },
-    { id: "s4", u: "_starhwa_", ago: 20708, t: "새벽 4시에 갑자기 옛날 노래 생각났음. 그땐 진짜 아무것도 없었는데 이상하게 좋았음", im: null, l: 3960, rt: 2010, rp: 47, v: 41670, cm: [] },
-    { id: "s5", u: "_starhwa_", ago: 28045, t: "오늘은 아무 생각 안 하기로 했다. 지금 이 생각이 오늘의 첫 번째 생각", im: null, l: 420, rt: 121, rp: 9, v: 4143, cm: [] },
-    { id: "s6", u: "_starhwa_", ago: 38262, t: "신곡 계속 듣고 있는데 나만 좋은 거면 어떡하지", im: null, l: 1150, rt: 274, rp: 44, v: 11172, cm: [] },
-    { id: "s7", u: "_starhwa_", ago: 47579, t: "택시 기사님이 내 노래 모르시는 게 오늘은 좋았음. 아무 말 안 해도 되니까", im: null, l: 350, rt: 103, rp: 7, v: 3459, cm: [] },
-    { id: "s8", u: "_starhwa_", ago: 59236, t: "편의점 아이스크림 왜 이렇게 비싸졌냐. 이게 제일 큰 문제 같음", im: null, l: 640, rt: 187, rp: 22, v: 6321, cm: [] },
-    { id: "s9", u: "_starhwa_", ago: 72333, t: "다들 밥은 챙겨 먹고 다니세요. 이거 말하고 싶었음", im: null, l: 4120, rt: 1950, rp: 38, v: 42930, cm: [] },
-    { id: "s10", u: "_starhwa_", ago: 88310, t: "무대 올라가기 5분 전이 제일 조용함. 그 5분이 제일 긴 시간임", im: null, l: 1080, rt: 263, rp: 29, v: 10509, cm: [] },
-    { id: "s11", u: "_starhwa_", ago: 105727, t: "오늘 연습하다가 목 나감. 내일 공연 어떡하지 ㅋㅋㅋ", im: null, l: 510, rt: 152, rp: 50, v: 5046, cm: [] },
-    { id: "s12", u: "_starhwa_", ago: 124584, t: "누가 나한테 꿈이 뭐냐고 물었는데 대답을 못함. 이뤄서가 아니라 까먹어서", im: null, l: 870, rt: 214, rp: 26, v: 8472, cm: [] },
-    { id: "s13", u: "_starhwa_", ago: 144881, t: "팬레터 읽다가 작업실에서 혼자 울었음. 안 운 걸로 해줘", im: null, l: 4780, rt: 2040, rp: 49, v: 49140, cm: [] },
-    { id: "s14", u: "_starhwa_", ago: 170038, t: "비 오는 날 작업실 냄새 좋다. 사실 곰팡이 냄새임", im: null, l: 560, rt: 168, rp: 15, v: 5544, cm: [] },
-    { id: "s15", u: "_starhwa_", ago: 196095, t: "잠이 안 오네. 누구 깨어있음?", im: null, l: 430, rt: 126, rp: 41, v: 4248, cm: [] },
-    { id: "s16", u: "_starhwa_", ago: 227912, t: "요즘 맨날 같은 곡만 반복해서 들음. 내 곡 아님", im: null, l: 380, rt: 111, rp: 11, v: 3753, cm: [] },
-    { id: "s17", u: "_starhwa_", ago: 259729, t: "여러분이 내 노래 들어주는 게 아직도 신기함. 진짜로", im: null, l: 1240, rt: 296, rp: 36, v: 12048, cm: [] },
-    { id: "s18", u: "_starhwa_", ago: 295866, t: "쇼미 때 생각하면 아직도 손에 땀남. 그래도 그 무대가 있어서 지금이 있는 거겠지", im: null, l: 700, rt: 198, rp: 19, v: 6894, cm: [] },
-    { id: "s19", u: "_starhwa_", ago: 332003, t: "내일 생일도 아닌데 괜히 설렘. 그냥 살아있어서 설렘", im: null, l: 470, rt: 139, rp: 14, v: 4647, cm: [] },
-    { id: "s20", u: "_starhwa_", ago: 374440, t: "오늘도 고생했다 나 자신. 그리고 이 글 보는 여러분도", im: null, l: 1190, rt: 287, rp: 43, v: 11571, cm: [] },
+    { id: "s1", u: "_starhwa_", ago: 35, t: "좋사좋시", im: null, l: 1240, rt: 310, rp: 52, v: 13480, cm: [] },
+    { id: "s2", u: "_starhwa_", ago: 140, t: "좋은 밤 되세용", im: [3, 4, 5], l: 2380, rt: 540, rp: 84, v: 26200, cm: [] },
+    { id: "s3", u: "_starhwa_", ago: 400, t: "잠이 안와", im: null, l: 860, rt: 190, rp: 63, v: 9120, cm: [] },
+    { id: "s4", u: "_starhwa_", ago: 1000, t: "내일 새벽쯤에 사클에 뭐 하나 올라가요 관심좀...", im: null, l: 3150, rt: 980, rp: 120, v: 38900, cm: [] },
     { id: "t1", u: "ddinghoo***", ago: 0.2, t: "혹시 이거 멜라토닌 먹고 꾸는 꿈?", im: null, l: 3, rt: 0, rp: 0, v: 120, cm: [] },
     { id: "t2", u: "tjdghkdbsg***", ago: 1.0, t: "려러분 이게 무슨일이죠?", im: null, l: 0, rt: 0, rp: 2, v: 26, cm: [] },
     { id: "t3", u: "hyung1r***", ago: 1.6, t: "안어울림 헤어져", im: null, l: 23, rt: 0, rp: 0, v: 430, cm: [] },
     { id: "t4", u: "myfirstha***", ago: 2.4, t: "에휴모르겠다 그냥라방켜서뽀뽀나해라", im: null, l: 1, rt: 0, rp: 12, v: 293, cm: [] },
     { id: "t5", u: "iwanna***", ago: 8.2, t: "잘어울린당\n\nㅇㄹㄱ", im: null, l: 2, rt: 205, rp: 23, v: 1149, cm: [] },
+    { id: "t6", u: "mintchoco_88", ago: 3.2, t: "월요일은 왜 항상 오는 걸까", im: null, l: 14, rt: 1, rp: 2, v: 380, cm: [] },
+    { id: "t7", u: "late.night.nuri", ago: 5.6, t: "비 오는 날 듣기 좋은 노래 추천 받음\n\n잔잔한 거면 더 좋음", im: null, l: 31, rt: 2, rp: 9, v: 720, cm: [] },
+    { id: "t8", u: "cafe_dduck", ago: 11, t: "편의점 신상 과자 먹어봤는데 생각보다 괜찮음 ㅋㅋ", im: [5, 4, 3], l: 47, rt: 3, rp: 5, v: 910, cm: [] },
   ];
   const SEEDS = []; SEED.forEach(p => { p.ts = now0 - p.ago * MIN; SEEDS.push(p); p.cm.forEach((c, i) => SEEDS.push({ id: p.id + "r" + i, u: c[0], re: p.id, ts: p.ts + Math.floor((now0 - p.ts) * (i + 1) / (p.cm.length + 1.5)), t: c[1], im: null, l: 3 + i * 4, rt: 0, rp: 0, v: 120 + i * 80 })); });
   const all = () => [...SEEDS, ...S.my], post = id => all().find(p => p.id === id), mine = () => all().filter(p => p.u === ME).sort((a, b) => b.ts - a.ts);
@@ -181,7 +171,7 @@ const XApp = (() => {
   function cmpPost() { const ta = $("#x-ct"), t = ta ? ta.value.trim() : ""; if (!t || [...t].length > 280 || !cmp) return; const re = cmp.re, p = { id: "m" + Date.now().toString(36), u: ME, ts: Date.now(), t, im: null, l: 0, rt: 0, rp: 0, v: 1 }; if (re) p.re = re; S.my.push(p); persist(); closeSh();
     if (re) { sync(re); if ($("#x-det").classList.contains("on")) renderDet(); renderProf(); toast("답글을 게시했습니다"); } else { renderFeed(); renderProf(); $("#x-hsc").scrollTop = 0; toast("게시물을 게시했습니다"); } }
   /* ---- 화면 ---- */
-  el.innerHTML = `<div class="x-v on" data-v="home" id="x-home"><div class="x-hd"><div class="x-hr"><button class="x-hav" data-g="me" aria-label="프로필" id="x-hav"></button><div class="x-logo">${I.logo}</div><span class="x-sp"></span></div><div class="x-tabs" id="x-ftabs"><button data-g="ftab" data-k="fy"><span>추천</span></button><button data-g="ftab" data-k="fol"><span>팔로잉</span></button></div></div><div class="x-sc" id="x-hsc"><div id="x-feed"></div></div><button class="x-fab" data-g="compose" aria-label="게시하기">${I.compose}</button></div>
+  el.innerHTML = `<div class="x-v on" data-v="home" id="x-home"><div class="x-hd"><div class="x-hr"><button class="x-hav" data-g="me" aria-label="프로필" id="x-hav"></button><div class="x-logo">${I.logo}</div><span class="x-sp"></span></div><div class="x-tabs" id="x-ftabs"><button data-g="ftab" data-k="fy"><span>추천</span></button><button data-g="ftab" data-k="fol"><span>팔로잉</span></button></div></div><div class="x-sc" id="x-hsc"><div id="x-feed"></div></div></div>
 <div class="x-v" data-v="search" id="x-search"><div class="x-hd"><div class="x-sr"><span id="x-sl" style="display:contents"></span><label class="x-sf">${I.search}<input id="x-q" type="text" placeholder="검색" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"><button class="x-qc" id="x-qc" data-g="qclr" aria-label="지우기" hidden>${I.x}</button></label></div><div class="x-fl" id="x-sfil" style="display:none"></div></div><div class="x-sc" id="x-sb"></div></div>
 <div class="x-v" data-v="me" id="x-prof"><div class="x-bar"><div class="x-br"><button class="x-bk" data-g="pback" aria-label="뒤로 가기">${I.back}</button><div class="x-bt"><b id="x-pn"></b><small id="x-pc"></small></div></div></div><div class="x-sc" id="x-psc"><div id="x-pinfo"></div><div class="x-pt" id="x-ptabs">${[["post", "게시물"], ["rep", "답글"], ["media", "미디어"]].map(([k, l]) => `<button data-g="ptab" data-k="${k}"><span>${l}</span></button>`).join("")}</div><div id="x-pbody"></div></div></div>
 <div class="x-v x-det" id="x-det"></div><nav class="x-nav" id="x-nav"></nav><div class="x-sh" id="x-sh"></div><div class="x-toast" id="x-toast" role="status"></div>`;
