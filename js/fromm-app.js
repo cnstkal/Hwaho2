@@ -10,7 +10,7 @@
   const best = [{ n: "내 행복❤️", s: "하튜", g: G[0], hearts: "+1100" }];
   const arts = [
     { n: "애옹이", s: "🤍🪽", g: G[1] }, { n: "도동이", s: "동코리타🌱", g: G[2] }, { n: "민기", s: "", ph: 1 }, { n: "정우영", s: "🤦‍♂️", g: G[4] },
-    { n: "떵화", s: "", ph: 1 }, { n: "쯍이", s: "애정하는 아티 💗💗", g: G[3] }, { n: "재현이", s: "오늘도 화이팅 ✨", g: G[5] }, { n: "하준이", s: "", g: G[6] },
+    { n: "떵화", s: "", img: "images/Fromm/profile/IMG_8923.jpeg" }, { n: "쯍이", s: "애정하는 아티 💗💗", g: G[3] }, { n: "재현이", s: "오늘도 화이팅 ✨", g: G[5] }, { n: "하준이", s: "", g: G[6] },
     { n: "은솔", s: "🍀", g: G[7] }, { n: "유찬이", s: "밥 먹었어?", g: G[0] }, { n: "세훈이", s: "", g: G[2] }
   ];
   const live = [
@@ -53,7 +53,7 @@
   };
   const NAVS = [["list", "목록"], ["chat", "채팅"], ["channel", "채널"], ["store", "스토어"], ["more", "더보기"]];
   const navH = () => `<nav class="fmx-nav">${NAVS.map(([k, l]) => `<button class="${k === tab ? "on" : ""}" data-fx="tab" data-id="${k}"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round">${NAV[k](k === tab)}</svg><span>${l}</span></button>`).join("")}</nav>`;
-  const ava = (u, z = 48) => u.ph ? `<i class="fmx-av" style="width:${z}px;height:${z}px"><svg viewBox="0 0 48 48" width="${z}" height="${z}"><circle cx="24" cy="24" r="24" fill="#f1f1f2"/><circle cx="24" cy="18.500" r="6.500" fill="#fff"/><rect x="12.500" y="28" width="23" height="9.500" rx="4.750" fill="#fff"/></svg></i>` : `<i class="fmx-av" style="width:${z}px;height:${z}px;background:${u.g}"></i>`;
+  const ava = (u, z = 48) => u.img ? `<i class="fmx-av" style="width:${z}px;height:${z}px;overflow:hidden"><img src="${u.img}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%"></i>` : u.ph ? `<i class="fmx-av" style="width:${z}px;height:${z}px"><svg viewBox="0 0 48 48" width="${z}" height="${z}"><circle cx="24" cy="24" r="24" fill="#f1f1f2"/><circle cx="24" cy="18.500" r="6.500" fill="#fff"/><rect x="12.500" y="28" width="23" height="9.500" rx="4.750" fill="#fff"/></svg></i>` : `<i class="fmx-av" style="width:${z}px;height:${z}px;background:${u.g}"></i>`;
   const hm = () => { const d = new Date(), h = d.getHours(), m = String(d.getMinutes()).padStart(2, "0"); return { en: (h < 12 ? "AM " : "PM ") + (h % 12 || 12) + ":" + m, ko: (h < 12 ? "오전 " : "오후 ") + (h % 12 || 12) + ":" + m }; };
   const fr = (u, i) => `<div class="fmx-fr" data-fx="prof" data-id="${u.n}">${ava(u)}<div class="fmx-fn"><b>${E(u.n)}</b>${u.s ? `<small>${E(u.s)}</small>` : ""}</div>${u.hearts ? `<span class="fmx-hs">${heart(22)}${u.hearts}</span>` : ""}</div>`;
 
