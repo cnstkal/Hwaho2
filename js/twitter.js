@@ -95,7 +95,7 @@ const XApp = (() => {
   };
   const av = (u, s) => {
     const file = X_PROFILE_FILES[u.id];
-    const base = file ? `https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}` : "";
+    const base = file ? `images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}` : "";
     const fallback = X_PROFILE_FALLBACK[u.id];
     const fallbackUrl = fallback ? `https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/Instagram/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(fallback)}` : "";
     const bg = u.blank ? "#cfd9de" : `linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))`;
