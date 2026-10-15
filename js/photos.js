@@ -461,7 +461,7 @@ const PhotosApp = (() => {
   const fmtDur = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 
   let real = [], filter = "all", order = "asc", sel = false, selected = new Set(), urls = new Map(), isOpen = false, pendingDel = null;
-  // 저장소의 Images/Photos 폴더에 있는 사진을 자동으로 불러옵니다.
+  // 저장소의 images/app/Photos 폴더에 있는 사진을 자동으로 불러옵니다.
   let repoPhotos = [];
   let repoPhotosLoaded = false;
   async function loadRepoPhotos() {
