@@ -10,8 +10,11 @@
     "text", "search", "email", "password", "tel", "url", "number"
   ]);
 
+  /* 트위터 검색 입력창은 입력 허용 */
+  const isAllowed = t => t instanceof Element && t.id === "x-q";
+
   function lockElement(el) {
-    if (!(el instanceof HTMLElement)) return;
+    if (!(el instanceof HTMLElement) || isAllowed(el)) return;
 
     if (el instanceof HTMLInputElement && TEXT_INPUT_TYPES.has(el.type)) {
       el.readOnly = true;
@@ -54,6 +57,7 @@
   // 브라우저가 입력을 반영하기 전 단계에서 편집 동작 차단
   document.addEventListener("beforeinput", event => {
     const target = event.target;
+    if (isAllowed(target)) return;
     if (target instanceof HTMLInputElement &&
         TEXT_INPUT_TYPES.has(target.type)) event.preventDefault();
     if (target instanceof HTMLTextAreaElement) event.preventDefault();
@@ -83,6 +87,7 @@
 
   // select 메뉴의 키보드 문자 검색 등 텍스트 입력성 키 조작 차단
   document.addEventListener("keydown", event => {
+    if (isAllowed(event.target)) return;
     if (event.isComposing) {
       event.preventDefault();
       return;

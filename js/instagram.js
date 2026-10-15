@@ -95,6 +95,13 @@ window.IgApp = (() => {
 <div class="ig-hl">${hls.map(([t, h], n) => `<button data-g="hl" data-i="${n}"><div class="ig-hc"><i style="background:linear-gradient(135deg,hsl(${h} 65% 70%),hsl(${(h + 50) % 360} 60% 50%))"></i></div><span>${t}</span></button>`).join("")}</div>
 <div class="ig-tabs"><span class="on">${I.grid}</span><span>${I.tag}</span></div>
 <div class="ig-gr">${MINE.map(p => `<button data-g="open" data-id="${p.id}"><img src="${art(p.imgs[0])}" alt="" draggable="false">${p.imgs.length > 1 ? `<em>${I.multi}</em>` : ""}</button>`).join("")}</div></div>`; };
+  const UPROF = { "yunou._.u": { posts: 1, followers: 230, following: 217, img: 7701 } };
+  const uProfHtml = id => { const u = usr(id), c = UPROF[id];
+    return hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(id)}</small>프로필</div>`, "") +
+    `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${c.posts}</b>게시물</div><div><b>${c.followers}</b>팔로워</div><div><b>${c.following}</b>팔로잉</div></div></div>
+<div class="ig-bio"><b>${esc(u.name)}</b></div><div class="ig-bt"><span>팔로잉</span><span>메시지</span></div>
+<div class="ig-tabs"><span class="on">${I.grid}</span><span>${I.tag}</span></div>
+<div class="ig-gr"><button><img src="${art(c.img)}" alt="" draggable="false"></button></div></div>`; };
   const navHtml = () => { const u = usr("_starhwa_"), b = (k, icn, cls = "") => `<button ${k ? `data-g="nav" data-t="${k}"` : ""} class="${cls}${tab === k ? " on" : ""}">${icn}</button>`;
     return b("home", I.home) + b("", I.search) + b("", I.plus) + b("", I.reels) + `<button data-g="nav" data-t="me" class="${tab === "me" ? "on" : ""}">${av(u, 26, "nv")}</button>`; };
   let tab = "home", isOpen = false;
@@ -106,7 +113,8 @@ window.IgApp = (() => {
     if (d.g === "nav") { if (tab === d.t) { const sc = $(d.t === "home" ? "#ig-home .ig-sc" : "#ig-prof .ig-sc"); sc.scrollTo({ top: 0, behavior: "smooth" }); } tab = d.t; $("#ig-det").classList.remove("on"); setNav(); }
     else if (d.g === "like" || d.g === "save") { const id = t.closest(".ig-post").dataset.id, k = d.g === "like" ? "like" : "save"; S[k][id] = !S[k][id]; persist(); sync(id); }
     else if (d.g === "open") { const p = post(d.id); $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>게시물</div>`, "") + `<div class="ig-sc">${postHtml(p)}</div>`; $("#ig-det").classList.add("on"); }
-    else if (d.g === "fing") { $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>팔로잉</div>`, "") + `<div class="ig-sc">${FOLLOWING.map(k => { const u = usr(k); return `<div class="ig-fr">${av(u, 48)}<div class="ig-fn"><b>${esc(k)}</b><small>${esc(u.name)}</small></div><span class="ig-fb">${MUTUAL.has(k) ? "맞팔" : "팔로잉"}</span></div>`; }).join("")}</div>`; $("#ig-det").classList.add("on"); }
+    else if (d.g === "fing") { $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>팔로잉</div>`, "") + `<div class="ig-sc">${FOLLOWING.map(k => { const u = usr(k); return `<div class="ig-fr"${k === "yunou._.u" ? ' data-g="uprof" data-id="yunou._.u" style="cursor:pointer"' : ""}>${av(u, 48)}<div class="ig-fn"><b>${esc(k)}</b><small>${esc(u.name)}</small></div><span class="ig-fb">${MUTUAL.has(k) ? "맞팔" : "팔로잉"}</span></div>`; }).join("")}</div>`; $("#ig-det").classList.add("on"); }
+    else if (d.g === "uprof") { $("#ig-det").innerHTML = uProfHtml(d.id); $("#ig-det").classList.add("on"); }
     else if (d.g === "back") $("#ig-det").classList.remove("on");
     else if (d.g === "cmt") cmOpen(t.closest(".ig-post").dataset.id);
     else if (d.g === "cmx") { $("#ig-cs").classList.remove("on"); $("#ig-cb").classList.remove("on"); $("#ig-ci") && $("#ig-ci").blur(); }
