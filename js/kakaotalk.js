@@ -1,0 +1,135 @@
+/* ===== kakaotalk.js (integrated) ===== */
+/* ===== 카카오톡 ===== */
+const KakaoApp = (() => {
+  const $ = q => document.querySelector(q), el = $("#kko-app"), screen = $("#screen");
+  const ic = p => `<svg viewBox="0 0 24 24">${p}</svg>`;
+  const I = {
+    search: ic('<circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/>'), add: ic('<circle cx="10" cy="8" r="3.500"/><path d="M3.500 19.500c.8-3.500 3.200-5 6.500-5s5.700 1.500 6.500 5M19 8v6M16 11h6"/>'),
+    note: ic('<path d="M9 18V6l10-2v12"/><circle cx="6.500" cy="18" r="2.500"/><circle cx="16.500" cy="16" r="2.500"/>'), gear: ic('<circle cx="12" cy="12" r="3"/><path d="M12 3v2.500M12 18.500V21M3 12h2.500M18.500 12H21M5.600 5.600l1.800 1.800M16.600 16.600l1.800 1.800M5.600 18.400l1.800-1.800M16.600 7.400l1.800-1.800"/>'),
+    chev: ic('<path d="M6 9l6 6 6-6"/>'), newchat: ic('<path d="M18 13v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h5"/><path d="M15.500 4.500l4 4L12 16l-4 1 1-4z"/>'),
+    back: ic('<path d="M15 5l-7 7 7 7" stroke-width="2"/>'), plus: ic('<path d="M12 5v14M5 12h14"/>'), up: ic('<path d="M12 19V5M6 11l6-6 6 6"/>'), menu: ic('<path d="M4 7h16M4 12h16M4 17h16"/>'),
+    t1: ic('<circle cx="12" cy="8" r="3.800"/><path d="M4.500 20c.8-4 3.800-6 7.500-6s6.700 2 7.500 6"/>'), t2: ic('<path d="M12 4c-4.700 0-8.500 3.100-8.500 7s3.800 7 8.500 7c1 0 2-.1 2.900-.4 1.200 1 2.800 1.600 4.500 1.700-.8-.9-1.300-1.900-1.500-3 1.700-1.300 2.600-3.100 2.600-5.300C20.500 7.100 16.700 4 12 4z"/>'),
+    t3: ic('<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M10 9l5 3-5 3z"/>'), t4: ic('<path d="M5 8h14l-1 12H6zM9 8V6.500a3 3 0 0 1 6 0V8"/>'), t5: ic('<circle cx="6" cy="12" r="1.200"/><circle cx="12" cy="12" r="1.200"/><circle cx="18" cy="12" r="1.200"/>'),
+  };
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])), uid = () => Math.random().toString(36).slice(2, 9), KEY = "ios-kakao-v2";
+  const REPLIES = ["ㅋㅋㅋㅋ 그래!", "오 좋다 👍", "잠깐만~ 이따 연락할게", "알겠어ㅎㅎ", "진짜? 대박", "지금 뭐해?", "나중에 밥 먹자!", "확인했어 고마워 😊"];
+  const FR = [["f1", "철수", "결혼 생활 중 💍", 1], ["f2", "이실장님", "", 0], ["f3", "엄마", "건강이 최고", 0], ["f4", "민기", "🎧", 1], ["f5", "홍중", "작업실", 0], ["f6", "도현", "", 0], ["f7", "동생 하은", "공부 중..", 0], ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 1], ["f9", "지안", "Be happy", 0], ["f10", "레도형", "Be humble", 0]];
+  let D = null; try { D = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (!D || !D.chats) {
+    const H = 36e5, n = Date.now(), m = (from, text, ago) => ({ id: uid(), from, text, ts: n - ago * H });
+    D = { friends: FR.map(([id, name, st, fav]) => ({ id, name, st, fav })), chats: [
+      { id: "c1", ids: ["f1"], unread: 2, msgs: [m("me", "야 결혼 생활은 좀 어때 ㅋㅋ", 30), m("f1", "행복하다 ㅋㅋ 앨범 3번 트랙 계속 틀어놓는 중", 29.5), m("me", "고맙다 이번 주말에 한잔하자", 29.4), m("f1", "토요일 7시 어때?", 1), m("f1", "민기랑 홍중이도 부르자", .9)] },
+      { id: "c2", name: "우리 가족", ids: ["f3", "f7"], unread: 0, msgs: [m("f3", "아들 주말에 집 오니?", 52), m("f7", "오빠 오면 치킨 시키자", 51.9), m("me", "응 토요일 저녁에 갈게", 51), m("f3", "김치도 챙겨놨다 🍗", 50.5)] },
+      { id: "c3", ids: ["f2"], unread: 0, msgs: [m("f2", "내일 화보 촬영 스케줄 보냈어요", 80), m("me", "확인했습니다 감사해요!", 79)] },
+      { id: "c4", name: "동네 친구들", ids: ["f1", "f4", "f5", "f6"], unread: 5, msgs: [m("f4", "이번 주 토요일 축하주 콜?", 5), m("f5", "나 가능 ㅋㅋ", 4.8), m("f6", "7시 고깃집에서 보자", 4.5), m("f1", "나도 OK", 4.2), m("f4", "주인공은 늦게 와도 됨 ㅋㅋ", 4)] },
+      { id: "c5", ids: ["f8"], unread: 0, msgs: [m("f8", "후속곡 믹스 v3 올렸다", 200), m("me", "확인해볼게요 형 고마워요!", 199)] },
+    ] };
+  }
+  if (!D.friends.some(f => f.id === "ai1")) D.friends.push({ id: "ai1", name: "AI 챗봇", st: "무엇이든 물어보세요", fav: 0, ai: 1 });
+  D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
+  const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
+  const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
+  const av = (id, nm, c = "") => `<div class="kk-av ${c}" style="background:${col(id)}">${esc([...nm][0] || "?")}</div>`;
+  const cav = c => c.ids.length > 1 || c.name ? `<div class="kk-gav">${c.ids.slice(0, 4).map(i => `<i style="background:${col(i)}">${esc([...((fr(i) || {}).name || "?")][0])}</i>`).join("")}</div>` : av(c.ids[0], cname(c), "kk-cav");
+  const pad = n => String(n).padStart(2, "0"), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
+  const day = ts => new Date(ts).toDateString(), dl = ts => { const d = new Date(ts); return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${"일월화수목금토"[d.getDay()]}요일`; };
+  function lt(ts) { const d = new Date(ts), n = new Date(), df = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 0 ? tm(ts) : df === 1 ? "어제" : `${d.getMonth() + 1}월 ${d.getDate()}일`; }
+  let tab = "friends", q = "", flt = "all", cur = null, isOpen = false;
+  const UP = ["f2", "f6", "f9"];
+  const totalUnread = () => D.chats.reduce((a, c) => a + (c.unread || 0), 0);
+
+  function friendsHtml() {
+    const ql = q.trim().toLowerCase(), l = D.friends.filter(f => !ql || f.name.toLowerCase().includes(ql));
+    const row = f => `<button class="kk-r" data-k="friend" data-id="${f.id}">${av(f.id, f.name)}<div class="kk-tx"><div class="kk-nm">${esc(f.name)}</div>${f.st ? `<div class="kk-st">${esc(f.st)}</div>` : ""}</div></button>`;
+    const grp = (key, title, arr) => { if (!arr.length) return ""; const cl = !ql && D.ui.col[key]; return `<button class="kk-gh" data-k="grp" data-g="${key}"><span>${title} ${arr.length}</span><i class="${cl ? "cl" : ""}">${I.chev}</i></button>${cl ? "" : arr.map(row).join("")}`; };
+    const head = ql ? "" : `<div class="kk-me">${av("me", "나")}<div class="kk-tx"><div class="kk-nm" style="font-size:16px">나</div><div class="kk-st">오늘도 좋은 하루</div></div></div><div class="kk-pills"><span class="on">친구</span><span>소식</span></div><div class="kk-nc"><b>공지</b><span>카카오톡 새로운 소식을 확인해 보세요</span></div>`;
+    const body = grp("up", "업데이트 프로필", l.filter(f => UP.includes(f.id))) + grp("fav", "즐겨찾기", l.filter(f => f.fav)) + grp("ai", "AI 친구", l.filter(f => f.ai)) + grp("fr", "친구", l.filter(f => !f.fav && !f.ai));
+    return head + (body || `<div class="kk-em">검색 결과가 없습니다</div>`);
+  }
+  function chatsHtml() {
+    const ql = q.trim().toLowerCase(), l = D.chats.filter(c => c.msgs.length && (flt !== "unread" || c.unread > 0) && (!ql || cname(c).toLowerCase().includes(ql) || c.msgs.some(m => m.text.toLowerCase().includes(ql)))).sort((a, b) => last(b).ts - last(a).ts);
+    const head = ql ? "" : `<div class="kk-pills">${[["all", "전체"], ["unread", "안 읽음"]].map(([k, n]) => `<button class="${flt === k ? "on" : ""}" data-k="flt" data-f="${k}">${n}</button>`).join("")}</div><div class="kk-nc"><b>소식</b><span>친구들의 새로운 소식이 도착했어요</span></div>`;
+    return head + (l.map(c => { const m = last(c), gc = c.name || c.ids.length > 1; return `<button class="kk-r" data-k="chat" data-id="${c.id}">${cav(c)}<div class="kk-tx"><div class="kk-nm">${esc(cname(c))}${gc ? `<span class="kk-gc">${c.ids.length + 1}</span>` : ""}</div><div class="kk-pv">${esc(m.text)}</div></div><div class="kk-mt"><span class="kk-tm">${lt(m.ts)}</span>${c.unread ? `<span class="kk-bd">${c.unread}</span>` : ""}</div></button>`; }).join("") || `<div class="kk-em">${ql ? "검색 결과가 없습니다" : flt === "unread" ? "안 읽은 채팅이 없습니다" : "채팅이 없습니다"}</div>`);
+  }
+  function tabsHtml() {
+    const t = (k, icn, l) => `<div class="${tab === k ? "on" : ""}" ${k === "friends" || k === "chats" ? `data-k="tab" data-t="${k}"` : ""}>${icn}<span>${l}</span>${k === "chats" && totalUnread() ? `<i class="bd">${totalUnread()}</i>` : ""}</div>`;
+    return t("friends", I.t1, "친구") + t("chats", I.t2, "채팅") + t("v", I.t3, "뷰") + t("s", I.t4, "쇼핑") + t("m", I.t5, "더보기");
+  }
+  function renderMain() {
+    const fT = tab === "friends";
+    $("#kk-hd").innerHTML = `<h1>${fT ? "친구" : "채팅"}</h1><div class="kk-ic"><button data-k="srch" aria-label="검색">${I.search}</button>${fT ? `<span>${I.add}</span><span>${I.gear}</span>` : `<span>${I.newchat}</span><span>${I.gear}</span>`}</div>`;
+    $("#kk-ph").placeholder = fT ? "이름 검색" : "채팅방 이름, 대화 내용 검색";
+    $("#kk-body").innerHTML = fT ? friendsHtml() : chatsHtml(); $("#kk-tabs").innerHTML = tabsHtml();
+  }
+  const sbox = () => $("#kk-sb");
+  function room() {
+    const c = cur, ms = c.msgs, gc = c.name || c.ids.length > 1;
+    let h = ""; ms.forEach((m, i) => {
+      const p = ms[i - 1], n = ms[i + 1], sameP = p && p.from === m.from && day(p.ts) === day(m.ts) && tm(p.ts) === tm(m.ts), sameN = n && n.from === m.from && day(n.ts) === day(m.ts) && tm(n.ts) === tm(m.ts);
+      if (!p || day(p.ts) !== day(m.ts)) h += `<div class="kk-dv"><span>${dl(m.ts)}</span></div>`;
+      const first = !sameP, time = !sameN ? `<span class="kk-tm">${tm(m.ts)}</span>` : "", b = `<div class="kk-b${first ? " f" : ""}">${esc(m.text)}</div>`;
+      if (m.from === "me") h += `<div class="kk-m me${first ? " f" : ""}">${time}${b}</div>`;
+      else { const f = fr(m.from) || { name: "?", id: m.from }; h += `<div class="kk-m${first ? " f" : ""}"><div class="kk-pa">${first ? av(f.id, f.name) : ""}</div><div class="kk-on">${first ? `<div class="n">${esc(f.name)}</div>` : ""}<div class="kk-bw">${b}${time}</div></div></div>`; }
+    });
+    const box = $("#kk-msgs"); box.innerHTML = h; box.scrollTop = box.scrollHeight;
+  }
+  const inp = () => $("#kk-ta"), sd = () => $("#kk-sd");
+  const grow = () => { inp().style.height = "22px"; inp().style.height = Math.min(inp().scrollHeight, 100) + "px"; sd().classList.toggle("on", !!inp().value.trim()); };
+  function openRoom(arg) {
+    cur = typeof arg === "string" ? chat(arg) : arg; cur.unread = 0; save(); const gc = cur.name || cur.ids.length > 1;
+    $("#kk-rh").innerHTML = `<button class="bk" data-k="back" aria-label="뒤로">${I.back}</button><div class="t">${esc(cname(cur))}${gc ? `<small>${cur.ids.length + 1}</small>` : ""}</div><div class="kk-ic"><span>${I.search}</span><span>${I.menu}</span></div>`;
+    inp().value = ""; grow(); room(); $("#kk-room").classList.add("on"); $("#kk-main").classList.add("back");
+  }
+  function back() { $("#kk-room").classList.remove("on"); $("#kk-main").classList.remove("back"); inp().blur(); cur = null; renderMain(); }
+  function send() {
+    const text = inp().value.trim(); if (!text || !cur) return; const c = cur;
+    if (!D.chats.includes(c)) D.chats.push(c); c.msgs.push({ id: uid(), from: "me", text, ts: Date.now() }); c.unread = 0; inp().value = ""; grow(); save(); room();
+    setTimeout(() => {
+      c.msgs.push({ id: uid(), from: c.ids[Math.floor(Math.random() * c.ids.length)], text: REPLIES[Math.floor(Math.random() * REPLIES.length)], ts: Date.now() });
+      if (!cur || cur.id !== c.id) c.unread = (c.unread || 0) + 1; save(); if (cur && cur.id === c.id) room(); else renderMain();
+    }, 1500 + Math.random() * 1500);
+  }
+  el.innerHTML = `<div class="kk-v" id="kk-main"><div class="kk-hd" id="kk-hd"></div><div class="kk-sb" id="kk-sb">${I.search}<input id="kk-ph" autocomplete="off"></div><div class="kk-body" id="kk-body"></div><div class="kk-tabs" id="kk-tabs"></div></div><div class="kk-v" id="kk-room"><div class="kk-rh" id="kk-rh"></div><div class="kk-msgs" id="kk-msgs"></div><div class="kk-in"><span class="kk-pl">${I.plus}</span><div class="kk-iw"><textarea id="kk-ta" rows="1"></textarea></div><button class="kk-sd" id="kk-sd" data-k="send" aria-label="전송">${I.up}</button></div></div>`;
+  el.addEventListener("click", e => {
+    const t = e.target.closest("[data-k]"); if (!t) return; const d = t.dataset;
+    switch (d.k) {
+      case "grp": D.ui.col[d.g] = !D.ui.col[d.g]; save(); $("#kk-body").innerHTML = friendsHtml(); break;
+      case "flt": flt = d.f; $("#kk-body").innerHTML = chatsHtml(); break;
+      case "tab": tab = d.t; q = ""; flt = "all"; $("#kk-ph").value = ""; sbox().classList.remove("on"); renderMain(); break;
+      case "srch": $("#kk-ph").focus(); break;
+      case "friend": { let c = D.chats.find(x => !x.name && x.ids.length === 1 && x.ids[0] === d.id); if (!c) c = { id: uid(), ids: [d.id], unread: 0, msgs: [] }; openRoom(c); break; }
+      case "chat": openRoom(d.id); break;
+      case "back": back(); break;
+      case "send": send(); inp().focus(); break;
+    }
+  });
+  $("#kk-ph").addEventListener("input", e => { q = e.target.value; $("#kk-body").innerHTML = tab === "friends" ? friendsHtml() : chatsHtml(); });
+  inp().addEventListener("input", grow);
+  inp().addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); send(); } });
+  const vv = window.visualViewport;
+  const fit = () => { if (!isOpen) return; const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop); el.style.bottom = kb + "px"; el.classList.toggle("kb", kb > 80); if (kb > 80 && cur) { const b = $("#kk-msgs"); b.scrollTop = b.scrollHeight; } };
+  if (vv) { vv.addEventListener("resize", fit); vv.addEventListener("scroll", fit); }
+  function open() {
+    if (isOpen) return; isOpen = true; renderMain(); originFrom(el, "kakaotalk");
+    el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false");
+    setTimeout(() => { if (isOpen) screen.classList.add("app-light"); }, 140);
+  }
+  function close() {
+    if (!isOpen) return; isOpen = false; screen.classList.remove("app-light"); el.classList.remove("open", "kb"); el.style.bottom = ""; el.setAttribute("aria-hidden", "true");
+    document.activeElement && document.activeElement.blur();
+    setTimeout(() => { if (!isOpen) { el.classList.remove("show"); $("#kk-room").classList.remove("on"); $("#kk-main").classList.remove("back"); cur = null; } }, 430);
+  }
+  document.addEventListener("app:open", e => { if (e.detail.id === "kakaotalk") open(); });
+  document.addEventListener("app:close", close);
+  return { open, close };
+})();
+
+/* App-specific styles */
+(()=>{const style=document.createElement("style");style.textContent="#kko-app{position:absolute;inset:0;z-index:5;display:none;background:#fff;color:#000;overflow:hidden;opacity:0;transform:scale(.15);border-radius:44px;transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .22s,border-radius .42s;font-family:var(--font)}\n#kko-app.show{display:block}\n#kko-app.open{opacity:1;transform:none;border-radius:0}\n#kko-app button{font-family:var(--font);background:none;border:0;padding:0;cursor:pointer;color:inherit}\n:where(#kko-app) svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}\n#kko-app.kb .kk-in{padding-bottom:8px}\n#kko-app .kk-sb{display:flex}\n/* ===== 9차: 카카오톡 UI 현실감 ===== */\n#kko-app .kk-hd{padding:calc(env(safe-area-inset-top,0px) + 54px) 20px 4px}\n#kko-app .kk-hd h1{font-size:21px;font-weight:700;letter-spacing:-.3px}\n#kko-app .kk-ic{gap:18px}\n#kko-app .kk-ic>*{width:22px;height:22px;color:#333}\n#kko-app .kk-ic svg{stroke-width:1.3}\n#kko-app .kk-sb{margin:6px 20px 8px;height:34px;border-radius:10px;background:#f3f3f3;padding:0 10px}\n#kko-app .kk-sb input{font-size:15px}\n#kko-app .kk-body{padding-bottom:8px}\n#kko-app .kk-r{padding:8px 20px;gap:12px;min-height:56px}\n#kko-app .kk-tx{flex:1;min-width:0}\n#kko-app .kk-av{width:40px;height:40px;border-radius:15px;font-size:16px;font-weight:400}\n#kko-app .kk-me{padding:10px 20px 12px;gap:12px}\n#kko-app .kk-me .kk-av{width:48px;height:48px;border-radius:18px;font-size:19px}\n#kko-app .kk-nm{font-size:15px;font-weight:500;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n#kko-app .kk-st{font-size:12.5px;color:#8c8c8c;margin-top:2px;line-height:1.3}\n#kko-app .kk-pills{display:flex;gap:6px;padding:4px 20px 10px}\n#kko-app .kk-pills>*{height:30px;padding:0 14px;border-radius:15px;background:#f2f2f2;color:#666;font-size:13px;display:flex;align-items:center}\n#kko-app .kk-pills .on{background:#222;color:#fff}\n#kko-app .kk-nc{margin:0 20px 6px;padding:12px 14px;border-radius:12px;background:#f7f7f7;display:flex;gap:8px;align-items:center;font-size:13px;color:#666}\n#kko-app .kk-nc b{color:#222;font-weight:600;flex:none}\n#kko-app .kk-nc span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n#kko-app .kk-gh{display:flex;justify-content:space-between;align-items:center;width:100%;padding:14px 20px 6px;font-size:12px;color:#8c8c8c}\n#kko-app .kk-gh i{width:16px;height:16px;display:block;transition:transform .2s}\n#kko-app .kk-gh i.cl{transform:rotate(-90deg)}\n#kko-app .kk-cav.kk-av{width:46px;height:46px;border-radius:17px}\n#kko-app .kk-gav{width:46px;height:46px;border-radius:17px;gap:2px;background:#fff}\n#kko-app .kk-gav i{font-size:11px}\n#kko-app .kk-pv{font-size:13.5px;color:#8c8c8c;margin-top:2px}\n#kko-app .kk-gc{font-size:12.5px;color:#aaa;margin-left:5px}\n#kko-app .kk-mt{min-width:46px;gap:5px}\n#kko-app .kk-mt .kk-tm{font-size:11px}\n#kko-app .kk-bd{min-width:18px;height:18px;font-size:11px;padding:0 5px}\n#kko-app .kk-tabs{padding-top:5px;border-top:.5px solid #e3e3e3}\n#kko-app .kk-tabs svg{width:24px;height:24px}\n#kko-app #kk-room{background:#b2c7d9}\n#kko-app .kk-rh{background:#b2c7d9;padding:calc(env(safe-area-inset-top,0px) + 54px) 14px 10px}\n#kko-app .kk-rh .t{font-size:16px}\n#kko-app .kk-msgs{padding:4px 12px 10px}\n#kko-app .kk-dv{margin:14px 0 8px}\n#kko-app .kk-dv span{background:rgba(0,0,0,.22);font-size:11.5px;padding:3px 12px}\n#kko-app .kk-m{margin-top:2px;gap:8px}\n#kko-app .kk-m.f{margin-top:10px}\n#kko-app .kk-pa{width:38px}\n#kko-app .kk-pa .kk-av{width:36px;height:36px;border-radius:14px;font-size:15px}\n#kko-app .kk-on{max-width:72%}\n#kko-app .kk-on .n{font-size:12px;color:#333;margin:0 0 4px 2px}\n#kko-app .kk-b{padding:7px 10px;border-radius:10px;font-size:15px;line-height:1.35;background:#fff}\n#kko-app .kk-m.me .kk-b{background:#fee500;max-width:72%}\n#kko-app .kk-b.f{border-top-left-radius:0}\n#kko-app .kk-b.f::before{content:\"\";position:absolute;top:0;left:-6px;right:auto;width:10px;height:11px;border:0;background:inherit;clip-path:polygon(100% 0,100% 100%,0 0)}\n#kko-app .kk-m.me .kk-b.f{border-top-left-radius:10px;border-top-right-radius:0}\n#kko-app .kk-m.me .kk-b.f::before{left:auto;right:-6px;border:0;clip-path:polygon(0 0,100% 0,0 100%)}\n#kko-app .kk-m .kk-tm{color:#4e5d69;font-size:10.5px}\n#kko-app .kk-in{background:#fff;padding:8px 14px calc(env(safe-area-inset-bottom,0px) + 30px) 12px;gap:10px;border-top:.5px solid #ddd}\n#kko-app.kb .kk-in{padding-bottom:8px}\n/* ===== 10차: 카카오톡 말풍선 ===== */\n#kko-app .kk-b{border-radius:14px}\n#kko-app .kk-b.f{border-top-left-radius:4px}\n#kko-app .kk-b.f::before{left:-6px;width:12px;height:13px;clip-path:path(\"M12 0L12 13C8 11.500 3 7 .6 1.500C.1 .6 .6 0 1.600 0Z\")}\n#kko-app .kk-m.me .kk-b.f{border-top-left-radius:14px;border-top-right-radius:4px}\n#kko-app .kk-m.me .kk-b.f::before{left:auto;right:-6px;clip-path:path(\"M12 0L12 13C8 11.500 3 7 .6 1.500C.1 .6 .6 0 1.600 0Z\");transform:scaleX(-1)}";document.head.appendChild(style);})();
+
+(()=>{const s=document.createElement("style");s.textContent="#kko-app{position:absolute;inset:0;z-index:5;display:none;background:#fff;color:#000;overflow:hidden;opacity:0;transform:scale(.15);border-radius:44px;transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .22s,border-radius .42s;font-family:var(--font)}\n#kko-app.show{display:block}\n#kko-app.open{opacity:1;transform:none;border-radius:0}\n#kko-app button{font-family:var(--font);background:none;border:0;padding:0;cursor:pointer;color:inherit}\n:where(#kko-app) svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}\n#kko-app.kb .kk-in{padding-bottom:8px}\n#kko-app .kk-sb{display:flex}\n/* ===== 9차: 카카오톡 UI 현실감 ===== */\n#kko-app .kk-hd{padding:calc(env(safe-area-inset-top,0px) + 54px) 20px 4px}\n#kko-app .kk-hd h1{font-size:21px;font-weight:700;letter-spacing:-.3px}\n#kko-app .kk-ic{gap:18px}\n#kko-app .kk-ic>*{width:22px;height:22px;color:#333}\n#kko-app .kk-ic svg{stroke-width:1.3}\n#kko-app .kk-sb{margin:6px 20px 8px;height:34px;border-radius:10px;background:#f3f3f3;padding:0 10px}\n#kko-app .kk-sb input{font-size:15px}\n#kko-app .kk-body{padding-bottom:8px}\n#kko-app .kk-r{padding:8px 20px;gap:12px;min-height:56px}\n#kko-app .kk-tx{flex:1;min-width:0}\n#kko-app .kk-av{width:40px;height:40px;border-radius:15px;font-size:16px;font-weight:400}\n#kko-app .kk-me{padding:10px 20px 12px;gap:12px}\n#kko-app .kk-me .kk-av{width:48px;height:48px;border-radius:18px;font-size:19px}\n#kko-app .kk-nm{font-size:15px;font-weight:500;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n#kko-app .kk-st{font-size:12.5px;color:#8c8c8c;margin-top:2px;line-height:1.3}\n#kko-app .kk-pills{display:flex;gap:6px;padding:4px 20px 10px}\n#kko-app .kk-pills>*{height:30px;padding:0 14px;border-radius:15px;background:#f2f2f2;color:#666;font-size:13px;display:flex;align-items:center}\n#kko-app .kk-pills .on{background:#222;color:#fff}\n#kko-app .kk-nc{margin:0 20px 6px;padding:12px 14px;border-radius:12px;background:#f7f7f7;display:flex;gap:8px;align-items:center;font-size:13px;color:#666}\n#kko-app .kk-nc b{color:#222;font-weight:600;flex:none}\n#kko-app .kk-nc span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n#kko-app .kk-gh{display:flex;justify-content:space-between;align-items:center;width:100%;padding:14px 20px 6px;font-size:12px;color:#8c8c8c}\n#kko-app .kk-gh i{width:16px;height:16px;display:block;transition:transform .2s}\n#kko-app .kk-gh i.cl{transform:rotate(-90deg)}\n#kko-app .kk-cav.kk-av{width:46px;height:46px;border-radius:17px}\n#kko-app .kk-gav{width:46px;height:46px;border-radius:17px;gap:2px;background:#fff}\n#kko-app .kk-gav i{font-size:11px}\n#kko-app .kk-pv{font-size:13.5px;color:#8c8c8c;margin-top:2px}\n#kko-app .kk-gc{font-size:12.5px;color:#aaa;margin-left:5px}\n#kko-app .kk-mt{min-width:46px;gap:5px}\n#kko-app .kk-mt .kk-tm{font-size:11px}\n#kko-app .kk-bd{min-width:18px;height:18px;font-size:11px;padding:0 5px}\n#kko-app .kk-tabs{padding-top:5px;border-top:.5px solid #e3e3e3}\n#kko-app .kk-tabs svg{width:24px;height:24px}\n#kko-app #kk-room{background:#b2c7d9}\n#kko-app .kk-rh{background:#b2c7d9;padding:calc(env(safe-area-inset-top,0px) + 54px) 14px 10px}\n#kko-app .kk-rh .t{font-size:16px}\n#kko-app .kk-msgs{padding:4px 12px 10px}\n#kko-app .kk-dv{margin:14px 0 8px}\n#kko-app .kk-dv span{background:rgba(0,0,0,.22);font-size:11.5px;padding:3px 12px}\n#kko-app .kk-m{margin-top:2px;gap:8px}\n#kko-app .kk-m.f{margin-top:10px}\n#kko-app .kk-pa{width:38px}\n#kko-app .kk-pa .kk-av{width:36px;height:36px;border-radius:14px;font-size:15px}\n#kko-app .kk-on{max-width:72%}\n#kko-app .kk-on .n{font-size:12px;color:#333;margin:0 0 4px 2px}\n#kko-app .kk-b{padding:7px 10px;border-radius:10px;font-size:15px;line-height:1.35;background:#fff}\n#kko-app .kk-m.me .kk-b{background:#fee500;max-width:72%}\n#kko-app .kk-b.f{border-top-left-radius:0}\n#kko-app .kk-b.f::before{content:\"\";position:absolute;top:0;left:-6px;right:auto;width:10px;height:11px;border:0;background:inherit;clip-path:polygon(100% 0,100% 100%,0 0)}\n#kko-app .kk-m.me .kk-b.f{border-top-left-radius:10px;border-top-right-radius:0}\n#kko-app .kk-m.me .kk-b.f::before{left:auto;right:-6px;border:0;clip-path:polygon(0 0,100% 0,0 100%)}\n#kko-app .kk-m .kk-tm{color:#4e5d69;font-size:10.5px}\n#kko-app .kk-in{background:#fff;padding:8px 14px calc(env(safe-area-inset-bottom,0px) + 30px) 12px;gap:10px;border-top:.5px solid #ddd}\n#kko-app.kb .kk-in{padding-bottom:8px}\n/* ===== 10차: 카카오톡 말풍선 ===== */\n#kko-app .kk-b{border-radius:14px}\n#kko-app .kk-b.f{border-top-left-radius:4px}\n#kko-app .kk-b.f::before{left:-6px;width:12px;height:13px;clip-path:path(\"M12 0L12 13C8 11.500 3 7 .6 1.500C.1 .6 .6 0 1.600 0Z\")}\n#kko-app .kk-m.me .kk-b.f{border-top-left-radius:14px;border-top-right-radius:4px}\n#kko-app .kk-m.me .kk-b.f::before{left:auto;right:-6px;clip-path:path(\"M12 0L12 13C8 11.500 3 7 .6 1.500C.1 .6 .6 0 1.600 0Z\");transform:scaleX(-1)}";document.head.appendChild(s);})();
+
+/* App-specific styles moved from base.css */
+(()=>{const s=document.createElement("style");s.textContent="#kk-room{transform:translateX(100%);z-index:2;background:#b2c7d9}\n#kk-room.on{transform:none}\n#kk-main.back{transform:translateX(-25%)}";document.head.appendChild(s);})();
