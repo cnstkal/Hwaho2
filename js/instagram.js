@@ -37,8 +37,8 @@ window.IgApp = (() => {
   if (m6Post && m6Post.imgs.length > 1) m6Post.imgs.push(m6Post.imgs.shift());
   const MUTUAL = new Set(FEED.map(id => post(id).u).filter(id => id !== ME.id));
   const FOLLOWING = ["yunou._.u", "fixon_n_on", "private.ego", "han.gangster", "opps.on.read", "no1likeme8_8", "notyourbro", "born2.flex", "hoodie.hooligan", "himothy._", "0fficiallyheytaaaaa"];
-  const KEY = "ios-insta-v1"; let S = { like: {}, save: {} }; try { const x = JSON.parse(localStorage.getItem(KEY)); if (x && x.like) S = x; } catch (e) {} S.seen = S.seen || {}; S.seenFrames = S.seenFrames || {}; S.cmt = S.cmt || {}; ["yunho1","yunho2","yunho3","yunho4","yunho5"].forEach(id => { if (S.like[id] === undefined) S.like[id] = true; });
-  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
+  const KEY = "ios-insta-v1"; let S = { like: {}, save: {} }; try { const x = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); if (x && x.like) S = x; } catch (e) {} S.seen = S.seen || {}; S.seenFrames = S.seenFrames || {}; S.cmt = S.cmt || {}; ["yunho1","yunho2","yunho3","yunho4","yunho5"].forEach(id => { if (S.like[id] === undefined) S.like[id] = true; });
+  const persist = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const fmt = n => n.toLocaleString("ko-KR");
   const PROFILE_PHOTOS = {
     "fixon_n_on": "IMG_7072.jpeg",
