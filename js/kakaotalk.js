@@ -11,21 +11,32 @@ const KakaoApp = (() => {
     t1: ic('<circle cx="12" cy="8" r="3.800"/><path d="M4.500 20c.8-4 3.800-6 7.500-6s6.700 2 7.500 6"/>'), t2: ic('<path d="M12 4c-4.700 0-8.500 3.100-8.500 7s3.800 7 8.500 7c1 0 2-.1 2.900-.4 1.200 1 2.800 1.600 4.500 1.700-.8-.9-1.300-1.900-1.500-3 1.700-1.300 2.600-3.100 2.600-5.300C20.500 7.100 16.700 4 12 4z"/>'),
     t3: ic('<rect x="4" y="4" width="16" height="16" rx="4"/><path d="M10 9l5 3-5 3z"/>'), t4: ic('<path d="M5 8h14l-1 12H6zM9 8V6.500a3 3 0 0 1 6 0V8"/>'), t5: ic('<circle cx="6" cy="12" r="1.200"/><circle cx="12" cy="12" r="1.200"/><circle cx="18" cy="12" r="1.200"/>'),
   };
-  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])), uid = () => Math.random().toString(36).slice(2, 9), KEY = "ios-kakao-v2";
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])), uid = () => Math.random().toString(36).slice(2, 9), KEY = "ios-kakao-v3";
   const REPLIES = ["ㅋㅋㅋㅋ 그래!", "오 좋다 👍", "잠깐만~ 이따 연락할게", "알겠어ㅎㅎ", "진짜? 대박", "지금 뭐해?", "나중에 밥 먹자!", "확인했어 고마워 😊"];
-  const FR = [["f1", "철수", "결혼 생활 중 💍", 1], ["f2", "이실장님", "", 0], ["f3", "엄마", "건강이 최고", 0], ["f4", "민기", "🎧", 1], ["f5", "홍중", "작업실", 0], ["f6", "도현", "", 0], ["f7", "동생 하은", "공부 중..", 0], ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 1], ["f9", "지안", "Be happy", 0], ["f10", "레도형", "Be humble", 0]];
+  const FR = [["f0", "울윤호", "", 1], ["f1", "철수", "결혼 생활 중 💍", 1], ["f4", "민기", "🎧", 1], ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 1], ["f2", "이실장님", "", 0], ["f3", "엄마", "건강이 최고", 0], ["f7", "동생 하은", "공부 중..", 0], ["f9", "지안", "Be happy", 0],
+    ["f5", "홍중", "작업실", 0, 1], ["f6", "도현", "", 0, 1], ["f10", "레도형", "Be humble", 0, 1], ["h1", "최PD(무대감독)", "", 0, 1], ["h2", "박팀장(조명)", "", 0, 1], ["h3", "김팀장님(레코드)", "", 0, 1], ["h4", "성민(동창)", "", 0, 1], ["h5", "수아 실장", "", 0, 1], ["h6", "아빠", "", 0, 1], ["ad1", "배달의민족", "", 0, 1], ["ad2", "CGV", "", 0, 1], ["ad3", "올리브영", "", 0, 1], ["ad4", "CJ대한통운", "", 0, 1]];
+  const TOTAL = 302;
   let D = null; try { D = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!D || !D.chats) {
     const H = 36e5, n = Date.now(), m = (from, text, ago) => ({ id: uid(), from, text, ts: n - ago * H });
-    D = { friends: FR.map(([id, name, st, fav]) => ({ id, name, st, fav })), chats: [
+    D = { friends: FR.map(([id, name, st, fav, hid]) => ({ id, name, st, fav, hid })), chats: [
+      { id: "c0", ids: ["f0"], pin: 1, unread: 1, msgs: [m("me", "형 오늘 녹음 몇 시까지야?", 3), m("f0", "6시쯤 끝날 듯", 2.9), m("me", "그럼 끝나고 밥 먹자", 2.8), m("f0", "ㅇㅋ 저녁 뭐 먹을지 생각해둬", .1)] },
       { id: "c1", ids: ["f1"], unread: 2, msgs: [m("me", "야 결혼 생활은 좀 어때 ㅋㅋ", 30), m("f1", "행복하다 ㅋㅋ 앨범 3번 트랙 계속 틀어놓는 중", 29.5), m("me", "고맙다 이번 주말에 한잔하자", 29.4), m("f1", "토요일 7시 어때?", 1), m("f1", "민기랑 홍중이도 부르자", .9)] },
-      { id: "c2", name: "우리 가족", ids: ["f3", "f7"], unread: 0, msgs: [m("f3", "아들 주말에 집 오니?", 52), m("f7", "오빠 오면 치킨 시키자", 51.9), m("me", "응 토요일 저녁에 갈게", 51), m("f3", "김치도 챙겨놨다 🍗", 50.5)] },
+      { id: "c6", name: "앨범 작업방", ids: ["f1", "f4", "f8", "f9"], unread: 12, msgs: [m("f8", "마스터링 파일 공유드렸습니다", 1.6), m("f9", "코러스 2번 다시 녹음할게요", 1.5), m("f4", "확인했어요 내일 오전에 맞춰볼게요", 1.4), m("f1", "다들 고생 많았다 👍", 1.3)] },
+      { id: "c7", name: "콘서트 스태프 단톡", ids: ["h1", "h2", "f2"], unread: 3, msgs: [m("h1", "리허설 14시 시작입니다. 30분 전까지 도착 부탁드려요", 2.4), m("h2", "조명 큐시트 수정본 올렸습니다", 2.2), m("f2", "대기실 케이터링은 제가 확인할게요", 2.1)] },
+      { id: "c2", name: "우리 가족", ids: ["f3", "f7", "h6"], unread: 0, msgs: [m("f3", "아들 주말에 집 오니?", 52), m("f7", "오빠 오면 치킨 시키자", 51.9), m("me", "응 토요일 저녁에 갈게", 51), m("h6", "운전 조심해서 와라", 50.8), m("f3", "김치도 챙겨놨다 🍗", 50.5)] },
       { id: "c3", ids: ["f2"], unread: 0, msgs: [m("f2", "내일 화보 촬영 스케줄 보냈어요", 80), m("me", "확인했습니다 감사해요!", 79)] },
+      { id: "c8", ids: ["h3"], unread: 0, msgs: [m("h3", "음원 발매 일정 확정되면 바로 공유드리겠습니다", 20), m("me", "네 감사합니다 팀장님!", 19.5)] },
       { id: "c4", name: "동네 친구들", ids: ["f1", "f4", "f5", "f6"], unread: 5, msgs: [m("f4", "이번 주 토요일 축하주 콜?", 5), m("f5", "나 가능 ㅋㅋ", 4.8), m("f6", "7시 고깃집에서 보자", 4.5), m("f1", "나도 OK", 4.2), m("f4", "주인공은 늦게 와도 됨 ㅋㅋ", 4)] },
+      { id: "c9", ids: ["h4"], unread: 0, msgs: [m("h4", "야 오랜만이다 동창회 올 거지?", 100), m("me", "시간 되면 갈게 ㅋㅋ", 99)] },
+      { id: "c10", ids: ["h5"], unread: 0, msgs: [m("h5", "내일 3시 예약 잡아뒀어요~", 130), m("me", "넵 감사합니다!", 129)] },
       { id: "c5", ids: ["f8"], unread: 0, msgs: [m("f8", "후속곡 믹스 v3 올렸다", 200), m("me", "확인해볼게요 형 고마워요!", 199)] },
+      { id: "c11", ad: 1, ids: ["ad1"], unread: 1, msgs: [m("ad1", "(광고) 오늘만 치킨 5,000원 할인 쿠폰이 도착했어요", 8)] },
+      { id: "c12", ad: 1, ids: ["ad4"], unread: 1, msgs: [m("ad4", "[CJ대한통운] 고객님의 상품이 오늘 배송 예정입니다", 6)] },
+      { id: "c13", ad: 1, ids: ["ad2"], unread: 0, msgs: [m("ad2", "(광고) 이번 주말 신작 예매하고 팝콘 쿠폰 받으세요", 170)] },
+      { id: "c14", ad: 1, ids: ["ad3"], unread: 0, msgs: [m("ad3", "(광고) 올영세일 시작! 최대 70% 할인 혜택 확인하세요", 260)] },
     ] };
   }
-  if (!D.friends.some(f => f.id === "ai1")) D.friends.push({ id: "ai1", name: "AI 챗봇", st: "무엇이든 물어보세요", fav: 0, ai: 1 });
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
@@ -37,19 +48,18 @@ const KakaoApp = (() => {
   const day = ts => new Date(ts).toDateString(), dl = ts => { const d = new Date(ts); return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${"일월화수목금토"[d.getDay()]}요일`; };
   function lt(ts) { const d = new Date(ts), n = new Date(), df = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 0 ? tm(ts) : df === 1 ? "어제" : `${d.getMonth() + 1}월 ${d.getDate()}일`; }
   let tab = "friends", q = "", flt = "all", cur = null, isOpen = false;
-  const UP = ["f2", "f6", "f9"];
   const totalUnread = () => D.chats.reduce((a, c) => a + (c.unread || 0), 0);
 
   function friendsHtml() {
-    const ql = q.trim().toLowerCase(), l = D.friends.filter(f => !ql || f.name.toLowerCase().includes(ql));
+    const ql = q.trim().toLowerCase(), l = D.friends.filter(f => ql ? f.name.toLowerCase().includes(ql) : !f.hid);
     const row = f => `<button class="kk-r" data-k="friend" data-id="${f.id}">${av(f.id, f.name)}<div class="kk-tx"><div class="kk-nm">${esc(f.name)}</div>${f.st ? `<div class="kk-st">${esc(f.st)}</div>` : ""}</div></button>`;
-    const grp = (key, title, arr) => { if (!arr.length) return ""; const cl = !ql && D.ui.col[key]; return `<button class="kk-gh" data-k="grp" data-g="${key}"><span>${title} ${arr.length}</span><i class="${cl ? "cl" : ""}">${I.chev}</i></button>${cl ? "" : arr.map(row).join("")}`; };
-    const head = ql ? "" : `<div class="kk-me">${av("me", "나")}<div class="kk-tx"><div class="kk-nm" style="font-size:16px">나</div><div class="kk-st">오늘도 좋은 하루</div></div></div><div class="kk-pills"><span class="on">친구</span><span>소식</span></div><div class="kk-nc"><b>공지</b><span>카카오톡 새로운 소식을 확인해 보세요</span></div>`;
-    const body = grp("up", "업데이트 프로필", l.filter(f => UP.includes(f.id))) + grp("fav", "즐겨찾기", l.filter(f => f.fav)) + grp("ai", "AI 친구", l.filter(f => f.ai)) + grp("fr", "친구", l.filter(f => !f.fav && !f.ai));
+    const grp = (key, title, arr, cnt, more) => { if (!arr.length) return ""; const cl = !ql && D.ui.col[key]; return `<button class="kk-gh" data-k="grp" data-g="${key}"><span>${title} ${cnt == null ? arr.length : cnt}</span><i class="${cl ? "cl" : ""}">${I.chev}</i></button>${cl ? "" : arr.map(row).join("") + (more || "")}`; };
+    const head = ql ? "" : `<div class="kk-me">${av("me", "박성화")}<div class="kk-tx"><div class="kk-nm" style="font-size:16px">박성화</div><div class="kk-st">오늘도 좋은 하루</div></div></div><div class="kk-pills"><span class="on">친구</span><span>소식</span></div><div class="kk-nc"><b>공지</b><span>카카오톡 새로운 소식을 확인해 보세요</span></div>`;
+    const body = grp("fav", "즐겨찾기", l.filter(f => f.fav)) + grp("fr", "친구", l.filter(f => !f.fav), ql ? null : TOTAL, ql ? "" : `<div class="kk-st" style="padding:10px 20px 14px">그 외 ${TOTAL - l.length}명</div>`);
     return head + (body || `<div class="kk-em">검색 결과가 없습니다</div>`);
   }
   function chatsHtml() {
-    const ql = q.trim().toLowerCase(), l = D.chats.filter(c => c.msgs.length && (flt !== "unread" || c.unread > 0) && (!ql || cname(c).toLowerCase().includes(ql) || c.msgs.some(m => m.text.toLowerCase().includes(ql)))).sort((a, b) => last(b).ts - last(a).ts);
+    const ql = q.trim().toLowerCase(), l = D.chats.filter(c => c.msgs.length && (flt !== "unread" || c.unread > 0) && (!ql || cname(c).toLowerCase().includes(ql) || c.msgs.some(m => m.text.toLowerCase().includes(ql)))).sort((a, b) => (b.pin || 0) - (a.pin || 0) || last(b).ts - last(a).ts);
     const head = ql ? "" : `<div class="kk-pills">${[["all", "전체"], ["unread", "안 읽음"]].map(([k, n]) => `<button class="${flt === k ? "on" : ""}" data-k="flt" data-f="${k}">${n}</button>`).join("")}</div><div class="kk-nc"><b>소식</b><span>친구들의 새로운 소식이 도착했어요</span></div>`;
     return head + (l.map(c => { const m = last(c), gc = c.name || c.ids.length > 1; return `<button class="kk-r" data-k="chat" data-id="${c.id}">${cav(c)}<div class="kk-tx"><div class="kk-nm">${esc(cname(c))}${gc ? `<span class="kk-gc">${c.ids.length + 1}</span>` : ""}</div><div class="kk-pv">${esc(m.text)}</div></div><div class="kk-mt"><span class="kk-tm">${lt(m.ts)}</span>${c.unread ? `<span class="kk-bd">${c.unread}</span>` : ""}</div></button>`; }).join("") || `<div class="kk-em">${ql ? "검색 결과가 없습니다" : flt === "unread" ? "안 읽은 채팅이 없습니다" : "채팅이 없습니다"}</div>`);
   }
@@ -86,7 +96,7 @@ const KakaoApp = (() => {
   function send() {
     const text = inp().value.trim(); if (!text || !cur) return; const c = cur;
     if (!D.chats.includes(c)) D.chats.push(c); c.msgs.push({ id: uid(), from: "me", text, ts: Date.now() }); c.unread = 0; inp().value = ""; grow(); save(); room();
-    setTimeout(() => {
+    if (!c.ad) setTimeout(() => {
       c.msgs.push({ id: uid(), from: c.ids[Math.floor(Math.random() * c.ids.length)], text: REPLIES[Math.floor(Math.random() * REPLIES.length)], ts: Date.now() });
       if (!cur || cur.id !== c.id) c.unread = (c.unread || 0) + 1; save(); if (cur && cur.id === c.id) room(); else renderMain();
     }, 1500 + Math.random() * 1500);
