@@ -9,10 +9,7 @@
     "_starhwa_": "images/app/Instagram/Profile/_starhwa_/IMG_7064.jpeg",
     "민기": "images/app/Instagram/Profile/fixon_n_on/IMG_7072.jpeg",
     "홍중": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg",
-    "NO1": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg",
-    "울윤호": "images/app/Instagram/Profile/yunou._.u/IMG_8361.jpeg",
-    "정윤호": "images/app/Instagram/Profile/yunou._.u/IMG_8361.jpeg",
-    "윤호": "images/app/Instagram/Profile/yunou._.u/IMG_8361.jpeg"
+    "NO1": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg"
   };
   window.HwahoIdentity = Object.freeze({
     avatar(name) {
