@@ -90,12 +90,27 @@
       try {
         const raw = localStorage.getItem(key);
         if (raw == null) return fallback;
-        try { return JSON.parse(raw); }
-        catch (error) {
-          try { sessionStorage.setItem("hwaho-recovery:" + key, raw); } catch (_) {}
-          console.warn("[Hwaho stability] Invalid saved data preserved for this session:", key);
-          return fallback;
-        }
+        try {
+          const value = JSON.parse(raw);
+          const valid = {
+            "ios-insta-v1": v => v && typeof v === "object" && v.like && typeof v.like === "object",
+            "ios-x-v2": v => v && typeof v === "object" && !Array.isArray(v),
+            "ios-safari-v1": v => v && Array.isArray(v.tabs) && v.tabs.length > 0,
+            "ios-chatgpt-v1": v => v && Array.isArray(v.chats),
+            "ios-spotify-v1": v => v && Array.isArray(v.liked),
+            "ios-spotify-playback-v1": v => v && Array.isArray(v.Q),
+            "ios-kakao-v5": v => v && Array.isArray(v.chats) && Array.isArray(v.friends),
+            "nt.notes.v1": v => Array.isArray(v),
+            "nt.folders.v1": v => Array.isArray(v),
+            "nt.att.v1": v => v && typeof v === "object" && !Array.isArray(v),
+            "nt.tags.v1": v => Array.isArray(v),
+            "nt.prefs.v1": v => v && typeof v === "object" && !Array.isArray(v)
+          }[key];
+          if (!valid || valid(value)) return value;
+        } catch (_) {}
+        try { sessionStorage.setItem("hwaho-recovery:" + key, raw); } catch (_) {}
+        console.warn("[Hwaho stability] Invalid saved data preserved for this session:", key);
+        return fallback;
       } catch (_) { return fallback; }
     },
     writeJSON(key, value) {
