@@ -848,11 +848,11 @@ html.pvo #screen:has(#pv.on) #home-indicator{opacity:0;transition:opacity .15s}
 #cal-app #cal-main{box-sizing:border-box;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 #cal-app .cal-top{padding-left:0;padding-right:0}
 
-/* ===== 수정: 갤러리 - 축소 없이 화면 너비 가득, 상하 여백만 ===== */
-#pho-app .pl-grid{grid-template-columns:minmax(0,1fr)!important;grid-auto-rows:auto!important;container-type:normal!important;gap:14px 0!important;padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 24px)!important}
-#pho-app .pl-cell{width:100%!important;height:auto!important;min-height:160px;aspect-ratio:auto!important;overflow:hidden;border-radius:0}
-#pho-app .pl-cell img{position:static!important;inset:auto!important;width:100%!important;height:auto!important;max-width:none!important;object-fit:contain!important;display:block}
-#pho-app .pl-cell .g{position:relative!important;inset:auto!important;width:100%!important;height:auto!important;aspect-ratio:4/3}
+/* ===== 갤러리 썸네일 1:1 정사각형 ===== */
+#pho-app .pl-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;grid-auto-rows:auto!important;container-type:normal!important;gap:2px!important;padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 24px)!important}
+#pho-app .pl-cell{position:relative!important;width:100%!important;height:auto!important;min-height:0!important;aspect-ratio:1/1!important;overflow:hidden;border-radius:0}
+#pho-app .pl-cell img{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;display:block}
+#pho-app .pl-cell .g{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;aspect-ratio:1/1!important}
 
 /* ===== 수정: 카메라 셔터/플래시 연출 ===== */
 .cm-blink.go{animation:shot2 .34s ease-out!important}
