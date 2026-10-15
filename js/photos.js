@@ -460,7 +460,7 @@ const PhotosApp = (() => {
   }));
   const fmtDur = s => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 
-  let real = [], filter = "all", order = "desc", sel = false, selected = new Set(), urls = new Map(), isOpen = false, pendingDel = null;
+  let real = [], filter = "all", order = "asc", sel = false, selected = new Set(), urls = new Map(), isOpen = false, pendingDel = null;
   // 저장소의 Images/Photos 폴더에 있는 사진을 자동으로 불러옵니다.
   let repoPhotos = [];
   let repoPhotosLoaded = false;
@@ -487,7 +487,7 @@ const PhotosApp = (() => {
         id: "repo-photo-" + i, repoPhoto: true, type: "photo",
         name: f.path.split("/").pop(),
         src: "https://raw.githubusercontent.com/cnstkal/hwaho/main/" + f.path.split("/").map(encodeURIComponent).join("/"),
-        ts: i + 1
+        ts: Date.UTC(2025, 0, 1) + i * 86400000
       }));
     } catch (e) { console.warn("저장소 사진을 불러오지 못했습니다.", e); }
   }
