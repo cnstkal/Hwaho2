@@ -43,7 +43,7 @@ const KakaoApp = (() => {
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
-  const av = (id, nm, c = "") => `<div class="kk-av ${c}" style="background:${col(id)}">${esc([...nm][0] || "?")}</div>`;
+  const av = (id, nm, c = "") => `<div class="kk-av ${c}" style="position:relative;overflow:hidden;background:${col(id)}">${esc([...nm][0] || "?")}${window.HwahoIdentity ? window.HwahoIdentity.avatarMarkup(nm) : ""}</div>`;
   const cav = c => c.ids.length > 1 || c.name ? `<div class="kk-gav">${c.ids.slice(0, 4).map(i => `<i style="background:${col(i)}">${esc([...((fr(i) || {}).name || "?")][0])}</i>`).join("")}</div>` : av(c.ids[0], cname(c), "kk-cav");
   const pad = n => String(n).padStart(2, "0"), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
   const day = ts => new Date(ts).toDateString(), dl = ts => { const d = new Date(ts); return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${"일월화수목금토"[d.getDay()]}요일`; };
