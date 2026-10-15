@@ -10,6 +10,8 @@ const ClockApp = (() => {
   const KEY = "ios-clock-v1";
   const DEF = () => ({ cities: ["Asia/Seoul", "America/New_York", "Europe/London", "Asia/Tokyo"], alarms: [{ id: "a1", h: 7, m: 0, label: "기상", rep: [1, 2, 3, 4, 5], on: false }], sw: { run: false, start: 0, acc: 0, laps: [] }, tm: { st: "idle", tot: 0, end: 0, rem: 0, h: 0, m: 5, s: 0 }, snz: 0 });
   let S = null; try { S = JSON.parse(localStorage.getItem(KEY)); } catch (e) {} if (!S || !S.cities || !S.sw || !S.tm) S = DEF();
+  /* 기본 알람: 06:30~08:30 거의 1분 단위로 다수 추가 (처음 한 번만, 모두 꺼짐 상태) */
+  if (!S.seeded) { S.seeded = 1; const ex = new Set(S.alarms.map(a => a.h * 60 + a.m + "|" + a.label)); for (let t = 6 * 60 + 30, i = 0; t <= 8 * 60 + 30; t++, i++) { if (i % 9 === 8) continue; const h = Math.floor(t / 60), m = t % 60, label = i === 0 ? "기상" : "알람"; if (ex.has(t + "|" + label)) continue; S.alarms.push({ id: "d" + t, h, m, label, rep: [1, 2, 3, 4, 5], on: false }); } try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
   if (S.tm.st === "done") S.tm.st = "idle";
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const p2 = n => String(n).padStart(2, "0");

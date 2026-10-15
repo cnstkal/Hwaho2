@@ -127,7 +127,7 @@ const XApp = (() => {
   /* ---- 상태 ---- */
   let tab = "home", prevTab = "home", ftab = "fy", ptab = "post", sMode = "home", sTab = "top", sq = "", detId = null, cmp = null, isOpen = false, toastT = null;
   const nav = () => { const b = (k, i, cls = "") => `<button ${k ? `data-g="nav" data-t="${k}"` : ""} class="${cls}${tab === k ? " on" : ""}" aria-label="${k || "비활성"}">${tab === k && k === "home" ? I.home : i}</button>`;
-    return b("home", I.home, "nfill") + b("search", I.search) + b("", I.bell) + b("", I.mail); };
+    return b("home", I.home, "nfill") + b("", I.search) + b("", I.bell) + b("", I.mail); };
   const feedList = () => { let l = all().filter(p => !p.re && !(p.u === ME && SEEDS.includes(p))).sort((a, b) => b.ts - a.ts); { const i4 = l.findIndex(p => p.id === "t4"), i5 = l.findIndex(p => p.id === "t5"); if (i4 >= 0 && i5 >= 0 && i5 !== i4 + 1) { const [c] = l.splice(i5, 1); l.splice(l.findIndex(p => p.id === "t4") + 1, 0, c); } } if (ftab === "fol") l = l.filter(p => isFol(p.u)); return l; };
   function renderFeed() { const l = feedList(); $("#x-feed").innerHTML = l.length ? l.map(p => postHtml(p)).join("") : `<div class="x-em"><b>아직 게시물이 없어요</b>팔로우한 계정의 게시물이 여기에 표시됩니다.</div>`; document.querySelectorAll("#x-ftabs button").forEach(b => b.classList.toggle("on", b.dataset.k === ftab)); }
   /* ---- 프로필 ---- */
@@ -208,7 +208,7 @@ const XApp = (() => {
       case "compose": openCmp(null); break;
       case "open": break;
       case "dback": $("#x-det").classList.remove("on"); break;
-      case "tag": setTab("search"); doSearch(d.q); break;
+      case "tag": break;
       case "sgo": doSearch(d.q); break;
       case "sback": sMode = "home"; sq = ""; $("#x-q").value = ""; $("#x-q").blur(); renderSearch(); break;
       case "qclr": sq = ""; $("#x-q").value = ""; sMode = "sug"; renderSearch(); $("#x-q").focus(); break;

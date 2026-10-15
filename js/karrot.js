@@ -17,15 +17,19 @@
     {id:8,title:"미개봉 블루투스 이어폰",meta:"송도동 · 5km · 어제",price:45000,cat:"디지털기기",bg:"#e6e6e6",emoji:"🎧",buy:1,st:["chat",0,2],seller:"당근초보",sloc:"송도동",temp:"36.5",time:"어제",chat:0,like:2,view:41,imgs:2,desc:"선물 받았는데 사용하지 않아 판매합니다.\n미개봉이에요."}
   ];
   const mySales=[
-    {id:101,title:"인형 일괄 판매",loc:"송림1동",ago:"2주 전",lift:0,price:3000,buy:1,bg:"linear-gradient(135deg,#efe9df,#c7a583)",emoji:"🧸",views:56,s2:["heart",3],st:"sale"},
-    {id:102,title:"책 일괄판매 (20권)",loc:"송림1동",ago:"2주 전",lift:1,price:20000,bg:"linear-gradient(135deg,#1c1d20,#6b5e4b)",emoji:"📚",views:333,s2:["chat",1],st:"sale"},
-    {id:103,title:"경추베개",loc:"송림1동",ago:"1개월 전",lift:0,price:3000,bg:"linear-gradient(135deg,#efe6cf,#d9c9a0)",emoji:"🛏️",views:21,s2:["heart",0],st:"sale"},
-    {id:104,title:"토스터기",loc:"송림1동",ago:"2개월 전",lift:0,price:8000,bg:"#e9e4dc",emoji:"🍞",views:88,s2:["heart",2],st:"sold"},
-    {id:105,title:"무선 마우스",loc:"송림1동",ago:"3개월 전",lift:0,price:5000,bg:"#e4e7ea",emoji:"🖱️",views:64,s2:["chat",3],st:"sold"},
-    {id:106,title:"에어팟 케이스",loc:"송림1동",ago:"4개월 전",lift:0,price:6000,bg:"#ece6f0",emoji:"🎧",views:41,s2:["heart",1],st:"sold"}
+    {id:101,title:"포커스라이트 오디오 인터페이스 2i2",loc:"송림1동",ago:"3일 전",lift:1,price:90000,buy:1,bg:"linear-gradient(135deg,#2b2d31,#a8322d)",emoji:"🎛️",views:187,s2:["chat",4],st:"sale"},
+    {id:102,title:"슈어 SM58 다이나믹 마이크 + 스탠드",loc:"송림1동",ago:"5일 전",lift:0,price:70000,bg:"linear-gradient(135deg,#c9ccd1,#6d7178)",emoji:"🎤",views:142,s2:["heart",6],st:"sale"},
+    {id:103,title:"AKG K240 모니터링 헤드폰",loc:"송림1동",ago:"1주 전",lift:0,price:45000,bg:"linear-gradient(135deg,#1c1d20,#5a5f66)",emoji:"🎧",views:96,s2:["chat",2],st:"sale"},
+    {id:104,title:"가변 덤벨 20kg 세트 (집에서 안 써요)",loc:"송림1동",ago:"1주 전",lift:0,price:60000,bg:"linear-gradient(135deg,#2a2e35,#7a828c)",emoji:"🏋️",views:121,s2:["heart",5],st:"sale"},
+    {id:105,title:"AB 롤러 + 푸시업 바 세트",loc:"송림1동",ago:"2주 전",lift:0,price:12000,bg:"linear-gradient(135deg,#e4e7ea,#9aa3ad)",emoji:"💪",views:58,s2:["heart",1],st:"sale"},
+    {id:106,title:"M-Audio 미디 키보드 49건반",loc:"송림1동",ago:"1개월 전",lift:0,price:80000,bg:"linear-gradient(135deg,#1f2023,#4a4d52)",emoji:"🎹",views:210,s2:["chat",3],st:"sold"}
   ];
   const rooms=[
+    {id:1,name:"당근",kind:"logo",official:1,ago:"1달 전",msg:"개인정보 이용내역 안내 🥕 우요님 안녕하세요! 개인정보 이용내역을 안내드려요.",unread:2,msgs:[{t:"개인정보 이용내역 안내 🥕 우요님 안녕하세요! 개인정보 이용내역을 안내드려요.",time:"오전 10:02",date:"2026년 9월 10일"}]},
     {id:2,name:"후하호요",loc:"주안동",temp:"41.4",kind:"thumb",tb:"#f5f6f7",ph:1,ago:"1달 전",msg:"쿠팡애서 시킨 배송내역은잇어요",unread:1,msgs:[{me:1,t:"안녕하세요 혹시 구매영수증 같은 거 볼 수 있을까요?",time:"오전 11:56",date:"2026년 9월 10일"},{t:"쿠팡애서 시킨 배송내역은잇어요",time:"오후 12:52",date:"2026년 9월 10일"}]},
+    {id:3,name:"날치알파스타",loc:"삼산2동",temp:"39.7",kind:"thumb",tb:"linear-gradient(135deg,#f6d6e2,#e8b8cc)",emoji:"🍨",ago:"2달 전",msg:"우요님, 거래 잘 하셨나요? 거래한 이웃에게 따뜻한 후기를 남겨주세요.",unread:1,msgs:[{t:"우요님, 거래 잘 하셨나요? 거래한 이웃에게 따뜻한 후기를 남겨주세요.",time:"오후 3:20",date:"2026년 8월 12일"}]},
+    {id:4,name:"Park BGM",kind:"face",official:1,ago:"3달 전",msg:"(광고) 송림1동 좋은 미용실·헬스장을 알고 계신가요?",unread:1,msgs:[{t:"(광고) 송림1동 좋은 미용실·헬스장을 알고 계신가요?",time:"오전 9:30",date:"2026년 7월 3일"}]},
+    {id:5,name:"제이룸",loc:"반곡동",temp:"37.8",kind:"thumb",tb:"linear-gradient(90deg,#d8d2b8,#b9b196)",emoji:"📚",ago:"1주 전",msg:"토스뱅크 6332로 입금됐어요. 바로구매를 이용해주셔서 감사합니다.",unread:0,msgs:[{t:"토스뱅크 6332로 입금됐어요. 바로구매를 이용해주셔서 감사합니다.",time:"오후 6:12",date:"2026년 10월 8일"}]},
     {id:6,name:"마음이",loc:"학익동",temp:"36.9",kind:"thumb",tb:"linear-gradient(135deg,#dfe9f3,#bcd0e4)",emoji:"🧥",ago:"2주 전",msg:"혹시 내일 오후에 거래 가능하실까요?",unread:1,msgs:[{t:"혹시 내일 오후에 거래 가능하실까요?",time:"오후 2:41",date:"2026년 10월 1일"}]}
   ];
   const fmt=n=>typeof n==="number"?(n===0?"나눔":n.toLocaleString("ko-KR")+"원"):n;
@@ -112,7 +116,7 @@
     ".kg-loc b.g{color:#b4b8be;margin-left:9px}",
     ".kg-search{flex:none;margin:2px 16px 0;height:40px;border-radius:10px;background:#f1f2f4;display:flex;align-items:center;gap:8px;padding:0 12px;color:#868b94}",
     ".kg-search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font:inherit;font-size:16px;color:#212529}",
-    ".kg-chips{flex:none;display:flex;gap:8px;padding:0 16px;margin-top:10px;overflow-x:auto;scrollbar-width:none}",
+    ".kg-chips{flex:none;display:flex;gap:8px;padding:0 16px 10px;margin-top:10px;overflow-x:auto;scrollbar-width:none}",
     ".kg-chips::-webkit-scrollbar{display:none}",
     ".kg-chip{flex:none;height:40px;padding:0 16px;border-radius:20px;background:#f1f2f4;color:#2c2f34;font-size:15px;font-weight:500;display:flex;align-items:center;gap:2px;white-space:nowrap}",
     ".kg-chip.on{background:#2a2e35;color:#fff}",
@@ -282,7 +286,7 @@
     const av=r.kind==="logo"?'<span class="m o logo">'+col("logo",38)+'</span>':r.kind==="face"?'<span class="m o" style="background:linear-gradient(160deg,#dfe8f6,#b9c8e0);font-size:30px">🧑</span>':'<span class="m" style="background:'+r.tb+'">'+(r.ph?col("logo",34).replace('<svg','<svg opacity=".12"'):(r.emoji||""))+'</span>'+avatar(32,"").replace('class="kg-av"','class="kg-av s"');
     return '<div class="kg-room '+(r.unread?"":"rd")+'" data-chat="'+r.id+'"><div class="kg-rav">'+av+'</div><div class="kg-rtx"><div class="kg-rn"><b>'+esc(r.name)+'</b>'+(r.official?col("check",20):"")+'<span>'+(r.loc?esc(r.loc)+" · ":"")+r.ago+'</span></div><div class="kg-rm"><span>'+esc(r.msg)+'</span>'+(r.unread?'<i class="kg-bd">'+r.unread+'</i>':"")+'</div></div></div>'}
   function chatScreen(){
-    return '<section class="kg-screen"><header class="kg-top"><b class="kg-h">채팅</b><span class="kg-sp"></span><button class="kg-ib"'+T("채팅 알림")+'>'+svg("bell",26)+'<i class="kg-dot"></i></button><button class="kg-ib"'+T("채팅 설정")+'>'+svg("gear",26)+'<i class="kg-dot"></i></button></header><div class="kg-chips s">'+["전체","중고거래","모임","알바","부동산","중고차"].map((x,i)=>'<button class="kg-chip '+(i?"":"on")+'"'+(i?T("준비 중이에요"):"")+'>'+x+'</button>').join("")+'</div><div class="kg-content" style="padding-bottom:100px">'+rooms.map(room).join("")+'</div></section>'+nav()}
+    return '<section class="kg-screen"><header class="kg-top"><b class="kg-h">채팅</b><span class="kg-sp"></span><button class="kg-ib"'+T("채팅 알림")+'>'+svg("bell",26)+'<i class="kg-dot"></i></button><button class="kg-ib"'+T("채팅 설정")+'>'+svg("gear",26)+'<i class="kg-dot"></i></button></header><div class="kg-chips s">'+["전체","중고거래","모임","알바","부동산","중고차"].map((x,i)=>'<button class="kg-chip '+(i?"":"on")+'"'+(i?T("준비 중이에요"):"")+'>'+x+'</button>').join("")+'</div><div class="kg-content" style="padding-bottom:100px"><div class="kg-ad"'+T("광고")+'><div class="kg-adtop"><div class="kg-adtx"><div class="kg-adt">송림1동 국비 디자인과정 선착순모집중</div><div class="kg-ads"><em>그린컴퓨터아트학원 인천구월점</em><span>· 구월동 · 광고</span>'+svg("info",17,"color:#9a9ea5")+'</div><div class="kg-adr">'+col("star",20)+'<b>4.6</b> · 후기 11</div></div><div class="kg-adimg">국비지원<br><em>무료<br>교육</em></div></div><div class="kg-adbar">'+col("adchat",22)+'<span>저는 6월말~8월 동안 전산회계, 전산세무 과정 수강하고 싶어요</span></div></div>'+rooms.map(room).join("")+'</div></section>'+nav()}
   function chatroom(){
     const r=rooms.find(x=>x.id===chatId)||rooms[1];
     const rows=r.msgs.map((m,i)=>(i===0||r.msgs[i-1].date!==m.date?'<div class="kg-date">'+m.date+'</div>':"")+(m.me?'<div class="kg-mrow me"><i class="kg-tm">'+m.time+'</i><div class="kg-bub me">'+esc(m.t)+'</div></div>':'<div class="kg-mrow">'+avatar(32)+'<div class="kg-bub">'+esc(m.t)+'</div><i class="kg-tm">'+m.time+'</i></div>')).join("");
@@ -374,7 +378,7 @@
     const tt=t.closest("[data-toast]");if(tt){toast(tt.dataset.toast);return}
     const a=t.closest("[data-act]");if(a){act(a.dataset.act,a);return}
     const tab=t.closest("[data-tab]");if(tab){const k=tab.dataset.tab;if(k==="community"||k==="map"){toast("준비 중이에요");return}stack=[];page=k;sheet=null;render();return}
-    const c=t.closest("[data-cat]");if(c){const k=c.dataset.cat;if(k==="중고차"||k==="부동산"){toast("준비 중이에요");return}category=k;render();return}
+    const c=t.closest("[data-cat]");if(c){const k=c.dataset.cat;if(k==="중고차"||k==="부동산"){return}category=k;render();return}
     const h=t.closest("[data-hood]");if(h){hoodIdx=Number(h.dataset.hood);sheet=null;render();return}
     const st=t.closest("[data-saletab]");if(st){saleTab=st.dataset.saletab;render();return}
     const pr=t.closest("[data-product]");if(pr){selected=Number(pr.dataset.product);go("detail");return}
