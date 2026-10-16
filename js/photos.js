@@ -469,16 +469,17 @@ const PhotosApp = (() => {
     repoPhotosLoaded = true;
     try {
       // 폴더 대소문자/이름 차이에 영향받지 않도록 저장소 파일 목록에서 사진 폴더를 찾습니다.
-      const res = await fetch("https://api.github.com/repos/cnstkal/hwaho/git/trees/main?recursive=1");
+      const res = await fetch("https://api.github.com/repos/cnstkal/Hwaho2/git/trees/main?recursive=1");
       if (!res.ok) throw new Error("repository tree unavailable");
       const tree = await res.json();
       const supported = /\.(avif|gif|jpe?g|png|webp|heic|heif)$/i;
       const candidates = (tree.tree || []).filter(f => f.type === "blob" && supported.test(f.path));
       const inPhotoFolder = candidates.filter(f => {
         const parts = f.path.split("/");
-        return parts.length >= 3 &&
+        return parts.length >= 4 &&
           /^(images|image|이미지)$/i.test(parts[0]) &&
-          /^(photos?|포토)$/i.test(parts[1]);
+          /^app$/i.test(parts[1]) &&
+          /^(photos?|포토)$/i.test(parts[2]);
       });
       const files = inPhotoFolder.length ? inPhotoFolder : candidates.filter(f =>
         /(^|\/)(photos?|포토)(\/|$)/i.test(f.path)
@@ -486,7 +487,7 @@ const PhotosApp = (() => {
       repoPhotos = files.map((f, i) => ({
         id: "repo-photo-" + i, repoPhoto: true, type: "photo",
         name: f.path.split("/").pop(),
-        src: "https://raw.githubusercontent.com/cnstkal/hwaho/main/" + f.path.split("/").map(encodeURIComponent).join("/"),
+        src: "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/" + f.path.split("/").map(encodeURIComponent).join("/"),
         ts: Date.UTC(2025, 0, 1) + i * 86400000
       }));
     } catch (e) { console.warn("저장소 사진을 불러오지 못했습니다.", e); }
