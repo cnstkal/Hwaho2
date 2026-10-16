@@ -55,7 +55,9 @@ const SpApp = (() => {
     '<circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="8"/><circle cx="50" cy="50" r="14" fill="#fff" fill-opacity=".3"/>',
     '<path d="M50 14L88 82H12z" fill="#fff" fill-opacity=".25"/><path d="M50 14L88 82H50z" fill="#000" fill-opacity=".18"/>',
   ];
-  const albumCover = "images/app/Spotify/Albums/NO-RECALL/cover.jpg";
+  const albumCover = "images/Spotify/Albums/NO-RECALL/cover.jpg";
+  const albumCovers = { "NO RECALL": "images/Spotify/Albums/NO-RECALL/cover.jpg", "Desire": "images/Spotify/Albums/Desire/cover.jpg", "ENOuGH": "images/Spotify/Albums/ENOuGH/cover.jpg" };
+  const artistPhotos = { mars: "images/Spotify/Artists/mars/profile.jpg", NO1: "images/Spotify/Artists/NO1/profile.jpg", FIXON: "images/Spotify/Artists/FIXON/profile.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/profile.jpg" };
   const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && e.t === "NO RECALL" ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url(\'${albumCover}\') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
@@ -67,7 +69,7 @@ const SpApp = (() => {
     return null;
   }
   const tcv = t => cv(ent("a" + t.ai));
-  const cd = e => `<button class="sp-cd${e.k === "r" ? " ar" : ""}" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b><small>${esc(e.k === "r" ? "아티스트" : e.k === "a" ? AL[e.v][1] : e.k === "p" ? "Spotify" : "내 플레이리스트")}</small></button>`;
+  const cd = e => `<button class="sp-cd${e.k === "r" ? " ar" : ""}" data-a="open" data-id="${e.id}">${e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd" style="--h:${e.h};background:#242424 url(\\'${artistPhotos[e.t]}\\') center/cover no-repeat"></div>` : cv(e)}<b>${esc(e.t)}</b><small>${esc(e.k === "r" ? "아티스트" : e.k === "a" ? AL[e.v][1] : e.k === "p" ? "Spotify" : "내 플레이리스트")}</small></button>`;
   const row = e => `<button class="sp-row" data-a="open" data-id="${e.id}">${cv(e)}<div><b>${esc(e.t)}</b><small>${esc(e.s)}</small></div></button>`;
   const LST = {};
   const trow = (t, i, ctx, num, sub) => `<div class="sp-tr" data-tid="${t.id}" data-ctx="${ctx}" data-i="${i}"><button class="sp-tp" data-a="play">${num === 2 ? `<i>${i + 1}</i>${tcv(t)}` : num ? `<i>${i + 1}</i>` : tcv(t)}<div><b>${esc(t.t)}</b><small>${esc(sub || t.a)}</small></div></button><button class="sp-ib sm" data-a="tm" aria-label="더보기">${I.more}</button></div>`;
