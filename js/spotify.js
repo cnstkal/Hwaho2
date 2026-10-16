@@ -73,7 +73,7 @@ const SpApp = (() => {
     return null;
   }
   const trackCovers = {
-    "mybadiwonagain": "images/Spotify/Albums/mybadiwonagain/cover.jpg",
+    "mybadiwonagain": "images/Spotify/Albums/mybadiwonagain/차가운 법의학 테이블 위의 장갑 낀 손.png",
     "ENOuGH": "images/Spotify/Albums/ENOuGH/n450KXOPudlr2zqc9O6uS-huzVKSz83Y6l16apssUV8jpXtQjnSzbCnk4F_86eInGqIkowhyJ3MSA2NrHMuFroGic_UuN_ATCjgKACGTAMZGRRkhErmGsm1Y6HZ0MbJ_k_UH48bx-ClxI20S13zkjw.webp",
     "ROAR": "images/Spotify/Albums/Desire/oxdh0JpsRP9LPhLd7dMH9_04OGpQJzzjBo2-paAnIbnBLEEckp3MWU5Pq5sImabf_i2tOspZewx7lV394I8_SE3gKzXxKEtEx7JudTW7_iDj4mP2h9YmtIKUCjGVrLPJeOnVQCfW7zHl8oF1kSQOdQ.webp",
     "BAD": "images/Spotify/Albums/BAD/HQaskOQpQWMbYI54tsIbxaVx6eMa1ZEkZSW1Bh_YouNKLvs7M1ejtl9h4fs-488Jrfuxs_feu-sbetEVXGVmBSNBle1N1o7lA1QSnO-bcOuLMxUUKF9SktwyJz_groKBtPJlpkbhxCw_2V03CInBBA.webp",
@@ -82,7 +82,7 @@ const SpApp = (() => {
     "Skin": "images/Spotify/Albums/Skin/피셰카네의 구름 낀 수변 도시 풍경.png",
     "In Your Fantasy": "images/Spotify/Albums/In-Your-Fantasy/'.webp",
     "Lemon Drop": "images/Spotify/Albums/Lemon-Drop/KduRZuuDy7hOcFWtKUIL8dQEkfSSGnkE2JZpxYhSdV-jY_i9Zlmn3CAVKD3tP7UpzxLgCaFkoWNRVdyp0bGusJd6k1x8isrvfWB5uRy8k0CTp2C82G8jWjGbneJ3y1PKdpxCUpvisj2uqbqZaR8Q7Q.webp",
-    "Dinero": "images/Spotify/Albums/Dinero/cover.jpg"
+    "Dinero": "images/Spotify/Albums/Dinero/OTq_mNv4rzmLqSP7ONfPKONGxGLWPkbc_F3CJzJy6584dPZLQ0TRGp4qfH7U6uSrjszbnO2f9pBsq3Z91rHWTabWOWuvdnWZsCupQ4sbibTj7arbWq8V97M2jArh2LPV4zlueeiG-2FBmlANQz76Sg.webp"
   };
   const tcv = t => trackCovers[t.t] ? `<div class="sp-cv" style="background:#242424 url('${U(trackCovers[t.t])}') center/cover no-repeat"></div>` : cv(ent("a" + t.ai));
   const cd = e => `<button class="sp-cd${e.k === "r" ? " ar" : ""}" data-a="open" data-id="${e.id}">${e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd" style="--h:${e.h};background:#242424 url('${U(artistPhotos[e.t])}') center/cover no-repeat"></div>` : cv(e)}<b>${esc(e.t)}</b><small>${esc(e.k === "r" ? "아티스트" : e.k === "a" ? AL[e.v][1] : e.k === "p" ? "Spotify" : "내 플레이리스트")}</small></button>`;
