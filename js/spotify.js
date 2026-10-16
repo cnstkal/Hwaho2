@@ -279,7 +279,7 @@ const SpApp = (() => {
   const vv = window.visualViewport, kfit = () => { if (!isOpen || !vv) return; const k = Math.max(0, window.innerHeight - vv.height - vv.offsetTop); el.style.bottom = k + "px"; el.classList.toggle("kb", k > 80); };
   if (vv) { vv.addEventListener("resize", kfit); vv.addEventListener("scroll", kfit); }
   paintTab(); sync();
-  function open() { if (isOpen) return; isOpen = true; originFrom(el, "spotify"); screen.classList.remove("app-light"); setTimeout(() => { if (isOpen) screen.classList.remove("app-light"); }, 200); el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false"); if (tab === "hm") paintTab(); }
+  function open() { if (isOpen) return; isOpen = true; if (typeof originFrom === "function") originFrom(el, "spotify"); screen.classList.remove("app-light"); setTimeout(() => { if (isOpen) screen.classList.remove("app-light"); }, 200); el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false"); if (tab === "hm") paintTab(); }
   function close() {
     if (!isOpen) return; isOpen = false; shut(); $("#sp-pl").classList.remove("on"); el.classList.remove("open", "kb"); el.setAttribute("aria-hidden", "true");
     setTimeout(() => { if (!isOpen) { el.classList.remove("show"); el.style.bottom = ""; } }, 430);
