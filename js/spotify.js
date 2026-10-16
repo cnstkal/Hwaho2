@@ -58,15 +58,17 @@ const SpApp = (() => {
     '<circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="8"/><circle cx="50" cy="50" r="14" fill="#fff" fill-opacity=".3"/>',
     '<path d="M50 14L88 82H12z" fill="#fff" fill-opacity=".25"/><path d="M50 14L88 82H50z" fill="#000" fill-opacity=".18"/>',
   ];
+  const U = p => encodeURI(p).replace(/'/g, "%27");
   const albumCovers = { "Desire": "images/Spotify/Albums/Desire/oxdh0JpsRP9LPhLd7dMH9_04OGpQJzzjBo2-paAnIbnBLEEckp3MWU5Pq5sImabf_i2tOspZewx7lV394I8_SE3gKzXxKEtEx7JudTW7_iDj4mP2h9YmtIKUCjGVrLPJeOnVQCfW7zHl8oF1kSQOdQ.webp", "ENOuGH": "images/Spotify/Albums/ENOuGH/n450KXOPudlr2zqc9O6uS-huzVKSz83Y6l16apssUV8jpXtQjnSzbCnk4F_86eInGqIkowhyJ3MSA2NrHMuFroGic_UuN_ATCjgKACGTAMZGRRkhErmGsm1Y6HZ0MbJ_k_UH48bx-ClxI20S13zkjw.webp" };
-  const artistPhotos = { mars: "images/Spotify/Artists/mars/1969d38e20fc29da97dda95cfb8fd503.jpg", NO1: "images/Spotify/Artists/NO1/a855c56fa66453c89fe5abd272d6ea09.jpg", FIXON: "images/Spotify/Artists/FIXON/13790ef252a695e71b923c001fc97fb5.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/6cf131e8a471bdd258903aff74753431.jpg" };
-  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albumCovers[e.t] ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url('${albumCovers[e.t]}') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
+  const artistPhotos = { MARS: "images/Spotify/Artists/mars/1969d38e20fc29da97dda95cfb8fd503.jpg", NO1: "images/Spotify/Artists/NO1/a855c56fa66453c89fe5abd272d6ea09.jpg", FIXON: "images/Spotify/Artists/FIXON/13790ef252a695e71b923c001fc97fb5.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/6cf131e8a471bdd258903aff74753431.jpg" };
+  const albCv = n => { if (albumCovers[n]) return albumCovers[n]; const a = AL.find(x => x[0] === n), s = a && a[4].find(x => trackCovers[x[0]]); return s ? trackCovers[s[0]] : null; };
+  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albCv(e.t) ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url('${U(albCv(e.t))}') center/cover no-repeat"></div>` : e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd${c || ""}" style="--h:${e.h};background:#242424 url('${U(artistPhotos[e.t])}') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
     if (id === "liked") return { id, k: "l", t: "좋아요 표시한 곡", s: "플레이리스트 • " + S.liked.length + "곡", h: 270, tr: S.liked.filter(i => T[i]).reverse() };
     if (k === "a" && AL[x]) { const a = AL[x]; return { id, k: "a", t: a[0], s: "앨범 • " + a[1], h: a[2], v: +x, tr: T.filter(t => t.ai == x).map(t => t.id) }; }
     if (k === "p" && PL[x]) { const p = PL[x]; return { id, k: "p", t: p[0], s: "플레이리스트 • Spotify", h: p[1], v: +x, tr: p[2].filter(i => T[i]) }; }
-    if (k === "r" && AR[x]) { const r = AR[x]; return { id, k: "r", t: r.n, s: "아티스트", h: r.h, v: +x, tr: r.n === "mars" ? T.filter(t => t.ai === 0).map(t => t.id) : [] }; }
+    if (k === "r" && AR[x]) { const r = AR[x]; return { id, k: "r", t: r.n, s: "아티스트", h: r.h, v: +x, tr: T.filter(t => AL[t.ai][1] === r.n).map(t => t.id) }; }
     if (k === "u") { const u = S.ups.find(u => u.id === id); return u ? { id, k: "u", t: u.name, s: "플레이리스트 • 떵화", h: u.h, v: S.ups.indexOf(u), tr: u.tr.filter(i => T[i]) } : null; }
     return null;
   }
@@ -82,8 +84,8 @@ const SpApp = (() => {
     "Lemon Drop": "images/Spotify/Albums/Lemon-Drop/KduRZuuDy7hOcFWtKUIL8dQEkfSSGnkE2JZpxYhSdV-jY_i9Zlmn3CAVKD3tP7UpzxLgCaFkoWNRVdyp0bGusJd6k1x8isrvfWB5uRy8k0CTp2C82G8jWjGbneJ3y1PKdpxCUpvisj2uqbqZaR8Q7Q.webp",
     "Dinero": "images/Spotify/Albums/Dinero/cover.jpg"
   };
-  const tcv = t => trackCovers[t.t] ? `<div class="sp-cv" style="background:#242424 url('${trackCovers[t.t]}') center/cover no-repeat"></div>` : cv(ent("a" + t.ai));
-  const cd = e => `<button class="sp-cd${e.k === "r" ? " ar" : ""}" data-a="open" data-id="${e.id}">${e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd" style="--h:${e.h};background:#242424 url('${artistPhotos[e.t]}') center/cover no-repeat"></div>` : cv(e)}<b>${esc(e.t)}</b><small>${esc(e.k === "r" ? "아티스트" : e.k === "a" ? AL[e.v][1] : e.k === "p" ? "Spotify" : "내 플레이리스트")}</small></button>`;
+  const tcv = t => trackCovers[t.t] ? `<div class="sp-cv" style="background:#242424 url('${U(trackCovers[t.t])}') center/cover no-repeat"></div>` : cv(ent("a" + t.ai));
+  const cd = e => `<button class="sp-cd${e.k === "r" ? " ar" : ""}" data-a="open" data-id="${e.id}">${e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd" style="--h:${e.h};background:#242424 url('${U(artistPhotos[e.t])}') center/cover no-repeat"></div>` : cv(e)}<b>${esc(e.t)}</b><small>${esc(e.k === "r" ? "아티스트" : e.k === "a" ? AL[e.v][1] : e.k === "p" ? "Spotify" : "내 플레이리스트")}</small></button>`;
   const row = e => `<button class="sp-row" data-a="open" data-id="${e.id}">${cv(e)}<div><b>${esc(e.t)}</b><small>${esc(e.s)}</small></div></button>`;
   const LST = {};
   const trow = (t, i, ctx, num, sub) => `<div class="sp-tr" data-tid="${t.id}" data-ctx="${ctx}" data-i="${i}"><button class="sp-tp" data-a="play">${num === 2 ? `<i>${i + 1}</i>${tcv(t)}` : num ? `<i>${i + 1}</i>` : tcv(t)}<div><b>${esc(t.t)}</b><small>${esc(sub || t.a)}</small></div></button><button class="sp-ib sm" data-a="tm" aria-label="더보기">${I.more}</button></div>`;
@@ -139,9 +141,9 @@ const SpApp = (() => {
     if (!t) return;
     const a = ent("a" + t.ai), lk = S.liked.includes(t.id), h = $("#sp-mini");
     h.style.setProperty("--h", a.h); $("#sp-pl").style.setProperty("--h", a.h);
-    $("#sp-mcv").innerHTML = cv(a); $("#sp-mt").textContent = t.t; $("#sp-ma").textContent = t.a;
+    $("#sp-mcv").innerHTML = tcv(t); $("#sp-mt").textContent = t.t; $("#sp-ma").textContent = t.a;
     $("#sp-mh").innerHTML = I.heart(lk); $("#sp-mp").innerHTML = playing ? I.pause : I.play;
-    $("#sp-fcv").innerHTML = cv(a); $("#sp-ft").textContent = t.t; $("#sp-fa").textContent = t.a; $("#sp-fh").innerHTML = I.heart(lk);
+    $("#sp-fcv").innerHTML = tcv(t); $("#sp-ft").textContent = t.t; $("#sp-fa").textContent = t.a; $("#sp-fh").innerHTML = I.heart(lk);
     $("#sp-fp").innerHTML = playing ? I.pause : I.play; $("#sp-fs").classList.toggle("on", shuf); $("#sp-fr").classList.toggle("on", rep > 0);
     $("#sp-fr").innerHTML = I.rep + (rep === 2 ? "<sup>1</sup>" : "");
     const e = src && ent(src); $("#sp-fsrc").textContent = e ? e.t : "검색 결과";
@@ -232,7 +234,7 @@ const SpApp = (() => {
       case "open": stack.push(d.id); paintDt(); break;
       case "back": stack.pop(); paintDt(); break;
       case "bell": toast("새로운 알림이 없어요"); break;
-      case "play": { const ctx = tr.dataset.ctx, ids = ctx === "search" ? LST.search : ent(ctx).tr; startQ(ids, +tr.dataset.i, ctx); break; }
+      case "play": { const ctx = tr.dataset.ctx === "popular" ? "p0" : tr.dataset.ctx, ids = ctx === "search" ? LST.search : (ent(ctx) || { tr: [] }).tr; startQ(ids, +tr.dataset.i, ctx); break; }
       case "pent": playEnt(ent(stack[stack.length - 1])); break;
       case "shuf": if (shuf) { shuf = false; undoShuf(); } else { shuf = true; if (qi >= 0) doShuf(); } sync(); break;
       case "rep": rep = (rep + 1) % 3; sync(); break;
