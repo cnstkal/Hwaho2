@@ -138,7 +138,7 @@ const SpApp = (() => {
     return `<div class="sp-hd"><button class="sp-av" data-a="set" aria-label="설정">떵</button><b>${gr}</b><span class="sp-sp"></span><button class="sp-ib" data-a="bell" aria-label="알림">${I.bell}</button><button class="sp-ib" data-a="sch" aria-label="검색" aria-disabled="true" style="opacity:.38;pointer-events:none">${I.search()}</button></div>`
       + `<div class="sp-qg">${["liked", "p0", "a0", "a3"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
       + sec("최근 재생", rc.map(cd).join(""))
-      + sec("추천 아티스트", AR.map((_, i) => cd(ent("r" + i))).join(""));
+      + sec("추천 아티스트", AR.slice(0, 5).map((_, i) => cd(ent("r" + i))).join(""));
   }
   function seBody() {
     const q = se.q.trim().toLowerCase(), b = $("#sp-sbd");
