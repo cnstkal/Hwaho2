@@ -62,7 +62,14 @@ const SpApp = (() => {
   const albumCovers = { "Desire": "images/Spotify/Albums/Desire/oxdh0JpsRP9LPhLd7dMH9_04OGpQJzzjBo2-paAnIbnBLEEckp3MWU5Pq5sImabf_i2tOspZewx7lV394I8_SE3gKzXxKEtEx7JudTW7_iDj4mP2h9YmtIKUCjGVrLPJeOnVQCfW7zHl8oF1kSQOdQ.webp", "ENOuGH": "images/Spotify/Albums/ENOuGH/n450KXOPudlr2zqc9O6uS-huzVKSz83Y6l16apssUV8jpXtQjnSzbCnk4F_86eInGqIkowhyJ3MSA2NrHMuFroGic_UuN_ATCjgKACGTAMZGRRkhErmGsm1Y6HZ0MbJ_k_UH48bx-ClxI20S13zkjw.webp" };
   const artistPhotos = { MARS: "images/Spotify/Artists/mars/1969d38e20fc29da97dda95cfb8fd503.jpg", NO1: "images/Spotify/Artists/NO1/a855c56fa66453c89fe5abd272d6ea09.jpg", FIXON: "images/Spotify/Artists/FIXON/13790ef252a695e71b923c001fc97fb5.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/6cf131e8a471bdd258903aff74753431.jpg" };
   const albCv = n => { if (albumCovers[n]) return albumCovers[n]; const a = AL.find(x => x[0] === n), s = a && a[4].find(x => trackCovers[x[0]]); return s ? trackCovers[s[0]] : null; };
-  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albCv(e.t) ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url('${U(albCv(e.t))}') center/cover no-repeat"></div>` : e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd${c || ""}" style="--h:${e.h};background:#242424 url('${U(artistPhotos[e.t])}') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
+  const top10Cover = (c = "") => {
+    const ids = PL[0][2].slice(0, 4), tiles = ids.map(id => {
+      const t = T[id], path = t && (trackCovers[t.t] || albumCovers[AL[t.ai][0]]);
+      return path ? `<div style="background:#242424 url('${U(path)}') center/cover no-repeat"></div>` : '<div style="background:#333"></div>';
+    }).join("");
+    return `<div class="sp-cv${c}" style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0;overflow:hidden">${tiles}</div>`;
+  };
+  const cv = (e, c) => e.k === "p" && e.v === 0 ? top10Cover(c || "") : e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albCv(e.t) ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url('${U(albCv(e.t))}') center/cover no-repeat"></div>` : e.k === "r" && artistPhotos[e.t] ? `<div class="sp-cv rd${c || ""}" style="--h:${e.h};background:#242424 url('${U(artistPhotos[e.t])}') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
     if (id === "liked") return { id, k: "l", t: "좋아요 표시한 곡", s: "플레이리스트 • " + S.liked.length + "곡", h: 270, tr: S.liked.filter(i => T[i]).reverse() };
