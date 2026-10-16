@@ -15,9 +15,6 @@ window.APPS = {
     { id: "calendar", label: "캘린더", dynamic: "calendar" },
     { id: "photos", label: "사진", img: "images/app/Photos/photos.svg", svg:
       `<rect width="60" height="60" fill="#fff"/><g style="mix-blend-mode:multiply"><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ffcc00"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ff9500" transform="rotate(45 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ff3b30" transform="rotate(90 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ff2d92" transform="rotate(135 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#af52de" transform="rotate(180 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#007aff" transform="rotate(225 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#32ade6" transform="rotate(270 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#34c759" transform="rotate(315 30 30)"/></g>` },
-    { id: "camera", label: "카메라", img: "images/app/Camera/camera.svg", svg:
-      g("gc", "#8e8e93", "#3a3a3c") +
-      `<rect x="14" y="21" width="32" height="22" rx="5" fill="#1c1c1e"/><rect x="22" y="17" width="12" height="6" rx="2" fill="#1c1c1e"/><circle cx="30" cy="32" r="8" fill="#2c2c2e" stroke="#8e8e93" stroke-width="1.5"/><circle cx="30" cy="32" r="4.5" fill="#0a84ff" opacity=".55"/><circle cx="41" cy="25" r="1.5" fill="#ffd60a"/>` },
     { id: "messages", label: "메시지", img: "images/app/iMessage/ios-message.svg", svg:
       g("ms", "#62e86f", "#12b52b") +
       `<path d="M30 15c-9.400 0-17 6.100-17 13.700 0 4.300 2.400 8.100 6.200 10.600-.4 2-1.500 4-3 5.700 3.200-.2 6-1.400 8-3 1.800.5 3.800.7 5.800.7 9.400 0 17-6.100 17-13.700S39.400 15 30 15z" fill="#fff"/>` },
