@@ -57,7 +57,7 @@ const SpApp = (() => {
   ];
   const albumCovers = { "NO RECALL": "images/Spotify/Albums/NO-RECALL/cover.jpg", "Desire": "images/Spotify/Albums/Desire/cover.jpg", "ENOuGH": "images/Spotify/Albums/ENOuGH/cover.jpg" };
   const artistPhotos = { mars: "images/Spotify/Artists/mars/profile.jpg", NO1: "images/Spotify/Artists/NO1/profile.jpg", FIXON: "images/Spotify/Artists/FIXON/profile.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/profile.jpg" };
-  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && e.t === "NO RECALL" ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url(\'${albumCover}\') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
+  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albumCovers[e.t] ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url(\'${albumCover}\') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
     if (id === "liked") return { id, k: "l", t: "좋아요 표시한 곡", s: "플레이리스트 • " + S.liked.length + "곡", h: 270, tr: S.liked.slice().reverse() };
