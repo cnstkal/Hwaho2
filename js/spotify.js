@@ -24,7 +24,7 @@ const SpApp = (() => {
   };
   /* ---------- 데이터 ---------- */
   const AL = [
-    ["새벽의 온도", "네온 리버", 265, "인디", [["첫 번째 불빛", 201], ["유리창", 187], ["밤 버스", 233], ["온도", 176]]],
+    ["NO RECALL", "mars", 265, "힙합", [["3AM", 201], ["idontmissyoulikethat", 187], ["혼", 233]]],
     ["Paper Planes", "Luna Harbor", 330, "팝", [["Skyline Letters", 198], ["Paper Planes", 214], ["Soft Landing", 189], ["Tiny Orbit", 225]]],
     ["모래시계", "도시 곡선", 30, "힙합", [["오후 네 시", 172], ["골목 지도", 203], ["모래시계", 196], ["환승", 181]]],
     ["Static Bloom", "Velvet Static", 350, "록", [["Wired Heart", 207], ["Static Bloom", 231], ["Low Voltage", 194], ["Afterglow", 248]]],
@@ -36,7 +36,7 @@ const SpApp = (() => {
     ["Overdrive", "Velvet Static", 10, "록", [["Overdrive", 199], ["Red Line", 187], ["Burnout", 212], ["Quiet Riot Act", 234]]],
   ];
   const T = []; AL.forEach((a, ai) => a[4].forEach((s, i) => T.push({ id: T.length, t: s[0], a: a[1], ai, n: i + 1, d: s[1] })));
-  const AR = [...new Set(AL.map(a => a[1]))].map((n, i) => ({ id: i, n, h: AL.find(a => a[1] === n)[2] }));
+  const AR = [{ id: 0, n: "mars", h: 265 }, { id: 1, n: "NO1", h: 330 }, { id: 2, n: "FIXON", h: 30 }, { id: 3, n: "ATEEZ", h: 190 }];
   const byG = (...g) => T.filter(t => g.includes(AL[t.ai][3])).map(t => t.id);
   const PL = [
     ["오늘의 인기 곡 Top 20", 140, T.filter(t => t.n <= 2).map(t => t.id)], ["집중이 필요할 때", 190, byG("일렉트로닉", "재즈")],
@@ -55,7 +55,8 @@ const SpApp = (() => {
     '<circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="8"/><circle cx="50" cy="50" r="14" fill="#fff" fill-opacity=".3"/>',
     '<path d="M50 14L88 82H12z" fill="#fff" fill-opacity=".25"/><path d="M50 14L88 82H50z" fill="#000" fill-opacity=".18"/>',
   ];
-  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
+  const albumCover = "images/app/Spotify/Albums/NO-RECALL/cover.jpg";
+  const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && e.t === "NO RECALL" ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url(\'${albumCover}\') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
     if (id === "liked") return { id, k: "l", t: "좋아요 표시한 곡", s: "플레이리스트 • " + S.liked.length + "곡", h: 270, tr: S.liked.slice().reverse() };
