@@ -55,7 +55,6 @@ const SpApp = (() => {
     '<circle cx="50" cy="50" r="34" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="8"/><circle cx="50" cy="50" r="14" fill="#fff" fill-opacity=".3"/>',
     '<path d="M50 14L88 82H12z" fill="#fff" fill-opacity=".25"/><path d="M50 14L88 82H50z" fill="#000" fill-opacity=".18"/>',
   ];
-  const albumCover = "images/Spotify/Albums/NO-RECALL/cover.jpg";
   const albumCovers = { "NO RECALL": "images/Spotify/Albums/NO-RECALL/cover.jpg", "Desire": "images/Spotify/Albums/Desire/cover.jpg", "ENOuGH": "images/Spotify/Albums/ENOuGH/cover.jpg" };
   const artistPhotos = { mars: "images/Spotify/Artists/mars/profile.jpg", NO1: "images/Spotify/Artists/NO1/profile.jpg", FIXON: "images/Spotify/Artists/FIXON/profile.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/profile.jpg" };
   const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && e.t === "NO RECALL" ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url(\'${albumCover}\') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
