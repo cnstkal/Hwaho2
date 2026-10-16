@@ -27,7 +27,7 @@ const SpApp = (() => {
     ["NO RECALL", "mars", 265, "힙합", [["3AM", 201], ["idontmissyoulikethat", 187], ["혼", 233]]],
     ["Paper Planes", "Luna Harbor", 330, "팝", [["Skyline Letters", 198], ["Paper Planes", 214], ["Soft Landing", 189], ["Tiny Orbit", 225]]],
     ["모래시계", "도시 곡선", 30, "힙합", [["오후 네 시", 172], ["골목 지도", 203], ["모래시계", 196], ["환승", 181]]],
-    ["Static Bloom", "Velvet Static", 350, "록", [["Wired Heart", 207], ["Static Bloom", 231], ["Low Voltage", 194], ["Afterglow", 248]]],
+    ["ENOuGH", "NO1", 350, "록", [["ENOuGH", 231]]],
     ["Midnight Grid", "Orbit Eleven", 190, "일렉트로닉", [["Grid Runner", 236], ["Pulse Theory", 212], ["Midnight Grid", 254], ["Cold Boot", 199]]],
     ["푸른 거실", "미지근한 오후", 200, "재즈", [["일요일 커피", 245], ["푸른 거실", 221], ["느린 창문", 208], ["늦은 산책", 233]]],
     ["Honey Static", "Kite & Co.", 45, "R&B", [["Honey Static", 205], ["Slow Burn", 227], ["Velvet Rain", 218], ["Late Reply", 191]]],
