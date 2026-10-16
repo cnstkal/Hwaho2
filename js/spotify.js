@@ -136,7 +136,7 @@ const SpApp = (() => {
     const h = new Date().getHours(), gr = h < 5 || h >= 21 ? "좋은 밤이에요" : h < 12 ? "좋은 아침이에요" : h < 18 ? "좋은 오후예요" : "좋은 저녁이에요";
     const sec = (t, l) => `<h2 class="sp-h">${t}</h2><div class="sp-hs">${l}</div>`, rc = [...new Set(S.recent)].map(ent).filter(Boolean).slice(0, 10);
     return `<div class="sp-hd"><button class="sp-av" data-a="set" aria-label="설정">떵</button><b>${gr}</b><span class="sp-sp"></span><button class="sp-ib" data-a="bell" aria-label="알림">${I.bell}</button><button class="sp-ib" data-a="sch" aria-label="검색" aria-disabled="true" style="opacity:.38;pointer-events:none">${I.search()}</button></div>`
-      + `<div class="sp-qg">${["liked", "p0", "a0", "p1", "a3", "p2"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
+      + `<div class="sp-qg">${["liked", "p0", "a0", "a3"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
       + sec("최근 재생", rc.map(cd).join(""))
       + sec("추천 아티스트", AR.map((_, i) => cd(ent("r" + i))).join(""));
   }
