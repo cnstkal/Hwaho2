@@ -235,7 +235,7 @@ const SpApp = (() => {
       case "addto": { const u = S.ups.find(x => x.id === d.id); if (u.tr.includes(mT)) toast("이미 추가된 곡이에요"); else { u.tr.push(mT); save(); refresh(); toast("\"" + u.name + "\"에 추가됨"); } shut(); break; }
       case "mrm": { const u = S.ups.find(x => x.id === mC); if (u) { u.tr.splice(u.tr.indexOf(mT), 1); save(); } shut(); refresh(); toast("플레이리스트에서 삭제됨"); break; }
       case "malbum": shut(); $("#sp-pl").classList.remove("on"); stack.push("a" + T[mT].ai); paintDt(); break;
-      case "martist": shut(); $("#sp-pl").classList.remove("on"); stack.push("r" + AR.findIndex(r => r.n === T[mT].a)); paintDt(); break;
+      case "martist": break;
       case "q": qSheet(); break;
       case "jump": qi = +d.k; pos = 0; setPlay(true); shut(); break;
       case "dv": sheet(`<div class="sp-sh1"><b style="font-size:18px">기기 선택</b></div>` + si(I.dev, "이 iPhone", "shut", "g") + `<p>다른 기기와는 연결할 수 없어요.</p>`); break;
