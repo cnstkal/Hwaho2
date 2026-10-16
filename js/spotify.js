@@ -24,22 +24,25 @@ const SpApp = (() => {
   };
   /* ---------- 데이터 ---------- */
   const AL = [
-    ["NO RECALL", "mars", 265, "힙합", [["3AM", 201], ["idontmissyoulikethat", 187], ["혼", 233]]],
+    ["NO RECALL", "MARS", 265, "힙합", [["3AM", 201], ["mybadiwonagain", 187], ["혼", 233]]],
     ["Paper Planes", "Luna Harbor", 330, "팝", [["Skyline Letters", 198], ["Paper Planes", 214], ["Soft Landing", 189], ["Tiny Orbit", 225]]],
     ["모래시계", "도시 곡선", 30, "힙합", [["오후 네 시", 172], ["골목 지도", 203], ["모래시계", 196], ["환승", 181]]],
     ["ENOuGH", "NO1", 350, "록", [["ENOuGH", 143]]],
     ["Midnight Grid", "Orbit Eleven", 190, "일렉트로닉", [["Grid Runner", 236], ["Pulse Theory", 212], ["Midnight Grid", 254], ["Cold Boot", 199]]],
-    ["Desire", "FIXON", 200, "힙합", [["Tunnel", 147], ["AUTOBAHN", 172], ["ROAR", 154]]],
+    ["Desire", "FIXON", 200, "힙합", [["Tunnel", 147], ["AUTOBAHN", 172], ["ROAR", 154], ["Dinero", 205]]],
     ["Honey Static", "Kite & Co.", 45, "R&B", [["Honey Static", 205], ["Slow Burn", 227], ["Velvet Rain", 218], ["Late Reply", 191]]],
     ["작은 방", "하루종일", 140, "어쿠스틱", [["기타와 햇살", 189], ["작은 방", 202], ["빈 의자", 176], ["귀갓길", 217]]],
     ["Neon Garden", "Luna Harbor", 300, "팝", [["Neon Garden", 193], ["Glass Hours", 208], ["Daydream Loop", 186], ["Paper Moon", 222]]],
     ["Overdrive", "Velvet Static", 10, "록", [["Overdrive", 199], ["Red Line", 187], ["Burnout", 212], ["Quiet Riot Act", 234]]],
+    ["BAD", "ATEEZ", 190, "K-pop", [["BAD", 193], ["Adrenaline", 201], ["In Your Fantasy", 188], ["Lemon Drop", 179]]],
+    ["Why Do You Love", "NO1", 350, "록", [["Why Do You Love", 204]]],
+    ["Skin", "MARS", 265, "힙합", [["Skin", 190]]],
   ];
   const T = []; AL.forEach((a, ai) => a[4].forEach((s, i) => T.push({ id: T.length, t: s[0], a: a[1], ai, n: i + 1, d: s[1] })));
-  const AR = [{ id: 0, n: "mars", h: 265 }, { id: 1, n: "NO1", h: 330 }, { id: 2, n: "FIXON", h: 30 }, { id: 3, n: "ATEEZ", h: 190 }];
+  const AR = [{ id: 0, n: "MARS", h: 265 }, { id: 1, n: "NO1", h: 330 }, { id: 2, n: "FIXON", h: 30 }, { id: 3, n: "ATEEZ", h: 190 }];
   const byG = (...g) => T.filter(t => g.includes(AL[t.ai][3])).map(t => t.id);
   const PL = [
-    ["오늘의 인기 곡 Top 10", 140, [1, 11, 18, 0, 2, 12, 13, 14, 3, 4]], ["집중이 필요할 때", 190, byG("일렉트로닉", "재즈")],
+    ["오늘의 인기 곡 Top 10", 140, [1, 11, 18, 35, 22, 39, 36, 42, 37, 38]], ["집중이 필요할 때", 190, byG("일렉트로닉", "재즈")],
     ["드라이브 믹스", 20, byG("록", "팝", "힙합")], ["R&B 무드", 45, byG("R&B", "팝")],
   ];
   const GN = [["팝", "#8d67ab"], ["힙합", "#ba5d07"], ["인디", "#1e3264"], ["록", "#e8115b"], ["일렉트로닉", "#0d73ec"], ["재즈", "#477d95"], ["R&B", "#dc148c"], ["어쿠스틱", "#148a08"]];
