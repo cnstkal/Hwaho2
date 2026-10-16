@@ -63,11 +63,11 @@ const SpApp = (() => {
   const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albumCovers[e.t] ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url('${albumCovers[e.t]}') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
-    if (id === "liked") return { id, k: "l", t: "좋아요 표시한 곡", s: "플레이리스트 • " + S.liked.length + "곡", h: 270, tr: S.liked.slice().reverse() };
+    if (id === "liked") return { id, k: "l", t: "좋아요 표시한 곡", s: "플레이리스트 • " + S.liked.length + "곡", h: 270, tr: S.liked.filter(i => T[i]).reverse() };
     if (k === "a" && AL[x]) { const a = AL[x]; return { id, k: "a", t: a[0], s: "앨범 • " + a[1], h: a[2], v: +x, tr: T.filter(t => t.ai == x).map(t => t.id) }; }
-    if (k === "p" && PL[x]) { const p = PL[x]; return { id, k: "p", t: p[0], s: "플레이리스트 • Spotify", h: p[1], v: +x, tr: p[2] }; }
+    if (k === "p" && PL[x]) { const p = PL[x]; return { id, k: "p", t: p[0], s: "플레이리스트 • Spotify", h: p[1], v: +x, tr: p[2].filter(i => T[i]) }; }
     if (k === "r" && AR[x]) { const r = AR[x]; return { id, k: "r", t: r.n, s: "아티스트", h: r.h, v: +x, tr: r.n === "mars" ? T.filter(t => t.ai === 0).map(t => t.id) : [] }; }
-    if (k === "u") { const u = S.ups.find(u => u.id === id); return u ? { id, k: "u", t: u.name, s: "플레이리스트 • 떵화", h: u.h, v: S.ups.indexOf(u), tr: u.tr } : null; }
+    if (k === "u") { const u = S.ups.find(u => u.id === id); return u ? { id, k: "u", t: u.name, s: "플레이리스트 • 떵화", h: u.h, v: S.ups.indexOf(u), tr: u.tr.filter(i => T[i]) } : null; }
     return null;
   }
   const trackCovers = {
