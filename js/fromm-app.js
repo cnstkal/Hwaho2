@@ -67,7 +67,7 @@
 <div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>${lvOn ? "" : `<div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}" aria-expanded="${opn[i] ? "true" : "false"}">${opn[i] ? "답장 접기" : "답장보기"} <span class="fmx-chv${opn[i] ? " on" : ""}">${ic("chev", 17, 1.8)}</span></button></div>`}${(lvOn || opn[i]) && m.rp && m.rp.length ? `<div class="fmx-rpl">${m.rp.map(rpH).join("")}</div>` : ""}`).join("")}</div>${inputBar(1)}</div>`,
 
 
-    replies: () => { const m = room.msgs[replyId] || room.msgs[0]; return `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back",28,1.8)}</button><h2>답장</h2><div class="fmx-hr"></div></header><div class="fmx-sc"><div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-rpl">${(m.rp || []).map(rpH).join("") || '<div class="fmx-em">답장이 없어요</div>'}</div></div></div>`; },
+    replies: () => { const m = room.msgs[replyId] || room.msgs[0]; return `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back",28,1.8)}</button><h2>답장</h2><div class="fmx-hr"></div></header><div class="fmx-sc fmx-replypage"><div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-rpl">${(m.rp || []).map(rpH).join("") || '<div class="fmx-em">답장이 없어요</div>'}</div></div></div>`; },
     channel: () => `<div class="fmx-pg">${top("채널")}<div class="fmx-sc"><div class="fmx-cc">${["아티 소식", "공식 공지", "라이브 일정", "팬레터"].map((n, i) => `<button data-fx="toast" data-m="${n} 채널은 준비 중이에요"><i style="background:${G[i + 1]}"></i><b>${n}</b><small>구독 중</small></button>`).join("")}</div></div>${navH()}</div>`,
     store: () => `<div class="fmx-pg">${top("스토어")}<div class="fmx-sc"><div class="fmx-sg">${stores.map(([e, n, p]) => `<button data-fx="toast" data-m="${n}을(를) 담았어요"><i>${e}</i><b>${n}</b><small>${p}</small></button>`).join("")}</div></div>${navH()}</div>`,
     more: () => `<div class="fmx-pg">${top("더보기")}<div class="fmx-sc fmx-mm">${["공지사항", "이용 안내", "알림 설정", "화면 설정", "고객센터", "버전 정보"].map(n => `<button data-fx="toast" data-m="${n}은(는) 준비 중이에요">${n}${ic("chev", 18, 1.8)}</button>`).join("")}</div>${navH()}</div>`
@@ -94,7 +94,7 @@
   function act(a, b) {
     const id = b.dataset.id;
     switch (a) {
-      case "tab": tab = id; stack = []; page = id; sheet = null; render(); break;
+      case "tab": if (["channel", "store", "more"].includes(id)) break; tab = id; stack = []; page = id; sheet = null; render(); break;
       case "toast": toast(b.dataset.m); break;
       case "room": room.unread = 0; prof = null; sheet = null; if (page !== "room") go("room"); else render(); break;
       case "live": lvOn = !lvOn; render(true); break;
@@ -144,11 +144,11 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 .fmx-cn{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}.fmx-cn b{font-size:20px;font-weight:600}.fmx-cn small{font-size:16px;color:#8d8d93}.fmx-cn small.u{color:#222}.fmx-ct{align-self:flex-start;margin-top:8px;font-size:14px;color:#9a9aa0}
 .fmx-hd{flex:none;height:102px;padding:54px 14px 0 18px;display:flex;align-items:center;justify-content:space-between;background:#fff;position:relative;z-index:3}.fmx-hd h2{position:absolute;left:0;right:0;top:54px;height:48px;margin:0;display:grid;place-items:center;font-size:19px;font-weight:700;pointer-events:none}
 .fmx-ib{width:40px;height:40px;display:grid;place-items:center;color:#111;position:relative;z-index:1}.fmx-hr{display:flex;align-items:center;gap:14px;position:relative;z-index:1}.fmx-lv{width:34px;height:34px;display:grid;place-items:center}
-.fmx-ms{padding:22px 16px 16px;display:flex;flex-direction:column;gap:16px}
-.fmx-ml{display:flex}.fmx-mr{display:flex;justify-content:flex-end;align-items:flex-end;gap:7px}.fmx-mr small{font-size:14px;color:#9a9aa0;padding-bottom:2px}
+.fmx-ms{padding:22px 22px 16px;display:flex;flex-direction:column;gap:16px}.fmx-replypage{padding:0 12px 20px;box-sizing:border-box}
+.fmx-ml{display:flex}.fmx-mr{display:flex;justify-content:flex-end;align-items:flex-end;gap:7px;max-width:100%}.fmx-mr small{font-size:14px;color:#9a9aa0;padding-bottom:2px}
 .fmx-bb{min-height:46px;padding:11px 22px;border-radius:23px;font-size:17.5px;line-height:1.4;letter-spacing:-.03em;max-width:76%;word-break:break-all;display:flex;align-items:center}
 .fmx-bb.me{background:#fa5673;color:#fff;border-top-right-radius:5px}.fmx-bb.rp{background:#f1f2f4;color:#333;border-top-left-radius:5px;gap:10px;padding:0 20px 0 18px;height:46px}.fmx-bb.rp svg{color:#b3b3b8}
-.fmx-rpl{display:flex;flex-direction:column;gap:14px;padding:2px 0 4px 6px}.fmx-chv{display:inline-flex;transition:transform .2s}.fmx-chv.on{transform:rotate(90deg)}
+.fmx-rpl{display:flex;flex-direction:column;gap:14px;padding:2px 8px 4px 8px}.fmx-chv{display:inline-flex;transition:transform .2s}.fmx-chv.on{transform:rotate(90deg)}
 .fmx-lm{display:flex;gap:7px;align-items:flex-start}.fmx-lm>i{margin-top:2px}.fmx-nm{display:block;font-size:13px;color:#8d8d93;margin:0 0 4px 6px}.fmx-lr{display:flex;align-items:flex-end;gap:8px}.fmx-lr .fmx-bb{background:#f1f2f4;color:#222;border-top-left-radius:23px;padding:11px 22px}.fmx-lr small{font-size:14px;color:#9a9aa0;padding-bottom:3px;white-space:nowrap}.lv{gap:20px}
 .fmx-ib2{flex:none;display:flex;align-items:center;gap:6px;padding:8px 16px 38px 12px;background:#fff}.fmx-ib2.room{padding-left:6px}.fmx-pl2{width:46px;height:48px;display:grid;place-items:center;color:#111;flex:none}
 .fmx-fd{flex:1;height:48px;border-radius:24px;background:#f1f2f4;display:flex;align-items:center;justify-content:space-between;padding:0 14px 0 20px;font-size:17px;color:#b8b9bf;text-align:left}.fmx-ib2:not(.room) .fmx-fd{height:50px}.fmx-sd,.fmx-cm{display:grid;place-items:center;font-style:normal}.fmx-sd{color:#f9a2b1}.fmx-cm{color:#b0b1b8}
