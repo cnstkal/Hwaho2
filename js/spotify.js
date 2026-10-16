@@ -24,7 +24,7 @@ const SpApp = (() => {
   };
   /* ---------- 데이터 ---------- */
   const AL = [
-    ["NO RECALL", "MARS", 265, "힙합", [["3AM", 201], ["mybadiwonagain", 187], ["혼", 233]]],
+    ["NO RECALL", "MARS", 265, "힙합", [["3AM", 201], ["mybadiwonagain", 187]]],
     ["Paper Planes", "Luna Harbor", 330, "팝", [["Skyline Letters", 198], ["Paper Planes", 214], ["Soft Landing", 189], ["Tiny Orbit", 225]]],
     ["모래시계", "도시 곡선", 30, "힙합", [["오후 네 시", 172], ["골목 지도", 203], ["모래시계", 196], ["환승", 181]]],
     ["ENOuGH", "NO1", 350, "록", [["ENOuGH", 143]]],
