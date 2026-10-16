@@ -72,10 +72,10 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 #notes-app .nt-pl .nt-llist .nt-row{padding:13px 18px;min-height:68px}
 #notes-app .nt-pl .nt-llist .nt-row+.nt-row::before{left:18px;right:18px;border-color:#e5e5ea}
 #notes-app .nt-pl .nt-ft{background:#f2f1f6;border-top:0}
-#notes-app .nt-pe{background:#fff!important}
+#notes-app .nt-pe{background:#f2f1f6!important}
 #notes-app .nt-pe .nt-es{margin:8px 12px 12px;padding:14px 18px 24px;background:#fff;border-radius:26px;overflow-y:auto}
 #notes-app .nt-pe .nt-dt{text-align:left;padding-top:6px}
-#notes-app .nt-pe .nt-tbar{background:#fff!important}
+#notes-app .nt-pe .nt-tbar{background:#f2f1f6!important}
 
 /* 편집기 */
 .nt-es{padding:0 20px 24px}
@@ -162,3 +162,9 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 #notes-app .nt-pe{background:#fff!important}
 #notes-app .nt-pe .nt-tbar{background:#fff!important}
 #notes-app .nt-pe .nt-es{background:#fff!important;box-shadow:none!important}
+
+/* Notes editor: date/time belongs to gray header area; note body remains white */
+#notes-app .nt-pe{background:#f2f1f6!important}
+#notes-app .nt-pe .nt-tbar{background:#f2f1f6!important}
+#notes-app .nt-pe .nt-dt{background:transparent!important;padding:12px 20px 4px!important;margin:0!important;width:100%!important;box-sizing:border-box!important}
+#notes-app .nt-pe .nt-es{margin:8px 12px 12px!important;background:#fff!important;border-radius:26px!important}
