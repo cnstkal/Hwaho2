@@ -23,7 +23,7 @@
   const stores = [["🧸", "아티 인형", "18,000원"], ["💿", "앨범 세트", "24,500원"], ["🎫", "포토카드", "3,000원"], ["👕", "공식 티셔츠", "32,000원"], ["🕯️", "응원봉", "39,000원"], ["📒", "다이어리", "9,900원"]];
 
   /* ---------- 상태 ---------- */
-  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, opn = {}, lvOn = false;
+  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, opn = {}, lvOn = false, replyId = 0;
   const memo = {};
 
   /* ---------- 유틸 / 아이콘 ---------- */
@@ -67,6 +67,7 @@
 <div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>${lvOn ? "" : `<div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}" aria-expanded="${opn[i] ? "true" : "false"}">${opn[i] ? "답장 접기" : "답장보기"} <span class="fmx-chv${opn[i] ? " on" : ""}">${ic("chev", 17, 1.8)}</span></button></div>`}${(lvOn || opn[i]) && m.rp && m.rp.length ? `<div class="fmx-rpl">${m.rp.map(rpH).join("")}</div>` : ""}`).join("")}</div>${inputBar(1)}</div>`,
 
 
+    replies: () => { const m = room.msgs[replyId] || room.msgs[0]; return `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back",28,1.8)}</button><h2>답장</h2><div class="fmx-hr"></div></header><div class="fmx-sc"><div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-rpl">${(m.rp || []).map(rpH).join("") || '<div class="fmx-em">답장이 없어요</div>'}</div></div></div>`; },
     channel: () => `<div class="fmx-pg">${top("채널")}<div class="fmx-sc"><div class="fmx-cc">${["아티 소식", "공식 공지", "라이브 일정", "팬레터"].map((n, i) => `<button data-fx="toast" data-m="${n} 채널은 준비 중이에요"><i style="background:${G[i + 1]}"></i><b>${n}</b><small>구독 중</small></button>`).join("")}</div></div>${navH()}</div>`,
     store: () => `<div class="fmx-pg">${top("스토어")}<div class="fmx-sc"><div class="fmx-sg">${stores.map(([e, n, p]) => `<button data-fx="toast" data-m="${n}을(를) 담았어요"><i>${e}</i><b>${n}</b><small>${p}</small></button>`).join("")}</div></div>${navH()}</div>`,
     more: () => `<div class="fmx-pg">${top("더보기")}<div class="fmx-sc fmx-mm">${["공지사항", "이용 안내", "알림 설정", "화면 설정", "고객센터", "버전 정보"].map(n => `<button data-fx="toast" data-m="${n}은(는) 준비 중이에요">${n}${ic("chev", 18, 1.8)}</button>`).join("")}</div>${navH()}</div>`
@@ -97,7 +98,7 @@
       case "toast": toast(b.dataset.m); break;
       case "room": room.unread = 0; prof = null; sheet = null; if (page !== "room") go("room"); else render(); break;
       case "live": lvOn = !lvOn; render(true); break;
-      case "rview": opn[id] = !opn[id]; render(true); break;
+      case "rview": replyId = Number(id) || 0; go("replies"); break;
       case "back": back(); break;
       case "sheet": prof = null; sheet = true; render(); break;
       case "closesheet": sheet = null; prof = null; render(); break;
