@@ -19,7 +19,7 @@ window.IgApp = (() => {
     back: ic('<path d="M15 5l-7 7 7 7"/>', 2), x: ic('<path d="M6 6l12 12M18 6L6 18"/>', 2), chev: ic('<path d="M6 9l6 6 6-6"/>', 2),
   };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const art = n => { if (typeof n === "string" && /^https:\/\//i.test(n)) return n; const a = (n * 67) % 360, b = (a + 50) % 360, c = (a + 160) % 360, k = n % 3; let sh = "";
+  const art = n => { if (typeof n === "string" && (/^https?:\/\//i.test(n) || /^(\.\.\/|\/|images\/)/i.test(n))) return n; const a = (n * 67) % 360, b = (a + 50) % 360, c = (a + 160) % 360, k = n % 3; let sh = "";
     if (k === 0) sh = `<circle cx="${150 + (n * 37) % 300}" cy="200" r="70" fill="hsl(${b} 90% 92%)" opacity=".9"/><path d="M0 520Q150 400 300 500T600 450V750H0z" fill="hsl(${c} 40% 40%)"/><path d="M0 610Q200 530 400 610T600 580V750H0z" fill="hsl(${c} 45% 26%)"/>`;
     else if (k === 1) for (let i = 0; i < 9; i++) sh += `<circle cx="${(i * 131 + n * 53) % 600}" cy="${(i * 197 + n * 29) % 750}" r="${30 + (i * 23) % 70}" fill="hsl(${(a + i * 30) % 360} 80% 85%)" opacity=".45"/>`;
     else sh = `<rect x="60" y="300" width="130" height="450" fill="hsl(${c} 35% 30%)"/><rect x="210" y="200" width="150" height="550" fill="hsl(${c} 40% 22%)"/><rect x="380" y="340" width="160" height="410" fill="hsl(${c} 30% 36%)"/>` + [0, 1, 2, 3, 4].map(i => `<rect x="${230 + (i % 2) * 60}" y="${240 + i * 80}" width="26" height="36" fill="hsl(50 90% 75%)" opacity=".8"/>`).join("");
