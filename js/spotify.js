@@ -29,7 +29,7 @@ const SpApp = (() => {
     ["모래시계", "도시 곡선", 30, "힙합", [["오후 네 시", 172], ["골목 지도", 203], ["모래시계", 196], ["환승", 181]]],
     ["ENOuGH", "NO1", 350, "록", [["ENOuGH", 231]]],
     ["Midnight Grid", "Orbit Eleven", 190, "일렉트로닉", [["Grid Runner", 236], ["Pulse Theory", 212], ["Midnight Grid", 254], ["Cold Boot", 199]]],
-    ["푸른 거실", "미지근한 오후", 200, "재즈", [["일요일 커피", 245], ["푸른 거실", 221], ["느린 창문", 208], ["늦은 산책", 233]]],
+    ["Desire", "FIXON", 200, "힙합", [["Tunnel", 205], ["AUTOBAHN", 221], ["ROAR", 233]]],
     ["Honey Static", "Kite & Co.", 45, "R&B", [["Honey Static", 205], ["Slow Burn", 227], ["Velvet Rain", 218], ["Late Reply", 191]]],
     ["작은 방", "하루종일", 140, "어쿠스틱", [["기타와 햇살", 189], ["작은 방", 202], ["빈 의자", 176], ["귀갓길", 217]]],
     ["Neon Garden", "Luna Harbor", 300, "팝", [["Neon Garden", 193], ["Glass Hours", 208], ["Daydream Loop", 186], ["Paper Moon", 222]]],
@@ -139,7 +139,7 @@ const SpApp = (() => {
     return `<div class="sp-hd"><button class="sp-av" data-a="set" aria-label="설정">떵</button><b>${gr}</b><span class="sp-sp"></span><button class="sp-ib" data-a="bell" aria-label="알림">${I.bell}</button><button class="sp-ib" data-a="sch" aria-label="검색" aria-disabled="true" style="opacity:.38;pointer-events:none">${I.search()}</button></div>`
       + `<div class="sp-qg">${["liked", "p0", "a0", "a3"].map(ent).map(e => `<button class="sp-qc" data-a="open" data-id="${e.id}">${cv(e)}<b>${esc(e.t)}</b></button>`).join("")}</div>`
       + sec("최근 재생", rc.map(cd).join(""))
-      + sec("추천 아티스트", AR.slice(0, 5).map((_, i) => cd(ent("r" + i))).join(""));
+      + sec("추천 아티스트", AR.slice(0, 5).map((_, i) => { const e = ent("r" + i); return `<div class="sp-cd ar" aria-label="${esc(e.t)}">${cv(e)}<b>${esc(e.t)}</b><small>아티스트</small></div>`; }).join(""));
   }
   function seBody() {
     const q = se.q.trim().toLowerCase(), b = $("#sp-sbd");
