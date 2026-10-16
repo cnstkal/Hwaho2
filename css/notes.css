@@ -1,5 +1,5 @@
 /* Notes 전용 스타일 — 모든 선택자는 #notes-app 하위 / .nt- 접두사 */
-#notes-app{--bg:#fff;--bg2:#f2f2f7;--cd:#fff;--tx:#000;--sc:rgba(60,60,67,.6);--ln:rgba(60,60,67,.2);--ac:#e0a600;--fl:rgba(118,118,128,.12);--sh:rgba(255,255,255,.96);--hl:#ffe066;
+#notes-app{--bg:#f2f1f6;--bg2:#f2f1f6;--cd:#fff;--tx:#000;--sc:rgba(60,60,67,.6);--ln:rgba(60,60,67,.2);--ac:#e0a600;--fl:rgba(118,118,128,.12);--sh:rgba(255,255,255,.96);--hl:#ffe066;
 position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:var(--tx);font-family:var(--font);font-size:17px;visibility:hidden;opacity:0;pointer-events:none;transform:scale(.94);transition:opacity .22s,transform .28s cubic-bezier(.2,.8,.2,1),visibility 0s .28s}
 #notes-app.on{visibility:visible;opacity:1;pointer-events:auto;transform:none;transition-delay:0s}
 #notes-app *{-webkit-user-select:none;user-select:none}
@@ -63,6 +63,20 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 .nt-g .dd{font-size:12px;color:var(--sc)}
 .nt-g .nt-cc{position:absolute;right:8px;top:8px;background:var(--bg)}
 .nt-empty{text-align:center;color:var(--sc);padding:60px 30px;font-size:15px}
+/* 메모 목록: 연회색 바탕 + 흰색 둥근 카드 */
+#notes-app .nt-pl{background:#f2f1f6}
+#notes-app .nt-pl .nt-sc{padding:0 12px 18px}
+#notes-app .nt-pl .nt-sc>.nt-lt{padding:10px 8px 8px}
+#notes-app .nt-pl .nt-sc>.nt-sb{margin:6px 4px 12px;background:rgba(118,118,128,.12)}
+#notes-app .nt-pl .nt-llist{background:#fff;border-radius:26px;overflow:hidden;padding:4px 0 8px;min-height:90px}
+#notes-app .nt-pl .nt-llist .nt-row{padding:13px 18px;min-height:68px}
+#notes-app .nt-pl .nt-llist .nt-row+.nt-row::before{left:18px;right:18px;border-color:#e5e5ea}
+#notes-app .nt-pl .nt-ft{background:#f2f1f6;border-top:0}
+#notes-app .nt-pe{background:#f2f1f6}
+#notes-app .nt-pe .nt-es{margin:8px 12px 12px;padding:14px 18px 24px;background:#fff;border-radius:26px;overflow-y:auto}
+#notes-app .nt-pe .nt-dt{text-align:left;padding-top:6px}
+#notes-app .nt-pe .nt-tbar{background:#f2f1f6}
+
 /* 편집기 */
 .nt-es{padding:0 20px 24px}
 .nt-dt{text-align:center;font-size:12.5px;color:var(--sc);padding:6px 0 10px}
