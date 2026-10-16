@@ -13,11 +13,7 @@
     { n: "떵화", s: "", img: "images/Fromm/profile/IMG_8923.jpeg" }, { n: "쯍이", s: "애정하는 아티 💗💗", g: G[3] }, { n: "재현이", s: "오늘도 화이팅 ✨", g: G[5] }, { n: "하준이", s: "", g: G[6] },
     { n: "은솔", s: "🍀", g: G[7] }, { n: "유찬이", s: "밥 먹었어?", g: G[0] }, { n: "세훈이", s: "", g: G[2] }
   ];
-  const live = [
-    { n: "지구", g: G[0], t: "지구야 미안해", time: "오전 03:48" }, { n: "달이", g: G[7], t: "미안해", time: "오전 03:48" },
-    { n: "별이", g: G[4], t: "지구야 미안해", time: "오전 03:48" }, { n: "해리", g: G[0], t: "지구야 미안해", time: "오전 03:48" }
-  ];
-  const room = { name: "바보", g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
+  const room = { name: "떵화", g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
     { me: 1, t: "나는 작업주웅", time: "PM 2:41", rp: [{ n: "지민", g: G[3], t: "ㅋㅋ 작업 화이팅이에요", time: "PM 2:42" }, { n: "시은", g: G[4], t: "무리하지 마세요 ㅠㅠ", time: "PM 2:42" }, { n: "예은", g: G[0], t: "오늘도 고생이네요!!", time: "PM 2:43" }] },
     { me: 1, t: "엉 곧 퇴근", time: "PM 2:44", rp: [{ n: "현지", g: G[7], t: "빨리 퇴근해요 ㅎㅎ", time: "PM 2:45" }, { n: "다현", g: G[2], t: "오늘도 수고했어요", time: "PM 2:45" }, { n: "하은", g: G[5], t: "퇴근하고 푹 쉬어요!", time: "PM 2:46" }] },
     { me: 1, t: "너네도 밥 잘 챙겨", time: "PM 2:48", rp: [{ n: "서윤", g: G[6], t: "님도요!! 밥 꼭 챙겨 먹어요", time: "PM 2:49" }, { n: "수아", g: G[3], t: "저 방금 먹었어요 ㅎㅎ", time: "PM 2:49" }, { n: "지안", g: G[4], t: "잘 챙겨 먹을게요 💗", time: "PM 2:50" }] },
@@ -27,7 +23,7 @@
   const stores = [["🧸", "아티 인형", "18,000원"], ["💿", "앨범 세트", "24,500원"], ["🎫", "포토카드", "3,000원"], ["👕", "공식 티셔츠", "32,000원"], ["🕯️", "응원봉", "39,000원"], ["📒", "다이어리", "9,900원"]];
 
   /* ---------- 상태 ---------- */
-  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, opn = {};
+  let opened = false, page = "list", tab = "list", stack = [], sheet = null, prof = null, rendered = null, tt = null, opn = {}, lvOn = false;
   const memo = {};
 
   /* ---------- 유틸 / 아이콘 ---------- */
@@ -68,10 +64,8 @@
     chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:${room.g}"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
 
     room: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back", 28, 1.8)}</button><h2>채팅방</h2><div class="fmx-hr"><button class="fmx-lv" data-fx="live"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 3C9 3 3 8.500 3 15.200c0 3.500 1.600 6.600 4.300 8.800L6 30l5.700-3.200c1.700.5 3.500.7 5.300.7 8 0 14-5.500 14-12.300S25 3 17 3z" fill="#d8d9dd"/><text x="17" y="19.500" text-anchor="middle" font-size="9.500" font-weight="900" fill="#222" font-family="Arial">LIVE</text></svg></button><button class="fmx-ib" data-fx="toast" data-m="채팅방 메뉴는 준비 중이에요">${ic("menu", 28, 1.7)}</button></div></header>
-<div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div><div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}" aria-expanded="${opn[i] ? "true" : "false"}">${opn[i] ? "답장 접기" : "답장보기"} <span class="fmx-chv${opn[i] ? " on" : ""}">${ic("chev", 17, 1.8)}</span></button></div>${opn[i] && m.rp && m.rp.length ? `<div class="fmx-rpl">${m.rp.map(rpH).join("")}</div>` : ""}`).join("")}</div>${inputBar(1)}</div>`,
+<div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>${lvOn ? "" : `<div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}" aria-expanded="${opn[i] ? "true" : "false"}">${opn[i] ? "답장 접기" : "답장보기"} <span class="fmx-chv${opn[i] ? " on" : ""}">${ic("chev", 17, 1.8)}</span></button></div>`}${(lvOn || opn[i]) && m.rp && m.rp.length ? `<div class="fmx-rpl">${m.rp.map(rpH).join("")}</div>` : ""}`).join("")}</div>${inputBar(1)}</div>`,
 
-    live: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("down", 32, 1.7)}</button><h2>실시간 채팅</h2><div class="fmx-hr"><button class="fmx-ib" data-fx="toast" data-m="실시간 채팅 안내: 프롬친구 모두에게 보여요">${ic("info", 34, 1.7)}</button></div></header>
-<div class="fmx-sc fmx-ms lv" data-k="live">${live.map(m => m.me ? `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>` : `<div class="fmx-lm"><i class="fmx-av" style="width:32px;height:32px;background:${m.g}"></i><div><span class="fmx-nm">${E(m.n)}</span><div class="fmx-lr"><div class="fmx-bb">${E(m.t)}</div><small>${m.time}</small></div></div></div>`).join("")}</div>${inputBar(0)}</div>`,
 
     channel: () => `<div class="fmx-pg">${top("채널")}<div class="fmx-sc"><div class="fmx-cc">${["아티 소식", "공식 공지", "라이브 일정", "팬레터"].map((n, i) => `<button data-fx="toast" data-m="${n} 채널은 준비 중이에요"><i style="background:${G[i + 1]}"></i><b>${n}</b><small>구독 중</small></button>`).join("")}</div></div>${navH()}</div>`,
     store: () => `<div class="fmx-pg">${top("스토어")}<div class="fmx-sc"><div class="fmx-sg">${stores.map(([e, n, p]) => `<button data-fx="toast" data-m="${n}을(를) 담았어요"><i>${e}</i><b>${n}</b><small>${p}</small></button>`).join("")}</div></div>${navH()}</div>`,
@@ -86,14 +80,13 @@
     const s0 = $(".fmx-sc"); if (s0 && rendered) memo[rendered] = s0.scrollTop;
     el.innerHTML = PAGES[page]() + (sheet ? sheetH() : "");
     rendered = page; const s = $(".fmx-sc"); if (!s) return;
-    s.scrollTop = keep && memo[page] != null ? memo[page] : (page === "room" || page === "live") ? s.scrollHeight : (memo[page] || 0);
+    s.scrollTop = keep && memo[page] != null ? memo[page] : page === "room" ? s.scrollHeight : (memo[page] || 0);
   }
   const go = p => { stack.push(page); page = p; sheet = null; prof = null; render(); };
   const back = () => { page = stack.pop() || tab; sheet = null; prof = null; render(); };
   function toast(m) { const t = document.createElement("div"); t.className = "fmx-toast"; t.textContent = m; el.appendChild(t); setTimeout(() => t.remove(), 1600); }
   function send(t) {
     const x = hm();
-    if (page === "live") { live.push({ me: 1, t, time: x.ko }); sheet = null; render(); return; }
     room.msgs.push({ me: 1, t, time: x.en }); room.last = t; room.time = x.ko; room.unread = 0; sheet = null; render();
     clearTimeout(tt); tt = setTimeout(() => { room.msgs.push({ r: 1 }); room.last = "새로운 메시지가 있습니다."; if (opened && page === "room") render(); else room.unread = 1; }, 1100);
   }
@@ -103,7 +96,7 @@
       case "tab": tab = id; stack = []; page = id; sheet = null; render(); break;
       case "toast": toast(b.dataset.m); break;
       case "room": room.unread = 0; prof = null; sheet = null; if (page !== "room") go("room"); else render(); break;
-      case "live": go("live"); break;
+      case "live": lvOn = !lvOn; render(true); break;
       case "rview": opn[id] = !opn[id]; render(true); break;
       case "back": back(); break;
       case "sheet": prof = null; sheet = true; render(); break;
@@ -118,7 +111,7 @@
   el.addEventListener("click", e => { const b = e.target.closest("[data-fx]"); if (b && el.contains(b)) { e.stopPropagation(); act(b.dataset.fx, b); } });
   function open() {
     if (opened) return; opened = true;
-    el.className = ""; el.style.display = ""; el.innerHTML = ""; page = "list"; tab = "list"; stack = []; sheet = null; prof = null; rendered = null; Object.keys(memo).forEach(k => delete memo[k]); opn = {};
+    el.className = ""; el.style.display = ""; el.innerHTML = ""; page = "list"; tab = "list"; stack = []; sheet = null; prof = null; rendered = null; Object.keys(memo).forEach(k => delete memo[k]); opn = {}; lvOn = false;
     try { originFrom(el, "fromm"); } catch (_) {}
     el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false");
     render(); setTimeout(() => { if (opened) screen.classList.add("app-light"); }, 140);
