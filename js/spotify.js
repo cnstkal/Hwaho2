@@ -56,7 +56,7 @@ const SpApp = (() => {
     '<path d="M50 14L88 82H12z" fill="#fff" fill-opacity=".25"/><path d="M50 14L88 82H50z" fill="#000" fill-opacity=".18"/>',
   ];
   const albumCovers = { "NO RECALL": "images/Spotify/Albums/NO-RECALL/cover.jpg", "Desire": "images/Spotify/Albums/Desire/cover.jpg", "ENOuGH": "images/Spotify/Albums/ENOuGH/cover.jpg" };
-  const artistPhotos = { mars: "images/Spotify/Artists/mars/profile.jpg", NO1: "images/Spotify/Artists/NO1/profile.jpg", FIXON: "images/Spotify/Artists/FIXON/profile.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/profile.jpg" };
+  const artistPhotos = { mars: "images/Spotify/Artists/mars/1969d38e20fc29da97dda95cfb8fd503.jpg", NO1: "images/Spotify/Artists/NO1/a855c56fa66453c89fe5abd272d6ea09.jpg", FIXON: "images/Spotify/Artists/FIXON/13790ef252a695e71b923c001fc97fb5.jpg", ATEEZ: "images/Spotify/Artists/ATEEZ/6cf131e8a471bdd258903aff74753431.jpg" };
   const cv = (e, c) => e.k === "l" ? `<div class="sp-cv lk">${I.heart(1).replace("#1ed760", "currentColor")}</div>` : e.k === "a" && albumCovers[e.t] ? `<div class="sp-cv${c || ""}" style="--h:${e.h};background:#242424 url(\'${albumCovers[e.t]}\') center/cover no-repeat"></div>` : `<div class="sp-cv${e.k === "r" ? " rd" : ""}${c || ""}" style="--h:${e.h}"><svg viewBox="0 0 100 100">${PAT[(e.v | 0) % 4]}</svg></div>`;
   function ent(id) {
     const k = id[0], x = id.slice(1);
