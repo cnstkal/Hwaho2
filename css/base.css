@@ -891,5 +891,5 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 #pv.on .pv-info,#pv.on .pv-th{display:none!important}
 #pv.on .pv-lu{position:absolute!important;right:12px!important;top:calc(env(safe-area-inset-top,0px) + 58px)!important;z-index:6!important}
 
-#pv.on .pv-back{display:flex!important;position:absolute!important;z-index:1000!important;top:calc(env(safe-area-inset-top,0px) + 62px)!important;left:16px!important;width:44px!important;height:44px!important;align-items:center!important;justify-content:center!important;border:0!important;border-radius:50%!important;background:rgba(35,35,35,.72)!important;color:#fff!important;box-shadow:0 1px 8px #0004!important;padding:0!important}
+#pv.on .pv-back{display:flex!important;position:absolute!important;z-index:1000!important;top:calc(env(safe-area-inset-top,0px) + 100px)!important;left:16px!important;width:44px!important;height:44px!important;align-items:center!important;justify-content:center!important;border:0!important;border-radius:50%!important;background:rgba(35,35,35,.72)!important;color:#fff!important;box-shadow:0 1px 8px #0004!important;padding:0!important}
 #pv.on .pv-back svg{width:25px!important;height:25px!important;fill:none!important;stroke:currentColor!important;stroke-width:2.4!important;stroke-linecap:round!important;stroke-linejoin:round!important}
