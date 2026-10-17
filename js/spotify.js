@@ -124,7 +124,7 @@ const SpApp = (() => {
     const title = island.querySelector(".isl-tx b");
     const artist = island.querySelector(".isl-tx small");
     const pp = island.querySelector('[data-i="pp"]');
-    const cover = t && (albumCovers[AL[t.ai][0]] || trackCovers[t.t] || artistPhotos[t.a]);
+    const cover = t && (trackCovers[t.t] || albumCovers[AL[t.ai][0]] || "");
     [island.querySelector(".isl-th"), island.querySelector(".isl-th.big")].filter(Boolean).forEach(node => {
       node.style.backgroundImage = cover ? "url('" + U(cover) + "')" : "";
       node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center";
