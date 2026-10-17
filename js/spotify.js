@@ -119,6 +119,8 @@ const SpApp = (() => {
     const t = cur();
     island.classList.toggle("music-active", !!t);
     island.classList.toggle("music-playing", !!t && playing);
+    island.classList.toggle("on", !!t);
+    island.classList.toggle("pl", !!t && playing);
     const title = island.querySelector(".isl-tx b");
     const artist = island.querySelector(".isl-tx small");
     const pp = island.querySelector('[data-i="pp"]');
