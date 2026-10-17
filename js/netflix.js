@@ -228,8 +228,8 @@ const NfApp = (() => {
   s.textContent = `
 #nf-app .nf-hd{background:#000;transition:background .2s}#nf-app.nf-hm:not(.nf-sc) .nf-hd{background:transparent}#nf-app.nf-dt .nf-hd,#nf-app.nf-dt .nf-tb{display:none}
 #nf-app .nf-c .nf-t{left:0;top:0;font:900 8px/8.500px var(--font);padding:3px 3px 4px;border-radius:0 0 4px 0}
-#nf-app .nf-c::before{content:"";position:absolute;left:50%;top:13%;width:34%;aspect-ratio:1;border-radius:50%;background:rgba(0,0,0,.22);transform:translateX(-50%)}
-#nf-app .nf-c::after{content:"";position:absolute;left:12%;right:12%;top:38%;bottom:-20%;border-radius:50% 50% 0 0;background:rgba(0,0,0,.2)}
+#nf-app .nf-c::before{content:none!important;display:none!important}
+#nf-app .nf-c::after{content:none!important;display:none!important}
 #nf-app .nf-c b,#nf-app .nf-c em,#nf-app .nf-c u,#nf-app .nf-c .nf-t{z-index:1}
 #nf-app .nf-c em{font-size:9.500px;padding:3px 6px}#nf-app .nf-c u{font-size:9.500px;left:14%;right:14%;padding:5px 0}#nf-app .nf-c em:has(+u){bottom:19px}
 #nf-app .nf-h{font-weight:500;font-size:21px;letter-spacing:-.04em}
