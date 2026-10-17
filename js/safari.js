@@ -19,13 +19,11 @@ const SafariApp = (() => {
   const allowedFavorites = [
     { title: "네이버", url: "https://www.naver.com/" },
     { title: "디시인사이드", url: "https://www.dcinside.com/" },
-    { title: "디스패치", url: "https://www.dispatch.co.kr/" }
   ];
   S.bm = allowedFavorites.map(item => {
     const existing = (S.bm || []).find(b =>
       /naver\.com/.test(item.url) ? /naver\.com/.test(b.url || "") :
-      /dcinside\.com/.test(item.url) ? /dcinside\.com/.test(b.url || "") :
-      /dispatch\.co\.kr/.test(b.url || "")
+      /dcinside\.com/.test(b.url || "")
     );
     return { id: existing?.id || uid(), ...item };
   });
@@ -208,7 +206,7 @@ const SafariApp = (() => {
 .nv-st{display:flex;justify-content:space-between;align-items:center;margin-top:46px;padding:0 16px;height:62px;border-top:1px solid #eceef1;border-bottom:1px solid #eceef1;color:#8b8f97;font-size:18px}.nv-st span{display:flex;align-items:center;gap:8px}.nv-st i{display:block;width:22px;height:22px}
 .nv-tg{position:relative;width:52px;height:32px;border-radius:16px!important;background:#c9ccd2!important;transition:background .2s}.nv-tg.on{background:#3cb868!important}.nv-tg i{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}.nv-tg.on i{transform:translateX(20px)}`; document.head.appendChild(s); })();
   /* ===== 디스패치 스타일 뉴스 페이지 (사파리 가상 페이지, 가상의 예시 기사) ===== */
-  if (S.bm && !S.bm.some(b => /dispatch\.co\.kr/.test(b.url))) S.bm.push({ id: uid(), title: "디스패치", url: "https://www.dispatch.co.kr/" });
+  S.bm = (S.bm || []).filter(b => !/dispatch\.co\.kr/.test(b.url || "")); save();
   const dpTitle = "[단독] \"누가 봐도 평범한 사이는 아니었다\"…박성화♥정윤호, 심야 데이트 포착", dpUrl = "https://www.dispatch.co.kr/article/1";
   const dpPhoto = (a, b, cap) => `<div class="dp-ph" style="background:linear-gradient(170deg,${a},${b})"><i class="s1"></i><i class="s2"></i><i class="o1"></i><i class="o2"></i><em>${cap || ""}</em></div>`;
   const dpHead = () => `<div class="dp-hd"><span class="lg">Dispatch</span><span class="ph"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2.500" fill="#f5b942" stroke="#243b53" stroke-width="1.500"/><path d="M10 7h4" stroke="#243b53" stroke-width="1.500" stroke-linecap="round"/></svg></span><svg class="sr" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="7"/><path d="M16 16l5 5"/></svg></div>
@@ -227,8 +225,8 @@ const SafariApp = (() => {
 .dp-upw{position:sticky;bottom:0;height:0;z-index:6}.dp-upw button{position:absolute;right:14px;bottom:110px;width:60px;height:60px;border-radius:14px;background:#252525;border:0;display:grid;place-items:center;padding:0;box-shadow:0 4px 14px rgba(0,0,0,.3)}.dp-upw svg{width:28px;height:28px}`; document.head.appendChild(s); })();
   /* ===== 정윤호 프로필 하단 뉴스 + 엔터 기사 상세 (가상의 예시 기사) ===== */
   const NVN = [
-    { id: "1", outlet: "샘플뉴스", ago: "3일 전", ts: "2026.10.11. 오후 6:46", hue: 215, title: "[포토]정윤호, 팬들 향한 따뜻한 인사 (예시)", sum: "화면 구성을 확인하기 위한 가상의 예시 기사입니다. 실제 보도 내용이 아닙니다. 정윤호 프로필 하단 뉴스 영역을 보여 줍니다.", react: "312",
-      body: ["[서울=샘플뉴스 김예시기자] 이 기사는 모바일 뉴스 기사 화면의 레이아웃을 확인하기 위한 <a>정윤호</a> 관련 가상의 예시입니다. 실제 보도 내용이 아닙니다.", "본문은 흰색 배경에 검은색 글씨로 표시되며, 좌우 여백과 줄 간격은 모바일에서 읽기 편하도록 설정했습니다. 문단 사이에는 충분한 간격을 둡니다.", "대표 사진은 콘텐츠 너비에 맞춰 표시되고, 아래로 스크롤하면 기자 정보 카드와 관련 기사 영역이 이어집니다.", "상단 카테고리 메뉴는 스크롤해도 화면 위에 남습니다."] },
+    { id: "1", outlet: "Dispatch", ago: "오늘", ts: "2026.10.18. 오후 2:22", hue: 215, title: "[단독] \"누가 봐도 평범한 사이는 아니었다\"…박성화♥정윤호, 심야 데이트 포착", sum: "박성화와 정윤호가 약 3개월 전부터 교제 중인 것으로 전해졌다. 두 사람은 늦은 밤 식사와 카페 데이트를 즐기며 조심스럽게 만남을 이어오고 있다.", react: "312",
+      body: ["[Atspatch= 코 기자] 박성화와 정윤호가 사랑에 빠졌다.", "두 사람은 약 3개월 전부터 교제 중이다. 바쁜 스케줄 속에서도 틈틈이 만나 데이트를 즐기며 관계를 이어오고 있다.", "두 사람의 데이트는 주로 늦은 밤에 이뤄졌다. 함께 식사를 하거나 카페를 찾는 등 평범한 연인들의 데이트와 다르지 않았다.", "최근에는 서울 모처에서 함께 있는 모습이 포착됐다. A와 B는 주변의 시선을 크게 의식하지 않는 모습이었다. 자연스럽게 대화를 나누며 함께 시간을 보냈다.", "두 사람을 잘 아는 측근은 “서로에 대한 신뢰가 깊다”며 “조심스럽게 만남을 이어가고 있는 것으로 안다”고 전했다.", "A와 B는 연예계에서도 서로 다른 분야에서 활동하고 있다. 각자의 활동을 이어가는 가운데 가까운 사이로 발전했다.", "한편 양측 소속사는 열애설에 대해 확인 중이다."] },
     { id: "3", outlet: "덩간스포츠", ago: "6주 전", ts: "2026.09.02. 오후 2:53", hue: 8, image: "./images/app/Naver/정윤호_마스_열애설/collage%203.png", title: "[단독] 박성화 측 “정윤호와 열애 중” 공식 인정…‘친한 동료’에서 연인으로", sum: "배우 정윤호와 래퍼 마스가 오랜 동료에서 연인으로 발전했다는 소식이 전해졌다. 양측은 두 사람의 관계를 인정하며 관심이 이어지고 있다.", react: "30",
       body: [
         "래퍼 마스와 배우 정윤호가 열애를 공식 인정했다.",
@@ -464,7 +462,6 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
     const defaults = [
       { title: "네이버", url: "https://www.naver.com/" },
       { title: "디시인사이드", url: "https://www.dcinside.com/" },
-      { title: "디스패치", url: "https://www.dispatch.co.kr/" }
     ];
     const tile = (item) => {
       const logo = item.title === "네이버" ? "images/app/Naver/IMG_7151.png" : item.title === "디시인사이드" ? "images/app/DCInside/IMG_7147.png" : "";
