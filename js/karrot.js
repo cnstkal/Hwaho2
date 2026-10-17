@@ -4,7 +4,7 @@
   if (!el || el.dataset.karrotReady) return;
   el.dataset.karrotReady = "1";
   let opened=false, page="home", stack=[], category="전체", query="", searching=false, selected=null, chatId=null, saleTab="sale", sheet=null, banner=true, hoodIdx=0, rendered=null;
-  const hoods=["송림1동","한강로3가"], liked=new Set(), memo={}, NAME="우요";
+  const hoods=["송림1동","한강로3가"], liked=new Set(), memo={}, NAME="psh";
   const BOOKS="linear-gradient(90deg,#cfcabd 0 12%,#1d1f22 12% 22%,#34373b 22% 34%,#1d1f22 34% 46%,#3a3d41 46% 56%,#58d68d 56% 72%,#2b2d30 72%)";
   const products=[
     {id:3,title:"반수 포기해서 팝니다",meta:"송림1동 · 1일 전",price:43000,cat:"도서/문구",bg:BOOKS,buy:1,st:["chat",1,1],seller:"반수생",sloc:"송림1동",temp:"36.8",time:"1일 전",chat:1,like:1,view:73,imgs:3,desc:"반수 포기해서 인강 교재 일괄 팝니다.\n미적분, 국어 포함이에요.\n바로구매 가능해요."},
@@ -23,9 +23,9 @@
     {id:106,title:"M-Audio 미디 키보드 49건반",loc:"송림1동",ago:"1개월 전",lift:0,price:80000,bg:"linear-gradient(135deg,#1f2023,#4a4d52)",emoji:"🎹",views:210,s2:["chat",3],st:"sold"}
   ];
   const rooms=[
-    {id:1,name:"당근",kind:"logo",official:1,ago:"1달 전",msg:"개인정보 이용내역 안내 🥕 우요님 안녕하세요! 개인정보 이용내역을 안내드려요.",unread:2,msgs:[{t:"개인정보 이용내역 안내 🥕 우요님 안녕하세요! 개인정보 이용내역을 안내드려요.",time:"오전 10:02",date:"2026년 9월 10일"}]},
+    {id:1,name:"당근",kind:"logo",official:1,ago:"1달 전",msg:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",unread:2,msgs:[{t:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",time:"오전 10:02",date:"2026년 9월 10일"}]},
     {id:2,name:"후하호요",loc:"주안동",temp:"41.4",kind:"thumb",tb:"#f5f6f7",ph:1,ago:"1달 전",msg:"쿠팡애서 시킨 배송내역은잇어요",unread:1,msgs:[{me:1,t:"안녕하세요 혹시 구매영수증 같은 거 볼 수 있을까요?",time:"오전 11:56",date:"2026년 9월 10일"},{t:"쿠팡애서 시킨 배송내역은잇어요",time:"오후 12:52",date:"2026년 9월 10일"}]},
-    {id:3,name:"날치알파스타",loc:"삼산2동",temp:"39.7",kind:"thumb",tb:"linear-gradient(135deg,#f6d6e2,#e8b8cc)",emoji:"🍨",ago:"2달 전",msg:"우요님, 거래 잘 하셨나요? 거래한 이웃에게 따뜻한 후기를 남겨주세요.",unread:1,msgs:[{t:"우요님, 거래 잘 하셨나요? 거래한 이웃에게 따뜻한 후기를 남겨주세요.",time:"오후 3:20",date:"2026년 8월 12일"}]},
+    {id:3,name:"날치알파스타",loc:"삼산2동",temp:"39.7",kind:"thumb",tb:"linear-gradient(135deg,#f6d6e2,#e8b8cc)",emoji:"🍨",ago:"2달 전",msg:"psh님, 거래 잘 하셨나요? 거래한 이웃에게 따뜻한 후기를 남겨주세요.",unread:1,msgs:[{t:"psh님, 거래 잘 하셨나요? 거래한 이웃에게 따뜻한 후기를 남겨주세요.",time:"오후 3:20",date:"2026년 8월 12일"}]},
     {id:4,name:"Park BGM",kind:"face",official:1,ago:"3달 전",msg:"(광고) 송림1동 좋은 미용실·헬스장을 알고 계신가요?",unread:1,msgs:[{t:"(광고) 송림1동 좋은 미용실·헬스장을 알고 계신가요?",time:"오전 9:30",date:"2026년 7월 3일"}]},
     {id:5,name:"제이룸",loc:"반곡동",temp:"37.8",kind:"thumb",tb:"linear-gradient(90deg,#d8d2b8,#b9b196)",emoji:"📚",ago:"1주 전",msg:"토스뱅크 6332로 입금됐어요. 바로구매를 이용해주셔서 감사합니다.",unread:0,msgs:[{t:"토스뱅크 6332로 입금됐어요. 바로구매를 이용해주셔서 감사합니다.",time:"오후 6:12",date:"2026년 10월 8일"}]},
     {id:6,name:"마음이",loc:"학익동",temp:"36.9",kind:"thumb",tb:"linear-gradient(135deg,#dfe9f3,#bcd0e4)",emoji:"🧥",ago:"2주 전",msg:"혹시 내일 오후에 거래 가능하실까요?",unread:1,msgs:[{t:"혹시 내일 오후에 거래 가능하실까요?",time:"오후 2:41",date:"2026년 10월 1일"}]}

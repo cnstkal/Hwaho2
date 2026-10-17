@@ -528,11 +528,11 @@ button{font:inherit;color:inherit;border:0;background:none;padding:0;cursor:poin
 
 .bmx-h3{margin:18px 20px 12px;font-size:19px;font-weight:800}.bmx-card{margin:0 16px 12px;border:1px solid #e6e6ea;border-radius:24px;padding:22px 20px}.bmx-mn{font-size:18px;margin-bottom:12px}.bmx-op2{font-size:15.5px;color:#8b8b90;line-height:30px}.bmx-op2::before{content:"• ";color:#aaa}
 
-.bmx-mp{margin-top:8px;font-size:15.5px;color:#888}.bmx-mp b{font-size:21px;color:#111;font-weight:800;margin-right:2px}
+.bmx-mp{margin-top:8px;font-size:15.5px;color:#888}.bmx-mp b{font-size:17px;color:#111;font-weight:600;margin-right:2px}
 
-.bmx-pr{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:16px;line-height:30px;margin-bottom:5px}.bmx-pr span:last-child{font-size:17px}.bmx-dash{border:0;border-top:1.5px dashed #ddd;margin:16px 0}.bmx-dc{color:#4a22f0;font-weight:800;margin-bottom:2px}.bmx-dc span:first-child{display:flex;align-items:center;gap:4px}.bmx-sub{color:#5a38ee;margin-bottom:2px}.bmx-sub span:first-child{display:flex;align-items:center;gap:6px;color:#222}.bmx-sub span:last-child{color:#4a22f0}
+.bmx-pr{display:flex;justify-content:space-between;align-items:center;width:100%;font-size:16px;line-height:30px;margin-bottom:5px}.bmx-pr span:last-child{font-size:16px;font-weight:400}.bmx-dash{border:0;border-top:1.5px dashed #ddd;margin:16px 0}.bmx-dc{color:#4a22f0;font-weight:800;margin-bottom:2px}.bmx-dc span:first-child{display:flex;align-items:center;gap:4px}.bmx-sub{color:#5a38ee;margin-bottom:2px}.bmx-sub span:first-child{display:flex;align-items:center;gap:6px;color:#222}.bmx-sub span:last-child{color:#4a22f0}
 
-.bmx-solid{border:0;border-top:1.5px solid #222;margin:18px 0}.bmx-tot{display:flex;justify-content:space-between;align-items:center}.bmx-tot span{font-size:18px;font-weight:800}.bmx-tot b{font-size:31px;font-weight:900;letter-spacing:-.04em}
+.bmx-solid{border:0;border-top:1.5px solid #222;margin:18px 0}.bmx-tot{display:flex;justify-content:space-between;align-items:center}.bmx-tot span{font-size:17px;font-weight:700}.bmx-tot b{font-size:22px;font-weight:700;letter-spacing:-.02em}
 
 .bmx-sv{margin:18px 0 22px;background:#eef0ff;border-radius:14px;padding:19px 8px;text-align:center;font-weight:800;font-size:17px;color:#4a22f0;display:flex;justify-content:center;align-items:center;gap:5px;flex-wrap:wrap}.bmx-sv b{color:#4a22f0}
 

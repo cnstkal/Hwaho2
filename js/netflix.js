@@ -98,7 +98,6 @@ const NfApp = (() => {
     + row("해외 시리즈", card("bb") + card("ob") + card("mha") + card("p8"))
     + row("한국 드라마", card("edu") + card("four", "새로운 에피소드", 0, "지금 시청하기") + card("scan", "최신 등록") + card("rat"))
     + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cont("ssang"))
-    + row("오직 넷플릭스에서", card("gian", "새로운 시즌", 1, "", "big") + card("down", "최신 등록", 0, "", "big") + card("p3", "", 0, "", "big"));
   const srchV = () => `<div class="nf-sb2">${I.search}<input id="nf-q" placeholder="시리즈, 영화, 게임을 검색해 보세요..." value="${esc(q)}"></div><h3 class="nf-h">추천 시리즈 &amp; 영화</h3><div id="nf-sl">${listV()}</div>`;
   const listV = () => SL.filter(s => s[1].includes(q)).map(s => `<button class="nf-li" data-work="${s[0]}"><div class="nf-th" style="background:${bg(s[0])}"><b>${esc(PO[s[0]][0])}</b></div><span>${esc(s[1])}</span><div class="nf-lp">${I.play}</div></button>`).join("") || '<p class="nf-em">검색 결과가 없습니다</p>';
   const myV = () => `<div class="nf-sv"><div>${I.dl}</div><div><b>저장한 콘텐츠 목록</b><small>저장하신 시리즈와 영화가 여기에 표시됩니다.</small></div>${I.chev}</div>`

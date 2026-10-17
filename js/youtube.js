@@ -16,14 +16,7 @@
     {id:"v9",title:"오직 싸대기만으로 승부하는 게임",channel:"침착맨 플러스",handle:"@chim_plus",views:"8.1만",time:"5시간 전",duration:"33:41",img:"photo-1511512578047-dfb367046420",desc:"싸대기 하나로 승부를 보는 게임."},
     {id:"v10",title:"[케인] 혼종으로 만들었다는 윷놀이로 시참하기 (증강 윷놀이)",channel:"케인 TV",handle:"@kanetv8",views:"2.1만",time:"5시간 전",duration:"19:10",img:"photo-1529156069898-49953e39b3ac",desc:"증강 윷놀이 시참 영상입니다."},
     {id:"v11",title:"Aqours『ラブライブ！サンシャイン!!』TVアニメ2期 第12話 挿入歌「WATER BLUE NEW WORLD」",channel:"Lantis",handle:"@lantis",views:"96만",time:"3년 전",duration:"1:01",music:1,img:"photo-1470229722913-7c0e2dbbafd3",desc:"Lantis official."},
-    {id:"v12",title:"침착맨 고사성어 완전판",channel:"침착맨",handle:"@chimchakman",views:"85만",time:"2주 전",duration:"3:26:16",img:"photo-1517677208171-0bc6725a3e60",desc:"침투부 고사성어 통합본."},
-    {id:"v1",title:"새벽 감성 플레이리스트 🌙 공부할 때 듣기 좋은 노래",channel:"playlist.zip",views:"128만",time:"2일 전",duration:"1:02:18",music:1,img:"photo-1519608487953-e999c86e7455",desc:"조용한 밤에 듣기 좋은 감성 플레이리스트입니다."},
-    {id:"v2",title:"일주일 동안 방 꾸미기 | 작은 방 인테리어",channel:"오늘의 방",views:"42만",time:"1일 전",duration:"18:42",img:"photo-1616486338812-3dadae4b4ace",desc:"작은 공간을 아늑하게 바꾸는 일주일 프로젝트."},
-    {id:"v3",title:"요즘 편의점 신상 먹어보기 🍜 솔직 리뷰",channel:"먹어볼래",views:"89만",time:"3일 전",duration:"12:08",img:"photo-1555126634-323283e090fa",desc:"요즘 인기 있는 신상품을 직접 먹어 보고 리뷰해 봤어요."},
-    {id:"v4",title:"도쿄 브이로그 | 혼자 걷는 하루",channel:"서재로36",views:"31만",time:"5일 전",duration:"24:51",img:"photo-1503899036084-c55cdd92da26",desc:"카메라 하나 들고 도쿄를 천천히 걸어 본 하루."},
-    {id:"v5",title:"아이돌 무대 모음집 ✨ 레전드 직캠",channel:"Stage Archive",views:"210만",time:"6시간 전",duration:"8:17",img:"photo-1501386761578-eac5c94b800a",desc:"기억에 남는 무대들을 모아 둔 영상입니다."},
-    {id:"v7",title:"집에서 만드는 간단한 파스타",channel:"오늘의 한 끼",views:"56만",time:"4일 전",duration:"9:34",img:"photo-1473093295043-cdd812d0e601",desc:"재료 몇 가지로 완성하는 간단한 파스타 레시피."},
-    {id:"v8",title:"비 오는 날 듣는 재즈 카페 음악",channel:"Cafe Radio",views:"72만",time:"2주 전",duration:"2:10:04",music:1,img:"photo-1445116572660-236099ec97a0",desc:"비 오는 날 카페에 앉아 있는 기분으로 들어 보세요."}
+    {id:"v12",title:"침착맨 고사성어 완전판",channel:"침착맨",handle:"@chimchakman",views:"85만",time:"2주 전",duration:"3:26:16",img:"photo-1517677208171-0bc6725a3e60",desc:"침투부 고사성어 통합본."}
   ];
   const subChannels = ["침착맨","침착맨 플러스","케인 TV","서재로36","킥서비스"];
   const shorts = [
