@@ -118,10 +118,12 @@ const SpApp = (() => {
     const island = document.getElementById("isl");
     if (!island) return;
     const t = cur();
-    island.classList.toggle("music-active", !!t && playing);
-    island.classList.toggle("music-playing", !!t && playing);
-    island.classList.toggle("on", !!t && playing);
-    island.classList.toggle("pl", !!t && playing);
+    const spotifyVisible = el.classList.contains("show") || el.classList.contains("open");
+    const islandVisible = !!t && playing && !spotifyVisible;
+    island.classList.toggle("music-active", islandVisible);
+    island.classList.toggle("music-playing", islandVisible);
+    island.classList.toggle("on", islandVisible);
+    island.classList.toggle("pl", islandVisible);
     const title = island.querySelector(".isl-tx b");
     const artist = island.querySelector(".isl-tx small");
     const pp = island.querySelector('[data-i="pp"]');
@@ -337,10 +339,10 @@ const SpApp = (() => {
       else if (btn.dataset.i === "prev") window.SpApp.prev();
     });
   }
-  function open() { if (isOpen) return; isOpen = true; if (typeof originFrom === "function") originFrom(el, "spotify"); screen.classList.remove("app-light"); setTimeout(() => { if (isOpen) screen.classList.remove("app-light"); }, 200); el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false"); if (tab === "hm") paintTab(); }
+  function open() { if (isOpen) return; isOpen = true; islandSync(); if (typeof originFrom === "function") originFrom(el, "spotify"); screen.classList.remove("app-light"); setTimeout(() => { if (isOpen) screen.classList.remove("app-light"); }, 200); el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false"); if (tab === "hm") paintTab(); islandSync(); }
   function close() {
     if (!isOpen) return; isOpen = false; shut(); $("#sp-pl").classList.remove("on"); el.classList.remove("open", "kb"); el.setAttribute("aria-hidden", "true");
-    setTimeout(() => { if (!isOpen) { el.classList.remove("show"); el.style.bottom = ""; } }, 430);
+    setTimeout(() => { if (!isOpen) { el.classList.remove("show"); el.style.bottom = ""; islandSync(); } }, 430);
   }
   document.addEventListener("app:open", e => { if (e.detail.id === "spotify") open(); });
   document.addEventListener("app:close", close);
