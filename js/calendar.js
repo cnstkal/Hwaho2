@@ -440,6 +440,7 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">ì¼ì
 #cal-app .gl{background:#fff;border:1px solid #e4e4e8;border-radius:24px;box-shadow:0 4px 16px rgba(0,0,0,.09)}
 #cal-app .cal-btn{color:#000}
 #cal-app .cal-btn.lb{height:44px;padding:0 18px 0 14px;gap:12px;font-size:21px;font-weight:500;border-radius:24px}
+ #cal-app .cal-top>.cal-btn.lb{margin-left:-10px}
 #cal-app .cal-r.gl{height:44px;padding:0 4px}
 #cal-app .cal-btn.ib{width:56px;height:44px;padding:0;justify-content:center;border-radius:22px}
 #cal-app .cal-bottom{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:0 16px calc(env(safe-area-inset-bottom,0px) + 34px);background:none;border:0;pointer-events:none;align-items:flex-end}
