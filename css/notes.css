@@ -72,10 +72,6 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 #notes-app .nt-pl .nt-llist .nt-row{padding:13px 18px;min-height:68px}
 #notes-app .nt-pl .nt-llist .nt-row+.nt-row::before{left:18px;right:18px;border-color:#e5e5ea}
 #notes-app .nt-pl .nt-ft{background:#f2f1f6;border-top:0}
-#notes-app .nt-pe{background:#f2f1f6!important}
-#notes-app .nt-pe .nt-es{margin:8px 12px 12px;padding:14px 18px 24px;background:#fff;border-radius:26px;overflow-y:auto}
-#notes-app .nt-pe .nt-dt{text-align:left;padding-top:6px}
-#notes-app .nt-pe .nt-tbar{background:#f2f1f6!important}
 
 /* 편집기 */
 .nt-es{padding:0 20px 24px}
@@ -154,23 +150,7 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 .nt-vw .x{right:18px;top:calc(env(safe-area-inset-top,0px) + 62px)}
 .nt-vw .d{bottom:calc(env(safe-area-inset-bottom,0px) + 30px);color:#ff453a}
 
-/* Keep the note date label inside the white editor card */
-#notes-app .nt-pe .nt-es{box-sizing:border-box!important;width:calc(100% - 24px)!important;min-width:0!important}
-#notes-app .nt-pe .nt-dt{display:block!important;position:relative!important;box-sizing:border-box!important;width:100%!important;max-width:100%!important;margin:0!important;padding:6px 0 10px!important;overflow:hidden!important;white-space:normal!important;overflow-wrap:anywhere!important;text-align:left!important}
-
-/* Open note editor stays pure white edge-to-edge */
-#notes-app .nt-pe{background:#fff!important}
-#notes-app .nt-pe .nt-tbar{background:#fff!important}
-#notes-app .nt-pe .nt-es{background:#fff!important;box-shadow:none!important}
-
-/* Notes editor: date/time belongs to gray header area; note body remains white */
-#notes-app .nt-pe{background:#f2f1f6!important}
-#notes-app .nt-pe .nt-tbar{background:#f2f1f6!important}
-#notes-app .nt-pe .nt-dt{background:transparent!important;padding:12px 20px 4px!important;margin:0!important;width:100%!important;box-sizing:border-box!important}
-#notes-app .nt-pe .nt-es{margin:8px 12px 12px!important;background:#fff!important;border-radius:26px!important}
-
-/* Correct structure: date stays on gray background, note body inside white card */
-#notes-app .nt-pe{background:#f2f1f6!important}
-#notes-app .nt-pe>.nt-dt{display:block!important;flex:none!important;order:3!important;margin:0!important;padding:12px 24px 4px!important;width:100%!important;box-sizing:border-box!important;background:#f2f1f6!important;color:#8e8e93!important;text-align:left!important}
-#notes-app .nt-pe>.nt-es{order:4!important;flex:1!important;min-height:0!important;width:auto!important;margin:0 12px 12px!important;padding:14px 18px 24px!important;box-sizing:border-box!important;background:#fff!important;border-radius:26px!important;box-shadow:none!important}
-#notes-app .nt-pe>.nt-tbar{order:5!important;background:#f2f1f6!important}
+/* 편집기: 실제 메모앱처럼 전체 흰 배경, 날짜는 본문 상단 가운데(함께 스크롤) */
+#notes-app .nt-pe,#notes-app .nt-pe .nt-tbar{background:#fff}
+#notes-app .nt-pe .nt-es{margin:0;padding:0 20px 24px;background:none;border-radius:0;box-shadow:none}
+#notes-app .nt-pe .nt-dt{display:block;text-align:center;font-size:13px;color:var(--sc);padding:8px 0 14px;margin:0}
