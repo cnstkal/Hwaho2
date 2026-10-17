@@ -31,7 +31,7 @@ const NfApp = (() => {
   };
   const HERO = { rat: "linear-gradient(90deg,#4d6f82 0%,#2c4250 46%,#7a1a14 54%,#b02a1c 100%)", drx: "linear-gradient(#a52018,#3a0c0c)" };
   const bg = k => { const p = PO[k]; return p[3] ? `url(${esc(p[3])}) center/cover` : `linear-gradient(165deg,${p[1]},${p[2]})`; };
-  const card = (k, tag = "", top = 0, sub = "", cls = "") => `<button class="nf-c ${cls}" data-work="${k}" style="background:${bg(k)}"><b>${esc(PO[k][0])}</b>${top ? '<i class="nf-t">TOP<br>10</i>' : ""}${tag ? `<em>${tag}</em>` : ""}${sub ? `<u>${sub}</u>` : ""}</button>`;
+  const card = (k, tag = "", top = 0, sub = "", cls = "") => `<div class="nf-c ${cls}" aria-hidden="true" style="background:${bg(k)}"></div>`;
   const row = (t, inner, more) => `<h3 class="nf-h">${t}${more ? `<span>모두 보기${I.chev}</span>` : ""}</h3><div class="nf-r">${inner}</div>`;
   const cont = k => `<div class="nf-cw">${card(k, "", 0, "", "")}<div class="nf-pb"><i></i></div><div class="nf-ab"><span>${I.info}</span><s></s><span>${I.dots}</span></div><div class="nf-pl">${I.play}</div></div>`;
   const share = k => `<div class="nf-cw nf-sh">${card(k)}<div class="nf-ab nf-sb">${I.send}공유</div></div>`;
@@ -96,7 +96,7 @@ const NfApp = (() => {
   };
   const SIL = '<svg viewBox="0 0 342 340" class="nf-sil"><path d="M95 340 L108 192 Q112 150 150 140 L192 140 Q232 150 236 192 L249 340Z" fill="#14100f"/><path d="M96 205 Q70 222 78 282 L100 292Z M246 205 Q272 222 264 282 L242 292Z" fill="#1d1716"/><path d="M146 138 L171 190 L196 138Z" fill="#e9d2c8"/><ellipse cx="171" cy="84" rx="30" ry="38" fill="#e9d2c8"/><path d="M132 92 Q128 36 171 34 Q214 36 210 92 L206 120 Q198 70 171 66 Q144 70 136 120Z" fill="#0b0909"/></svg>';
   const heroV = () => `<div class="nf-chips">${["시리즈", "영화", "NEW & HOT"].map(t => `<button data-act="chip">${t}</button>`).join("")}<button data-act="chip" class="cat">카테고리${I.dd}</button></div>
- <section class="nf-fc"><div class="nf-fa" data-work="smr" style="background:linear-gradient(180deg,#8f1b13 0%,#520b0b 72%,#180909 100%)">${SIL}<div class="nf-fl"><strong>쇼미더머니 <i>43</i></strong><small>WHO’S THE NEXT</small></div></div><p>새로운 래퍼들의 무대가 시작된다</p><button class="nf-fp" data-act="hplay">${I.play}<span>시리즈 재생</span></button><button class="nf-fs" data-act="hsave">${ic('<path d="M12 4v16M4 12h16"/>', 2)}<span>${savedWorks.includes("smr") ? "찜한 리스트에 추가됨" : "내가 찜한 리스트"}</span></button></section>`;
+ <section class="nf-fc" aria-hidden="true"><div class="nf-fa" style="background:linear-gradient(180deg,#8f1b13 0%,#520b0b 72%,#180909 100%)"></div></section>
   const nw = k => card(k, "새로운 에피소드", 1, "지금 시청하기");
   const cw = () => (prof ? ["smr", "asm", "nwh"] : ["bs"]).map(cont).join("");
   const homeV = () => heroV()
@@ -104,7 +104,7 @@ const NfApp = (() => {
     + row("회원님을 위해 엄선한 오늘의 콘텐츠", (prof ? ["bs", "smr", "mun"] : ["bs", "hh", "sg", "ub"]).map(k => card(k)).join(""))
     + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cw())
   const srchV = () => `<div class="nf-sb2">${I.search}<input id="nf-q" placeholder="시리즈, 영화, 게임을 검색해 보세요..." value="${esc(q)}"></div><h3 class="nf-h">추천 시리즈 &amp; 영화</h3><div id="nf-sl">${listV()}</div>`;
-  const listV = () => SL.filter(s => s[1].includes(q)).map(s => `<button class="nf-li" data-work="${s[0]}"><div class="nf-th" style="background:${bg(s[0])}"><b>${esc(PO[s[0]][0])}</b></div><span>${esc(s[1])}</span><div class="nf-lp">${I.play}</div></button>`).join("") || '<p class="nf-em">검색 결과가 없습니다</p>';
+  const listV = () => SL.filter(s => s[1].includes(q)).map(s => `<div class="nf-li" aria-hidden="true"><div class="nf-th" style="background:${bg(s[0])}"></div></div>`).join("") || '<p class="nf-em">검색 결과가 없습니다</p>';
   const myV = () => `<div class="nf-sv"><div>${I.dl}</div><div><b>저장한 콘텐츠 목록</b><small>저장하신 시리즈와 영화가 여기에 표시됩니다.</small></div>${I.chev}</div>`
     + row("시청 중인 콘텐츠", cw())
     + row("내가 찜한 리스트", card("one") + card("kai") + card("reb") + card("p7"), 1);
@@ -136,7 +136,7 @@ const NfApp = (() => {
   el.addEventListener("click", e => {
     const p = e.target.closest("[data-p]"), t = e.target.closest("[data-t]"), a = e.target.closest("[data-act]"), w = e.target.closest("[data-work]");
     if (p) { if (p.dataset.p !== "x") { prof = +p.dataset.p; tab = "hm"; q = ""; render(); } }
-    else if (t) { tab = t.dataset.t; q = ""; render(); }
+    else if (t) { if (t.dataset.t === "sr" || t.dataset.t === "my") return; tab = t.dataset.t; q = ""; render(); }
     else if (a) act(a);
     else if (w) showDetail(w.dataset.work);
   });
@@ -161,7 +161,7 @@ const NfApp = (() => {
 #nf-app .nf-h{font-size:20px;font-weight:600;margin:20px 16px 12px;display:flex;justify-content:space-between;align-items:center}#nf-app .nf-h b{font-weight:800}
 #nf-app .nf-h span{font-size:15px;font-weight:500;display:flex;align-items:center;gap:2px}#nf-app .nf-h span svg{width:16px;height:16px}
 #nf-app .nf-r{display:flex;gap:8px;overflow-x:auto;padding:0 10px;scrollbar-width:none}#nf-app .nf-r::-webkit-scrollbar{display:none}
-#nf-app .nf-c{flex:none;width:110px;aspect-ratio:11/15.4;border-radius:6px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+#nf-app .nf-c{pointer-events:none;cursor:default;flex:none;width:110px;aspect-ratio:11/15.4;border-radius:6px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
 #nf-app .nf-c b{font-size:15px;font-weight:800;padding:0 6px;text-shadow:0 1px 6px rgba(0,0,0,.7);word-break:keep-all;color:#fff}
 #nf-app .nf-c.big{width:164px;aspect-ratio:1/2.02}#nf-app .nf-c.big b{position:absolute;bottom:60px;font-size:22px}#nf-app .nf-c.wide{width:250px;aspect-ratio:16/9}
 #nf-app .nf-c .nf-t{position:absolute;top:0;left:6px}
@@ -181,11 +181,11 @@ const NfApp = (() => {
 #nf-app .nf-av{display:flex;align-items:center;justify-content:center;flex:none;line-height:1}#nf-app .nf-ed{background:rgba(255,255,255,.2)!important;color:#fff}#nf-app .nf-ed svg{width:38px;height:38px}
 #nf-app .nf-sb2{margin:0 12px;height:48px;border-radius:14px;background:#262626;display:flex;align-items:center;gap:12px;padding:0 16px;color:#999}#nf-app .nf-sb2 svg{width:24px;height:24px;flex:none}
 #nf-app .nf-sb2 input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:16px var(--font);-webkit-user-select:text;user-select:text}
-#nf-app .nf-li{display:flex;align-items:center;gap:14px;padding:5px 16px}#nf-app .nf-li>span{flex:1;font-size:16px}#nf-app .nf-th{width:132px;height:74px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex:none}#nf-app .nf-th b{font-size:15px;text-shadow:0 1px 5px #000;text-align:center}
+#nf-app .nf-li{display:flex;align-items:center;gap:14px;padding:5px 16px;pointer-events:none}#nf-app .nf-th{width:132px;height:74px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex:none}
 #nf-app .nf-lp{width:36px;height:36px;border:2px solid #ddd;border-radius:50%;display:flex;align-items:center;justify-content:center}#nf-app .nf-lp svg{width:18px;height:18px}#nf-app .nf-em{color:#888;text-align:center;margin-top:40px}
 #nf-app .nf-sv{margin:6px 8px 0;border:1px solid #333;border-radius:12px;background:#141414;padding:16px 14px;display:grid;grid-template-columns:44px 1fr 22px;align-items:center}#nf-app .nf-sv svg{width:24px;height:24px}#nf-app .nf-sv b{display:block;font-size:17px;font-weight:700}#nf-app .nf-sv small{color:#aaa;font-size:13px}
 #nf-app .nf-c{font:inherit;cursor:pointer;color:inherit;border:0;padding:0}
-#nf-app .nf-li{width:100%;border:0;background:none;color:inherit;text-align:left;cursor:pointer;font-family:inherit;letter-spacing:inherit}
+#nf-app .nf-li{width:100%;border:0;background:none;color:inherit;text-align:left;cursor:default;font-family:inherit;letter-spacing:inherit}#nf-app .nf-tb button[data-t="sr"],#nf-app .nf-tb button[data-t="my"]{pointer-events:none;cursor:default}
 #nf-app .nf-detail{position:absolute;inset:0;z-index:6;overflow-y:auto;background:#080808;padding-bottom:40px;animation:nf-page-enter .24s ease both}
 #nf-app .nf-back{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:6px;padding:calc(env(safe-area-inset-top,0px) + 58px) 16px 12px;background:linear-gradient(#080808 60%,transparent);font-size:14px;color:#fff;cursor:pointer}
 #nf-app .nf-back svg{width:20px;height:20px}
