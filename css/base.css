@@ -823,6 +823,28 @@ html.pvo,html.pvo body{background:#fff!important}html.pvo.pvb,html.pvo.pvb body{
 #home-indicator-zone{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 2px);width:150px;height:10px;z-index:12;display:flex;align-items:center;justify-content:center;touch-action:pan-x;cursor:pointer;pointer-events:auto}
 #home-indicator{width:138px;height:5px;border-radius:999px;background:rgba(235,235,240,.9);box-shadow:0 0 2px rgba(0,0,0,.16);pointer-events:none}
 #screen.app-light #home-indicator{background:rgba(0,0,0,.8);box-shadow:none}
+
+/* 홈 인디케이터 앱별 색상 */
+#screen:has(#cal-app.show) #home-indicator,
+#screen:has(#pho-app.show) #home-indicator,
+#screen:has(#msg-app.show) #home-indicator,
+#screen:has(#ig-app.show) #home-indicator,
+#screen:has(#x-app.show) #home-indicator,
+#screen:has(#et-app.show) #home-indicator,
+#screen:has(#gp-app.show) #home-indicator,
+#screen:has(#fm-app.show) #home-indicator,
+#screen:has(#yt-app.show) #home-indicator,
+#screen:has(#dg-app.show) #home-indicator,
+#screen:has(#bm-app.show) #home-indicator,
+#screen:has(#am-app.show) #home-indicator,
+#screen:has(#notes-app.on) #home-indicator,
+#screen:has(#kko-app.show) #home-indicator,
+#screen:has(#saf-app.show) #home-indicator,
+#screen:has(#tel-app.show) #home-indicator{background:#000;box-shadow:none}
+#screen:has(#clk-app.show) #home-indicator,
+#screen:has(#sp-app.show) #home-indicator,
+#screen:has(#nf-app.open) #home-indicator{background:rgba(235,235,240,.9);box-shadow:0 0 2px rgba(0,0,0,.16)}
+
 #screen:has(#nf-app.open) #home-indicator{background:rgba(235,235,240,.9);box-shadow:0 0 2px rgba(0,0,0,.16)}
 html.pvo:not(.pvb) #screen #home-indicator{background:#000;box-shadow:none}
 html.pvo.pvb #screen #home-indicator{background:rgba(235,235,240,.9)}
