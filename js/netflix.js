@@ -23,7 +23,11 @@ const NfApp = (() => {
     d365: ["365일", "#4a5260", "#12151c"], ing: ["인간중독", "#8a3a3a", "#2a0e0e"], min: ["미인도", "#c8a8a0", "#4a2a2a"], ano: ["아노라", "#2a1a50", "#6a0a1a"],
     bb: ["브레이킹 배드", "#d9a62a", "#3a2a08"], ob: ["오렌지 이즈 더 뉴 블랙", "#2a1c18", "#c9a690"], mha: ["나의 히어로 아카데미아", "#a9c4ee", "#2a3a8a"], four: ["포핸즈", "#e8e8ea", "#3a3a44"],
     scan: ["스캔들", "#2a2a28", "#6a5a4a"], kim: ["신인감독 김연경", "#d8d8e0", "#4a5a8a"], saul: ["베터콜 사울", "#6a5a48", "#14100a"], end: ["빌어먹을 세상따위", "#8a8078", "#1c1a18"],
-    p8: ["", "#e8b090", "#4a2a1a"], p9: ["나를…", "#c8c0b8", "#2a2a30"]
+    p8: ["", "#e8b090", "#4a2a1a"], p9: ["나를…", "#c8c0b8", "#2a2a30"],
+    bs: ["백! 스테이지", "#e8457a", "#2a0a3a"], hh: ["환혼", "#7a5ac8", "#1a1030"], sg: ["슬기로운 의사생활", "#e8e4d8", "#6a8a9a"], ub: ["우리들의 블루스", "#4a8ac8", "#102a48"],
+    sw: ["스타워즈", "#1a1a2a", "#c8a21a"], sp: ["스파이더맨", "#d42a2a", "#1a2a6a"], abt: ["어바웃 타임", "#e8c8b0", "#6a4a3a"], sib: ["스타 이즈 본", "#8a2a2a", "#1a0a0a"],
+    asm: ["어메이징 스파이더맨", "#2a4a9a", "#a01a1a"], nwh: ["스파이더맨: 노 웨이 홈", "#c82a2a", "#2a1a4a"], hp: ["해리 포터", "#6a4a2a", "#0e0a1a"], bnd: ["스파이더맨: 브랜드 뉴 데이", "#1a2a5a", "#d43a3a"],
+    smr: ["쇼미더머니 43", "#1a1a1a", "#e8c82a"], mh: ["무한도전", "#2a7ac8", "#0a1a38"], chi: ["치이카와", "#f6f6f2", "#cfd8c8"]
   };
   const HERO = { rat: "linear-gradient(90deg,#4d6f82 0%,#2c4250 46%,#7a1a14 54%,#b02a1c 100%)", drx: "linear-gradient(#a52018,#3a0c0c)" };
   const bg = k => { const p = PO[k]; return p[3] ? `url(${esc(p[3])}) center/cover` : `linear-gradient(165deg,${p[1]},${p[2]})`; };
@@ -94,14 +98,15 @@ const NfApp = (() => {
   const heroV = () => `<div class="nf-chips">${["시리즈", "영화", "NEW & HOT"].map(t => `<button data-act="chip">${t}</button>`).join("")}<button data-act="chip" class="cat">카테고리${I.dd}</button></div>
 <section class="nf-fc"><div class="nf-fa" data-work="drx">${SIL}<div class="nf-fl"><strong>닥터<i>X</i></strong><small>하 얀 마 피 아 의 시 대</small></div></div><p>매주 금요일 새로운 에피소드 공개</p><button class="nf-fp" data-act="hplay">${I.play}<span>시리즈 재생</span></button><button class="nf-fs" data-act="hsave">${ic('<path d="M12 4v16M4 12h16"/>', 2)}<span>${savedWorks.includes("drx") ? "찜한 리스트에 추가됨" : "내가 찜한 리스트"}</span></button></section>`;
   const nw = k => card(k, "새로운 에피소드", 1, "지금 시청하기");
+  const cw = () => (prof ? ["smr", "asm", "nwh"] : ["bs"]).map(cont).join("");
   const homeV = () => heroV()
-    + row("해외 시리즈", card("bb") + card("ob") + card("mha") + card("p8"))
-    + row("한국 드라마", card("edu") + card("four", "새로운 에피소드", 0, "지금 시청하기") + card("scan", "최신 등록") + card("rat"))
-    + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cont("ssang"))
+    + row(prof ? "해외 시리즈" : "해외 작품", (prof ? ["asm", "nwh", "hp", "bnd"] : ["bb", "st", "sw", "sp", "abt", "sib"]).map(k => card(k)).join(""))
+    + row("회원님을 위해 엄선한 오늘의 콘텐츠", (prof ? ["bs", "smr", "mh", "chi"] : ["bs", "hh", "sg", "ub"]).map(k => card(k)).join(""))
+    + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cw())
   const srchV = () => `<div class="nf-sb2">${I.search}<input id="nf-q" placeholder="시리즈, 영화, 게임을 검색해 보세요..." value="${esc(q)}"></div><h3 class="nf-h">추천 시리즈 &amp; 영화</h3><div id="nf-sl">${listV()}</div>`;
   const listV = () => SL.filter(s => s[1].includes(q)).map(s => `<button class="nf-li" data-work="${s[0]}"><div class="nf-th" style="background:${bg(s[0])}"><b>${esc(PO[s[0]][0])}</b></div><span>${esc(s[1])}</span><div class="nf-lp">${I.play}</div></button>`).join("") || '<p class="nf-em">검색 결과가 없습니다</p>';
   const myV = () => `<div class="nf-sv"><div>${I.dl}</div><div><b>저장한 콘텐츠 목록</b><small>저장하신 시리즈와 영화가 여기에 표시됩니다.</small></div>${I.chev}</div>`
-    + row("시청 중인 콘텐츠", cont("ssang"))
+    + row("시청 중인 콘텐츠", cw())
     + row("내가 찜한 리스트", card("one") + card("kai") + card("reb") + card("p7"), 1);
   const tb = () => `<nav class="nf-tb">${[["hm", I.home, "홈"], ["sr", I.search, "검색"], ["my", av(prof, 36), "나의 넷플릭스"]].map(t => `<button data-t="${t[0]}" class="${tab === t[0] ? "on" : ""}">${t[1]}<span>${t[2]}</span></button>`).join("")}</nav>`;
 
