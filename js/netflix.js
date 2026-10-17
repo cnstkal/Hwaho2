@@ -96,7 +96,7 @@ const NfApp = (() => {
   };
   const SIL = '<svg viewBox="0 0 342 340" class="nf-sil"><path d="M95 340 L108 192 Q112 150 150 140 L192 140 Q232 150 236 192 L249 340Z" fill="#14100f"/><path d="M96 205 Q70 222 78 282 L100 292Z M246 205 Q272 222 264 282 L242 292Z" fill="#1d1716"/><path d="M146 138 L171 190 L196 138Z" fill="#e9d2c8"/><ellipse cx="171" cy="84" rx="30" ry="38" fill="#e9d2c8"/><path d="M132 92 Q128 36 171 34 Q214 36 210 92 L206 120 Q198 70 171 66 Q144 70 136 120Z" fill="#0b0909"/></svg>';
   const heroV = () => `<div class="nf-chips">${["시리즈", "영화", "NEW & HOT"].map(t => `<button data-act="chip">${t}</button>`).join("")}<button data-act="chip" class="cat">카테고리${I.dd}</button></div>
- <section class="nf-fc" aria-hidden="true"><div class="nf-fa" style="background:linear-gradient(180deg,#8f1b13 0%,#520b0b 72%,#180909 100%)"></div></section>
+ <section class="nf-fc" aria-hidden="true"><div class="nf-fa" style="background:linear-gradient(180deg,#8f1b13 0%,#520b0b 72%,#180909 100%)"></div></section>`;
   const nw = k => card(k, "새로운 에피소드", 1, "지금 시청하기");
   const cw = () => (prof ? ["smr", "asm", "nwh"] : ["bs"]).map(cont).join("");
   const homeV = () => heroV()
