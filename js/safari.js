@@ -128,8 +128,8 @@ const SafariApp = (() => {
 <div class="nv-sw"><span class="nv-tip">AI탭에서 대화하기</span><button class="nv-sb" data-nv="open" aria-label="검색">${nvI.N}<span class="nv-sp"></span><span class="nv-cm">${nvI.cam}</span><i class="nv-dv"></i><span class="nv-ai">${nvI.ai}</span></button></div>
 
 <div class="nv-sv"><span>${nvI.mail}메일</span><span>${nvI.cafe}카페</span><span>${nvI.shop}쇼핑</span><u></u><span class="t">뉴스</span><span class="t">엔터</span><span class="t">지식</span><span class="t">쇼핑라이브</span><span class="t">웹툰</span><span class="t">블로그</span><span class="t">지도</span></div>
-<div class="nv-wx"><span class="w">${nvI.moon}<b>17.4°</b><b>춘천</b></span><i></i><span class="s">나스닥 종합 <b>27,366.17</b> <em>▲0.64%</em></span></div>
-<div class="nv-cs">${nvCard("linear-gradient(160deg,#f4f5f7,#dfe3ea 55%,#c9ced8)", "", "아사모 - [240만명, 정보 공유방]", 8)}${nvCard("linear-gradient(160deg,#6d7f66,#3d4a46 55%,#8a5a3c)", "", "워킹", 30)}${nvCard("linear-gradient(160deg,#9bb8e8,#5b7fc0)", "", "여행 브이로그", 210)}</div>
+<div class="nv-wx"><span class="w">${nvI.moon}<b>18°</b><b>서울</b></span><i></i><span class="s">나스닥 종합 <b>27,366.17</b> <em>▲0.64%</em></span></div>
+<div class="nv-cs">${nvCard("linear-gradient(160deg,#8fc8ef,#e8f5ff 55%,#f6d78b)", "☀️", "서울 · 맑음 18°", 8)}${nvCard("linear-gradient(160deg,#9db5ca,#e7edf2 55%,#d4dce7)", "🌤️", "내일 · 구름 조금 20°", 30)}${nvCard("linear-gradient(160deg,#8ba8c7,#dbe6ef 55%,#f2e5c9)", "🌦️", "주간 날씨 · 16°~22°", 210)}</div>
 </div><div class="nv-sr"></div></div>`;
   }
   const nvRecent = () => NV.recent.length ? NV.recent.map(r => `<div class="nv-rr" data-nv="rc" data-id="${r.id}"><span class="c">${nvI.clock}</span><b>${esc(r.q)}</b><small>${r.d}</small><button class="x" data-nv="rx" data-id="${r.id}" aria-label="삭제">${nvI.x}</button></div>`).join("") : `<div class="nv-em">최근 검색어가 없습니다.</div>`;
