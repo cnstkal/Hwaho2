@@ -62,7 +62,7 @@ const MessagesApp = (() => {
   const last = c => c.msgs[c.msgs.length - 1];
   const sorted = () => convs.slice().sort((a, b) => (last(b)?.ts || b.created || 0) - (last(a)?.ts || a.created || 0));
   const find = id => convs.find(c => c.id === id);
-  const av = (n, k) => `<div class="ms-av${k ? " " + k : ""}" style="position:relative;overflow:hidden">${k === "spam" ? "!" : esc(n.trim()[0] || "?")}${k !== "spam" && window.HwahoIdentity ? window.HwahoIdentity.avatarMarkup(n) : ""}</div>`;
+  const av = (n, k) => `<div class="ms-av${k ? " " + k : ""}" style="position:relative;overflow:hidden">${k === "spam" ? "!" : esc(n.trim()[0] || "?")}</div>`;
   const pad = n => String(n).padStart(2, "0");
   function ftime(ts) {
     const d = new Date(ts), n = new Date(), d0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()), n0 = new Date(n.getFullYear(), n.getMonth(), n.getDate()), diff = Math.round((n0 - d0) / 864e5);
