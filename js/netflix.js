@@ -36,7 +36,7 @@ const NfApp = (() => {
   const cont = k => `<div class="nf-cw">${card(k, "", 0, "", "")}<div class="nf-pb"><i></i></div><div class="nf-ab"><span>${I.info}</span><s></s><span>${I.dots}</span></div><div class="nf-pl">${I.play}</div></div>`;
   const share = k => `<div class="nf-cw nf-sh">${card(k)}<div class="nf-ab nf-sb">${I.send}공유</div></div>`;
   const rank = (n, k) => `<div class="nf-rk" style="width:${n === 1 ? 141 : 179}px"><span>${n}</span>${card(k, "새로운 에피소드", 0, "지금 시청하기")}</div>`;
-  const PF = [["박성화", "#2a7ae0,#e8f2ff", "🏴‍☠️"], ["uu", "#5a0fb0,#3a0a80", "🐧"]];
+  const PF = [["박성화", "#2a7ae0,#e8f2ff", "🌙"], ["uu", "#5a0fb0,#3a0a80", "🐶"]];
   const SL = [["ssang", "쌍화점"], ["mun", "먼가 작고 귀여운 녀석"], ["d365", "365일"], ["ing", "인간중독"], ["min", "미인도"], ["ano", "아노라"]];
   let prof = null, tab = "hm", isOpen = false, q = "", savedWorks = [];
   const av = (i, s) => `<div class="nf-av" style="width:${s}px;height:${s}px;border-radius:${Math.round(s * .2)}px;background:linear-gradient(160deg,${PF[i][1]});font-size:${Math.round(s * .55)}px">${PF[i][2]}</div>`;
@@ -134,6 +134,8 @@ const NfApp = (() => {
     else if (d === "pick") { prof = null; render(); }
   }
   el.addEventListener("click", e => {
+    const nButton = e.target.closest(".nf-N");
+    if (nButton) { e.preventDefault(); e.stopPropagation(); prof = null; tab = "hm"; q = ""; isOpen = false; render(); return; }
     const p = e.target.closest("[data-p]"), t = e.target.closest("[data-t]"), a = e.target.closest("[data-act]"), w = e.target.closest("[data-work]");
     if (p) { if (p.dataset.p !== "x") { prof = +p.dataset.p; tab = "hm"; q = ""; render(); } }
     else if (t) { if (t.dataset.t === "sr" || t.dataset.t === "my") return; tab = t.dataset.t; q = ""; render(); }
