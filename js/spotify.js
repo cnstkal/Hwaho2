@@ -113,6 +113,24 @@ const SpApp = (() => {
   function toast(t) { const e = $("#sp-ts"); e.textContent = t; e.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove("on"), 2000); }
   function doShuf() { orig = Q.slice(); const c = Q[qi], r = Q.filter((_, k) => k !== qi); for (let i = r.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0;[r[i], r[j]] = [r[j], r[i]]; } Q = [c, ...r]; qi = 0; }
   function undoShuf() { if (orig) { const c = Q[qi]; Q = orig; orig = null; qi = Q.indexOf(c); } }
+  function islandSync() {
+    const island = document.getElementById("isl");
+    if (!island) return;
+    const t = cur();
+    island.classList.toggle("music-active", !!t);
+    island.classList.toggle("music-playing", !!t && playing);
+    const title = island.querySelector(".isl-tx b");
+    const artist = island.querySelector(".isl-tx small");
+    const pp = island.querySelector('[data-i="pp"]');
+    const cover = t && (albumCovers[AL[t.ai][0]] || trackCovers[t.t] || artistPhotos[t.a]);
+    [island.querySelector(".isl-th"), island.querySelector(".isl-th.big")].filter(Boolean).forEach(node => {
+      node.style.backgroundImage = cover ? "url('" + U(cover) + "')" : "";
+      node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center";
+    });
+    if (title) title.textContent = t ? t.t : "";
+    if (artist) artist.textContent = t ? t.a : "";
+    if (pp) pp.setAttribute("aria-label", playing ? "일시정지" : "재생");
+  }
   function setPlay(b) { playing = b && qi >= 0; savePlayback(); sync(); }
   function startQ(ids, i, s) {
     if (!ids.length) return; Q = ids.slice(); qi = i; src = s; orig = null; if (shuf) doShuf(); pos = 0;
@@ -155,6 +173,7 @@ const SpApp = (() => {
     $("#sp-fr").innerHTML = I.rep + (rep === 2 ? "<sup>1</sup>" : "");
     const e = src && ent(src); $("#sp-fsrc").textContent = e ? e.t : "검색 결과";
     tick();
+    islandSync();
   }
 
   /* ---------- 화면 ---------- */
@@ -303,6 +322,18 @@ const SpApp = (() => {
   const vv = window.visualViewport, kfit = () => { if (!isOpen || !vv) return; const k = Math.max(0, window.innerHeight - vv.height - vv.offsetTop); el.style.bottom = k + "px"; el.classList.toggle("kb", k > 80); };
   if (vv) { vv.addEventListener("resize", kfit); vv.addEventListener("scroll", kfit); }
   paintTab(); sync();
+  const island = document.getElementById("isl");
+  if (island && !island.dataset.musicWired) {
+    island.dataset.musicWired = "1";
+    island.addEventListener("click", e => {
+      const btn = e.target.closest("[data-i]");
+      if (!btn || !window.SpApp) return;
+      e.stopPropagation();
+      if (btn.dataset.i === "pp") window.SpApp.toggle();
+      else if (btn.dataset.i === "next") window.SpApp.next();
+      else if (btn.dataset.i === "prev") window.SpApp.prev();
+    });
+  }
   function open() { if (isOpen) return; isOpen = true; if (typeof originFrom === "function") originFrom(el, "spotify"); screen.classList.remove("app-light"); setTimeout(() => { if (isOpen) screen.classList.remove("app-light"); }, 200); el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false"); if (tab === "hm") paintTab(); }
   function close() {
     if (!isOpen) return; isOpen = false; shut(); $("#sp-pl").classList.remove("on"); el.classList.remove("open", "kb"); el.setAttribute("aria-hidden", "true");
