@@ -92,7 +92,7 @@ const NfApp = (() => {
 
   const head = () => {
     const l = tab === "hm" ? `<div class="nf-hl nf-N">${I.N}<b>홈</b></div>` : tab === "sr" ? `<div class="nf-hl"><b>검색</b></div>` : `<div class="nf-hl" data-act="pick">${av(prof, 38)}<b>${PF[prof][0]}</b><em>${I.dd}</em></div>`;
-    return `<header class="nf-hd">${l}<div class="nf-hr"><span>${I.cast}</span><span>${I.dl}</span><span class="nf-bl">${I.bell}<i>1</i></span></div></header>`;
+    return tab === "hm" ? "" : `<header class="nf-hd">${l}<div class="nf-hr"><span>${I.cast}</span><span>${I.dl}</span><span class="nf-bl">${I.bell}<i>1</i></span></div></header>`;
   };
   const SIL = '<svg viewBox="0 0 342 340" class="nf-sil"><path d="M95 340 L108 192 Q112 150 150 140 L192 140 Q232 150 236 192 L249 340Z" fill="#14100f"/><path d="M96 205 Q70 222 78 282 L100 292Z M246 205 Q272 222 264 282 L242 292Z" fill="#1d1716"/><path d="M146 138 L171 190 L196 138Z" fill="#e9d2c8"/><ellipse cx="171" cy="84" rx="30" ry="38" fill="#e9d2c8"/><path d="M132 92 Q128 36 171 34 Q214 36 210 92 L206 120 Q198 70 171 66 Q144 70 136 120Z" fill="#0b0909"/></svg>';
   const heroV = () => `<div class="nf-chips">${["시리즈", "영화", "NEW & HOT"].map(t => `<button data-act="chip">${t}</button>`).join("")}<button data-act="chip" class="cat">카테고리${I.dd}</button></div>
