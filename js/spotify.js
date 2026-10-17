@@ -114,6 +114,19 @@ const SpApp = (() => {
   function toast(t) { const e = $("#sp-ts"); e.textContent = t; e.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => e.classList.remove("on"), 2000); }
   function doShuf() { orig = Q.slice(); const c = Q[qi], r = Q.filter((_, k) => k !== qi); for (let i = r.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0;[r[i], r[j]] = [r[j], r[i]]; } Q = [c, ...r]; qi = 0; }
   function undoShuf() { if (orig) { const c = Q[qi]; Q = orig; orig = null; qi = Q.indexOf(c); } }
+  const _dc = {};
+  function domColor(path, cb) {
+    if (_dc[path]) return cb(_dc[path]);
+    const im = new Image(); im.onload = () => { try {
+      const c = document.createElement("canvas"); c.width = c.height = 24; const x = c.getContext("2d"); x.drawImage(im, 0, 0, 24, 24);
+      const d = x.getImageData(0, 0, 24, 24).data, b = {};
+      for (let i = 0; i < d.length; i += 4) { const R = d[i], G = d[i + 1], B = d[i + 2], mx = Math.max(R, G, B), mn = Math.min(R, G, B), sat = mx ? (mx - mn) / mx : 0; if (mx < 60 || sat < .25) continue;
+        const k = ((R >> 6) << 4) | ((G >> 6) << 2) | (B >> 6), e = b[k] || (b[k] = { w: 0, r: 0, g: 0, b: 0 }), w = sat * mx; e.w += w; e.r += R * w; e.g += G * w; e.b += B * w; }
+      let best = null; for (const k in b) if (!best || b[k].w > best.w) best = b[k];
+      let col = "#1ed760"; if (best) { let R = best.r / best.w, G = best.g / best.w, B = best.b / best.w; const m = Math.max(R, G, B), f = m < 170 ? 170 / m : 1; col = "rgb(" + [R, G, B].map(v => Math.min(255, Math.round(v * f))).join(",") + ")"; }
+      cb(_dc[path] = col); } catch (e) { cb("#1ed760"); } };
+    im.onerror = () => cb("#1ed760"); im.src = U(path);
+  }
   function islandSync() {
     const island = document.getElementById("isl");
     if (!island) return;
@@ -127,11 +140,14 @@ const SpApp = (() => {
     const title = island.querySelector(".isl-tx b");
     const artist = island.querySelector(".isl-tx small");
     const pp = island.querySelector('[data-i="pp"]');
-    const cover = t && (trackCovers[t.t] || albumCovers[AL[t.ai][0]] || "");
+    const cover = t && (trackCovers[t.t] || albCv(AL[t.ai][0]) || "");
     [island.querySelector(".isl-th"), island.querySelector(".isl-th.big")].filter(Boolean).forEach(node => {
       node.style.backgroundImage = cover ? "url('" + U(cover) + "')" : "";
       node.style.backgroundSize = "cover"; node.style.backgroundPosition = "center";
     });
+    if (island._cv !== cover) { island._cv = cover; if (cover) domColor(cover, c => { if (island._cv === cover) island.style.setProperty("--bc", c); }); else island.style.removeProperty("--bc"); }
+    const st = (playing ? "p" : "s") + (t ? 1 : 0);
+    if (island._st !== st) { island._st = st; const bs = island.querySelectorAll(".isl-ct button"); if (bs.length === 3) { bs[0].innerHTML = I.prev; bs[1].innerHTML = playing ? I.pause : I.play; bs[2].innerHTML = I.next; } }
     if (title) title.textContent = t ? t.t : "";
     if (artist) artist.textContent = t ? t.a : "";
     if (pp) pp.setAttribute("aria-label", playing ? "일시정지" : "재생");
@@ -157,11 +173,16 @@ const SpApp = (() => {
     savePlayback(); sync();
   }
   function prev() { if (qi < 0) return; if (pos > 3 || qi === 0) pos = 0; else { qi--; pos = 0; } savePlayback(); sync(); }
-  setInterval(() => { if (!playing || seek || qi < 0 || !cur()) return; pos += .25; if (pos >= cur().d) next(true); else { savePlayback(); tick(); } }, 250);
+  setInterval(() => { if (!playing || seek || qi < 0 || !cur()) return; pos += .25; if (pos >= cur().d) next(true); else { if (((pos * 4) | 0) % 8 === 0) savePlayback(); tick(); } }, 250);
+  function islandTick(t, p) {
+    const i = document.getElementById("isl"); if (!i || !i.classList.contains("on")) return;
+    const a = i.querySelector(".isl-pg .a"), b = i.querySelector(".isl-pg .b"), f = i.querySelector(".isl-bar i");
+    if (a) a.textContent = fm(pos); if (b) b.textContent = fm(t.d); if (f) f.style.transform = "scaleX(" + p + ")";
+  }
   function tick() {
     const t = cur(); if (!t) return; const p = Math.min(1, pos / t.d);
     const sk = $("#sp-sk"); if (!seek) { sk.value = Math.round(p * 1000); } sk.style.setProperty("--p", (p * 100) + "%");
-    $("#sp-t1").textContent = fm(pos); $("#sp-t2").textContent = fm(t.d); $("#sp-mg i").style.width = (p * 100) + "%";
+    islandTick(t, p); $("#sp-t1").textContent = fm(pos); $("#sp-t2").textContent = fm(t.d); $("#sp-mg i").style.width = (p * 100) + "%";
   }
   function sync() {
     const t = cur(); el.classList.toggle("has", !!t);
@@ -344,6 +365,7 @@ const SpApp = (() => {
     if (!isOpen) return; isOpen = false; shut(); $("#sp-pl").classList.remove("on"); el.classList.remove("open", "kb"); el.setAttribute("aria-hidden", "true");
     setTimeout(() => { if (!isOpen) { el.classList.remove("show"); el.style.bottom = ""; islandSync(); } }, 430);
   }
+  (() => { const st = document.createElement("style"); st.textContent = ".isl-bars{width:21px;height:16px;justify-content:space-between;gap:0}.isl-bars i{height:16px!important;width:3px;background:var(--bc,#1ed760)!important;transform:scaleY(.3);transform-origin:50% 50%;will-change:transform;animation:none}.island.pl .isl-bars i{animation:islb2 .5s ease-in-out infinite alternate}.island.pl .isl-bars i:nth-child(1){animation-duration:.46s}.island.pl .isl-bars i:nth-child(2){animation-duration:.62s;animation-delay:-.2s!important}.island.pl .isl-bars i:nth-child(3){animation-duration:.54s;animation-delay:-.35s!important}.island.pl .isl-bars i:nth-child(4){animation-duration:.7s;animation-delay:-.1s!important}@keyframes islb2{from{transform:scaleY(.25)}to{transform:scaleY(1)}}.isl-bar i{width:100%!important;transform-origin:0 50%;transform:scaleX(0);will-change:transform}.isl-th{background-size:cover;background-position:center}"; document.head.appendChild(st); })();
   document.addEventListener("app:open", e => { if (e.detail.id === "spotify") open(); });
   document.addEventListener("app:close", close);
   return { open, close,
