@@ -616,7 +616,7 @@ html.pvo,html.pvo body{background:#fff!important}html.pvo.pvb,html.pvo.pvb body{
 .sf-prog i{position:absolute;left:0;top:0;bottom:0;width:0;background:#007aff;opacity:0}
 .sf-prog.go i{opacity:1;width:85%;transition:width 9s cubic-bezier(.1,.6,.2,1)}
 .sf-prog.done i{opacity:0;width:100%;transition:width .2s,opacity .3s .2s}
-.sf-bot{flex:none;background:#f6f6f6;border-top:.5px solid rgba(60,60,67,.2);padding:0 12px calc(env(safe-area-inset-bottom,0px) + 26px)}
+.sf-bot{flex:none;background:#f6f6f6;border-top:0;padding:0 12px calc(env(safe-area-inset-bottom,0px) + 26px)}
 .sf-ab{position:relative;height:40px}
 .sf-addr{width:100%;height:40px;border-radius:12px;background:rgba(118,118,128,.14)!important;display:flex;align-items:center;justify-content:center;padding:0 40px;font-size:16px;gap:4px;overflow:hidden;white-space:nowrap}
 .sf-addr span{overflow:hidden;text-overflow:ellipsis}
