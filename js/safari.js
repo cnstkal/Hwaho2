@@ -262,7 +262,7 @@ const SafariApp = (() => {
 <div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:8px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${nvTodayTs(a.ts)}</span></div></div>
 ${a.nothumb ? "" : `<div class="en-img" style="${a.image ? `background-image:url(${a.image});background-size:cover;background-position:center` : `background:linear-gradient(150deg,hsl(${a.hue} 30% 70%),hsl(${a.hue + 30} 30% 28%))`}">${a.image ? "" : "<em>SAMPLE</em>"}</div>`}
 <div class="en-bd">${a.body.map(p => `<p>${p}</p>`).join("")}</div>
-${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
+${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
   }
   document.addEventListener("click", e => {
     const t = e.target.closest(".nv [data-nv=nws]"); if (!t) return;
@@ -294,9 +294,9 @@ ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"><
   };
   const cmItems = list => list.map((c, i) => `<div class="cm-c" data-i="${i}"><span class="av">${cmI.av}</span><div class="bd"><div class="tp"><b>${c.u}</b><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><span class="fl">팔로우</span><i class="mr"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.700" fill="#333"/><circle cx="12" cy="12" r="1.700" fill="#333"/><circle cx="12" cy="19" r="1.700" fill="#333"/></svg></i></div><p>${esc(c.t)}</p><small>${c.d}</small><div class="bt"><span class="rp">답글</span><span class="rc"><button data-nv="cmup" class="${c.my === 1 ? "on" : ""}">${cmI.up}<em>${c.l + (c.my === 1 ? 1 : 0)}</em></button><button data-nv="cmdn" class="${c.my === -1 ? "on" : ""}">${cmI.dn}<em>${c.x + (c.my === -1 ? 1 : 0)}</em></button></span></div></div></div>`).join("");
   const NVY = [
-    { u: "fixo****", t: "짝사랑이었나 보네", d: "2026.09.03. 13:08", l: 6, x: 1 },
-    { u: "mout*****", t: "그래 요즘 시대에 자기 마음 표현하는 거 보기 좋다 성화야 나도 내년에 중학교 들어가는데 힘내라", d: "2026.09.03. 13:07", l: 16, x: 1 },
-    { u: "dkek****", t: "에이구. 젊은 청년이. 안타깝게 됐네. 윤호 씨가 잘 보듬어 주시길...^^", d: "2026.09.03. 13:05", l: 3, x: 1 }
+    { u: "jt20****", t: "왜 그러니..좀. 세상이 이상해지네. 돌은 아이다이가", d: "2026.10.18. 22:12", l: 9, x: 0 },
+    { u: "jesa****", t: "사람이 아니여! 싫으면 갈라서면되지.", d: "2026.10.18. 22:14", l: 3, x: 0 },
+    { u: "catw****", t: "남자가 여자를 매일 죽이는게 아니고, 하루에 몇 명씩 죽이네 오늘 벌써 기사 몇 개를 보는건지", d: "2026.10.18. 22:58", l: 2, x: 1 }
   ];
   function nvCmt(items = NVC, articleId = "") {
     const n = items.length;
@@ -307,7 +307,7 @@ ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"><
 <div class="cm-ls">${cmItems(items)}</div></div>`;
   }
   document.addEventListener("click", e => {
-    const t = e.target.closest(".nv.en .cm [data-nv]"); if (!t) return; const cm = t.closest(".cm"), comments = cm.dataset.articleId === "5" ? NVY : NVC, ls = cm.querySelector(".cm-ls"), sync = () => { ls.innerHTML = cmItems(comments); cm.querySelectorAll("[data-cmn]").forEach(x => x.textContent = comments.length); };
+    const t = e.target.closest(".nv.en .cm [data-nv]"); if (!t) return; const cm = t.closest(".cm"), comments = (cm.dataset.articleId === "4" || cm.dataset.articleId === "5") ? NVY : NVC, ls = cm.querySelector(".cm-ls"), sync = () => { ls.innerHTML = cmItems(comments); cm.querySelectorAll("[data-cmn]").forEach(x => x.textContent = comments.length); };
     switch (t.dataset.nv) {
       case "cmreg": { const inp = cm.querySelector(".cm-ip input"), v = inp.value.trim(); if (!v) break; const d = new Date(), p = n => String(n).padStart(2, "0"); comments.unshift({ u: "me****", t: v, d: `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())}. ${p(d.getHours())}:${p(d.getMinutes())}`, l: 0, x: 0 }); inp.value = ""; sync(); break; }
       case "cmup": case "cmdn": { const c = comments[+t.closest(".cm-c").dataset.i], k = t.dataset.nv === "cmup" ? 1 : -1; c.my = c.my === k ? 0 : k; sync(); break; }
