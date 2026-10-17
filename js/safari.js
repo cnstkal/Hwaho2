@@ -239,7 +239,7 @@ const SafariApp = (() => {
       ] },
     { id: "4", outlet: "Atzen", nothumb: 1, ago: "6주 전", ts: "2026.09.02. 오후 3:02", hue: 40, title: "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”", sum: "", react: "420",
       body: ["정윤호 측이 래퍼 마스와의 열애설에 대해 “사실무근”이라는 입장을 밝혔다.", "정윤호 소속사 측은 “마스와의 열애설은 사실이 아니다”라며 관련 보도 및 주장에 대해 선을 그었다. 이어 “배우 본인에게 확인한 결과 열애설의 내용을 전혀 알지 못하고 있으며, 사실과 다른 내용에 당황스러워하고 있다”고 전했다.", "갑작스럽게 불거진 열애설에 대해 정윤호 측은 사실이 아니라는 입장을 재차 강조했다.", "김코 기자 koooo@atzen.com"] },
-    { id: "5", outlet: "Atzen", ago: "6주 전", ts: "2026.09.02. 오후 3:02", hue: 40, title: "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”", sum: "정윤호 측이 래퍼 마스와의 열애설에 대해 사실무근이라는 입장을 밝혔다.", react: "420",
+    { id: "5", outlet: "Atzen", ago: "6주 전", ts: "2026.09.02. 오후 3:02", hue: 40, image: "./images/app/Naver/정윤호_마스_열애설/collage%203.png", title: "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”", sum: "정윤호 측이 래퍼 마스와의 열애설에 대해 사실무근이라는 입장을 밝혔다.", react: "420",
       body: ["정윤호 측이 래퍼 마스와의 열애설에 대해 “사실무근”이라는 입장을 밝혔다.", "정윤호 소속사 측은 “마스와의 열애설은 사실이 아니다”라며 관련 보도 및 주장에 대해 선을 그었다. 이어 “배우 본인에게 확인한 결과 열애설의 내용을 전혀 알지 못하고 있으며, 사실과 다른 내용에 당황스러워하고 있다”고 전했다.", "갑작스럽게 불거진 열애설에 대해 정윤호 측은 사실이 아니라는 입장을 재차 강조했다.", "김코 기자 koooo@atzen.com"] }
   ];
   const nvDots = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.600" fill="#8b8f97"/><circle cx="12" cy="12" r="1.600" fill="#8b8f97"/><circle cx="12" cy="19" r="1.600" fill="#8b8f97"/></svg>';
@@ -250,7 +250,7 @@ const SafariApp = (() => {
     return nvPerson(q).replace("가수 · ATEEZ", job).replace(/<div class="rs-tbl">[\s\S]*?<\/div>\n<div class="rs-ft">/, tbl).replace(nvNews(), nvNews(x0, NVN[1])).split("정윤호").join(q);
   }
   function nvNews(x0 = NVN[0], x1 = NVN[1]) {
-    const it = a => `<div class="nn-i" data-nv="nws" data-id="${a.id}"><div class="m">${nvPress(a)}<b>${a.outlet}</b>${a.pick ? '<em>PiCK</em>' : ""}<span>· ${a.ago} · 네이버뉴스</span><i>${nvDots}</i></div><div class="r"><div class="t"><h4>${esc(a.title)}</h4>${a.sum ? `<p>${esc(a.sum)}</p>` : ""}</div>${a.nothumb ? "" : `<div class="th" style="background:linear-gradient(150deg,hsl(${a.hue} 35% 62%),hsl(${a.hue + 30} 35% 30%))"></div>`}</div></div>`;
+    const it = a => `<div class="nn-i" data-nv="nws" data-id="${a.id}"><div class="m">${nvPress(a)}<b>${a.outlet}</b>${a.pick ? '<em>PiCK</em>' : ""}<span>· ${a.ago} · 네이버뉴스</span><i>${nvDots}</i></div><div class="r"><div class="t"><h4>${esc(a.title)}</h4>${a.sum ? `<p>${esc(a.sum)}</p>` : ""}</div>${a.nothumb ? "" : `<div class="th" style="${a.image ? `background-image:url(${a.image});background-size:cover;background-position:center` : `background:linear-gradient(150deg,hsl(${a.hue} 35% 62%),hsl(${a.hue + 30} 35% 30%))`}"></div>`}</div></div>`;
     return `<div class="nn"><div class="nn-h"><b>뉴스</b><span class="on">• 관련도순</span><span>• 최신순</span><span class="mm">모바일 메인 언론사</span><i class="tg"></i></div>${it(x0)}${it(x1)}<button class="nn-mr">뉴스 더보기 →</button></div>`;
   }
   const ensv = { sp: '<svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.600" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.500h3l4-3.500v12l-4-3.500H4zM15 9a4 4 0 0 1 0 6M17.500 6.500a7.500 7.500 0 0 1 0 11"/></svg>', sh: '<svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.600" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 5-6 5V11c-5 0-8 2-9 6 .5-6 4-9 9-9z"/><path d="M5 12v7h12"/></svg>', bub: '<svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.800"><path d="M12 3.500c-5 0-9 3.300-9 7.500 0 2.300 1.200 4.300 3.100 5.700L5 20.500l4-2.200c.9.200 1.900.4 3 .4 5 0 9-3.300 9-7.500S17 3.500 12 3.500z"/><circle cx="8.500" cy="11.200" r=".5" fill="#111"/><circle cx="12" cy="11.200" r=".5" fill="#111"/><circle cx="15.500" cy="11.200" r=".5" fill="#111"/></svg>' };
@@ -259,7 +259,7 @@ const SafariApp = (() => {
     return `<div class="nv en"><div class="en-hd"><i class="lg"><svg viewBox="0 0 24 24"><path d="M5 4h5l4 6.200V4h5v16h-5l-4-6.200V20H5z" fill="#fff"/></svg></i><b>엔터</b></div>
 <div class="en-cat"><span class="on">홈</span><span>드라마</span><span>영화</span><span>뮤직</span><span>연애</span><span>포토</span><span>랭킹</span><span>최신뉴스</span></div>
 <div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:14px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${a.ts}</span></div>${a.id === "3" || a.id === "5" ? "" : `<div class="rx"><span class="ic"><i>${ensv.sp}</i><i class="fs">가</i><i>${ensv.sh}</i></span></div>`}</div>
-${a.nothumb ? "" : `<div class="en-img" style="background:linear-gradient(150deg,hsl(${a.hue} 30% 70%),hsl(${a.hue + 30} 30% 28%))"><em>SAMPLE</em></div>`}
+${a.nothumb ? "" : `<div class="en-img" style="${a.image ? `background-image:url(${a.image});background-size:cover;background-position:center` : `background:linear-gradient(150deg,hsl(${a.hue} 30% 70%),hsl(${a.hue + 30} 30% 28%))`}">${a.image ? "" : "<em>SAMPLE</em>"}</div>`}
 <div class="en-bd">${a.body.map(p => `<p>${p}</p>`).join("")}</div>
 ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
   }
