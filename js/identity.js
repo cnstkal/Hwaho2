@@ -13,7 +13,9 @@
     "fixon_n_on": "images/app/Instagram/Profile/fixon_n_on/IMG_7072.jpeg",
     "홍중": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg",
     "NO1": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg",
-    "no1likeme8_8": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg"
+    "no1likeme8_8": "images/app/Instagram/Profile/no1likeme8_8/IMG_7065.jpeg",
+    "윤호": "images/Instagram/Profile/yunou._.u/IMG_8361.jpeg",
+    "yunou._.u": "images/Instagram/Profile/yunou._.u/IMG_8361.jpeg"
   };
   window.HwahoIdentity = Object.freeze({
     avatar(name) {
