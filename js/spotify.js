@@ -34,9 +34,9 @@ const SpApp = (() => {
     ["작은 방", "하루종일", 140, "어쿠스틱", [["기타와 햇살", 189], ["작은 방", 202], ["빈 의자", 176], ["귀갓길", 217]]],
     ["Neon Garden", "Luna Harbor", 300, "팝", [["Neon Garden", 193], ["Glass Hours", 208], ["Daydream Loop", 186], ["Paper Moon", 222]]],
     ["Overdrive", "Velvet Static", 10, "록", [["Overdrive", 199], ["Red Line", 187], ["Burnout", 212], ["Quiet Riot Act", 234]]],
-    ["BAD", "ATEEZ", 190, "K-pop", [["BAD", 193], ["Adrenaline", 201], ["In Your Fantasy", 188], ["Lemon Drop", 179]]],
-    ["Why Do You Love", "NO1", 350, "록", [["Why Do You Love", 204]]],
-    ["Skin", "MARS", 265, "힙합", [["Skin", 190]]],
+    ["BAD", "ATEEZ", 190, "K-pop", [["BAD", 156], ["Adrenaline", 219], ["In Your Fantasy", 193], ["Lemon Drop", 179]]],
+    ["Why Do You Love", "NO1", 350, "록", [["Why Do You Love", 185]]],
+    ["Skin", "MARS", 265, "힙합", [["Skin", 200]]],
     ["Dinero", "FIXON", 30, "힙합", [["Dinero", 205]]],
   ];
   const T = []; AL.forEach((a, ai) => a[4].forEach((s, i) => T.push({ id: T.length, t: s[0], a: a[1], ai, n: i + 1, d: s[1] })));
