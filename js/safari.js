@@ -294,9 +294,9 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   };
   const cmItems = list => list.map((c, i) => `<div class="cm-c" data-i="${i}"><span class="av">${cmI.av}</span><div class="bd"><div class="tp"><b>${c.u}</b><svg class="ar" viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg><span class="fl">팔로우</span><i class="mr"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.700" fill="#333"/><circle cx="12" cy="12" r="1.700" fill="#333"/><circle cx="12" cy="19" r="1.700" fill="#333"/></svg></i></div><p>${esc(c.t)}</p><small>${c.d}</small><div class="bt"><span class="rp">답글</span><span class="rc"><button data-nv="cmup" class="${c.my === 1 ? "on" : ""}">${cmI.up}<em>${c.l + (c.my === 1 ? 1 : 0)}</em></button><button data-nv="cmdn" class="${c.my === -1 ? "on" : ""}">${cmI.dn}<em>${c.x + (c.my === -1 ? 1 : 0)}</em></button></span></div></div></div>`).join("");
   const NVY = [
-    { u: "jt20****", t: "왜 그러니..좀. 세상이 이상해지네. 돌은 아이다이가", d: "2026.10.18. 22:12", l: 9, x: 0 },
-    { u: "jesa****", t: "사람이 아니여! 싫으면 갈라서면되지.", d: "2026.10.18. 22:14", l: 3, x: 0 },
-    { u: "catw****", t: "남자가 여자를 매일 죽이는게 아니고, 하루에 몇 명씩 죽이네 오늘 벌써 기사 몇 개를 보는건지", d: "2026.10.18. 22:58", l: 2, x: 1 }
+    { u: "fixo****", t: "짝사랑이었나 보네", d: "2026.10.18. 13:08", l: 6, x: 1 },
+    { u: "mout*****", t: "그래 요즘 시대에 자기 마음 표현하는 거 보기 좋다 성화야 나도 내년에 중학교 들어가는데 힘내라", d: "2026.10.18. 13:07", l: 16, x: 1 },
+    { u: "dkek****", t: "에이구. 젊은 청년이. 안타깝게 됐네. 윤호 씨가 잘 보듬어 주시길...^^", d: "2026.10.18. 13:05", l: 3, x: 1 }
   ];
   function nvCmt(items = NVC, articleId = "") {
     const n = items.length;
