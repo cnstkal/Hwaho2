@@ -242,7 +242,7 @@ const SafariApp = (() => {
     { id: "5", outlet: "Atzen", ago: "6주 전", ts: "2026.09.02. 오후 3:02", hue: 40, image: "./images/app/Naver/정윤호_마스_열애설/collage%203.png", title: "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”", sum: "정윤호 측이 래퍼 마스와의 열애설에 대해 사실무근이라는 입장을 밝혔다.", react: "420",
       body: ["정윤호 측이 래퍼 마스와의 열애설에 대해 “사실무근”이라는 입장을 밝혔다.", "정윤호 소속사 측은 “마스와의 열애설은 사실이 아니다”라며 관련 보도 및 주장에 대해 선을 그었다. 이어 “배우 본인에게 확인한 결과 열애설의 내용을 전혀 알지 못하고 있으며, 사실과 다른 내용에 당황스러워하고 있다”고 전했다.", "갑작스럽게 불거진 열애설에 대해 정윤호 측은 사실이 아니라는 입장을 재차 강조했다.", "김코 기자 koooo@atzen.com"] }
   ];
-  function nvTodayTs(ts) { const d = new Date(); const pad = n => String(n).padStart(2, "0"); const today = `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}.`; return ts.replace(/^\\d{4}\\.\\d{2}\\.\\d{2}\\./, today); }
+  function nvTodayTs(ts) { const d = new Date(); const pad = n => String(n).padStart(2, "0"); const today = `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}.`; return ts.replace(/^\d{4}\.\d{2}\.\d{2}\./, today); }
   const nvDots = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.600" fill="#8b8f97"/><circle cx="12" cy="12" r="1.600" fill="#8b8f97"/><circle cx="12" cy="19" r="1.600" fill="#8b8f97"/></svg>';
   const nvPress = a => `<span class="pi" style="background:hsl(${a.hue} 40% 92%);color:hsl(${a.hue} 55% 40%)">${a.outlet[0]}</span>`;
   function nvRap(q, job = "래퍼", g = "힙합", x0 = NVN[2]) {
