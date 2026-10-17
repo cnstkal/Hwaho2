@@ -29,7 +29,7 @@ const SpApp = (() => {
     ["모래시계", "도시 곡선", 30, "힙합", [["오후 네 시", 172], ["골목 지도", 203], ["모래시계", 196], ["환승", 181]]],
     ["ENOuGH", "NO1", 350, "록", [["ENOuGH", 143]]],
     ["Midnight Grid", "Orbit Eleven", 190, "일렉트로닉", [["Grid Runner", 236], ["Pulse Theory", 212], ["Midnight Grid", 254], ["Cold Boot", 199]]],
-    ["Desire", "FIXON", 200, "힙합", [["Tunnel", 147], ["AUTOBAHN", 172], ["ROAR", 154], ["Dinero", 205]]],
+    ["Desire", "FIXON", 200, "힙합", [["Tunnel", 147], ["AUTOBAHN", 172], ["ROAR", 154]],
     ["Honey Static", "Kite & Co.", 45, "R&B", [["Honey Static", 205], ["Slow Burn", 227], ["Velvet Rain", 218], ["Late Reply", 191]]],
     ["작은 방", "하루종일", 140, "어쿠스틱", [["기타와 햇살", 189], ["작은 방", 202], ["빈 의자", 176], ["귀갓길", 217]]],
     ["Neon Garden", "Luna Harbor", 300, "팝", [["Neon Garden", 193], ["Glass Hours", 208], ["Daydream Loop", 186], ["Paper Moon", 222]]],
@@ -37,6 +37,7 @@ const SpApp = (() => {
     ["BAD", "ATEEZ", 190, "K-pop", [["BAD", 193], ["Adrenaline", 201], ["In Your Fantasy", 188], ["Lemon Drop", 179]]],
     ["Why Do You Love", "NO1", 350, "록", [["Why Do You Love", 204]]],
     ["Skin", "MARS", 265, "힙합", [["Skin", 190]]],
+    ["Dinero", "FIXON", 30, "힙합", [["Dinero", 205]]],
   ];
   const T = []; AL.forEach((a, ai) => a[4].forEach((s, i) => T.push({ id: T.length, t: s[0], a: a[1], ai, n: i + 1, d: s[1] })));
   const AR = [{ id: 0, n: "MARS", h: 265 }, { id: 1, n: "NO1", h: 330 }, { id: 2, n: "FIXON", h: 30 }, { id: 3, n: "ATEEZ", h: 190 }];
