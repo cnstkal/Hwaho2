@@ -119,7 +119,7 @@ const XApp = (() => {
   const myCount = () => mine().length, folCnt = () => Object.keys(US).filter(id => id !== ME && isFol(id)).length;
   function renderProf() { const u = usr(ME), l = mine(), bio = S.me.bio != null ? S.me.bio : DEF_BIO;
     $("#x-pn").textContent = u.name; $("#x-pc").textContent = `게시물 ${myCount() + 0}개`;
-    $("#x-pinfo").innerHTML = `<div class="x-cv" style="background:#000"></div><div class="x-pi"><div class="x-pa">${av(u, 80)}</div><button class="x-eb" data-g="pedit" type="button" style="color:#000">프로필 편집</button></div><div class="x-pn"><b>${esc(u.name)}</b><span>@${ME}</span></div>${bio.trim() ? `<div class="x-bio">${txt(bio)}</div>` : ""}<div class="x-jd">${I.cal}<span>2026년 8월 가입</span></div><div class="x-fc"><span><b>${folCnt()}</b> 팔로잉</span><span><b>5,923</b> 팔로워</span></div>`;
+    $("#x-pinfo").innerHTML = `<div class="x-cv" style="background:#000"></div><div class="x-pi"><div class="x-pa">${av(u, 80)}</div><button class="x-eb" type="button" aria-label="프로필 편집" disabled tabindex="-1" style="color:#000;pointer-events:none">프로필 편집</button></div><div class="x-pn"><b>${esc(u.name)}</b><span>@${ME}</span></div>${bio.trim() ? `<div class="x-bio">${txt(bio)}</div>` : ""}<div class="x-jd">${I.cal}<span>2026년 8월 가입</span></div><div class="x-fc"><span><b>${folCnt()}</b> 팔로잉</span><span><b>5,923</b> 팔로워</span></div>`;
     document.querySelectorAll("#x-ptabs button").forEach(b => b.classList.toggle("on", b.dataset.k === ptab));
     let h = "";
     if (ptab === "post") { const a = l.filter(p => !p.re); h = a.length ? a.map(p => postHtml(p)).join("") : `<div class="x-em"><b>아직 게시물이 없어요</b>게시한 글이 여기에 표시됩니다.</div>`; }
