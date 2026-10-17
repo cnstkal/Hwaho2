@@ -134,11 +134,9 @@ const NfApp = (() => {
     else if (d === "pick") { prof = null; render(); }
   }
   el.addEventListener("click", e => {
-    const nButton = e.target.closest(".nf-N");
-    if (nButton) { e.preventDefault(); e.stopPropagation(); prof = null; tab = "hm"; q = ""; isOpen = false; render(); return; }
     const p = e.target.closest("[data-p]"), t = e.target.closest("[data-t]"), a = e.target.closest("[data-act]"), w = e.target.closest("[data-work]");
     if (p) { if (p.dataset.p !== "x") { prof = +p.dataset.p; tab = "hm"; q = ""; render(); } }
-    else if (t) { if (t.dataset.t === "sr" || t.dataset.t === "my") return; tab = t.dataset.t; q = ""; render(); }
+    else if (t) { if (t.dataset.t === "sr") return; if (t.dataset.t === "my") { prof = null; tab = "hm"; q = ""; isOpen = false; render(); return; } tab = t.dataset.t; q = ""; render(); }
     else if (a) act(a);
     else if (w) showDetail(w.dataset.work);
   });
@@ -187,7 +185,7 @@ const NfApp = (() => {
 #nf-app .nf-lp{width:36px;height:36px;border:2px solid #ddd;border-radius:50%;display:flex;align-items:center;justify-content:center}#nf-app .nf-lp svg{width:18px;height:18px}#nf-app .nf-em{color:#888;text-align:center;margin-top:40px}
 #nf-app .nf-sv{margin:6px 8px 0;border:1px solid #333;border-radius:12px;background:#141414;padding:16px 14px;display:grid;grid-template-columns:44px 1fr 22px;align-items:center}#nf-app .nf-sv svg{width:24px;height:24px}#nf-app .nf-sv b{display:block;font-size:17px;font-weight:700}#nf-app .nf-sv small{color:#aaa;font-size:13px}
 #nf-app .nf-c{font:inherit;cursor:pointer;color:inherit;border:0;padding:0}
-#nf-app .nf-li{width:100%;border:0;background:none;color:inherit;text-align:left;cursor:default;font-family:inherit;letter-spacing:inherit}#nf-app .nf-tb button[data-t="sr"],#nf-app .nf-tb button[data-t="my"]{pointer-events:none;cursor:default}
+#nf-app .nf-li{width:100%;border:0;background:none;color:inherit;text-align:left;cursor:default;font-family:inherit;letter-spacing:inherit}#nf-app .nf-tb button[data-t="sr"]{pointer-events:none;cursor:default}
 #nf-app .nf-detail{position:absolute;inset:0;z-index:6;overflow-y:auto;background:#080808;padding-bottom:40px;animation:nf-page-enter .24s ease both}
 #nf-app .nf-back{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:6px;padding:calc(env(safe-area-inset-top,0px) + 58px) 16px 12px;background:linear-gradient(#080808 60%,transparent);font-size:14px;color:#fff;cursor:pointer}
 #nf-app .nf-back svg{width:20px;height:20px}
