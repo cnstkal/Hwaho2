@@ -335,6 +335,7 @@ const MessagesApp = (() => {
   else if (!localStorage.getItem(SEED_KEY)) convs = convs.concat(seedConvs().filter(s => !convs.some(c => c.name === s.name)));
   try { localStorage.setItem(SEED_KEY, "1"); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(convs)); } catch (e) {} };
+  { let l = 0; try { l = +localStorage.getItem("ios-msgs-day"); } catch (e) {} const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (l || t0)) / 864e5), nw = Date.now(); if (k > 0) convs.forEach(c => { (c.msgs || []).forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; }); if (c.created) c.created += k * 864e5; }); if (l !== t0) { try { localStorage.setItem("ios-msgs-day", t0); } catch (e) {} save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
   const last = c => c.msgs[c.msgs.length - 1];
   const sorted = () => convs.slice().sort((a, b) => (last(b)?.ts || b.created || 0) - (last(a)?.ts || a.created || 0));
   const find = id => convs.find(c => c.id === id);

@@ -40,6 +40,7 @@ const KakaoApp = (() => {
   }
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
