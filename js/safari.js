@@ -16,7 +16,19 @@ const SafariApp = (() => {
   const DEF = [["네이버", "https://www.naver.com/"], ["디시인사이드", "https://dcinside.com/"]];
   let S = null; try { S = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
   if (!S || !S.tabs || !S.tabs.length) { const t = newTab(); S = { tabs: [t], cur: t.id, bm: DEF.map(([title, url]) => ({ id: uid(), title, url })), rl: [], hist: [], searches: [] }; }
-  S.bm = (S.bm || []).filter(b => !/(apple\\.com|google\\.com|wikipedia\\.org|github\\.com|news\\.ycombinator\\.com)/i.test(b.url || ""));
+  const allowedFavorites = [
+    { title: "네이버", url: "https://www.naver.com/" },
+    { title: "디시인사이드", url: "https://www.dcinside.com/" },
+    { title: "디스패치", url: "https://www.dispatch.co.kr/" }
+  ];
+  S.bm = allowedFavorites.map(item => {
+    const existing = (S.bm || []).find(b =>
+      /naver\.com/.test(item.url) ? /naver\.com/.test(b.url || "") :
+      /dcinside\.com/.test(item.url) ? /dcinside\.com/.test(b.url || "") :
+      /dispatch\.co\.kr/.test(b.url || "")
+    );
+    return { id: existing?.id || uid(), ...item };
+  });
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const RT = {}, rt = t => RT[t.id] || (RT[t.id] = { req: 0, loading: false, ctl: null, err: null, note: "", scroll: 0 });
   const cache = new Map(), tab = () => S.tabs.find(t => t.id === S.cur) || S.tabs[0], cu = t => (t.hist[t.idx] || {}).url || "";
