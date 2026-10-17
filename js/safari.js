@@ -242,6 +242,7 @@ const SafariApp = (() => {
     { id: "5", outlet: "Atzen", ago: "6주 전", ts: "2026.09.02. 오후 3:02", hue: 40, image: "./images/app/Naver/정윤호_마스_열애설/collage%203.png", title: "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”", sum: "정윤호 측이 래퍼 마스와의 열애설에 대해 사실무근이라는 입장을 밝혔다.", react: "420",
       body: ["정윤호 측이 래퍼 마스와의 열애설에 대해 “사실무근”이라는 입장을 밝혔다.", "정윤호 소속사 측은 “마스와의 열애설은 사실이 아니다”라며 관련 보도 및 주장에 대해 선을 그었다. 이어 “배우 본인에게 확인한 결과 열애설의 내용을 전혀 알지 못하고 있으며, 사실과 다른 내용에 당황스러워하고 있다”고 전했다.", "갑작스럽게 불거진 열애설에 대해 정윤호 측은 사실이 아니라는 입장을 재차 강조했다.", "김코 기자 koooo@atzen.com"] }
   ];
+  function nvTodayTs(ts) { const d = new Date(); const pad = n => String(n).padStart(2, "0"); const today = `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}.`; return ts.replace(/^\\d{4}\\.\\d{2}\\.\\d{2}\\./, today); }
   const nvDots = '<svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.600" fill="#8b8f97"/><circle cx="12" cy="12" r="1.600" fill="#8b8f97"/><circle cx="12" cy="19" r="1.600" fill="#8b8f97"/></svg>';
   const nvPress = a => `<span class="pi" style="background:hsl(${a.hue} 40% 92%);color:hsl(${a.hue} 55% 40%)">${a.outlet[0]}</span>`;
   function nvRap(q, job = "래퍼", g = "힙합", x0 = NVN[2]) {
@@ -258,7 +259,7 @@ const SafariApp = (() => {
     const a = NVN.find(x => x.id === id) || NVN[0], rel = NVN.filter(x => x !== a);
     return `<div class="nv en"><div class="en-hd"><i class="lg"><svg viewBox="0 0 24 24"><path d="M5 4h5l4 6.200V4h5v16h-5l-4-6.200V20H5z" fill="#fff"/></svg></i><b>엔터</b></div>
 <div class="en-cat"><span class="on">홈</span><span>드라마</span><span>영화</span><span>뮤직</span><span>연애</span><span>포토</span><span>랭킹</span><span>최신뉴스</span></div>
-<div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:14px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${a.ts}</span></div>${a.id === "3" || a.id === "5" ? "" : `<div class="rx"><span class="ic"><i>${ensv.sp}</i><i class="fs">가</i><i>${ensv.sh}</i></span></div>`}</div>
+<div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:14px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${nvTodayTs(a.ts)}</span></div>${a.id === "3" || a.id === "5" ? "" : `<div class="rx"><span class="ic"><i>${ensv.sp}</i><i class="fs">가</i><i>${ensv.sh}</i></span></div>`}</div>
 ${a.nothumb ? "" : `<div class="en-img" style="${a.image ? `background-image:url(${a.image});background-size:cover;background-position:center` : `background:linear-gradient(150deg,hsl(${a.hue} 30% 70%),hsl(${a.hue + 30} 30% 28%))`}">${a.image ? "" : "<em>SAMPLE</em>"}</div>`}
 <div class="en-bd">${a.body.map(p => `<p>${p}</p>`).join("")}</div>
 ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
