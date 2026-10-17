@@ -129,8 +129,7 @@ const NfApp = (() => {
     else if (d === "mute") { const on = a.classList.toggle("on"); a.innerHTML = MU[on ? 1 : 0]; }
     else if (d === "dtab") { dtab = +a.dataset.i; showDetail(curK, 1); }
     else if (d === "chip") { const on = a.classList.contains("on"); el.querySelectorAll(".nf-chips button").forEach(b => b.classList.remove("on")); if (!on) a.classList.add("on"); }
-    else if (d === "hplay") { showDetail("drx"); const h = $(".nf-dh"); if (h) h.classList.add("pl"); }
-    else if (d === "hsave") { savedWorks = savedWorks.includes("drx") ? savedWorks.filter(x => x !== "drx") : [...savedWorks, "drx"]; a.querySelector("span").textContent = savedWorks.includes("drx") ? "찜한 리스트에 추가됨" : "내가 찜한 리스트"; }
+    else if (d === "hplay" || d === "hsave") return;
     else if (d === "pick") { prof = null; render(); }
   }
   el.addEventListener("click", e => {
