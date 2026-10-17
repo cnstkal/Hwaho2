@@ -21,11 +21,11 @@ const MessagesApp = (() => {
   };
   const baseName = n => String(n).replace(/\(.*\)$/, "");
   const pickReply = n => { const a = REPLIES_BY[baseName(n)] || REPLIES; return a[Math.floor(Math.random() * a.length)]; };
-  const CL = () => (window.PhoneData ? PhoneData.names() : CONTACTS), KEY = "ios-msgs-v6", uid = () => Math.random().toString(36).slice(2, 9);
+  const CL = () => (window.PhoneData ? PhoneData.names() : CONTACTS), KEY = "ios-msgs-v7", uid = () => Math.random().toString(36).slice(2, 9);
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   let convs = [];
   try { convs = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
-  const SEED_KEY = "ios-msgs-seed39", H = 60, D = 1440, MIN = 6e4;
+  const SEED_KEY = "ios-msgs-seed40", H = 60, D = 1440, MIN = 6e4;
   const seedConvs = () => {
     const NOW = Date.now(), p2 = n => String(n).padStart(2, "0"), fmt = n => n.toLocaleString("en-US");
     const at = (d, h, m = 0) => { const x = new Date(NOW); x.setDate(x.getDate() - d); x.setHours(h, m, 0, 0); return x.getTime(); };
@@ -163,14 +163,15 @@ const MessagesApp = (() => {
 
       /* ── 형: 친형(위로 형만 있음). 서로 반말 ── */
       mk("형", "", false, at(1, 20, 30), [
-        [0, "너 이번 주말에 집 올 거냐"],
-        [1, "ㅇㅇ", 4],
-        [0, "윤호도 같이 오냐", 1],
-        [1, "아마 그럴 거 같다", 3],
-        [0, "그럼 뭐 해놓으면 되냐", 1],
-        [0, "걔 좋아하는 거 있냐", 0.5],
-        [1, "김치찜 좋아한다", 2],
-        [0, "알았다 조심히 와라", 2],
+        [0, "너 이번 주말에 집에 옴?"],
+        [1, "ㅇㅇ", 3],
+        [0, "윤호도 같이 오냐?", 2],
+        [0, "다시 만나는 거 맞지?", 0.3],
+        [1, "ㅇㅇ 아마 같이감", 4],
+        [0, "그럼 뭐 해놓으면 되냐", 2],
+        [0, "걔 뭐 좋아하지", 0.3],
+        [1, "김치찜이면 될 듯", 3],
+        [0, "ㅇㅋ", 2],
       ]),
 
       mk("엄마", "", false, at(4, 14, 20), [
