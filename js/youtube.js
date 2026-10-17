@@ -13,7 +13,7 @@
   const chColor = {"케인 TV":"#5642a0","침착맨":"#a91e2b","침착맨 플러스":"#2e9e2e","서재로36":"#8daba8","킥서비스":"#17345f","득템":"#111"};
   const chAv = {"케인 TV":"케인\ntv","침착맨":"침","침착맨 플러스":"침","서재로36":"서","킥서비스":"킥","득템":"득템"};
   const videos = [
-    {id:"v9",title:"[SMT43/최종회] ♬ MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송",channel:"Mnet TV",handle:"@MnetTV",views:"457만",time:"2개월 전",duration:"33:41",music:1,img:"photo-1470229722913-7c0e2dbbafd3",desc:"MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송."},
+    {id:"v9",title:"[SMT43/최종회] ♬ MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송",channel:"Mnet TV",handle:"@MnetTV",views:"457만",time:"2개월 전",duration:"3:02",music:1,img:"photo-1470229722913-7c0e2dbbafd3",desc:"MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송."},
     {id:"v10",title:"[케인] 혼종으로 만들었다는 윷놀이로 시참하기 (증강 윷놀이)",channel:"케인 TV",handle:"@kanetv8",views:"2.1만",time:"5시간 전",duration:"19:10",img:"photo-1529156069898-49953e39b3ac",desc:"증강 윷놀이 시참 영상입니다."},
     {id:"v11",title:"Aqours『ラブライブ！サンシャイン!!』TVアニメ2期 第12話 挿入歌「WATER BLUE NEW WORLD」",channel:"Lantis",handle:"@lantis",views:"96만",time:"3년 전",duration:"1:01",music:1,img:"photo-1470229722913-7c0e2dbbafd3",desc:"Lantis official."},
     {id:"v12",title:"침착맨 고사성어 완전판",channel:"침착맨",handle:"@chimchakman",views:"85만",time:"2주 전",duration:"3:26:16",img:"photo-1517677208171-0bc6725a3e60",desc:"침투부 고사성어 통합본."}
