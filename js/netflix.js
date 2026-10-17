@@ -96,12 +96,12 @@ const NfApp = (() => {
   };
   const SIL = '<svg viewBox="0 0 342 340" class="nf-sil"><path d="M95 340 L108 192 Q112 150 150 140 L192 140 Q232 150 236 192 L249 340Z" fill="#14100f"/><path d="M96 205 Q70 222 78 282 L100 292Z M246 205 Q272 222 264 282 L242 292Z" fill="#1d1716"/><path d="M146 138 L171 190 L196 138Z" fill="#e9d2c8"/><ellipse cx="171" cy="84" rx="30" ry="38" fill="#e9d2c8"/><path d="M132 92 Q128 36 171 34 Q214 36 210 92 L206 120 Q198 70 171 66 Q144 70 136 120Z" fill="#0b0909"/></svg>';
   const heroV = () => `<div class="nf-chips">${["시리즈", "영화", "NEW & HOT"].map(t => `<button data-act="chip">${t}</button>`).join("")}<button data-act="chip" class="cat">카테고리${I.dd}</button></div>
- <section class="nf-fc" aria-hidden="true"><div class="nf-fa" style="background:linear-gradient(180deg,#8f1b13 0%,#520b0b 72%,#180909 100%)"></div></section>`;
+ <section class="nf-fc" aria-hidden="true"><div class="nf-fa" style="background:url(https://cnstkal.github.io/Hwaho2/images/Netflix/%EB%B0%B1!%20%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80/%EB%B0%B1%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%A7%80%20%EC%BD%98%EC%84%9C%ED%8A%B8%EC%9D%98%20%EC%97%B4%EA%B8%B0.png) center/cover no-repeat"></div></section>`;
   const nw = k => card(k, "새로운 에피소드", 1, "지금 시청하기");
-  const cw = () => (prof ? ["smr", "asm", "nwh"] : ["bs"]).map(cont).join("");
+  const cw = () => (prof ? ["asm", "nwh"] : ["bs"]).map(cont).join("");
   const homeV = () => heroV()
     + row(prof ? "해외 시리즈" : "해외 콘텐츠", (prof ? ["asm", "nwh", "bnd"] : ["bb", "st", "sw", "sp", "abt", "sib"]).map(k => card(k)).join(""))
-    + row("회원님을 위해 엄선한 오늘의 콘텐츠", (prof ? ["bs", "smr", "mun"] : ["bs", "hh", "sg", "ub"]).map(k => card(k)).join(""))
+    + row("회원님을 위해 엄선한 오늘의 콘텐츠", (prof ? ["bs", "mun"] : ["bs", "hh", "sg", "ub"]).map(k => card(k)).join(""))
     + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cw())
   const srchV = () => `<div class="nf-sb2">${I.search}<input id="nf-q" placeholder="시리즈, 영화, 게임을 검색해 보세요..." value="${esc(q)}"></div><h3 class="nf-h">추천 시리즈 &amp; 영화</h3><div id="nf-sl">${listV()}</div>`;
   const listV = () => SL.filter(s => s[1].includes(q)).map(s => `<div class="nf-li" aria-hidden="true"><div class="nf-th" style="background:${bg(s[0])}"></div></div>`).join("") || '<p class="nf-em">검색 결과가 없습니다</p>';
@@ -235,11 +235,11 @@ const NfApp = (() => {
 #nf-app .nf-rk{height:160px}#nf-app .nf-rk span{left:auto;right:104px;font-size:146px;letter-spacing:-6px;bottom:-14px;-webkit-text-stroke:3px #fff}
 #nf-app .nf-chips{display:flex;gap:9px;padding:6px 12px 0;overflow-x:auto;scrollbar-width:none}#nf-app .nf-chips::-webkit-scrollbar{display:none}
 #nf-app .nf-chips button{flex:none;height:44px;padding:0 21px;border-radius:15px;background:rgba(40,28,28,.7);border:1px solid rgba(255,255,255,.14);font-size:17px;display:flex;align-items:center;gap:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}#nf-app .nf-chips button.on{background:#fff;color:#000}#nf-app .nf-chips .cat svg{width:11px;height:8px}
-#nf-app .nf-fc{position:relative;margin:20px 24px 0;height:495px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:linear-gradient(#a82219 0,#82130f 45%,#2a0b0b 78%,#1a0808)}
-#nf-app .nf-fa{position:absolute;left:0;right:0;top:0;height:350px;cursor:pointer;background:radial-gradient(ellipse at 50% 55%,rgba(0,0,0,.0),rgba(0,0,0,.25))}#nf-app .nf-sil{position:absolute;left:0;top:10px;width:100%;height:340px}
-#nf-app .nf-fl{position:absolute;left:0;right:0;top:246px;text-align:center}#nf-app .nf-fl strong{display:block;font:900 80px/1 var(--font);letter-spacing:-7px;background:linear-gradient(#fff,#b9b9bd 55%,#f2f2f2);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}#nf-app .nf-fl strong i{font-style:normal;font-weight:300;font-size:92px}#nf-app .nf-fl small{display:block;margin-top:4px;font-size:15px;font-weight:700;color:#d9d3d3;letter-spacing:.5px}
+#nf-app .nf-fc{position:relative;margin:20px 24px 0;height:260px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:linear-gradient(#a82219 0,#82130f 45%,#2a0b0b 78%,#1a0808)}
+#nf-app .nf-fa{position:absolute;left:0;right:0;top:0;height:350px;cursor:pointer;background:radial-gradient(ellipse at 50% 55%,rgba(0,0,0,.0),rgba(0,0,0,.25))}#nf-app .nf-sil{display:none}
+#nf-app .nf-fl{display:none;position:absolute;left:0;right:0;top:246px;text-align:center}#nf-app .nf-fl strong{display:block;font:900 80px/1 var(--font);letter-spacing:-7px;background:linear-gradient(#fff,#b9b9bd 55%,#f2f2f2);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5))}#nf-app .nf-fl strong i{font-style:normal;font-weight:300;font-size:92px}#nf-app .nf-fl small{display:block;margin-top:4px;font-size:15px;font-weight:700;color:#d9d3d3;letter-spacing:.5px}
 #nf-app .nf-fc p{position:absolute;left:0;right:0;top:350px;text-align:center;font-size:17.500px;margin:0}
-#nf-app .nf-fp,#nf-app .nf-fs{position:absolute;left:15px;right:15px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px}#nf-app .nf-fp{top:392px;background:#fff;color:#111}#nf-app .nf-fs{top:440px;background:rgba(80,70,70,.85);color:#fff}#nf-app .nf-fp svg{width:22px;height:22px}#nf-app .nf-fs svg{width:24px;height:24px}
+#nf-app .nf-fp,#nf-app .nf-fs{position:absolute;left:15px;right:15px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px}#nf-app .nf-fp{display:none;top:392px;background:#fff;color:#111}#nf-app .nf-fs{display:none;top:440px;background:rgba(80,70,70,.85);color:#fff}#nf-app .nf-fp svg{width:22px;height:22px}#nf-app .nf-fs svg{width:24px;height:24px}
 #nf-app .nf-detail{background:#000;padding-bottom:70px}
 #nf-app .nf-dh{position:sticky;top:0;z-index:5;background:#000;padding-top:59px}
 #nf-app .nf-hv{position:relative;height:221px;border-radius:20px 20px 0 0;overflow:hidden;background-size:cover;cursor:pointer}
