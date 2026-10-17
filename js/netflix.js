@@ -100,7 +100,7 @@ const NfApp = (() => {
   const nw = k => card(k, "새로운 에피소드", 1, "지금 시청하기");
   const cw = () => (prof ? ["smr", "asm", "nwh"] : ["bs"]).map(cont).join("");
   const homeV = () => heroV()
-    + row(prof ? "해외 시리즈" : "해외 작품", (prof ? ["asm", "nwh", "hp", "bnd"] : ["bb", "st", "sw", "sp", "abt", "sib"]).map(k => card(k)).join(""))
+    + row(prof ? "해외 시리즈" : "해외 콘텐츠", (prof ? ["asm", "nwh", "hp", "bnd"] : ["bb", "st", "sw", "sp", "abt", "sib"]).map(k => card(k)).join(""))
     + row("회원님을 위해 엄선한 오늘의 콘텐츠", (prof ? ["bs", "smr", "mh", "chi"] : ["bs", "hh", "sg", "ub"]).map(k => card(k)).join(""))
     + row(`${PF[prof][0]} 님이 시청 중인 콘텐츠`, cw())
   const srchV = () => `<div class="nf-sb2">${I.search}<input id="nf-q" placeholder="시리즈, 영화, 게임을 검색해 보세요..." value="${esc(q)}"></div><h3 class="nf-h">추천 시리즈 &amp; 영화</h3><div id="nf-sl">${listV()}</div>`;
