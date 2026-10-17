@@ -179,7 +179,7 @@ const XApp = (() => {
   function setTab(t) { if (t === tab) { const s = t === "home" ? $("#x-hsc") : t === "search" ? $("#x-sb") : $("#x-psc"); s.scrollTo({ top: 0, behavior: "smooth" }); $("#x-det").classList.remove("on"); return; }
     if (t === "me") prevTab = tab; tab = t; document.querySelectorAll("#x-app .x-v[data-v]").forEach(v => v.classList.toggle("on", v.dataset.v === t)); $("#x-det").classList.remove("on"); $("#x-nav").innerHTML = nav(); }
   const openImage = src => { if (!src) return; let ov = document.getElementById("x-image-viewer"); if (!ov) { ov = document.createElement("div"); ov.id = "x-image-viewer"; ov.innerHTML = '<button type="button" aria-label="닫기">×</button><img alt="">'; document.body.appendChild(ov); ov.addEventListener("click", () => ov.classList.remove("on")); } ov.querySelector("img").src = src; ov.classList.add("on"); };
-  el.addEventListener("click", e => { const photo = e.target.closest(".x-im img, .x-cv img, .x-av img"); if (photo && photo.src) { e.preventDefault(); openImage(photo.src); return; } const t = e.target.closest("[data-g]");
+  el.addEventListener("click", e => { const photo = e.target.closest(".x-im img, .x-cv img"); if (photo && photo.src) { e.preventDefault(); openImage(photo.src); return; } const t = e.target.closest("[data-g]");
     if (!t) return;
     const d = t.dataset, pid = () => { const a = t.closest(".x-post"); return a ? a.dataset.id : d.id; };
     switch (d.g) {
