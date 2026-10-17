@@ -43,10 +43,10 @@ const XApp = (() => {
   const now0 = Date.now(), MIN = 6e4;
   /* 게시물: ago(분 전), im: [시드, 가로비, 세로비] */
   const SEED = [
-    { id: "s1", u: "_starhwa_", ago: 180000, t: "좋사좋시", im: ["images/Twitter/Posts/2/235F9EEA-238F-419A-BD5A-A203DDA8A0FE.jpeg", 1, 1], l: 680, rt: 42, rp: 8, v: 6820, cm: [] },
-    { id: "s2", u: "_starhwa_", ago: 120000, t: "잠이 안온당 야메추 좀", im: null, l: 520, rt: 18, rp: 21, v: 4100, cm: [] },
-    { id: "s3", u: "_starhwa_", ago: 60000, t: "내일 사클에 뭐 하나 올라가는데 관심좀…", im: null, l: 890, rt: 130, rp: 35, v: 12300, cm: [] },
-    { id: "s4", u: "_starhwa_", ago: 120, t: "빠이이이", im: ["images/Twitter/Posts/1/IMG_7279.jpeg", 1, 1], l: 1250, rt: 96, rp: 17, v: 17800, cm: [] },
+    { id: "s1", u: "_starhwa_", ago: 180000, t: "좋사좋시", im: ["images/Twitter/Posts/1/IMG_7279.jpeg", 1, 1], l: 1283, rt: 402, rp: 8, v: 6820, cm: [] },
+    { id: "s2", u: "_starhwa_", ago: 120000, t: "잠이 안온당 야메추 좀", im: null, l: 432, rt: 122, rp: 21, v: 4100, cm: [] },
+    { id: "s3", u: "_starhwa_", ago: 60000, t: "내일 사클에 뭐 하나 올라가는데 관심좀…", im: null, l: 871, rt: 298, rp: 35, v: 12300, cm: [] },
+    { id: "s4", u: "_starhwa_", ago: 120, t: "빠이이이", im: ["images/Twitter/Posts/2/235F9EEA-238F-419A-BD5A-A203DDA8A0FE.jpeg", 1, 1], l: 1250, rt: 96, rp: 17, v: 17800, cm: [] },
     { id: "t1", u: "ddinghoo***", ago: 0.2, t: "혹시 이거 멜라토닌 먹고 꾸는 꿈?", im: null, l: 3, rt: 0, rp: 0, v: 120, cm: [] },
     { id: "t2", u: "tjdghkdbsg***", ago: 1.0, t: "려러분 이게 무슨일이죠?", im: null, l: 0, rt: 0, rp: 2, v: 26, cm: [] },
     { id: "t3", u: "hyung1r***", ago: 1.6, t: "안어울림 헤어져", im: null, l: 23, rt: 0, rp: 0, v: 430, cm: [] },
@@ -119,7 +119,7 @@ const XApp = (() => {
   const myCount = () => mine().length, folCnt = () => Object.keys(US).filter(id => id !== ME && isFol(id)).length;
   function renderProf() { const u = usr(ME), l = mine(), bio = S.me.bio != null ? S.me.bio : DEF_BIO;
     $("#x-pn").textContent = u.name; $("#x-pc").textContent = `게시물 ${myCount() + 0}개`;
-    $("#x-pinfo").innerHTML = `<div class="x-cv"><img src="${art(7, 3, 1)}" alt="" draggable="false"></div><div class="x-pi"><div class="x-pa">${av(u, 80)}</div><button class="x-eb" data-g="noop" disabled aria-disabled="true" style="pointer-events:none;opacity:.45">프로필 편집</button></div><div class="x-pn"><b>${esc(u.name)}</b><span>@${ME}</span></div>${bio.trim() ? `<div class="x-bio">${txt(bio)}</div>` : ""}<div class="x-jd">${I.cal}<span>2026년 8월 가입</span></div><div class="x-fc"><span><b>${folCnt()}</b> 팔로잉</span><span><b>5,200</b> 팔로워</span></div>`;
+    $("#x-pinfo").innerHTML = `<div class="x-cv"><img src="${art(7, 3, 1)}" alt="" draggable="false"></div><div class="x-pi"><div class="x-pa">${av(u, 80)}</div><button class="x-eb" data-g="noop" disabled aria-disabled="true" style="pointer-events:none;opacity:.45">프로필 편집</button></div><div class="x-pn"><b>${esc(u.name)}</b><span>@${ME}</span></div>${bio.trim() ? `<div class="x-bio">${txt(bio)}</div>` : ""}<div class="x-jd">${I.cal}<span>2026년 8월 가입</span></div><div class="x-fc"><span><b>${folCnt()}</b> 팔로잉</span><span><b>5,923</b> 팔로워</span></div>`;
     document.querySelectorAll("#x-ptabs button").forEach(b => b.classList.toggle("on", b.dataset.k === ptab));
     let h = "";
     if (ptab === "post") { const a = l.filter(p => !p.re); h = a.length ? a.map(p => postHtml(p)).join("") : `<div class="x-em"><b>아직 게시물이 없어요</b>게시한 글이 여기에 표시됩니다.</div>`; }
