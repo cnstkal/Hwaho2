@@ -283,12 +283,7 @@ ${a.id === "3" ? "" : nvCmt(a.id === "5" ? NVY : NVC, a.id)}<div class="en-sp"><
 .en-rp{margin:20px 4% 0;border:1px solid #e3e5e8;border-radius:16px;overflow:hidden}.en-rp .hd{display:flex;align-items:center;gap:14px;padding:16px;background:#fbe9f4}.en-rp .av{flex:none;width:44px;height:44px;border-radius:50%;background:linear-gradient(150deg,#c8a58a,#6b4a3a)}.en-rp .hd b{display:block;font-size:19px}.en-rp small{font-size:15px;color:#888}.en-rp button{margin-left:auto;height:42px;padding:0 18px;border:1.5px solid #e84fa5;border-radius:21px;background:none;color:#e84fa5;font-size:17px}.en-rp .li{margin:0 16px;padding:22px 0;border-bottom:1px solid #e9ecee;font-size:19px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.en-rp .ft{display:flex;align-items:center;gap:10px;border:0;white-space:normal}.en-rp .ft b{color:#e84fa5;font-weight:600;margin-right:-6px}.en-rp .ft .pi{width:34px;height:34px}.en-sp{height:20px;border-top:1px solid #e5e5e5;margin-top:28px}
 .en-upw{position:sticky;bottom:0;height:0;z-index:6}.en-upw button{position:absolute;right:12px;bottom:110px;width:58px;height:58px;border-radius:50%;background:#fff;border:1px solid #d6d8db;display:grid;place-items:center;padding:0;box-shadow:0 2px 8px rgba(0,0,0,.12)}.en-upw svg{width:28px;height:28px}`; document.head.appendChild(s); })();
   /* ===== 네이버 뉴스 기사 하단 댓글 (예시) ===== */
-  const NVC = [
-    { u: "jt20****", t: "왜 그러니..좀. 세상이 이상해지네. 돌은 아이다이가", d: "2026.10.11. 22:12", l: 9, x: 0 },
-    { u: "jesa****", t: "사람이 아니여! 싫으면 갈라서면되지.", d: "2026.10.11. 22:14", l: 3, x: 0 },
-    { u: "catw****", t: "남자가 여자를 매일 죽이는게 아니고, 하루에 몇 명씩 죽이네 오늘 벌써 기사 몇 개를 보는건지", d: "2026.10.11. 22:58", l: 2, x: 1 },
-    { u: "kwon****", t: "확실히 정정해 70대 영감님들", d: "2026.10.11. 23:20", l: 1, x: 0 }
-  ];
+  const NVC = [];
   const cmI = {
     av: '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#d9dbdf"/><circle cx="20" cy="15.500" r="6.500" fill="#fff"/><path d="M6.500 34c2-7 8-9 13.500-9s11.500 2 13.500 9a20 20 0 0 1-27 0z" fill="#fff"/></svg>',
     up: '<svg viewBox="0 0 24 24" fill="none" stroke="#777" stroke-width="1.500" stroke-linejoin="round" stroke-linecap="round"><path d="M7 11v9H4v-9zM7 11l4-7c1.700 0 2.500 1 2 3l-.8 3H19a1.500 1.500 0 0 1 1.500 1.800l-1.300 6.500A2 2 0 0 1 17.200 20H7"/></svg>',
