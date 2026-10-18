@@ -16,6 +16,8 @@ const PhoneApp = (() => {
     spk: ic('<path d="M4 9.500h3.500L12 5.500v13L7.500 14.500H4z"/><path d="M15.500 9a4 4 0 0 1 0 6M18 6.500a8 8 0 0 1 0 11"/>'), pause: ic('<path d="M9 5v14M15 5v14" stroke-width="2.600"/>'),
     rec: ic('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.500" fill="currentColor"/>'), grid: ic(dots),
   };
+  I.cam = ic('<rect x="2" y="6" width="14" height="12" rx="2.500" fill="currentColor" stroke="none"/><path d="M18 10l4-2.500v9L18 14z" fill="currentColor" stroke="none"/><path d="M8.500 10.500a1.500 1.500 0 1 1 1.800 1.500c-.4.200-.3.600-.3 1M9 15v.1" stroke="#3d5b53" stroke-width="1.600"/>');
+  I.more = ic('<circle cx="5" cy="12" r="1.700" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.700" fill="currentColor" stroke="none"/><circle cx="19" cy="12" r="1.700" fill="currentColor" stroke="none"/>');
   const uid = () => Math.random().toString(36).slice(2, 9), esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const NAMES = ["울윤호", "철수", "민기", "홍중", "엄마", "아빠", "형", "레도형", "성현이형(매니저)", "박대표", "강PD", "승호형(믹싱)", "한감독님", "소율 누나", "정팀장님", "쇼미 김작가님", "도현", "지안", "세준(사진)", "엠더스트", "블루후디", "녹스", "가온", "새벽 레코즈 대표", "녹음실 사장님", "김팀장님(레코드)", "최PD(무대감독)", "박팀장(조명)", "성민(동창)", "수아 실장"], KEY = "ios-phone-v5";
   let D = null; try { D = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -112,12 +114,12 @@ const PhoneApp = (() => {
     call.t1 = setTimeout(() => { if (!call) return; call.state = "on"; call.t0 = Date.now(); updCall(); call.iv = setInterval(updCall, 1000); }, 2200 + Math.random() * 1000);
   }
   const csec = () => call && call.state === "on" ? Math.floor((Date.now() - call.t0) / 1000) : 0;
-  function updCall() { const e = $("#tl-cst"); if (e && call) e.textContent = call.state === "dialing" ? "발신 중…" : call.hold ? "통화 보류 중" : (call.rec ? "● " : "") + mmss(csec()); }
+  function updCall() { const e = $("#tl-cst"); if (e && call) e.textContent = call.state === "dialing" ? "연결 중..." : call.hold ? "통화 보류 중" : (call.rec ? "● " : "") + mmss(csec()); }
   function renderCall() {
-    const k = call, con = byNum(k.num), cb = (t, on, icn, l) => `<button class="tl-cb${on ? " on" : ""}" data-t="${t}"><i>${icn}</i><span>${l}</span></button>`;
-    cEl.innerHTML = `<div class="tl-cn">${esc(nameOf(k.num))}</div>${con ? `<div class="tl-cnum">${esc(fmt(k.num))}</div>` : ""}<div class="tl-cs" id="tl-cst"></div>` + (k.keys
-      ? `<div class="tl-cdt">${esc(k.dt)}</div><div class="tl-ck">${"123456789*0#".split("").map(x => `<button data-t="ckey" data-k="${x}">${x}</button>`).join("")}</div><button class="tl-cb" data-t="ckeyx" style="margin-bottom:18px;font-size:17px">숨기기</button>`
-      : `<div class="tl-cg">${cb("cmute", k.mute, k.mute ? I.micoff : I.mic, "음소거")}${cb("ckeys", 0, I.grid, "키패드")}${cb("cspk", k.spk, I.spk, "스피커")}${cb("chold", k.hold, I.pause, "보류")}${cb("crec", k.rec, I.rec, "녹음")}</div>`) + `<button class="tl-end" data-t="endcall" aria-label="통화 종료">${I.phone}</button>`;
+    const k = call, b = (t, on, i, l, c = "") => `<button class="tl-cb${on ? " on" : ""}${c}" data-t="${t}"><i>${i}</i><span>${l}</span></button>`;
+    cEl.innerHTML = `<div class="tl-cs" id="tl-cst"></div><div class="tl-cn">${esc(nameOf(k.num))}</div><div class="tl-cnum">${byNum(k.num) ? esc(fmt(k.num)) : "대한민국"}</div>` + (k.keys
+      ? `<div class="tl-cdt">${esc(k.dt)}</div><div class="tl-ck">${"123456789*0#".split("").map(x => `<button data-t="ckey" data-k="${x}">${x}</button>`).join("")}</div><div class="tl-cg" style="margin:0">${b("ckeyx", 0, I.grid, "숨기기")}${b("endcall", 0, I.phone, "종료", " end")}</div>`
+      : `<div class="tl-cg">${b("cspk", k.spk, I.spk, "스피커")}${b("cft", 0, I.cam, "FaceTime")}${b("cmute", k.mute, I.micoff, "소리 끔")}${b("cmore", 0, I.more, "더 보기")}${b("endcall", 0, I.phone, "종료", " end")}${b("ckeys", 0, I.grid, "키패드")}</div>`);
     updCall();
   }
   function endCall() {
@@ -201,3 +203,21 @@ const PhoneApp = (() => {
 
 /* App-specific styles moved from base.css */
 (()=>{const s=document.createElement("style");s.textContent="#tl-c{flex:1;min-height:0;display:flex;flex-direction:column}";document.head.appendChild(s);})();
+
+/* 통화 화면 (iOS 스타일) */
+(()=>{const s=document.createElement("style");s.textContent=`
+#tel-app .tl-call-s{background:linear-gradient(#3d5b53,#254138)!important;color:#fff!important;flex-direction:column;align-items:center;padding:0!important}
+#tel-app .tl-call-s.on{display:flex!important}
+#tel-app .tl-cs{margin-top:21%!important;font-size:32px!important;font-weight:500;color:rgba(255,255,255,.45)!important}
+#tel-app .tl-cn{margin-top:6px!important;font-size:50px!important;font-weight:700!important;letter-spacing:-1px;color:#fff!important}
+#tel-app .tl-cnum{margin-top:8px;font-size:32px;font-weight:500;color:rgba(255,255,255,.45)}
+#tel-app .tl-cg{position:absolute!important;left:0;right:0;bottom:7%;margin:0!important;padding:0 10%;display:grid!important;grid-template-columns:repeat(3,1fr);gap:22px 0}
+#tel-app .tl-cb{display:flex!important;flex-direction:column;align-items:center;gap:10px;font-size:15px!important;color:#fff!important;background:none!important}
+#tel-app .tl-cb i{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 1px rgba(255,255,255,.2)}
+#tel-app .tl-cb i svg{width:30px;height:30px}
+#tel-app .tl-cb.on i{background:#fff;color:#254138}
+#tel-app .tl-cb.end i{background:#c62a22;border-color:#e0453c}
+#tel-app .tl-cb.end svg{transform:rotate(135deg)}
+#tel-app .tl-cdt{margin-top:18px;font-size:34px;min-height:42px}
+#tel-app .tl-ck{display:grid;grid-template-columns:repeat(3,64px);gap:12px;margin:18px 0 90px}
+#tel-app .tl-ck button{height:64px;border-radius:50%;background:rgba(255,255,255,.12)!important;color:#fff;font-size:26px}`;document.head.appendChild(s);})();
