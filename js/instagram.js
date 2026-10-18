@@ -61,7 +61,7 @@ window.IgApp = (() => {
     const id = String(u.id || "");
     const photo = PROFILE_PHOTOS[id];
     const src = (window.HwahoIdentity && window.HwahoIdentity.avatar(id)) || (photo
-      ? "images/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
+      ? "images/app/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
       : "");
     return `<div class="ig-av ${extra}" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${Math.round(s * .42)}px;background:linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))"><span>${esc([...u.name][0])}</span>${src ? `<img alt="" src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : ""}</div>`;
   };
@@ -172,7 +172,7 @@ window.IgApp = (() => {
   let sv = null, svT = null, swp = false;
   function svShow() { clearTimeout(svT); const g = sv.gs[sv.u], f = sv.f; if (STORY_DATA[g.id]) { S.seenFrames[g.id] = S.seenFrames[g.id] || []; if (!S.seenFrames[g.id].includes(f)) S.seenFrames[g.id].push(f); S.seen[g.id] = STORY_DATA[g.id].fr.every((_, j) => S.seenFrames[g.id].includes(j)); } persist();
     $("#ig-sv").innerHTML = `<div class="ig-svb">${g.fr.map((_, j) => `<i><b class="${j < f ? "d" : j === f ? "a" : ""}"></b></i>`).join("")}</div><div class="ig-svh">${av({ id: g.id, name: g.uname || g.name, hue: g.hue }, 32)}<b>${esc(g.name)}</b><small>${esc(g.times?.[f] || g.t)}</small><button data-g="svx" aria-label="닫기">${I.x}</button></div><img src="${art(g.fr[f])}" alt="" draggable="false"><div class="ig-svz"><i data-g="svp"></i><i data-g="svn"></i></div>`;
-    $("#ig-sv").classList.add("on"); svT = setTimeout(svNext, 4000); }
+    $("#ig-sv").classList.add("on"); svT = setTimeout(svNext, 6500); }
   function svOpen(kind, i) { sv = { gs: kind === "hl" ? hls2() : sus(), u: i, f: 0 }; svShow(); }
   function svNext() { if (!sv) return; sv.f++; if (sv.f >= sv.gs[sv.u].fr.length) { sv.u++; sv.f = 0; if (sv.u >= sv.gs.length) return svClose(); } svShow(); }
   function svPrev() { if (!sv) return; if (sv.f > 0) sv.f--; else if (sv.u > 0) { sv.u--; sv.f = 0; } svShow(); }
