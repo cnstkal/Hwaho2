@@ -84,7 +84,7 @@ const KakaoApp = (() => {
   /* 기존 저장 데이터에도 수정된 대화 적용 */
   if (D.chatHistoryVersion !== 2) {
     const yunhoChat = D.chats.find(c => c.id === "c0");
-    if (yunhoChat) yunhoChat.msgs = 
+    if (yunhoChat) yunhoChat.msgs = [
         { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
         { id: uid(), from: "me", text: "작업중", ts: new Date("2026-10-15T18:01:00+09:00").getTime() },
         { id: uid(), from: "me", text: "왱", ts: new Date("2026-10-15T18:01:30+09:00").getTime() },
