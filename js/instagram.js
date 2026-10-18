@@ -36,7 +36,7 @@ window.IgApp = (() => {
   const m6Post = P.find(p => p.id === "m6");
   if (m6Post && m6Post.imgs.length > 1) m6Post.imgs.push(m6Post.imgs.shift());
   const MUTUAL = new Set(FEED.map(id => post(id).u).filter(id => id !== ME.id));
-  const FOLLOWING = ["yunou._.u", "fixon_n_on", "private.ego", "han.gangster", "opps.on.read", "no1likeme8_8", "notyourbro", "born2.flex", "hoodie.hooligan", "himothy._", "0fficiallyheytaaaaa"];
+  let FOLLOWING = ["fixon_n_on", "private.ego", "han.gangster", "opps.on.read", "no1likeme8_8", "notyourbro", "born2.flex", "hoodie.hooligan", "himothy._", "0fficiallyheytaaaaa"];
   const KEY = "ios-insta-v1"; let S = { like: {}, save: {} }; try { const x = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); if (x && x.like) S = x; } catch (e) {} S.seen = S.seen || {}; S.seenFrames = S.seenFrames || {}; S.cmt = S.cmt || {}; ["yunho1","yunho2","yunho3","yunho4","yunho5"].forEach(id => { if (S.like[id] === undefined) S.like[id] = true; });
   const persist = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, S); else localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} };
   const fmt = n => n.toLocaleString("ko-KR");
@@ -101,6 +101,7 @@ window.IgApp = (() => {
 <div class="ig-tabs"><span class="on">${I.grid}</span><span>${I.tag}</span></div>
 <div class="ig-gr">${MINE.map(p => `<button data-g="open" data-id="${p.id}"><img src="${art(p.imgs[0])}" alt="" draggable="false">${p.imgs.length > 1 ? `<em>${I.multi}</em>` : ""}</button>`).join("")}</div></div>`; };
   const UPROF = { "yunou._.u": { posts: 5, followers: "106만", following: 1, img: 7701 } };
+  document.addEventListener("story:instagram-published", () => { if (!FOLLOWING.includes("yunou._.u")) FOLLOWING.push("yunou._.u"); });
   const uProfHtml = id => { const u = usr(id), c = UPROF[id];
     return hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(id)}</small>프로필</div>`, "") +
     `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${c.posts}</b>게시물</div><div><b>${c.followers}</b>팔로워</div><div><b>${c.following}</b>팔로잉</div></div></div>
