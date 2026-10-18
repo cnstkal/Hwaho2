@@ -12,10 +12,11 @@
   ];
   const chColor = {"케인 TV":"#5642a0","침착맨":"#a91e2b","침착맨 플러스":"#2e9e2e","서재로36":"#8daba8","킥서비스":"#17345f","득템":"#111"};
   const chAv = {"케인 TV":"케인\ntv","침착맨":"침","침착맨 플러스":"침","서재로36":"서","킥서비스":"킥","득템":"득템"};
+  const channelProfiles = {"Mnet TV":"images/YouTube/Profiles/Profile-01/channels4_profile.jpg","이슈캐는남자":"images/YouTube/Profiles/Profile-02/이캐남.png","TVN DRAMA":"images/YouTube/Profiles/Profile-03/channels4_profile%20(1).jpg"};
   const videos = [
     {id:"v9",title:"[SMT43/최종회] ♬ MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송",channel:"Mnet TV",handle:"@MnetTV",views:"457만",time:"2개월 전",duration:"3:02",music:1,img:"images/YouTube/Videos/Video-01/쇼미.png",desc:"MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송."},
     {id:"v10",title:"뜨기 시작하자마자 배우랑 열애설 터진 래퍼 ㄷㄷ",channel:"이슈캐는남자",handle:"@이슈캐는남자",views:"36만",time:"3시간 전",duration:"4:12",img:"images/YouTube/Videos/Video-02/렉카.png",desc:"뜨기 시작하자마자 배우랑 열애설 터진 래퍼 ㄷㄷ"},
-    {id:"v11",title:"12화 하이라이트 | \"이제 어디 가지 마\" 정윤호가 최OO에게 전한 마지막 고백",channel:"SYB DRAMA",handle:"@SYBDRAMA",views:"21만",time:"1개월 전",duration:"11:29",img:"images/YouTube/Videos/Video-03/푸른 복도의 스포트라이트.png",desc:"12화 하이라이트 | 이제 어디 가지 마. 정윤호가 최OO에게 전한 마지막 고백."},
+    {id:"v11",title:"12화 하이라이트 | \"이제 어디 가지 마\" 정윤호가 최OO에게 전한 마지막 고백",channel:"TVN DRAMA",handle:"@TVNDRAMA",views:"21만",time:"1개월 전",duration:"11:29",img:"images/YouTube/Videos/Video-03/푸른 복도의 스포트라이트.png",desc:"12화 하이라이트 | 이제 어디 가지 마. 정윤호가 최OO에게 전한 마지막 고백."},
   ];
   const subChannels = ["침착맨","침착맨 플러스","케인 TV","서재로36","킥서비스"];
   const shorts = [
@@ -137,7 +138,7 @@
   document.head.appendChild(style);
   const getVideo = id => videos.find(v=>v.id===id)||videos[0];
   const setDark = b => el.classList.toggle("dark",b);
-  const av = (name,size) => `<span class="yt-avatar" style="background:${chColor[name]||"#6b6b6b"}${size?`;width:${size}px;height:${size}px`:""}">${esc(chAv[name]||String(name).trim().charAt(0).toUpperCase())}</span>`;
+  const av = (name,size) => `<span class="yt-avatar" style="background:${chColor[name]||"#6b6b6b"}${size?`;width:${size}px;height:${size}px`:""}">${channelProfiles[name]?`<img src="${channelProfiles[name].replace("%20"," ")}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block">`:esc(chAv[name]||String(name).trim().charAt(0).toUpperCase())}</span>`;
   const bell = `<button class="yt-iconbtn" data-act="toast" aria-label="알림">${ico("bell",26)}<span class="yt-badge">4</span></button>`;
   const srch = `<button class="yt-iconbtn" data-act="search" aria-label="검색">${ico("search",26)}</button>`;
   const searchRow = `<div class="yt-searchbar" id="yt-searchrow"><input id="yt-searchinput" placeholder="검색" value="${esc(query)}"><button class="yt-iconbtn" data-act="searchgo">${ico("search")}</button></div>`;
