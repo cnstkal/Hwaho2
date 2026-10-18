@@ -6,14 +6,14 @@
 
   /* ---------- 데이터 ---------- */
   const G = ["linear-gradient(135deg,#caa27c,#6d4a38)", "linear-gradient(135deg,#2b2b33,#7b5a4a)", "linear-gradient(135deg,#9db7d6,#34445c)", "linear-gradient(135deg,#e6c3c3,#a56e7a)", "linear-gradient(135deg,#d9cfa5,#7e7a52)", "linear-gradient(135deg,#b9a3d6,#5a4a86)", "linear-gradient(135deg,#a7d3c4,#3f7c6c)", "linear-gradient(135deg,#f3c58c,#c0703a)"];
-  const me = { n: "떵화", s: "", ph: 1 };
+  const me = { n: "떵화", s: "", img: "images/Fromm/profile/IMG_8923.jpeg" };
   const best = [{ n: "내 행복❤️", s: "하튜", g: G[0], hearts: "+1100" }];
   const arts = [
     { n: "애옹이", s: "🤍🪽", g: G[1] }, { n: "도동이", s: "동코리타🌱", g: G[2] }, { n: "민기", s: "", ph: 1 }, { n: "정우영", s: "🤦‍♂️", g: G[4] },
     { n: "떵화", s: "", img: "images/Fromm/profile/IMG_8923.jpeg" }, { n: "쯍이", s: "애정하는 아티 💗💗", g: G[3] }, { n: "재현이", s: "오늘도 화이팅 ✨", g: G[5] }, { n: "하준이", s: "", g: G[6] },
     { n: "은솔", s: "🍀", g: G[7] }, { n: "유찬이", s: "밥 먹었어?", g: G[0] }, { n: "세훈이", s: "", g: G[2] }
   ];
-  const room = { name: "떵화", g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
+  const room = { name: "떵화", img: "images/Fromm/profile/IMG_8923.jpeg", g: "radial-gradient(circle at 40% 40%,#f1c9b8,#b98a76 70%,#6b4a3e)", last: "새로운 메시지가 있습니다.", time: "오후 11:18", unread: 1, msgs: [
     { me: 1, t: "나는 작업주웅", time: "PM 2:41", rp: [{ n: "지민", g: G[3], t: "ㅋㅋ 작업 화이팅이에요", time: "PM 2:42" }, { n: "시은", g: G[4], t: "무리하지 마세요 ㅠㅠ", time: "PM 2:42" }, { n: "예은", g: G[0], t: "오늘도 고생이네요!!", time: "PM 2:43" }] },
     { me: 1, t: "엉 곧 퇴근", time: "PM 2:44", rp: [{ n: "현지", g: G[7], t: "빨리 퇴근해요 ㅎㅎ", time: "PM 2:45" }, { n: "다현", g: G[2], t: "오늘도 수고했어요", time: "PM 2:45" }, { n: "하은", g: G[5], t: "퇴근하고 푹 쉬어요!", time: "PM 2:46" }] },
     { me: 1, t: "너네도 밥 잘 챙겨", time: "PM 2:48", rp: [{ n: "서윤", g: G[6], t: "님도요!! 밥 꼭 챙겨 먹어요", time: "PM 2:49" }, { n: "수아", g: G[3], t: "저 방금 먹었어요 ㅎㅎ", time: "PM 2:49" }, { n: "지안", g: G[4], t: "잘 챙겨 먹을게요 💗", time: "PM 2:50" }] },
@@ -61,7 +61,7 @@
 <div class="fmx-sc" data-k="list"><div class="fmx-fr me" data-fx="prof" data-id="${E(me.n)}">${ava(me, 48)}<div class="fmx-fn"><b>${E(me.n)}</b></div></div>
 </div>${navH()}</div>`,
 
-    chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw"><i class="fmx-av" style="width:54px;height:54px;background:${room.g}"></i><em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
+    chat: () => `<div class="fmx-pg">${top("채팅")}<div class="fmx-sc">${room ? `<div class="fmx-cr" data-fx="room"><span class="fmx-cw">${ava(room,54)}<em class="fmx-cb"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M3 8l4.500 4L12 5l4.500 7L21 8l-2 11H5z" fill="#fff"/></svg></em></span><div class="fmx-cn"><b>${room.name}</b><small class="${room.unread ? "u" : ""}">${E(room.last)}</small></div><span class="fmx-ct">${room.time}</span></div>` : ""}</div>${navH()}</div>`,
 
     room: () => `<div class="fmx-pg"><header class="fmx-hd"><button class="fmx-ib" data-fx="back">${ic("back", 28, 1.8)}</button><h2>채팅방</h2><div class="fmx-hr"><button class="fmx-lv" data-fx="live"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 3C9 3 3 8.500 3 15.200c0 3.500 1.600 6.600 4.300 8.800L6 30l5.700-3.200c1.700.5 3.500.7 5.300.7 8 0 14-5.500 14-12.300S25 3 17 3z" fill="#d8d9dd"/><text x="17" y="19.500" text-anchor="middle" font-size="9.500" font-weight="900" fill="#222" font-family="Arial">LIVE</text></svg></button><button class="fmx-ib" data-fx="toast" data-m="채팅방 메뉴는 준비 중이에요">${ic("menu", 28, 1.7)}</button></div></header>
 <div class="fmx-sc fmx-ms" data-k="room">${room.msgs.map((m, i) => `<div class="fmx-mr"><small>${m.time}</small><div class="fmx-bb me">${E(m.t)}</div></div>${lvOn ? "" : `<div class="fmx-ml"><button class="fmx-bb rp" data-fx="rview" data-id="${i}" aria-expanded="${opn[i] ? "true" : "false"}">${opn[i] ? "답장 접기" : "답장보기"} <span class="fmx-chv${opn[i] ? " on" : ""}">${ic("chev", 17, 1.8)}</span></button></div>`}${(lvOn || opn[i]) && m.rp && m.rp.length ? `<div class="fmx-rpl">${m.rp.map(rpH).join("")}</div>` : ""}`).join("")}</div>${inputBar(1)}</div>`,
