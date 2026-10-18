@@ -82,7 +82,7 @@ const KakaoApp = (() => {
   }
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
   /* 기존 저장 데이터에도 수정된 대화 적용 */
-  if (D.chatHistoryVersion !== 5) {
+  if (D.chatHistoryVersion !== 6) {
     const yunhoChat = D.chats.find(c => c.id === "c0");
     if (yunhoChat) yunhoChat.msgs = [
         { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
@@ -147,9 +147,27 @@ const KakaoApp = (() => {
       for (const [a, b] of replacements) if (x.text === a) x.text = b;
       return x;
     });
-    D.chatHistoryVersion = 5;
+    const managerToday = D.chats.find(c => c.id === "c3");
+    if (managerToday) {
+      managerToday.msgs = managerToday.msgs.filter(x => !(x.ts >= new Date("2026-10-18T14:05:00+09:00").getTime()));
+      managerToday.msgs.push(
+        { id: uid(), from: "f2", text: "야 성화야 기사 니가 냈냐?", ts: new Date("2026-10-18T14:05:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "아뇨저절대아님", ts: new Date("2026-10-18T14:05:20+09:00").getTime() },
+        { id: uid(), from: "me", text: "진짜 저도 놀랐어요", ts: new Date("2026-10-18T14:05:40+09:00").getTime() },
+        { id: uid(), from: "f2", text: "우리한텐 얘기 없었는데", ts: new Date("2026-10-18T14:06:00+09:00").getTime() },
+        { id: uid(), from: "f2", text: "돌겠네", ts: new Date("2026-10-18T14:06:20+09:00").getTime() },
+        { id: uid(), from: "f2", text: "일단 회사로 와", ts: new Date("2026-10-18T14:06:40+09:00").getTime() },
+        { id: uid(), from: "f2", text: "와서 얘기하자", ts: new Date("2026-10-18T14:07:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "넵ㅜㅜㅜ", ts: new Date("2026-10-18T14:07:20+09:00").getTime() }
+      );
+      managerToday.unread = 1;
+    }
+    const yunhoUnread = D.chats.find(c => c.id === "c0");
+    if (yunhoUnread) yunhoUnread.unread = 1;
+    D.chatHistoryVersion = 6;
   }
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
