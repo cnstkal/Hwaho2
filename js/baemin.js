@@ -316,6 +316,7 @@
 
         orders.unshift({ id: Date.now(), sid: s.id, live: "조리 중이에요", date: (d.getMonth() + 1) + ". " + d.getDate() + " (" + dn + ")", full: (d.getMonth() + 1) + "월 " + d.getDate() + "일 " + (h < 12 ? "오전 " : "오후 ") + (h % 12 || 12) + ":" + String(d.getMinutes()).padStart(2, "0"), no: "T2G" + String(Date.now()).slice(-8) + "X", items: cart.map(c => ({ n: c.n, o: [], p: c.p, q: c.q })), tip: 2700, club: 2700, coupon: 0 });
 
+        { const od = orders[0], sn = s.name; setTimeout(() => { od.live = ""; window.dispatchEvent(new CustomEvent("baemin:delivered", { detail: { store: sn } })); }, 40000); }
         cart.length = 0; cartSid = null; otab = 0; root("orders"); toast("주문이 접수됐어요"); break;
 
       }
