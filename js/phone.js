@@ -41,6 +41,13 @@ const PhoneApp = (() => {
     add("정성현(매니저)", "in", "10-18T14:08:00", 180);
     D.v12 = 1; save();
   }
+  if (D.v14 !== 1) {
+    const yunho = D.contacts.find(c => c.name === "울윤호");
+    if (yunho && !D.calls.some(c => c.blueRecord === "yunho-call-17-days")) {
+      D.calls.push({ id: uid(), num: yunho.num, dir: "out", ts: new Date("2026-10-01T20:10:00+09:00").getTime(), dur: 3720, blueRecord: "yunho-call-17-days" });
+    }
+    D.v14 = 1; save();
+  }
   if (D.v13 !== 1) {
     const y = D.contacts.find(c => c.name === "울윤호");
     if (y) { const o = String(y.num).replace(/\D/g, ""); y.num = "010-1999-0323"; D.calls.forEach(c => { if (String(c.num).replace(/\D/g, "") === o) c.num = y.num; }); }
@@ -70,7 +77,7 @@ const PhoneApp = (() => {
   function pRec() {
     const l = D.calls.filter(c => filt === "all" || c.dir === "miss").sort((a, b) => b.ts - a.ts);
     const G = []; l.forEach(c => { const g = G[G.length - 1]; if (g && dg(g.c.num) === dg(c.num) && g.c.dir === c.dir && !g.c.dur && !c.dur && g.last - c.ts <= 12e5) { g.n++; g.ids.push(c.id); g.last = c.ts; } else G.push({ c, n: 1, ids: [c.id], last: c.ts }); });
-    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="recall" data-n="${esc(c.num)}">${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}">${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}">${esc(nameOf(c.num))}</div><div class="tl-sub">${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm">${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
+    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="recall" data-n="${esc(c.num)}"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${esc(nameOf(c.num))}</div><div class="tl-sub"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
   }
   function conList() {
     const q = conQ.trim().toLowerCase(), l = D.contacts.filter(c => !q || c.name.toLowerCase().includes(q) || (dg(q) && dg(c.num).includes(dg(q)))).sort((a, b) => { const x = grp(a.name), y = grp(b.name); return x[0] - y[0] || a.name.localeCompare(b.name, "ko"); });
