@@ -87,11 +87,11 @@ const KakaoApp = (() => {
     if (yunhoChat) yunhoChat.msgs = [
         { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
         { id: uid(), from: "me", text: "작업중", ts: new Date("2026-10-15T18:01:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "왱", ts: new Date("2026-10-15T18:01:30+09:00").getTime() },
+        { id: uid(), from: "me", text: "왱?", ts: new Date("2026-10-15T18:01:30+09:00").getTime() },
         { id: uid(), from: "f0", text: "심심해", ts: new Date("2026-10-15T18:02:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "촬영간 거 아냐?", ts: new Date("2026-10-15T18:03:00+09:00").getTime() },
-        { id: uid(), from: "f0", text: "무한대기중", ts: new Date("2026-10-15T18:04:00+09:00").getTime() },
-        { id: uid(), from: "f0", text: "형이랑 있구싶다 ㅠ", ts: new Date("2026-10-15T18:04:20+09:00").getTime() },
+        { id: uid(), from: "me", text: "촬영간 거 아니야?", ts: new Date("2026-10-15T18:03:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "무한대기중 ㅠ", ts: new Date("2026-10-15T18:04:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "형이랑 있구싶다", ts: new Date("2026-10-15T18:04:20+09:00").getTime() },
         { id: uid(), from: "me", text: "전화 ㄱ", ts: new Date("2026-10-15T18:05:00+09:00").getTime() },
 
         { id: uid(), from: "me", text: "미국 가는 거 담주인가?", ts: new Date("2026-10-16T13:00:00+09:00").getTime() },
