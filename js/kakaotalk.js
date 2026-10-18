@@ -13,7 +13,7 @@ const KakaoApp = (() => {
   };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])), uid = () => Math.random().toString(36).slice(2, 9), KEY = "ios-kakao-v6";
   const REPLIES = ["ㅋㅋㅋㅋ 그래!", "오 좋다 👍", "잠깐만~ 이따 연락할게", "알겠어ㅎㅎ", "진짜? 대박", "지금 뭐해?", "나중에 밥 먹자!", "확인했어 고마워 😊"];
-  const FR = [["f0", "울윤호", "", 1], ["f3", "엄마", "건강이 최고", 1], ["h6", "아빠", "", 1], ["f5", "홍중", "작업실", 0], ["f4", "민기", "🎧", 0], ["f1", "철수", "결혼 생활 중 💍", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
+  const FR = [["f0", "울윤호", "", 1], ["f3", "엄마", "좋은 날. 좋은.시간.^^", 1], ["h6", "아빠", "더 높은 곳을 바라보아야 한다", 1], ["f5", "홍중", "", 0], ["f4", "민기", "", 0], ["f1", "철수", "💍 D+120", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
     ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 0, 1], ["f9", "지안", "Be happy", 0, 1], ["f6", "도현", "", 0, 1], ["f10", "레도형", "Be humble", 0, 1], ["h1", "최PD(무대감독)", "", 0, 1], ["h2", "박팀장(조명)", "", 0, 1], ["h3", "김팀장님(레코드)", "", 0, 1], ["h4", "성민(동창)", "", 0, 1], ["h5", "수아 실장", "", 0, 1], ["ad1", "배달의민족", "", 0, 1], ["ad2", "CGV", "", 0, 1], ["ad3", "올리브영", "", 0, 1], ["ad4", "CJ대한통운", "", 0, 1]];
   const TOTAL = 302;
   let D = null; try { D = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -73,8 +73,9 @@ const KakaoApp = (() => {
     const ql = q.trim().toLowerCase(), l = D.friends.filter(f => ql ? f.name.toLowerCase().includes(ql) : !f.hid);
     const row = f => `<button class="kk-r" data-k="friend" data-id="${f.id}">${av(f.id, f.name)}<div class="kk-tx"><div class="kk-nm">${esc(f.name)}</div>${f.st ? `<div class="kk-st">${esc(f.st)}</div>` : ""}</div></button>`;
     const grp = (key, title, arr, cnt, more) => { if (!arr.length) return ""; const cl = !ql && D.ui.col[key]; return `<button class="kk-gh" data-k="grp" data-g="${key}"><span>${title} ${cnt == null ? arr.length : cnt}</span><i class="${cl ? "cl" : ""}">${I.chev}</i></button>${cl ? "" : arr.map(row).join("") + (more || "")}`; };
-    const head = ql ? "" : `<div class="kk-me">${av("me", "박성화")}<div class="kk-tx"><div class="kk-nm" style="font-size:16px">박성화</div><div class="kk-st">오늘도 좋은 하루</div></div></div><div class="kk-pills"><span class="on">친구</span><span>소식</span></div><div class="kk-nc"><b>공지</b><span>카카오톡 새로운 소식을 확인해 보세요</span></div>`;
-    const body = grp("fav", "즐겨찾기", l.filter(f => f.fav)) + grp("fr", "친구", l.filter(f => !f.fav), ql ? null : TOTAL, ql ? "" : `<div class="kk-st" style="padding:10px 20px 14px">그 외 ${TOTAL - l.length}명</div>`);
+    const head = ql ? "" : `<div class="kk-me">${av("me", "박성화")}<div class="kk-tx"><div class="kk-nm" style="font-size:16px">박성화</div></div></div><div class="kk-pills"><span class="on">친구</span><span>소식</span></div><div class="kk-nc"><b>공지</b><span>카카오톡 새로운 소식을 확인해 보세요</span></div>`;
+    const byName = arr => [...arr].sort((a, b) => a.name.localeCompare(b.name, "ko"));
+    const body = grp("fav", "즐겨찾기", byName(l.filter(f => f.fav))) + grp("fr", "친구", byName(l.filter(f => !f.fav)), ql ? null : TOTAL, ql ? "" : `<div class="kk-st" style="padding:10px 20px 14px">그 외 ${TOTAL - l.length}명</div>`);
     return head + (body || `<div class="kk-em">검색 결과가 없습니다</div>`);
   }
   function chatsHtml() {
