@@ -159,3 +159,4 @@ const FaceTimeApp = (() => {
   },1000);
   return {prompt,ring,openCall,endCall};
 })();
+window.FaceTimeApp = FaceTimeApp;
