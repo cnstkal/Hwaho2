@@ -44,7 +44,24 @@ const KakaoApp = (() => {
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
-  const av = (id, nm, c = "") => `<div class="kk-av ${c}" style="position:relative;overflow:hidden;background:${col(id)}">${esc([...nm][0] || "?")}${window.HwahoIdentity ? window.HwahoIdentity.avatarMarkup(nm) : ""}</div>`;
+  const KAKAO_PHOTOS = {
+    "박성화": "성화/172400BF-650C-4581-A587-29EB02E85289.jpeg",
+    "성화": "성화/172400BF-650C-4581-A587-29EB02E85289.jpeg",
+    "엄마": "엄마/E3B1FD1A-B038-4228-9A1F-8FE2ABEBF06D.png",
+    "윤호": "윤호/IMG_0012.jpeg",
+    "울윤호": "윤호/IMG_0012.jpeg",
+    "아빠": "아빠/C954DC40-2B5B-446F-997A-C49C13F0C07F.png",
+    "형": "형/IMG_7422.jpeg",
+    "성현이형(매니저)": "성현이형(매니저)/IMG_7422.jpeg",
+    "철수": "철수/609BC795-2DDD-4E26-8E22-62FAD41F247F.png",
+    "민기": "민기/IMG_7425.jpeg",
+    "홍중": "홍중/IMG_7424.jpeg"
+  };
+  const av = (id, nm, c = "") => {
+    const photo = KAKAO_PHOTOS[nm];
+    const src = photo ? "images/app/KakaoTalk/Profile/" + photo.split("/").map(encodeURIComponent).join("/") : (window.HwahoIdentity ? window.HwahoIdentity.avatar(nm) : "");
+    return `<div class="kk-av ${c}" style="position:relative;overflow:hidden;background:${col(id)}">${esc([...nm][0] || "?")}${src ? `<img alt="" aria-hidden="true" src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.style.display='none'">` : (window.HwahoIdentity ? window.HwahoIdentity.avatarMarkup(nm) : "")}</div>`;
+  };
   const cav = c => c.ids.length > 1 || c.name ? `<div class="kk-gav">${c.ids.slice(0, 4).map(i => `<i style="background:${col(i)}">${esc([...((fr(i) || {}).name || "?")][0])}</i>`).join("")}</div>` : av(c.ids[0], cname(c), "kk-cav");
   const pad = n => String(n).padStart(2, "0"), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
   const day = ts => new Date(ts).toDateString(), dl = ts => { const d = new Date(ts); return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 ${"일월화수목금토"[d.getDay()]}요일`; };
