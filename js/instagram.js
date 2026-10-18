@@ -158,13 +158,13 @@ window.IgApp = (() => {
        "images/app/Instagram/Stories/fixon_n_on/5E9EF00A-ABEB-4E68-B214-475B107A4271.jpeg"
      ] },
      "xnn****": { times: ["방금"], fr: [
-       "images/app/Instagram/Stories/xnn****/IMG_7260.jpeg"
+       "images/Instagram/Stories/xnn****/IMG_7260.jpeg"
      ] },
      "iwaitedfortherightmo****": { times: ["방금"], fr: [
-       "images/app/Instagram/Stories/iwaitedfortherightmo****/IMG_7270.jpeg"
+       "images/Instagram/Stories/iwaitedfortherightmo****/IMG_7270.jpeg"
      ] },
      "sgyun***": { times: ["방금"], fr: [
-       "images/app/Instagram/Stories/sgyun***/IMG_7266.jpeg"
+       "images/Instagram/Stories/sgyun***/IMG_7266.jpeg"
      ] }
    };
    Object.values(STORY_DATA).forEach(g => g.fr.forEach(src => { const im = new Image(); im.decoding = "async"; im.src = src; }));
