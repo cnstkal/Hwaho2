@@ -237,6 +237,17 @@ const KakaoApp = (() => {
     D.v11 = 1; save();
   }
 
+  if (D.v12 !== 1) {
+    const hong = chat("c15");
+    if (hong) {
+      const start = new Date("2026-10-18T00:00:00+09:00").getTime();
+      hong.msgs = hong.msgs.filter(m => m.ts < start);
+      hong.msgs.push({ id: uid(), from: "f5", text: "축하한다", ts: new Date("2026-10-18T16:00:00+09:00").getTime() });
+      hong.unread = 1;
+    }
+    D.v12 = 1; save();
+  }
+
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
