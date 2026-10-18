@@ -37,9 +37,9 @@ const FaceTimeApp = (() => {
   <button class="ft-bb acc" data-ft="accept" aria-label="수락">${I.cam}</button>
 </div>
 <div class="ft-page" id="ft-page" aria-hidden="true">
-  <div class="ft-remote" id="ft-v1"><div class="ft-av">${CFG.caller.slice(0, 1)}</div><video id="ft-remote-video" playsinline preload="none" muted></video></div>
+  <div class="ft-remote" id="ft-v1"><div class="ft-av">${CFG.caller.slice(0, 1)}</div></div>
   <div class="ft-top"><b>${CFG.caller}</b><span id="ft-st">연결 중…</span></div>
-  <div class="ft-self" id="ft-v2"><video id="ft-self-video" playsinline preload="none" muted></video></div>
+  <div class="ft-self" id="ft-v2"></div>
   <div class="ft-ctl">
     <button data-ft="flip" aria-label="카메라 전환">${I.flip}</button>
     <button data-ft="cam" aria-label="카메라">${I.cam}</button>
@@ -79,7 +79,7 @@ const FaceTimeApp = (() => {
 #ft-root .ft-page{position:absolute;inset:0;z-index:-1;background:#000;color:#fff;opacity:0;transform:scale(.96);transition:opacity .3s,transform .3s}
 #ft-root .ft-page.on{opacity:1;transform:none;pointer-events:auto;z-index:6}
 #ft-root .ft-remote{position:absolute;inset:0;background:linear-gradient(160deg,#3a3f4b,#16181d 70%);display:grid;place-items:center;overflow:hidden}
-#ft-root .ft-remote video,#ft-root .ft-self video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000}#ft-root .ft-remote video{z-index:1}#ft-root .ft-remote .ft-av{position:relative;z-index:0}
+#ft-root .ft-remote .ft-av{position:relative;z-index:0}
 #ft-root .ft-av{width:110px;height:110px;border-radius:50%;background:linear-gradient(160deg,#8e8e93,#5b5b60);display:grid;place-items:center;font-size:52px;font-weight:500}
 #ft-root .ft-top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 62px);display:flex;flex-direction:column;align-items:center;gap:2px;text-shadow:0 1px 8px rgba(0,0,0,.5);pointer-events:none}
 #ft-root .ft-top b{font-size:22px;font-weight:600}
@@ -96,11 +96,6 @@ const FaceTimeApp = (() => {
   /* ---------- 상태/동작 ---------- */
   const el = id => $("#" + id);
   let state = "idle", missT = 0, ringT = 0, tickT = 0, callEndT = 0, sec = 0;   // idle | prompt | ringing | call
-  const CALL_VIDEO_LIMIT_SEC = 13;
-  const videoFiles = {
-    remote: "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/%ED%8E%98%EC%9D%B4%EC%8A%A4%ED%83%80%EC%9E%84/%EC%83%81%EB%8C%80%EB%B0%A9/V20260906_152543000_8A1C0D54-BEF4-4725-91F2-91040E1E8235%20(online-video-cutter.com).mp4",
-    self: "https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/%ED%8E%98%EC%9D%B4%EC%8A%A4%ED%83%80%EC%9E%84/%EB%82%98/V20260906_152817000_C2E10F36-2CB0-448E-97EA-BAA63EBA7D57%20(online-video-cutter.com).mp4"
-  };
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
 
   function setAlert(on) { el("ft-dim").classList.toggle("on", on); el("ft-alert").classList.toggle("on", on); el("ft-alert").setAttribute("aria-hidden", on ? "false" : "true"); }
@@ -115,42 +110,15 @@ const FaceTimeApp = (() => {
     clearTimeout(missT); clearTimeout(callEndT); setBanner(false); state = "call"; sec = 0;
     const p = el("ft-page"); p.classList.add("on"); p.setAttribute("aria-hidden", "false");
     el("ft-st").textContent = "연결 중…";
-    const remoteVideo = el("ft-remote-video"), selfVideo = el("ft-self-video");
-    [[remoteVideo, videoFiles.remote], [selfVideo, videoFiles.self]].forEach(([video, src]) => {
-      if (!video) return;
-      video.pause();
-      video.removeAttribute("src");
-      video.load();
-      video.muted = true;
-      video.playsInline = true;
-      video.setAttribute("playsinline", "");
-      video.preload = "auto";
-      video.onloadedmetadata = () => {
-        try { video.currentTime = 0; } catch (_) {}
-      };
-      video.onerror = () => console.warn("FaceTime video failed to load:", src, video.error);
-      video.src = src;
-      video.load();
-      const playPromise = video.play();
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(err => console.warn("FaceTime video playback failed:", err));
-      }
-    });
     clearInterval(tickT);
     tickT = setInterval(() => {
       sec++;
-      el("ft-st").textContent = sec < 2 ? "연결 중…" : "00:" + String(Math.min(sec - 2, CALL_VIDEO_LIMIT_SEC)).padStart(2, "0");
+      el("ft-st").textContent = sec < 2 ? "연결 중…" : "00:" + String(sec - 2).padStart(2, "0");
     }, 1000);
-    // 두 영상은 동시에 시작하고, 통화 화면은 최대 13초 후 자동 종료
-    callEndT = setTimeout(endCall, CALL_VIDEO_LIMIT_SEC * 1000);
   }
   function endCall() {
     if (state !== "call") return;
     clearInterval(tickT); clearTimeout(callEndT); state = "idle";
-    ["ft-remote-video", "ft-self-video"].forEach(id => {
-      const video = el(id);
-      if (video) { video.pause(); video.removeAttribute("src"); video.load(); }
-    });
     const p = el("ft-page"); p.classList.remove("on"); p.setAttribute("aria-hidden", "true");
     ["cam", "mic"].forEach(k => { const b = root.querySelector(`[data-ft="${k}"]`); b.classList.remove("off"); b.innerHTML = k === "cam" ? I.cam : I.mic; });
   }
