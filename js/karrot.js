@@ -15,13 +15,7 @@
     {id:8,title:"미개봉 블루투스 이어폰",meta:"남현동 · 3km · 어제",price:45000,cat:"디지털기기",bg:"#e6e6e6",emoji:"🎧",buy:1,st:["chat",0,2],seller:"당근초보",sloc:"남현동",temp:"36.5",time:"어제",chat:0,like:2,view:41,imgs:2,desc:"선물 받았는데 사용하지 않아 판매합니다.\n미개봉이에요."}
   ];
   const mySales=[
-    {id:101,title:"커플링 반지 구매 원해요 가격 제시",loc:"신림동",ago:"17일 전",lift:0,price:"가격 제시",bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:262,s2:["chat",1],st:"sale"},
-    {id:102,title:"슈어 SM58 다이나믹 마이크 + 스탠드",loc:"신림동",ago:"5일 전",lift:0,price:170000,bg:"linear-gradient(135deg,#c9ccd1,#6d7178)",emoji:"🎤",photo:"images/Karrot/ShureSM58/IMG_7436.jpeg",views:142,s2:["heart",6],st:"sale"},
-    {id:103,title:"AKG K240 모니터링 헤드폰",loc:"신림동",ago:"1주 전",lift:0,price:100000,bg:"linear-gradient(135deg,#1c1d20,#5a5f66)",emoji:"🎧",photo:"images/Karrot/AKGK240/IMG_7435.jpeg",views:96,s2:["chat",2],st:"sale"},
-    {id:104,title:"가변 덤벨 20kg 세트 (집에서 안 써요)",loc:"신림동",ago:"1주 전",lift:0,price:60000,bg:"linear-gradient(135deg,#2a2e35,#7a828c)",emoji:"🏋️",views:121,s2:["heart",5],st:"sold"},
-    {id:105,title:"AB 롤러 + 푸시업 바 세트",loc:"신림동",ago:"2주 전",lift:0,price:12000,bg:"linear-gradient(135deg,#e4e7ea,#9aa3ad)",emoji:"💪",views:58,s2:["heart",1],st:"sold"},
-    {id:106,title:"M-Audio 미디 키보드 49건반",loc:"신림동",ago:"1개월 전",lift:0,price:80000,bg:"linear-gradient(135deg,#1f2023,#4a4d52)",emoji:"🎹",views:210,s2:["chat",3],st:"sold"},
-    {id:107,title:"아이패드 에어 케이스 + 펜슬 팁",loc:"신림동",ago:"1개월 전",lift:0,price:25000,bg:"linear-gradient(135deg,#d9dde2,#8d949d)",emoji:"📱",views:84,s2:["chat",1],st:"sold"}
+    {id:104,title:"커플링 반지",loc:"신림동",ago:"1년 전",lift:0,price:10000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:0,s2:["heart",2],st:"sold"}
   ];
   const rooms=[
     {id:1,name:"당근",kind:"logo",official:1,ago:"1달 전",msg:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",unread:2,msgs:[{t:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",time:"오전 10:02",date:"2026년 9월 10일"}]},
