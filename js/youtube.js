@@ -16,7 +16,7 @@
   const videos = [
     {id:"v9",title:"[SMT43/최종회] ♬ MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송",channel:"Mnet TV",handle:"@MnetTV",views:"457만",time:"2개월 전",duration:"3:02",music:1,img:"images/YouTube/Videos/Video-01/쇼미.png",desc:"MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송."},
     {id:"v10",title:"뜨기 시작하자마자 배우랑 열애설 터진 래퍼 ㄷㄷ",channel:"이슈캐는남자",handle:"@이슈캐는남자",views:"36만",time:"3시간 전",duration:"4:12",img:"images/YouTube/Videos/Video-02/렉카.png",desc:"뜨기 시작하자마자 배우랑 열애설 터진 래퍼 ㄷㄷ"},
-    {id:"v11",title:"12화 하이라이트 | \"이제 어디 가지 마\" 정윤호가 최OO에게 전한 마지막 고백",channel:"TVN DRAMA",handle:"@TVNDRAMA",views:"21만",time:"1개월 전",duration:"11:29",img:"images/YouTube/Videos/Video-03/푸른 복도의 스포트라이트.png",desc:"12화 하이라이트 | 이제 어디 가지 마. 정윤호가 최OO에게 전한 마지막 고백."},
+    {id:"v11",title:"12화 하이라이트ㅣ정윤호가 최XX에게 전하는 마지막 고백",channel:"TVN DRAMA",handle:"@TVNDRAMA",views:"21만",time:"1개월 전",duration:"11:29",img:"images/YouTube/Videos/Video-03/푸른 복도의 스포트라이트.png",desc:"12화 하이라이트ㅣ정윤호가 최XX에게 전하는 마지막 고백"},
   ];
   const subChannels = ["침착맨","침착맨 플러스","케인 TV","서재로36","킥서비스"];
   const shorts = [
