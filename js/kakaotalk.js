@@ -305,8 +305,8 @@ const KakaoApp = (() => {
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
-    "박성화": "성화/172400BF-650C-4581-A587-29EB02E85289.jpeg",
-    "성화": "성화/172400BF-650C-4581-A587-29EB02E85289.jpeg",
+    "박성화": "성화/IMG_5136.jpeg",
+    "성화": "성화/IMG_5136.jpeg",
     "엄마": "엄마/E3B1FD1A-B038-4228-9A1F-8FE2ABEBF06D.png",
     "윤호": "윤호/IMG_0012.jpeg",
     "울윤호": "윤호/IMG_0012.jpeg",
