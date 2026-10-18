@@ -13,7 +13,7 @@ const KakaoApp = (() => {
   };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])), uid = () => Math.random().toString(36).slice(2, 9), KEY = "ios-kakao-v6";
   const REPLIES = ["ㅋㅋㅋㅋ 그래!", "오 좋다 👍", "잠깐만~ 이따 연락할게", "알겠어ㅎㅎ", "진짜? 대박", "지금 뭐해?", "나중에 밥 먹자!", "확인했어 고마워 😊"];
-  const FR = [["f0", "울윤호", "", 1], ["f3", "엄마", "좋은 날. 좋은.시간.^^", 1], ["h6", "아빠", "더 높은 곳을 바라보아야 한다", 1], ["f5", "김홍중 (NO1)", "", 0], ["f4", "송민기 (FIXON)", "", 0], ["f1", "철수", "💍 D+120", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
+  const FR = [["f0", "윤둥이", "", 1], ["f3", "엄마", "좋은 날. 좋은.시간.^^", 1], ["h6", "아빠", "더 높은 곳을 바라보아야 한다", 1], ["f5", "김홍중 (NO1)", "", 0], ["f4", "송민기 (FIXON)", "", 0], ["f1", "철수", "💍 D+120", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
     ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 0, 1], ["f9", "지안", "Be happy", 0, 1], ["f6", "도현", "", 0, 1], ["f10", "레도형", "Be humble", 0, 1], ["h1", "최PD(무대감독)", "", 0, 1], ["h2", "박팀장(조명)", "", 0, 1], ["h3", "김팀장님(레코드)", "", 0, 1], ["h4", "성민(동창)", "", 0, 1], ["h5", "수아 실장", "", 0, 1], ["ad1", "배달의민족", "", 0, 1], ["ad2", "CGV", "", 0, 1], ["ad3", "올리브영", "", 0, 1], ["ad4", "CJ대한통운", "", 0, 1]];
   const TOTAL = 302;
   let D = null; try { D = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -167,7 +167,7 @@ const KakaoApp = (() => {
     D.chatHistoryVersion = 6;
   }
   const CS = [["me","결혼 생활은 좀 어때","21:10:00"],["f1","좋지 뭐 ㅋㅋ","21:11:00"],["f1","너도 한 번 초대해야되는데","21:11:20"],["me","그래 신혼집 구경 좀 가보자","21:12:00"],["f1","윤호씨도 같이 올거야?","21:13:00"],["me","내가 말했나? ","21:14:00"],["me","다시 만나는 거?","21:14:20"],["f1","걍 요즘 기분 좋아보이길래 그런가보다했지","21:15:00"],["me",";;","21:16:00"],["me","그때 함 물어보지 뭐","21:16:20"],["f1","그래라","21:17:00"]];
-  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  { const y = D.friends && D.friends.find(f => f.id === "f0"); if (y) { y.name = "윤둥이"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }\n  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
