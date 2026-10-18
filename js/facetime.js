@@ -119,13 +119,22 @@ const FaceTimeApp = (() => {
     [[remoteVideo, videoFiles.remote], [selfVideo, videoFiles.self]].forEach(([video, src]) => {
       if (!video) return;
       video.pause();
-      video.src = src;
-      video.currentTime = 0;
+      video.removeAttribute("src");
+      video.load();
       video.muted = true;
       video.playsInline = true;
+      video.setAttribute("playsinline", "");
+      video.preload = "auto";
+      video.onloadedmetadata = () => {
+        try { video.currentTime = 0; } catch (_) {}
+      };
+      video.onerror = () => console.warn("FaceTime video failed to load:", src, video.error);
+      video.src = src;
       video.load();
       const playPromise = video.play();
-      if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.catch(err => console.warn("FaceTime video playback failed:", err));
+      }
     });
     clearInterval(tickT);
     tickT = setInterval(() => {
