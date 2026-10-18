@@ -307,9 +307,9 @@
   /* ---------- 상세 ---------- */
   function detail(){
     const p=prodOf(selected);if(!p)return homeScreen();
-    const lk=liked.has(p.id), n=p.imgs||1, chat=p.chat??1, like=(p.like??0)+(lk?1:0), view=p.view??p.views??10;
+    const lk=liked.has(p.id), n=p.imgs||1, chat=p.chat??(p.s2?.[0]==="chat"?p.s2[1]:0), like=(p.like??(p.s2?.[0]==="heart"?p.s2[1]:0))+(lk?1:0), view=p.view??p.views??10;
     const time=p.time||((p.lift?"끌올 ":"")+(p.ago||"방금 전"));
-    const hero=p.photo?'<div class="kg-hero" style="background:'+p.bg+'"><img src="'+esc(p.photo)+'" alt="'+esc(p.title)+'" style="width:100%;height:100%;object-fit:contain"><i class="kg-cnt">1 / '+n+'</i></div>':p.ph?'<div class="kg-hero ph">'+col("ph",150)+'<i class="kg-cnt">1 / '+n+'</i></div>':'<div class="kg-hero" style="background:'+p.bg+'">'+(p.emoji||"") + '<i class="kg-cnt">1 / '+n+'</i></div>';
+    const hero=p.photo?'<div class="kg-hero" style="background:'+p.bg+'"><img src="'+esc(p.photo)+'" alt="'+esc(p.title)+'" style="width:100%;height:100%;object-fit:contain;display:block"><i class="kg-cnt">1 / '+n+'</i></div>':p.ph?'<div class="kg-hero ph">'+col("ph",150)+'<i class="kg-cnt">1 / '+n+'</i></div>':'<div class="kg-hero" style="background:'+p.bg+'">'+(p.emoji||"") + '<i class="kg-cnt">1 / '+n+'</i></div>';
     const ads=[["📱","아이폰 18 프로 맥스 17 프로 맥스 케이스",6781,"linear-gradient(160deg,#e9d7d3,#cdb8b3)"],["📱","휴대폰 케이스 - 라이트 퍼플 라벤더",4832,"linear-gradient(160deg,#cfc8dc,#9d92b8)"],["📱","아이폰 18 프로 맥스 17 프로 맥스 케이스",6618,"linear-gradient(160deg,#e9d7d3,#cdb8b3)"],["📱","휴대폰 2D 입체 케이스",3790,"linear-gradient(160deg,#e6e6e6,#c9c9c9)"]];
     return '<section class="kg-dscreen'+"\""+'><div class="kg-dh"><button class="kg-ib" data-act="back">'+svg("back",26)+'</button><button class="kg-ib" data-act="home">'+svg("homeO",26)+'</button><span class="kg-sp"></span><button class="kg-ib"'+T("게시글 링크를 준비했어요")+'>'+svg("share",26)+'</button><button class="kg-ib"'+T("게시글 메뉴")+'>'+svg("more",24)+'</button></div><div class="kg-dscroll">'+hero+'<div class="kg-seller">'+avatar(42)+'<div class="n"><b>'+esc(p.seller||NAME)+'</b><small>'+esc(p.sloc||hoods[hoodIdx])+'</small></div><div class="r"><div class="t">'+(p.temp||"38.1")+'°C'+col("face",24)+'</div><u>매너온도</u></div></div><div class="kg-db"><h2 class="kg-dt">'+esc(p.title)+'</h2><div class="kg-dp">'+fmt(p.price)+(p.pay?'<span class="kg-pay">'+col("logo",24)+'<b>pay</b></span>':"")+'</div><div class="kg-dc"><u>'+esc(p.cat||"기타")+'</u> · '+esc(time)+'</div><div class="kg-dd">'+esc(p.desc||"판매자가 등록한 게시글이에요.").replace(/\n/g,"<br>")+'</div><div class="kg-dn">채팅 '+chat+' · 관심 '+like+' · 조회 '+view.toLocaleString("ko-KR")+'</div><div class="kg-dr">이 게시글 신고하기</div></div></div><div class="kg-dbar"><button class="kg-heart '+(lk?"on":"")+'" data-act="like" data-id="'+p.id+'">'+svg(lk?"heartF":"heartO",30)+'</button><button class="kg-chatbtn" data-act="message" data-id="'+p.id+'">채팅하기</button></div></section>'}
 
@@ -353,7 +353,7 @@
     else if(a==="delhood"){const i=Number(b.dataset.i);if(hoods.length<2)toast("동네는 1개 이상 필요해요");else{hoods.splice(i,1);hoodIdx=0;render()}}
     else if(a==="addhood"){const n=prompt("추가할 동네를 입력하세요");if(n&&n.trim()){hoods.push(n.trim());render()}}
     else if(a==="like"){liked.has(id)?liked.delete(id):liked.add(id);const on=liked.has(id);b.classList.toggle("on",on);b.innerHTML=svg(on?"heartF":"heartO",30);const p=prodOf(id),dn=$(".kg-dn");if(dn&&p)dn.textContent="채팅 "+(p.chat??1)+" · 관심 "+((p.like??0)+(on?1:0))+" · 조회 "+(p.view??p.views??10).toLocaleString("ko-KR")}
-    else if(a==="message"){const p=prodOf(id);let r=rooms.find(x=>x.pid===id);if(!r){r={id:Date.now(),pid:id,name:p.seller||NAME,loc:p.sloc,temp:p.temp,kind:"thumb",tb:p.bg||"#f5f6f7",emoji:p.emoji,ph:p.ph,ago:"방금 전",msg:"",unread:0,msgs:[]};rooms.unshift(r)}chatId=r.id;go("chatroom")}
+    else if(a==="message"){return;}
     else if(a==="favorites")go("fav");
     else if(a==="sales")go("sales");
     else if(a==="write")write();
