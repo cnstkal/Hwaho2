@@ -248,6 +248,13 @@ const KakaoApp = (() => {
     D.v12 = 1; save();
   }
 
+  if (D.v16 !== 1) {
+    const yunho = chat("c0"), seonghyeon = chat("c3");
+    if (yunho) yunho.unread = 0;
+    if (seonghyeon) seonghyeon.unread = 0;
+    D.v16 = 1; save();
+  }
+
   if (D.v15 !== 1) {
     const mg = chat("c16");
     if (mg) {
