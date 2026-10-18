@@ -15,7 +15,7 @@
     {id:101,title:"커플링 반지 구매 원해요 가격 제시",loc:"신림동",ago:"17일 전",lift:0,price:1000000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:262,s2:["chat",1],st:"sale",desc:"커플링 반지 구해요. 일단 100만원으로 책정해둡니다.\n똑같은 반지면 좋습니다. 최대한 비슷한 거여도 됩니다.\n가격 부르는 대로 맞춰드릴 테니 제발 연락 주세요."},
     {id:102,title:"슈어 SM58 다이나믹 마이크 + 스탠드",loc:"신림동",ago:"5일 전",lift:0,price:170000,bg:"linear-gradient(135deg,#c9ccd1,#6d7178)",emoji:"🎤",photo:"images/Karrot/ShureSM58/IMG_7436.jpeg",views:142,s2:["heart",6],st:"sale",desc:"사용감 꽤 있음 작동 문제 X 네고 가능"},
     {id:103,title:"AKG K240 모니터링 헤드폰",loc:"신림동",ago:"1주 전",lift:0,price:100000,bg:"linear-gradient(135deg,#1c1d20,#5a5f66)",emoji:"🎧",photo:"images/Karrot/AKGK240/IMG_7435.jpeg",views:96,s2:["chat",2],st:"sale",desc:"사용감 꽤 있음 작동 문제 X 네고 가능"},
-    {id:104,title:"커플링 반지",loc:"신림동",ago:"1년 전",lift:0,price:10000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:0,s2:["heart",2],st:"sold",desc:"커플링 반지"}
+    {id:104,title:"커플링 반지",loc:"신림동",ago:"1년 전",lift:0,price:10000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:0,s2:["heart",2],st:"sold",desc:"커플링으로 나온 반지입니다.\n어디서 샀는지는 모르겠습니다.\n더 이상 쓸 일이 없어서 팝니다.\n남자 12호입니다.\n소중히 썼습니다. 하자 X"}
   ];
   const rooms=[
     {id:1,name:"당근",kind:"logo",official:1,ago:"1달 전",msg:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",unread:2,msgs:[{t:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",time:"오전 10:02",date:"2026년 9월 10일"}]},
