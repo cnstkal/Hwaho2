@@ -10,10 +10,30 @@ var S={n:ld(KEY.n,null),f:ld(KEY.f,null),a:ld(KEY.a,{}),p:ld(KEY.p,{view:'list'}
 function saveN(){sv(KEY.n,S.n);var t={};S.n.forEach(function(n){n.tags.forEach(function(x){t[x]=1})});sv(KEY.t,Object.keys(t))}
 function saveF(){sv(KEY.f,S.f)}function saveA(){sv(KEY.a,S.a)}function saveP(){sv(KEY.p,S.p)}
 if(!S.f){S.f=[{id:'f0',name:'메모'}];saveF()}
-if(!S.f.some(function(f){return f.name==='가사'})){S.f.push({id:'f_lyrics',name:'가사'});saveF()}
 if(!S.n){var now=Date.now();S.n=[{id:uid(),title:'메모에 오신 것을 환영합니다',text:'체크리스트로 할 일을 정리하고, 표·이미지·그리기로 메모를 꾸며 보세요.\n할 일 하나\n할 일 둘',html:'<div>체크리스트로 할 일을 정리하고, 표·이미지·그리기로 메모를 꾸며 보세요.</div><div class="nt-ck" data-c="1">할 일 하나</div><div class="nt-ck" data-c="0">할 일 둘</div>',fid:'f0',pin:false,tags:[],updated:now}];saveN()}
 S.n.forEach(function(n){n.tags=[];n.html=n.html||'';n.text=n.text||''});
-S.n=S.n.filter(function(n){return !(n.del&&Date.now()-n.del>30*864e5)});
+S.n=S.n.filter(function(n){return !(n.del&&!n.keep&&Date.now()-n.del>30*864e5)});
+/* 가사 폴더 제거: 폴더 안 메모는 최근 삭제된 항목으로 이동 */
+(function(){var rm={},c=0;S.f=S.f.filter(function(f){if(f.name==='가사'||f.id==='f_lyrics'){rm[f.id]=1;c++;return false}return true});
+if(!S.f.length)S.f=[{id:'f0',name:'메모'}];
+var ch=false;S.n.forEach(function(n){if(rm[n.fid]&&!n.del){n.del=Date.now();n.pin=false;ch=true}});
+if(c)saveF();if(ch)saveN()})();
+/* 기본 메모 시드 (최초 1회) + 삭제된 항목은 항상 '3주 전'으로 유지 */
+(function(){var K='nt.seed.v1',D=864e5,now=Date.now();
+function body(L){return {text:L.map(function(l){return l.replace(/^\[[ x]\] /,'')}).join('\n'),html:L.map(function(l){var m=/^\[([ x])\] (.*)$/.exec(l);return m?'<div class="nt-ck" data-c="'+(m[1]==='x'?1:0)+'">'+esc(m[2])+'</div>':(l?'<div>'+esc(l)+'</div>':'<div><br></div>')}).join('')}}
+function mk(id,t,L,upd,x){var b=body(L),o={id:id,title:t,text:b.text,html:b.html,fid:'f0',pin:false,tags:[],updated:upd};for(var k in x)o[k]=x[k];return o}
+if(!ld(K,0)){
+S.n.push(
+mk('seed_trash_lyr','살어리랏다',['살어리랏다','윤호없이못살어리랏다...'],now-21*D-36e5,{del:now-21*D,keep:1}),
+mk('seed_album','앨범 작업 체크',['[x] 타이틀곡 믹싱 마감 (9/3)','[x] 앨범 전달 (9/11)','[x] 발매 (10/1)','[ ] 11/20 발매곡 마스터링 확인','[ ] 합동 싱글(12/10) 가이드 녹음','[ ] 승호형한테 보컬 톤 레퍼런스 보내기','[ ] 연말 공연(12/18) 세트 줄이기'],now-2*D,{pin:true}),
+mk('seed_idea','훅 / 영감',['새벽 세 시 편의점 불빛, 형광등 아래서 혼자 웃는 사람','후렴은 짧게. 마지막 박은 일부러 비워두기','"다시"라는 단어 너무 많이 씀 → 줄이기','느린 808 + 어쿠스틱 기타 한 줄','브릿지는 가사 없이 숨소리만 깔아볼까','택시 뒷자리에서 쓰는 곡. 창밖 네온이 지나가는 템포'],now-5*D),
+mk('seed_mix','믹싱 피드백 (승호형)',['보컬 S음 날카로움 → 디에서 2~3dB','킥 살짝 낮추고 808 롱테일 줄이기','2절 애드립 볼륨 -2','마스터링 전 헤드룸 -1dB 확보','후렴 더블링은 좌우 폭 좁게'],now-9*D),
+mk('seed_live','공연 체크리스트',['오프닝은 템포 높은 곡 3곡 연달아','멘트는 30초 이내','인이어 모니터 레벨 낮추기','앙코르는 타이틀곡','10/24 지방 / 10/31 해외 → 이동 시간 매니저한테 확인','물, 목 스프레이, 여분 마이크 커버'],now-12*D),
+mk('seed_mv','뮤비 콘셉트',['새벽 도로 + 택시 + 네온','흑백으로 갈지 형광으로 갈지 → 감독님 의견 듣기','소품: 반지 (찾아야 함)','마지막 컷은 말 없이 걷기'],now-16*D),
+mk('seed_pw','비번',['사운드클라우드','yh0323s2!','','인스타그램','sh0323insta!!','','유튜브','yh0323tube#','','멜론 아티스트','sh0323mel!','','스플라이스','hwaho0323beat','','네이버','shnaver0323*','','작업실 와이파이','studio0323','','노트북','SH0323!!','','넷플릭스','pizza!night'],Date.UTC(2025,5,14,3,20))
+);saveN();sv(K,1)}
+var t=byId('seed_trash_lyr');if(t&&t.del){t.del=now-21*D;t.updated=now-21*D-36e5;t.keep=1;saveN()}
+})();
 /* ---------- 유틸 ---------- */
 var IC={
 folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
