@@ -61,7 +61,7 @@ window.IgApp = (() => {
     const id = String(u.id || "");
     const photo = PROFILE_PHOTOS[id];
     const src = (window.HwahoIdentity && window.HwahoIdentity.avatar(id)) || (photo
-      ? "images/app/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
+      ? "images/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
       : "");
     return `<div class="ig-av ${extra}" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${Math.round(s * .42)}px;background:linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))"><span>${esc([...u.name][0])}</span>${src ? `<img alt="" src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : ""}</div>`;
   };
