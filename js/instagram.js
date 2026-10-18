@@ -75,7 +75,7 @@ window.IgApp = (() => {
     });
   };
   const allCm = p => dedupeComments([...p.cm.map(c => ({ u: c[0], t: c[1], w: p.t })), ...(S.cmt[p.id] || []).map(c => ({ u: "_starhwa_", t: c.t, w: ago(c.ts) }))]);
-  const cmTot = p => Math.max(p.n || 0, p.cm.length) + (S.cmt[p.id] || []).length;
+  const cmTot = p => p.u === ME.id ? 0 : Math.max(p.n || 0, p.cm.length) + (S.cmt[p.id] || []).length;
   const cmHtml = p => "";
   const postHtml = p => { const u = usr(p.u), n = p.imgs.length, lk = !!S.like[p.id], sv = !!S.save[p.id], colorTags = text => esc(text).replace(/(^|\s)(#[\p{L}\p{N}_]+)/gu, "$1<span class=\"ig-hashtag\">$2</span>");
     return `<article class="ig-post" data-id="${p.id}"><div class="ig-ph">${av(u, 32)}<div class="ig-pn"><b>${u.id}</b>${p.loc ? `<small>${esc(p.loc)}</small>` : ""}</div><span class="ig-more">${I.more}</span></div>
@@ -131,7 +131,7 @@ window.IgApp = (() => {
   /* 댓글 */
   let cmId = null;
   const cmAv = (id, size = 32) => { if (id === "_starhwa_") return av(usr(id), size); const dir = "images/app/Instagram/Profile/Comments"; return `<div class="ig-av ig-comment-shared" style="position:relative;overflow:hidden;width:${size}px;height:${size}px;background:#ddd;flex:none"><img alt="" src="${dir}/__auto_detect_comment__.jpg" data-comment-dir="${dir}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="(async function(img){try{var dir=img.dataset.commentDir;window.__igCommentAvatar=window.__igCommentAvatar||fetch('https://api.github.com/repos/cnstkal/Hwaho2/contents/'+dir).then(function(r){if(!r.ok)throw Error('not found');return r.json()}).then(function(files){var f=files.find(function(x){return x.type==='file'&&/(?:jpe?g|png|webp|gif|avif)$/i.test(x.name)});return f&&f.download_url||null});var url=await window.__igCommentAvatar;if(url)img.src=url;else img.parentElement.textContent='?' }catch(e){img.parentElement.textContent='?'}})(this)"></div>`; };
-  const cmList = p => allCm(p).map(c => `<div class="ig-ci">${cmAv(c.u, 32)}<div><b>${c.u}</b> ${esc(c.t)}<small>${c.w}</small></div></div>`).join("") + (cmTot(p) > allCm(p).length ? `<div class="ig-cnote">대표 댓글 ${allCm(p).length}개만 표시 · 전체 ${fmt(cmTot(p))}개</div>` : "");
+  const cmList = p => p.u === ME.id ? "" : allCm(p).map(c => `<div class="ig-ci">${cmAv(c.u, 32)}<div><b>${c.u}</b> ${esc(c.t)}<small>${c.w}</small></div></div>`).join("") + (cmTot(p) > allCm(p).length ? `<div class="ig-cnote">대표 댓글 ${allCm(p).length}개만 표시 · 전체 ${fmt(cmTot(p))}개</div>` : "");
   function cmOpen(id) { const p = post(id); cmId = id; $("#ig-cs").innerHTML = `<div class="ig-cgrab"></div><div class="ig-ctt"><b>댓글</b><button data-g="cmx" aria-label="닫기">${I.x}</button></div><div class="ig-sc" id="ig-cl">${cmList(p)}</div><div class="ig-cin">${av(usr("_starhwa_"), 32)}<input id="ig-ci" placeholder="${p.u}님에게 댓글 추가..." autocomplete="off" enterkeyhint="send"><button data-g="cmp" id="ig-cp" disabled>게시</button></div>`; $("#ig-cb").classList.add("on"); $("#ig-cs").classList.add("on"); }
   function cmPost() { const inp = $("#ig-ci"), t = inp.value.trim(); if (!t || !cmId) return; (S.cmt[cmId] = S.cmt[cmId] || []).push({ t, ts: Date.now() }); persist(); inp.value = ""; $("#ig-cp").disabled = true; const p = post(cmId); $("#ig-cl").innerHTML = cmList(p); $("#ig-cl").scrollTop = 1e6; sync(cmId); }
   el.addEventListener("input", e => { if (e.target.id === "ig-ci") $("#ig-cp").disabled = !e.target.value.trim(); });
