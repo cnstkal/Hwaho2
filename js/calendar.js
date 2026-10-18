@@ -29,10 +29,10 @@
   let events = load(KEY_E, []), hidden = load(KEY_H, []);
   /* 기본 일정 시드 (최초 1회) */
   (function seed() {
-    const KEY_S = "ioshome.calendar.seed.v5"; if (load(KEY_S, false)) return;
+    const KEY_S = "ioshome.calendar.seed.v6"; if (load(KEY_S, false)) return;
     events = events.filter(e => !String(e.id).startsWith("seed"));
     const Y = new Date().getFullYear();
-    const R = [[1,8,"엄마 생일",8],[1,14,"타투",14],[1,22,"여행",24],[1,29,"건강검진",29],[2,11,"철수 생일",11],[2,20,"부산",20],[2,26,"치과",26],[3,16,"동창회",16],[3,23,"강아지 생일",23],[4,3,"생일",3],[4,26,"제주도",30],[5,12,"가족 식사",12],[5,18,"철수 결혼식",18],[6,10,"레도형 결혼식",10],[6,24,"베트남",28],[7,9,"프로필 사진 촬영",9],[7,21,"앨범 콘셉트 미팅",21],[8,2,"앨범 시작",2],[8,7,"피처링 녹음",7],[8,9,"민기 생일",9],[8,12,"1차 마감",12],[8,16,"프로듀서 미팅",16],[8,20,"재킷 촬영",20],[8,22,"뮤직비디오 사전 미팅",22],[8,27,"뮤직비디오 촬영",27],[8,30,"마스터링 마감",30],[9,1,"트랙리스트 확정",1],[9,3,"타이틀곡 믹싱 마감",3],[9,7,"클럽 공연",7],[9,11,"앨범 전달",11],[9,13,"힙페",13],[9,21,"대축",21],[10,1,"발매",1],[10,4,"대축",4],[10,10,"엠카",10],[10,12,"화보",12],[10,14,"공연",14],[10,20,"지방 공연",20],[10,22,"클럽 공연",22],[10,30,"해외 공연",30],[11,4,"녹음",4],[11,6,"대학 축제",6],[11,7,"홍중 생일",7],[11,8,"힙페",8],[11,10,"리믹스 작업 마감",10],[11,14,"클럽 공연",14],[11,18,"뮤직비디오 촬영",18],[11,20,"발매",20],[11,22,"음악 방송",22],[11,24,"지방 공연",24],[11,28,"합동 공연",28],[12,2,"연말 무대 사전 녹화",2],[12,4,"브랜드 행사",4],[12,10,"합동 싱글 발매",10],[12,12,"클럽 공연",12],[12,18,"연말 공연",18],[12,27,"마지막 공연",27],[12,29,"앨범 미팅",29],[2,8,"쇼미",8],[3,15,"쇼미",15],[4,19,"쇼미",19],[5,24,"쇼미",24],[6,28,"쇼미",28],[7,25,"쇼미",25]];
+    const R = [[1,8,"엄마 생일",8],[1,14,"타투",14],[1,22,"여행",24],[1,29,"건강검진",29],[2,11,"철수 생일",11],[2,20,"부산",20],[2,26,"치과",26],[3,16,"동창회",16],[3,23,"강아지 생일",23],[4,3,"생일",3],[4,26,"제주도",30],[5,12,"가족 식사",12],[6,10,"레도형 결혼식",10],[6,24,"베트남",28],[7,9,"프로필 사진 촬영",9],[7,21,"앨범 콘셉트 미팅",21],[8,2,"앨범 시작",2],[8,7,"피처링 녹음",7],[8,9,"민기 생일",9],[8,12,"1차 마감",12],[8,16,"프로듀서 미팅",16],[8,20,"재킷 촬영",20],[8,22,"뮤직비디오 사전 미팅",22],[8,27,"뮤직비디오 촬영",27],[8,30,"마스터링 마감",30],[9,1,"트랙리스트 확정",1],[9,3,"타이틀곡 믹싱 마감",3],[9,7,"클럽 공연",7],[9,11,"앨범 전달",11],[9,13,"힙페",13],[9,21,"대축",21],[10,1,"발매",1],[10,6,"대축",6],[10,12,"화보",12],[10,14,"공연",14],[10,24,"지방 공연",24],[10,22,"클럽 공연",22],[10,31,"해외 공연",31],[11,4,"녹음",4],[11,6,"대학 축제",6],[11,7,"홍중 생일",7],[11,8,"힙페",8],[11,10,"리믹스 작업 마감",10],[11,14,"클럽 공연",14],[11,18,"뮤직비디오 촬영",18],[11,20,"발매",20],[11,22,"음악 방송",22],[11,21,"지방 공연",21],[11,28,"합동 공연",28],[12,2,"연말 무대 사전 녹화",2],[12,4,"브랜드 행사",4],[12,10,"합동 싱글 발매",10],[12,12,"클럽 공연",12],[12,18,"연말 공연",18],[12,27,"마지막 공연",27],[12,29,"앨범 미팅",29],[2,8,"쇼미",8],[3,15,"쇼미",15],[4,19,"쇼미",19],[5,24,"쇼미",24],[6,28,"쇼미",28],[7,24,"쇼미",24]];
     R.forEach((r, i) => { const k = `${Y}-${pad(r[0])}-${pad(r[1])}`, k2 = `${Y}-${pad(r[0])}-${pad(r[3])}`; events.push({ id: "seed" + i, title: r[2], loc: "", notes: "", allDay: true, start: k + "T00:00", end: k2 + "T23:59", cal: "school", rep: "", trv: "0", alr: "", url: "" }); });
     store(KEY_E, events); store(KEY_S, true);
   })();
@@ -121,7 +121,7 @@
   const WDM = ["월", "화", "수", "목", "금", "토", "일"], mOff = d => (d.getDay() + 6) % 7;
   const HH = 56, MM = HH / 60, RED = "#eb4a47";
   const HOL_FIX = { "01-01": "신정", "03-01": "삼일절", "05-05": "어린이날", "06-06": "현충일", "08-15": "광복절", "10-03": "개천절", "10-09": "한글날", "12-25": "크리스마스" };
-  const HOL_26 = { "02-16": "설날 연휴", "02-17": "설날", "02-18": "설날 연휴", "03-02": "삼일절 대체공휴일", "05-01": "노동절", "05-24": "부처님오신날", "05-25": "부처님오신날 대체공휴일", "06-03": "전국동시지방선거", "07-17": "제헌절", "08-17": "광복절 대체공휴일", "09-24": "추석 연휴", "09-25": "추석", "09-26": "추석 연휴", "10-05": "개천절 대체공휴일" };
+  const HOL_26 = { "02-16": "설날 연휴", "02-17": "설날", "02-18": "설날 연휴", "03-02": "삼일절 대체공휴일", "05-24": "부처님오신날", "05-25": "부처님오신날 대체공휴일", "06-03": "전국동시지방선거", "07-17": "제헌절", "08-17": "광복절 대체공휴일", "09-24": "추석 연휴", "09-25": "추석", "09-26": "추석 연휴", "10-05": "개천절 대체공휴일" };
   const hol = k => (k.slice(0, 4) === "2026" && HOL_26[k.slice(5)]) || HOL_FIX[k.slice(5)] || "";
   const IC = {
     back: '<svg width="14" height="22" viewBox="0 0 14 22"><path d="M11 2L3 11l8 9" fill="none" stroke="currentColor" stroke-width="2.800" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -136,23 +136,68 @@
   const bottom = () => `<div class="cal-bottom"></div>`;
   const holChip = n => `<span class="chip hol"><u>★</u>${n}</span>`;
 
-  function cellIn(k, d) {
-    const l = onDay(k), h = hol(k); let x = `<span class="n">${d.getDate()}</span>`;
+  function cellIn(k, d, inf) {
+    inf = inf || { skip: new Set(), n: 0 };
+    const l = onDay(k).filter(e => !inf.skip.has(e.id + "|" + e.oc)), h = hol(k); let x = `<span class="n">${d.getDate()}</span>`;
     if (mstyle === "stacked" || mstyle === "list") x += `<span class="dots">${(h ? ['<i style="--c:#b56fd8"></i>'] : []).concat(l.slice(0, 3).map(e => `<i style="--c:${col(e)}"></i>`)).slice(0, 3).join("")}</span>`;
     else {
-      const it = []; if (h) it.push(`<i class="mc hol"><u>★</u><b class="mt">${h}</b></i>`);
+      const it = []; for (let i = 0; i < inf.n; i++) it.push(`<i class="mc ph" data-l="${i}"></i>`); if (h) it.push(`<i class="mc hol"><u>★</u><b class="mt">${h}</b></i>`);
       l.forEach(e => it.push(`<i class="mc" style="--c:${col(e)};--bg:${col(e)}33"><b class="mt">${esc(e.title)}</b></i>`));
       const lim = mstyle === "details" ? 4 : 3;
       x += `<span class="mcs">${it.slice(0, lim).join("")}${it.length > lim ? `<em>+${it.length - lim}</em>` : ""}</span>`;
     }
     return x;
   }
+  let SPN = [], spRO = null;
+  function spanPlan(rows, off) {
+    SPN = []; const info = Array.from({ length: rows * 7 }, () => ({ skip: new Set(), n: 0 }));
+    if (mstyle === "stacked" || mstyle === "list") return info;
+    for (let r = 0; r < rows; r++) {
+      const seg = {};
+      for (let c = 0; c < 7; c++) {
+        const d = new Date(S.y, S.m, 1 - off + r * 7 + c); if (d.getMonth() !== S.m) continue; const k = ymd(d);
+        onDay(k).forEach(e => {
+          const sd = e.start.slice(0, 10), ed = e.end.slice(0, 10); if (!e.allDay || sd === ed) return;
+          const key = e.id + "|" + e.oc;
+          if (!seg[key]) seg[key] = { e, c0: c, c1: c, k0: k, k1: k, sd, ed, r }; else { seg[key].c1 = c; seg[key].k1 = k; }
+        });
+      }
+      const list = Object.values(seg).sort((a, b) => a.c0 - b.c0 || (b.c1 - b.c0) - (a.c1 - a.c0)), le = [];
+      list.forEach(sg => {
+        let L = le.findIndex(x => x < sg.c0); if (L < 0) { L = le.length; le.push(0); } le[L] = sg.c1; sg.L = L; sg.rs = sg.sd === sg.k0; sg.re = sg.ed === sg.k1;
+        for (let c = sg.c0; c <= sg.c1; c++) { const f = info[r * 7 + c]; f.skip.add(sg.e.id + "|" + sg.e.oc); f.n = Math.max(f.n, L + 1); }
+        SPN.push(sg);
+      });
+    }
+    return info;
+  }
+  const offIn = (e, g) => { let x = 0, y = 0; while (e && e !== g) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; } return [x, y]; };
+  function placeSpans() {
+    const g = main.querySelector(".cal-grid"); if (!g || S.view !== "month") return;
+    const old = g.querySelector(".spl"); if (old) old.remove();
+    if (!SPN.length || !g.offsetWidth) return;
+    const o = document.createElement("div"), cells = g.querySelectorAll(":scope > .d"); o.className = "spl";
+    SPN.forEach(sg => {
+      const a = cells[sg.r * 7 + sg.c0], b = cells[sg.r * 7 + sg.c1]; if (!a || !b) return;
+      const p = a.querySelector('.ph[data-l="' + sg.L + '"]'); if (!p) return;
+      const ax = offIn(a, g)[0], bx = offIn(b, g)[0] + b.offsetWidth, py = offIn(p, g)[1], c = col(sg.e), n = document.createElement("button");
+      n.className = "sb" + (sg.rs ? "" : " nl") + (sg.re ? "" : " nr"); n.dataset.act = "ev-open"; n.dataset.id = sg.e.id; n.dataset.k = sg.e.oc;
+      n.style.cssText = `left:${ax + 1}px;top:${py}px;width:${bx - ax - 2}px;height:${p.offsetHeight}px;--c:${c};--bg:${c}33`;
+      n.innerHTML = `<b class="mt">${esc(sg.e.title)}</b>`; o.appendChild(n);
+    });
+    g.appendChild(o);
+  }
+  function watchSpans() {
+    if (spRO) { spRO.disconnect(); spRO = null; }
+    const g = main.querySelector(".cal-grid"); if (!g) return;
+    placeSpans(); if (window.ResizeObserver) { spRO = new ResizeObserver(placeSpans); spRO.observe(g); }
+  }
   function monthHTML() {
-    const off = mOff(new Date(S.y, S.m, 1)), n = new Date(S.y, S.m + 1, 0).getDate(), rows = Math.ceil((off + n) / 7);
+    const off = mOff(new Date(S.y, S.m, 1)), n = new Date(S.y, S.m + 1, 0).getDate(), rows = Math.ceil((off + n) / 7), plan = spanPlan(rows, off);
     let cells = "";
     for (let i = 0; i < rows * 7; i++) {
       const d = new Date(S.y, S.m, 1 - off + i), k = ymd(d);
-      cells += `<button class="d${d.getMonth() !== S.m ? " out" : ""}${i % 7 > 4 ? " we" : ""}${k === today ? " today" : ""}${k === S.sel ? " sel" : ""}" data-act="day" data-k="${k}">${cellIn(k, d)}</button>`;
+      cells += `<button class="d${d.getMonth() !== S.m ? " out" : ""}${i % 7 > 4 ? " we" : ""}${k === today ? " today" : ""}${k === S.sel ? " sel" : ""}" data-act="day" data-k="${k}">${cellIn(k, d, plan[i])}</button>`;
     }
     return tb(`<button class="cal-btn gl lb" data-act="year">${IC.back}<span>${S.y}년</span></button>`, "month") +
       `<div class="cal-title"><h1>${S.m + 1}월</h1></div>` +
@@ -200,6 +245,7 @@
     const tg = S.view === "day" || S.view === "week";
     main.innerHTML = S.view === "year" ? yearHTML() : tg ? tgHTML() : monthHTML();
     if (dir && S.view === "month") main.querySelector(".cal-grid").classList.add(dir > 0 ? "sl" : "sr");
+    if (S.view === "month") watchSpans();
     if (tg) { const sc = $("#tg-sc"); sc.scrollTop = S.sc != null ? S.sc : S.dsc; if (dir) sc.firstChild.classList.add(dir > 0 ? "sl" : "sr"); }
   }
   function step(dl2) {
@@ -529,6 +575,20 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">일�
 #cal-app .ym b{font-size:19px;margin-bottom:6px}
 #cal-app .mg{font-size:9.5px;font-weight:500;line-height:18px;letter-spacing:0!important}
 #cal-app .tg-ad .chip{font-size:13px;height:24px}
+
+#cal-app .cal-grid{position:relative}
+
+#cal-app .mc.ph{visibility:hidden}
+
+#cal-app .spl{position:absolute;inset:0;pointer-events:none;z-index:2}
+
+#cal-app .sb{position:absolute;display:flex;align-items:center;pointer-events:auto;border:0;border-radius:4px;padding:0 6px;font-size:11px;font-weight:700;line-height:20px;background:var(--bg);color:var(--c);overflow:hidden;text-align:left;cursor:pointer}
+
+#cal-app .sb.nl{border-top-left-radius:0;border-bottom-left-radius:0}
+
+#cal-app .sb.nr{border-top-right-radius:0;border-bottom-right-radius:0}
+
+#cal-app .sb .mt{display:block;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:inherit}
 `;document.head.appendChild(st);})();
 
 /* App-specific styles moved from base.css */

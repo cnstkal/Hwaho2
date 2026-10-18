@@ -20,7 +20,7 @@
   const chAv = {"케인 TV":"케인\ntv","침착맨":"침","침착맨 플러스":"침","서재로36":"서","킥서비스":"킥","득템":"득템"};
   const channelProfiles = {"Mnet TV":"images/YouTube/Profiles/Profile-01/channels4_profile.jpg","이슈캐는남자":"images/YouTube/Profiles/Profile-02/이캐남.png","TVN DRAMA":"images/YouTube/Profiles/Profile-03/channels4_profile%20(1).jpg"};
   const videos = [
-    {id:"v9",title:"[SMT43/최종회] ♬ MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송",channel:"Mnet TV",handle:"@MnetTV",views:"457만",time:"2개월 전",duration:"3:02",music:1,img:"images/YouTube/Videos/Video-01/쇼미.png",desc:"MARS (Feat. NO1) - MARS @파이널 | Mnet 260723 방송."},
+    {id:"v9",title:"[SMT43/최종회] ♬ MARS (Feat. NO1) - MARS @파이널 | Mnet 260724 방송",channel:"Mnet TV",handle:"@MnetTV",views:"457만",time:"2개월 전",duration:"3:02",music:1,img:"images/YouTube/Videos/Video-01/쇼미.png",desc:"MARS (Feat. NO1) - MARS @파이널 | Mnet 260724 방송."},
     {id:"v10",title:"쇼미 우승하자마자 배우랑 열애설 ㄷㄷ",channel:"이슈캐는남자",handle:"@이슈캐는남자",views:"36만",time:"3시간 전",duration:"4:12",img:"images/YouTube/Videos/Video-02/렉카.png",desc:"쇼미 우승하자마자 배우랑 열애설 ㄷㄷ"},
     {id:"v11",title:"12화 하이라이트ㅣ정윤호가 최XX에게 전하는 마지막 고백",channel:"TVN DRAMA",handle:"@TVNDRAMA",views:"21만",time:"1개월 전",duration:"11:29",img:"images/YouTube/Videos/Video-03/푸른 복도의 스포트라이트.png",desc:"12화 하이라이트ㅣ정윤호가 최XX에게 전하는 마지막 고백"},
   ];
