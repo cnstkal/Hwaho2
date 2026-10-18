@@ -286,11 +286,11 @@ const KakaoApp = (() => {
     "김홍중 (NO1)": "홍중/IMG_7424.jpeg"
   };
   const av = (id, nm, c = "") => {
-    const photo = KAKAO_PHOTOS[nm];
+    const photo = KAKAO_PHOTOS[nm] || "성현이형(매니저)/IMG_7422.jpeg";
     const src = photo ? "images/app/KakaoTalk/Profile/" + photo.split("/").map(encodeURIComponent).join("/") : (window.HwahoIdentity ? window.HwahoIdentity.avatar(nm) : "");
     return `<div class="kk-av ${c}" style="position:relative;overflow:hidden;background:${col(id)}">${esc([...nm][0] || "?")}${src ? `<img alt="" aria-hidden="true" src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="this.style.display='none'">` : (window.HwahoIdentity ? window.HwahoIdentity.avatarMarkup(nm) : "")}</div>`;
   };
-  const psrc = nm => { const p = KAKAO_PHOTOS[nm]; return p ? "images/app/KakaoTalk/Profile/" + p.split("/").map(encodeURIComponent).join("/") : (window.HwahoIdentity ? window.HwahoIdentity.avatar(nm) : ""); };
+  const psrc = nm => { const p = KAKAO_PHOTOS[nm] || "성현이형(매니저)/IMG_7422.jpeg"; return p ? "images/app/KakaoTalk/Profile/" + p.split("/").map(encodeURIComponent).join("/") : (window.HwahoIdentity ? window.HwahoIdentity.avatar(nm) : ""); };
 
   const cav = c => c.ids.length > 1 || c.name ? `<div class="kk-gav">${[...c.ids, "me"].slice(0, 4).map(i => { const nm = i === "me" ? "박성화" : (fr(i) || {}).name || "?", s = psrc(nm); return `<i style="background:${col(i)};position:relative;overflow:hidden">${esc([...nm][0])}${s ? `<img alt="" src="${s}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ""}</i>`; }).join("")}</div>` : av(c.ids[0], cname(c), "kk-cav");
   const pad = n => String(n).padStart(2, "0"), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
