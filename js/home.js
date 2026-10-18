@@ -74,7 +74,7 @@ window.APPS = {
   function iconInner(app) {
     if (app.img) return `<img src="${app.img}" alt="" draggable="false">`;
     if (app.dynamic === "calendar") {
-      const d = new Date();
+      const d = new Date(2026, 9, 19);
       return `<div class="cal"><span class="dow">${DOW[d.getDay()]}</span><span class="day">${d.getDate()}</span></div>`;
     }
     return `<svg viewBox="0 0 60 60" preserveAspectRatio="xMidYMid slice">${app.svg}</svg>`;
