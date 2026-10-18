@@ -4,7 +4,7 @@ const FaceTimeApp = (() => {
     delaySec: 45,
     ringDelayMs: 1500,
     missedSec: 0,
-    caller: "울윤호",
+    caller: "윤둥이",
     callerSub: "휴대전화"
   };
   const $ = q => document.querySelector(q), screen = $("#screen");
@@ -91,7 +91,7 @@ const FaceTimeApp = (() => {
   const el = id => $("#" + id);
   let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0;
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
-  const dialogue = [
+  const DEFAULT_DIALOGUE = [
     ["성화","여보세요?","me",1500],
     ["성화","전화는 왜 안받았어?","me",1800],
     ["성화","괜찮은 거 맞지?","me",1800],
@@ -106,11 +106,11 @@ const FaceTimeApp = (() => {
     ["윤호","형 하는 거 봐서","them",1900],
     ["성화","아니 윤호야,","me",1300]
   ];
-  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
+  let dialogue = DEFAULT_DIALOGUE;\n  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
   function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
   function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
   function prompt(){if(state!=="idle")return;state="prompt";setAlert(true);}
-  function ring(){clearTimeout(missT);if(state==="call"||state==="ringing")return;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
+  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;el("ft-in-name").textContent=CFG.caller;el("ft-contact-avatar").textContent=CFG.caller.slice(0,1);el("ft-call-head b").textContent=CFG.caller;el("ft-call-avatar").textContent=CFG.caller.slice(0,1);state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
   function playDialogue(){
     if(state!=="call")return;
     if(lineIndex>=dialogue.length){endCall();return;}
