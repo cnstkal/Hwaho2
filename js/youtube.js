@@ -89,7 +89,7 @@
   #yt-app .yt-nav .me i{width:28px;height:28px;border-radius:50%;background:#d8c6b7;display:grid;place-items:center;font-size:16px;font-style:normal;border:1.500px solid #0f0f0f;padding:1px}
   #yt-app .yt-dot{position:relative}#yt-app .yt-dot:after{content:"";position:absolute;right:-2px;top:-2px;width:9px;height:9px;border-radius:50%;background:#f03;border:1.500px solid #fafafa}
   #yt-app.dark .yt-nav{background:#0f0f0f;border-color:#222}#yt-app.dark .yt-nav button{color:#fff}#yt-app.dark .yt-nav .yt-plus span{background:#2a2a2a}#yt-app.dark .yt-dot:after{border-color:#0f0f0f}
-  #yt-app .yt-screen{position:absolute;inset:0;background:#fff;z-index:8;overflow-y:auto;scrollbar-width:none}#yt-app .yt-screen::-webkit-scrollbar{display:none}
+  #yt-app .yt-screen{position:absolute;inset:0;background:#fff;z-index:8;overflow-y:auto;scrollbar-width:none}#yt-app .yt-screen:has(.yt-player){padding-top:32px}#yt-app .yt-screen::-webkit-scrollbar{display:none}
   #yt-app .yt-screenhead{height:99px;padding:63px 12px 0;display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#fff;z-index:2;font-weight:700;font-size:18px}
   #yt-app .yt-player{width:100%;aspect-ratio:16/9;height:auto;min-height:0;box-sizing:border-box;background:#000;position:relative;top:auto;z-index:3;display:grid;place-items:center;flex:none;overflow:hidden}#yt-app .yt-player img{display:block;width:100%;height:100%;aspect-ratio:16/9;object-fit:cover;opacity:.9}
   #yt-app .yt-min{position:absolute;left:8px;top:8px;width:36px;height:36px;color:#fff;display:grid;place-items:center;z-index:4}
