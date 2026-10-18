@@ -110,7 +110,7 @@ window.IgApp = (() => {
     if (!yp) return;
     if (!FEED.includes("yunho1")) FEED.unshift("yunho1");
     const scroller = document.querySelector("#ig-home .ig-sc");
-    if (scroller && !scroller.querySelector('[data-id="yunho1"]')) scroller.insertAdjacentHTML("afterbegin", postHtml(yp));
+    if (scroller && !scroller.querySelector('[data-id="yunho1"]')) { const stories = scroller.querySelector(".ig-sts"); if (stories) stories.insertAdjacentHTML("afterend", postHtml(yp)); else scroller.insertAdjacentHTML("afterbegin", postHtml(yp)); }
     setInterval(() => {
       if (!document.querySelector("#ig-app.show")) return;
       yp.likes += 2 + Math.floor(Math.random() * 5);
