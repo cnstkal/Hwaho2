@@ -1,27 +1,15 @@
-/* ===== facetime.js : 안내창 → 페이스타임 수신 알림 → 페이스타임 화면 ===== */
+/* ===== 일반 전화 시뮬레이션: 안내창 → 수신 전화 → 대화 → 자동 끊김 ===== */
 const FaceTimeApp = (() => {
-  /* ---------- 설정 (여기만 바꾸면 됨) ---------- */
   const CFG = {
-    delaySec: 45,            // 사이트를 보고 있는 시간이 이 값(초)에 도달하면 안내창이 뜸
-    ringDelayMs: 1500,       // "네" 누른 뒤 수신 알림이 오기까지 시간
-    missedSec: 30,           // 수신 알림을 이 시간 동안 안 받으면 부재중 처리
-    caller: "울윤호",         // 전화 거는 사람 이름
-    callerSub: "FaceTime 비디오",
+    delaySec: 45,
+    ringDelayMs: 1500,
+    missedSec: 30,
+    caller: "울윤호",
+    callerSub: "휴대전화"
   };
   const $ = q => document.querySelector(q), screen = $("#screen");
   if (!screen) return {};
-
-  const ic = (p, w = 1.8, f = "none") => `<svg viewBox="0 0 24 24" fill="${f}" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-  const I = {
-    cam: ic('<rect x="2.8" y="6" width="12.4" height="12" rx="2.8"/><path d="M15.2 10.4l5.6-3.2v9.6l-5.6-3.2z"/>', 1.9, "currentColor"),
-    camOff: ic('<rect x="2.8" y="6" width="12.4" height="12" rx="2.8"/><path d="M15.2 10.4l5.6-3.2v9.6l-5.6-3.2zM3 3l18 18"/>', 1.9),
-    phone: ic('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>', 1.8, "currentColor"),
-    mic: ic('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/>', 1.9),
-    micOff: ic('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M3 3l18 18"/>', 1.9),
-    flip: ic('<path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H9M20 16v2.5a1.5 1.5 0 0 1-1.500 1.500H15M4 8l2.5-2.500M4 8l2.500 2.500M20 16l-2.500 2.500M20 16l-2.500-2.500"/><circle cx="12" cy="12" r="3"/>', 1.8),
-  };
-
-  /* ---------- DOM ---------- */
+  const phoneSvg = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5c-.8-.8-2-.8-2.8 0L2.6 4.7c-1 1-1.2 2.6-.4 3.9 3 5 6.8 8.8 11.8 11.8 1.3.8 2.9.6 3.9-.4l1.2-1.2c.8-.8.8-2 0-2.8l-2.5-2.5c-.7-.7-1.8-.8-2.6-.2l-1.2.9c-2.3-1.2-4.3-3.2-5.5-5.5l.9-1.2c.6-.8.5-1.9-.2-2.6z" fill="currentColor"/></svg>';
   const root = document.createElement("div");
   root.id = "ft-root";
   root.innerHTML = `
@@ -30,127 +18,144 @@ const FaceTimeApp = (() => {
   <div class="ft-at">진행하시겠습니까?</div>
   <div class="ft-ab"><button data-ft="no">아니요</button><button data-ft="yes" class="b">네</button></div>
 </div>
-<div class="ft-banner" id="ft-banner" aria-hidden="true">
-  <div class="ft-bi">${I.cam}</div>
-  <div class="ft-bt"><small>FaceTime</small><b>${CFG.caller}</b><span>${CFG.callerSub}</span></div>
-  <button class="ft-bb dec" data-ft="decline" aria-label="거절"><i>${I.phone}</i></button>
-  <button class="ft-bb acc" data-ft="accept" aria-label="수락">${I.cam}</button>
+<div class="ft-incoming" id="ft-incoming" aria-hidden="true">
+  <div class="ft-in-small">전화가 오고 있습니다</div>
+  <div class="ft-contact-avatar">${CFG.caller.slice(0,1)}</div>
+  <div class="ft-in-name">${CFG.caller}</div>
+  <div class="ft-in-sub">${CFG.callerSub}</div>
+  <div class="ft-in-actions">
+    <button class="ft-round decline" data-ft="decline" aria-label="거절"><span>${phoneSvg}</span><small>거절</small></button>
+    <button class="ft-round accept" data-ft="accept" aria-label="응답"><span>${phoneSvg}</span><small>응답</small></button>
+  </div>
 </div>
-<div class="ft-page" id="ft-page" aria-hidden="true">
-  <div class="ft-remote" id="ft-v1"><div class="ft-av">${CFG.caller.slice(0, 1)}</div></div>
-  <div class="ft-top"><b>${CFG.caller}</b><span id="ft-st">연결 중…</span></div>
-  <div class="ft-self" id="ft-v2"></div>
-  <div class="ft-ctl">
-    <button data-ft="flip" aria-label="카메라 전환">${I.flip}</button>
-    <button data-ft="cam" aria-label="카메라">${I.cam}</button>
-    <button data-ft="mic" aria-label="마이크">${I.mic}</button>
-    <button data-ft="end" class="end" aria-label="종료"><i>${I.phone}</i></button>
+<div class="ft-call" id="ft-call" aria-hidden="true">
+  <div class="ft-call-head"><div class="ft-call-avatar">${CFG.caller.slice(0,1)}</div><b>${CFG.caller}</b><span id="ft-st">연결 중…</span></div>
+  <div class="ft-transcript" id="ft-transcript" aria-live="polite"></div>
+  <div class="ft-call-controls">
+    <button data-ft="mute" aria-label="음소거"><span class="ft-control-icon">⌁</span><small>음소거</small></button>
+    <button data-ft="keypad" aria-label="키패드"><span class="ft-control-icon ft-keypad">⠿</span><small>키패드</small></button>
+    <button data-ft="speaker" aria-label="스피커"><span class="ft-control-icon">◖))</span><small>스피커</small></button>
+    <button data-ft="add" aria-label="통화 추가"><span class="ft-control-icon">＋</span><small>통화 추가</small></button>
+    <button data-ft="end" class="ft-end" aria-label="통화 종료"><span>${phoneSvg}</span><small>종료</small></button>
   </div>
 </div>`;
   screen.appendChild(root);
-
-  const st = document.createElement("style");
-  st.textContent = `
-#ft-root{position:absolute;inset:0;pointer-events:none;z-index:40;font-family:var(--font)}
+  const style = document.createElement("style");
+  style.textContent = `
+#ft-root{position:absolute;inset:0;z-index:40;font-family:var(--font);pointer-events:none;color:#fff}
 #ft-root *{box-sizing:border-box}
-#ft-root button{font-family:var(--font);background:none;border:0;padding:0;margin:0;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
+#ft-root button{font:inherit;border:0;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
 #ft-root svg{width:100%;height:100%;display:block}
-#ft-root .ft-dim{position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;transition:opacity .25s}
+#ft-root .ft-dim{position:absolute;inset:0;background:rgba(0,0,0,.42);opacity:0;transition:opacity .2s}
 #ft-root .ft-dim.on{opacity:1;pointer-events:auto}
-#ft-root .ft-alert{position:absolute;left:50%;top:50%;width:270px;border-radius:14px;overflow:hidden;background:rgba(246,246,246,.96);color:#000;text-align:center;transform:translate(-50%,-50%) scale(1.12);opacity:0;transition:transform .22s cubic-bezier(.2,.9,.25,1),opacity .18s}
+#ft-root .ft-alert{position:absolute;z-index:9;left:50%;top:50%;width:270px;border-radius:14px;overflow:hidden;background:rgba(246,246,246,.97);color:#000;text-align:center;transform:translate(-50%,-50%) scale(1.08);opacity:0;transition:transform .2s,opacity .2s}
 #ft-root .ft-alert.on{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
 #ft-root .ft-at{padding:22px 16px 20px;font-size:17px;font-weight:600;line-height:1.3}
 #ft-root .ft-ab{display:flex;border-top:.5px solid rgba(60,60,67,.3)}
-#ft-root .ft-ab button{flex:1;height:44px;font-size:17px;color:#007aff}
+#ft-root .ft-ab button{flex:1;height:44px;font-size:17px;color:#007aff;background:transparent}
 #ft-root .ft-ab button.b{font-weight:600;border-left:.5px solid rgba(60,60,67,.3)}
-#ft-root .ft-ab button:active{background:rgba(0,0,0,.08)}
-#ft-root .ft-banner{position:absolute;left:8px;right:8px;top:calc(env(safe-area-inset-top,0px) + 58px);display:flex;align-items:center;gap:10px;padding:12px;border-radius:26px;background:rgba(44,44,46,.96);color:#fff;transform:translateY(-190%);transition:transform .45s cubic-bezier(.2,.9,.25,1);box-shadow:0 8px 30px rgba(0,0,0,.35)}
-#ft-root .ft-banner.on{transform:none;pointer-events:auto}
-#ft-root .ft-bi{width:40px;height:40px;border-radius:10px;background:#34c759;display:grid;place-items:center;flex:none;padding:9px;color:#fff}
-#ft-root .ft-bt{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
-#ft-root .ft-bt small{font-size:12px;color:#aeaeb2}
-#ft-root .ft-bt b{font-size:17px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#ft-root .ft-bt span{font-size:13px;color:#aeaeb2}
-#ft-root .ft-bb{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;flex:none;padding:12px;color:#fff;transition:transform .1s}
-#ft-root .ft-bb:active{transform:scale(.9)}
-#ft-root .ft-bb.dec{background:#ff3b30}
-#ft-root .ft-bb.dec i{display:block;width:100%;height:100%;transform:rotate(135deg)}
-#ft-root .ft-bb.acc{background:#34c759}
-#ft-root .ft-page{position:absolute;inset:0;z-index:-1;background:#000;color:#fff;opacity:0;transform:scale(.96);transition:opacity .3s,transform .3s}
-#ft-root .ft-page.on{opacity:1;transform:none;pointer-events:auto;z-index:6}
-#ft-root .ft-remote{position:absolute;inset:0;background:linear-gradient(160deg,#3a3f4b,#16181d 70%);display:grid;place-items:center;overflow:hidden}
-#ft-root .ft-remote .ft-av{position:relative;z-index:0}
-#ft-root .ft-av{width:110px;height:110px;border-radius:50%;background:linear-gradient(160deg,#8e8e93,#5b5b60);display:grid;place-items:center;font-size:52px;font-weight:500}
-#ft-root .ft-top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 62px);display:flex;flex-direction:column;align-items:center;gap:2px;text-shadow:0 1px 8px rgba(0,0,0,.5);pointer-events:none}
-#ft-root .ft-top b{font-size:22px;font-weight:600}
-#ft-root .ft-top span{font-size:15px;color:rgba(255,255,255,.75);font-variant-numeric:tabular-nums}
-#ft-root .ft-self{position:absolute;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 150px);width:104px;height:150px;border-radius:16px;background:linear-gradient(160deg,#55555a,#2b2b2e);box-shadow:0 4px 16px rgba(0,0,0,.4);overflow:hidden}
-#ft-root .ft-ctl{position:absolute;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 34px);height:84px;display:flex;align-items:center;justify-content:space-around;border-radius:42px;background:rgba(40,40,42,.88);padding:0 14px}
-#ft-root .ft-ctl button{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;padding:15px;background:rgba(120,120,128,.4);transition:background .15s,transform .1s}
-#ft-root .ft-ctl button:active{transform:scale(.92)}
-#ft-root .ft-ctl button.off{background:#fff;color:#000}
-#ft-root .ft-ctl button.end{background:#ff3b30;color:#fff}
-#ft-root .ft-ctl button.end i{display:block;width:100%;height:100%;transform:rotate(135deg)}`;
-  document.head.appendChild(st);
-
-  /* ---------- 상태/동작 ---------- */
+#ft-root .ft-incoming,#ft-root .ft-call{position:absolute;inset:0;background:linear-gradient(180deg,#24252a 0%,#111216 48%,#050506 100%);opacity:0;visibility:hidden;transition:opacity .25s;display:flex;flex-direction:column;align-items:center}
+#ft-root .ft-incoming.on,#ft-root .ft-call.on{opacity:1;visibility:visible;pointer-events:auto}
+#ft-root .ft-in-small{margin-top:calc(env(safe-area-inset-top,0px) + 82px);font-size:15px;color:#c5c5ca}
+#ft-root .ft-contact-avatar{margin-top:44px;width:112px;height:112px;border-radius:50%;background:linear-gradient(145deg,#8c8c92,#55565d);display:grid;place-items:center;font-size:54px;font-weight:400}
+#ft-root .ft-in-name{margin-top:20px;font-size:34px;font-weight:400;letter-spacing:-1px}
+#ft-root .ft-in-sub{margin-top:8px;font-size:16px;color:#b7b7bd}
+#ft-root .ft-in-actions{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 66px);display:flex;justify-content:space-evenly;align-items:center}
+#ft-root .ft-round{background:transparent;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px}
+#ft-root .ft-round span{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;padding:22px}
+#ft-root .ft-round svg{transform:rotate(135deg)}
+#ft-root .ft-round small{font-size:13px;color:#ddd}
+#ft-root .ft-round.decline span{background:#ff453a}
+#ft-root .ft-round.accept span{background:#30d158}
+#ft-root .ft-call{padding:calc(env(safe-area-inset-top,0px) + 35px) 18px calc(env(safe-area-inset-bottom,0px) + 22px)}
+#ft-root .ft-call-head{display:flex;flex-direction:column;align-items:center;gap:7px;flex:none}
+#ft-root .ft-call-avatar{width:58px;height:58px;border-radius:50%;background:linear-gradient(145deg,#8c8c92,#55565d);display:grid;place-items:center;font-size:28px}
+#ft-root .ft-call-head b{font-size:23px;font-weight:600}
+#ft-root .ft-call-head span{font-size:14px;color:#c3c3c8;font-variant-numeric:tabular-nums}
+#ft-root .ft-transcript{width:100%;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:20px 0 18px}
+#ft-root .ft-line{max-width:88%;padding:10px 13px;border-radius:17px;font-size:15px;line-height:1.42;animation:ftLineIn .22s ease-out;overflow-wrap:anywhere}
+#ft-root .ft-line.me{align-self:flex-end;background:#0a84ff;border-bottom-right-radius:5px}
+#ft-root .ft-line.them{align-self:flex-start;background:#343438;border-bottom-left-radius:5px}
+#ft-root .ft-line .ft-speaker{display:block;font-size:10px;opacity:.65;margin-bottom:3px}
+@keyframes ftLineIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#ft-root .ft-call-controls{width:100%;flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:18px 8px;justify-items:center;padding-top:8px}
+#ft-root .ft-call-controls button{background:transparent;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0}
+#ft-root .ft-control-icon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#393a40;font-size:24px}
+#ft-root .ft-keypad{font-size:30px}
+#ft-root .ft-call-controls small{font-size:11px;color:#f3f3f5}
+#ft-root .ft-call-controls .ft-end span{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;padding:16px;background:#ff453a}
+#ft-root .ft-call-controls .ft-end svg{transform:rotate(135deg)}
+#ft-root .ft-call-controls button.off .ft-control-icon{background:#fff;color:#111}
+`;
+  document.head.appendChild(style);
   const el = id => $("#" + id);
-  let state = "idle", missT = 0, ringT = 0, tickT = 0, callEndT = 0, sec = 0;   // idle | prompt | ringing | call
+  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0;
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
-
-  function setAlert(on) { el("ft-dim").classList.toggle("on", on); el("ft-alert").classList.toggle("on", on); el("ft-alert").setAttribute("aria-hidden", on ? "false" : "true"); }
-  function setBanner(on) { el("ft-banner").classList.toggle("on", on); el("ft-banner").setAttribute("aria-hidden", on ? "false" : "true"); }
-
-  function prompt() { if (state !== "idle") return; state = "prompt"; setAlert(true); }
-  function ring() {
-    state = "ringing"; setBanner(true); vib([400, 200, 400, 200, 400]);
-    missT = setTimeout(() => { if (state === "ringing") { setBanner(false); state = "idle"; } }, CFG.missedSec * 1000);
+  const dialogue = [
+    ["성화","여보세요?","me",1500],
+    ["성화","전화는 왜 안받았어?","me",1800],
+    ["성화","괜찮은 거 맞지?","me",1800],
+    ["윤호","나야 괜찮지","them",1900],
+    ["성화","아니 근데 사실무근은 무슨 소리야?","me",2300],
+    ["윤호","왜?","them",1400],
+    ["성화","우리 헤어졌어?","me",1700],
+    ["윤호","아니?","them",1300],
+    ["성화","그럼 왜?","me",1500],
+    ["성화","알았어","me",1300],
+    ["성화","정정기사는 내줄거지?","me",1900],
+    ["윤호","형 하는 거 봐서","them",1900],
+    ["성화","아니 윤호야,","me",1300]
+  ];
+  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
+  function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
+  function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
+  function prompt(){if(state!=="idle")return;state="prompt";setAlert(true);}
+  function ring(){state="ringing";showIncoming(true);vib([400,200,400,200,400]);missT=setTimeout(()=>{if(state==="ringing"){showIncoming(false);state="idle";}},CFG.missedSec*1000);}
+  function playDialogue(){
+    if(state!=="call")return;
+    if(lineIndex>=dialogue.length){endCall();return;}
+    const [speaker,text,side,wait]=dialogue[lineIndex++];
+    const row=document.createElement("div");row.className="ft-line "+side;
+    row.innerHTML='<span class="ft-speaker"></span><span class="ft-words"></span>';
+    row.querySelector(".ft-speaker").textContent=speaker;
+    row.querySelector(".ft-words").textContent=text;
+    el("ft-transcript").appendChild(row);
+    while(el("ft-transcript").children.length>5)el("ft-transcript").firstElementChild.remove();
+    el("ft-st").textContent="00:"+String(sec).padStart(2,"0");
+    dialogueT=setTimeout(()=>{if(lineIndex>=dialogue.length)endCall();else playDialogue();},wait);
   }
-  function openCall() {
-    clearTimeout(missT); clearTimeout(callEndT); setBanner(false); state = "call"; sec = 0;
-    const p = el("ft-page"); p.classList.add("on"); p.setAttribute("aria-hidden", "false");
-    el("ft-st").textContent = "연결 중…";
-    clearInterval(tickT);
-    tickT = setInterval(() => {
-      sec++;
-      el("ft-st").textContent = sec < 2 ? "연결 중…" : "00:" + String(sec - 2).padStart(2, "0");
-    }, 1000);
+  function openCall(){
+    clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="call";sec=0;lineIndex=0;
+    el("ft-transcript").innerHTML="";showCall(true);el("ft-st").textContent="연결 중…";
+    clearInterval(tickT);tickT=setInterval(()=>{sec++;el("ft-st").textContent="00:"+String(sec).padStart(2,"0");},1000);
+    dialogueT=setTimeout(playDialogue,900);
   }
-  function endCall() {
-    if (state !== "call") return;
-    clearInterval(tickT); clearTimeout(callEndT); state = "idle";
-    const p = el("ft-page"); p.classList.remove("on"); p.setAttribute("aria-hidden", "true");
-    ["cam", "mic"].forEach(k => { const b = root.querySelector(`[data-ft="${k}"]`); b.classList.remove("off"); b.innerHTML = k === "cam" ? I.cam : I.mic; });
+  function endCall(){
+    if(state!=="call")return;
+    clearInterval(tickT);clearTimeout(dialogueT);state="idle";showCall(false);
+    el("ft-transcript").innerHTML="";
+    root.querySelectorAll('[data-ft="mute"],[data-ft="speaker"]').forEach(b=>b.classList.remove("off"));
   }
-  function toggle(k) {
-    const b = root.querySelector(`[data-ft="${k}"]`), off = b.classList.toggle("off");
-    b.innerHTML = k === "cam" ? (off ? I.camOff : I.cam) : (off ? I.micOff : I.mic);
-  }
-
-  root.addEventListener("click", e => {
-    const b = e.target.closest("[data-ft]"); if (!b) return;
-    switch (b.dataset.ft) {
-      case "yes": setAlert(false); state = "idle"; clearTimeout(ringT); state = "prompt"; ringT = setTimeout(() => { if (state === "prompt") ring(); }, CFG.ringDelayMs); break;
-      case "no": setAlert(false); state = "idle"; break;
-      case "decline": clearTimeout(missT); setBanner(false); state = "idle"; break;
-      case "accept": openCall(); break;
-      case "end": endCall(); break;
-      case "cam": toggle("cam"); break;
-      case "mic": toggle("mic"); break;
-      case "flip": break;
+  root.addEventListener("click",e=>{
+    const b=e.target.closest("[data-ft]");if(!b)return;
+    switch(b.dataset.ft){
+      case "yes":setAlert(false);state="prompt";clearTimeout(ringT);ringT=setTimeout(()=>{if(state==="prompt")ring();},CFG.ringDelayMs);break;
+      case "no":setAlert(false);state="idle";break;
+      case "decline":clearTimeout(missT);showIncoming(false);state="idle";break;
+      case "accept":openCall();break;
+      case "end":endCall();break;
+      case "mute":case "speaker":b.classList.toggle("off");break;
+      case "keypad":case "add":b.classList.toggle("off");break;
     }
   });
-  document.addEventListener("app:close", () => { if (state === "call") endCall(); });   // 홈 제스처 = 통화 종료
-
-  /* ---------- 자동 트리거: 사이트를 보고 있는 시간이 delaySec 에 도달하면 1회 ---------- */
-  const q = new URLSearchParams(location.search).get("ft");     // 테스트용: ?ft=now → 2초 뒤 바로 안내창
-  let viewed = 0, fired = false;
-  const timer = setInterval(() => {
-    if (fired) return clearInterval(timer);
-    if (document.hidden) return;
+  document.addEventListener("app:close",()=>{if(state==="call")endCall();});
+  const q=new URLSearchParams(location.search).get("ft");
+  let viewed=0,fired=false;
+  const timer=setInterval(()=>{
+    if(fired)return clearInterval(timer);
+    if(document.hidden)return;
     viewed++;
-    if (viewed >= (q === "now" ? 2 : CFG.delaySec)) { fired = true; clearInterval(timer); prompt(); }
-  }, 1000);
-
-  return { prompt, ring, openCall, endCall };   // 콘솔 테스트: FaceTimeApp.prompt()
+    if(viewed>=(q==="now"?2:CFG.delaySec)){fired=true;clearInterval(timer);prompt();}
+  },1000);
+  return {prompt,ring,openCall,endCall};
 })();
