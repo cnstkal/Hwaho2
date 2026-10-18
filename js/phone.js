@@ -11,7 +11,7 @@ const PhoneApp = (() => {
     search: ic('<circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/>'), phone: `<svg viewBox="0 0 24 24"><path d="${PH}" fill="currentColor"/></svg>`,
     msg: ic('<path d="M12 4c-4.700 0-8.500 3.100-8.500 7s3.800 7 8.500 7c1 0 2-.1 2.900-.4 1.200 1 2.800 1.600 4.500 1.700-.8-.9-1.300-1.900-1.500-3 1.700-1.300 2.600-3.100 2.600-5.300C20.500 7.100 16.700 4 12 4z"/>'),
     back: ic('<path d="M15 5l-7 7 7 7" stroke-width="2.200"/>'), info: ic('<circle cx="12" cy="12" r="9.500"/><path d="M12 11v6M12 7.500v.1"/>'), plus: ic('<path d="M12 5v14M5 12h14" stroke-width="1.800"/>'),
-    out: ic('<path d="M7 17L17 7M9 7h8v8"/>'), bs: ic('<path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.500 9.500l5 5M17.500 9.500l-5 5"/>'),
+    inn: ic('<path d="M17 7L7 17M15 17H7V9"/>'), out: ic('<path d="M7 17L17 7M9 7h8v8"/>'), bs: ic('<path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.500 9.500l5 5M17.500 9.500l-5 5"/>'),
     mic: ic('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.500 11.500a6.500 6.500 0 0 0 13 0M12 18v3"/>'), micoff: ic('<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.500 11.500a6.500 6.500 0 0 0 13 0M12 18v3M4 4l16 16"/>'),
     spk: ic('<path d="M4 9.500h3.500L12 5.500v13L7.500 14.500H4z"/><path d="M15.500 9a4 4 0 0 1 0 6M18 6.500a8 8 0 0 1 0 11"/>'), pause: ic('<path d="M9 5v14M15 5v14" stroke-width="2.600"/>'),
     rec: ic('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.500" fill="currentColor"/>'), grid: ic(dots),
@@ -41,10 +41,16 @@ const PhoneApp = (() => {
     add("정성현(매니저)", "in", "10-18T14:08:00", 180);
     D.v12 = 1; save();
   }
+  if (D.v13 !== 1) {
+    const y = D.contacts.find(c => c.name === "울윤호");
+    if (y) { const o = String(y.num).replace(/\D/g, ""); y.num = "010-1999-0323"; D.calls.forEach(c => { if (String(c.num).replace(/\D/g, "") === o) c.num = y.num; }); }
+    D.v13 = 1; save();
+  }
   window.PhoneData = { names: () => D.contacts.map(c => c.name) };
   const dg = x => String(x).replace(/\D/g, "");
+  const msk = n => { const t = String(n); return t.replace(/\D/g, "") === "01019990323" ? t : t.replace(/\d{4}(?=\D*$)/, "****"); };
   function fmt(x) { const d = dg(x); if (!d) return ""; if (d.startsWith("010") || d.startsWith("011")) return d.length <= 3 ? d : d.length <= 7 ? d.slice(0, 3) + "-" + d.slice(3) : d.slice(0, 3) + "-" + d.slice(3, 7) + "-" + d.slice(7, 11); return String(x).trim(); }
-  const byNum = n => dg(n) ? D.contacts.find(c => dg(c.num) === dg(n)) : null, nameOf = n => (byNum(n) || {}).name || fmt(n) || "알 수 없음";
+  const byNum = n => dg(n) ? D.contacts.find(c => dg(c.num) === dg(n)) : null, nameOf = n => (byNum(n) || {}).name || (fmt(n) && msk(fmt(n))) || "알 수 없음";
   const byId = id => D.contacts.find(c => c.id === id), pad = n => String(n).padStart(2, "0");
   const tm = d => `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`;
   function ft(ts) { const d = new Date(ts), n = new Date(), df = Math.round((new Date(n.getFullYear(), n.getMonth(), n.getDate()) - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 0 ? tm(d) : df === 1 ? "어제" : df < 7 ? "월화수목금토일"[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`; }
@@ -63,7 +69,8 @@ const PhoneApp = (() => {
   }
   function pRec() {
     const l = D.calls.filter(c => filt === "all" || c.dir === "miss").sort((a, b) => b.ts - a.ts);
-    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${l.map(c => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="recall" data-n="${esc(c.num)}">${edit ? `<button class="tl-minus" data-t="delcall" data-id="${c.id}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}">${c.dir === "out" ? I.out : ""}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}">${esc(nameOf(c.num))}</div><div class="tl-sub">${byNum(c.num) ? "휴대전화" : "알 수 없음"}${c.dir === "in" && c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm">${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
+    const G = []; l.forEach(c => { const g = G[G.length - 1]; if (g && dg(g.c.num) === dg(c.num) && g.c.dir === c.dir && !g.c.dur && !c.dur && g.last - c.ts <= 12e5) { g.n++; g.ids.push(c.id); g.last = c.ts; } else G.push({ c, n: 1, ids: [c.id], last: c.ts }); });
+    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="recall" data-n="${esc(c.num)}">${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}">${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}">${esc(nameOf(c.num))}</div><div class="tl-sub">${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm">${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
   }
   function conList() {
     const q = conQ.trim().toLowerCase(), l = D.contacts.filter(c => !q || c.name.toLowerCase().includes(q) || (dg(q) && dg(c.num).includes(dg(q)))).sort((a, b) => { const x = grp(a.name), y = grp(b.name); return x[0] - y[0] || a.name.localeCompare(b.name, "ko"); });
@@ -81,7 +88,7 @@ const PhoneApp = (() => {
     const m = (n, num) => n.toLowerCase().includes(q) || (dg(q) && dg(num).includes(dg(q)));
     const cs = D.contacts.filter(c => m(c.name, c.num)), rs = D.calls.filter(c => m(nameOf(c.num), c.num)).sort((a, b) => b.ts - a.ts).slice(0, 20);
     let h = dg(q).length >= 3 ? `<div class="tl-r" data-t="recall" data-n="${esc(q)}"><div class="tl-rb"><div class="tl-nm" style="color:#007aff">${esc(fmt(q))} 전화 걸기</div></div></div>` : "";
-    if (cs.length) h += `<div class="tl-sec">연락처</div>` + cs.map(c => `<div class="tl-r" data-t="opencon" data-id="${c.id}">${av(c.name)}<div class="tl-rb"><div class="tl-nm">${esc(c.name)}</div><div class="tl-sub">${esc(c.num)}</div></div></div>`).join("");
+    if (cs.length) h += `<div class="tl-sec">연락처</div>` + cs.map(c => `<div class="tl-r" data-t="opencon" data-id="${c.id}">${av(c.name)}<div class="tl-rb"><div class="tl-nm">${esc(c.name)}</div><div class="tl-sub">${esc(msk(c.num))}</div></div></div>`).join("");
     if (rs.length) h += `<div class="tl-sec">최근 통화</div>` + rs.map(c => `<div class="tl-r" data-t="cdet" data-id="${c.id}"><div class="tl-rb"><div class="tl-nm ${c.dir === "miss" ? "red" : ""}">${esc(nameOf(c.num))}</div><div class="tl-sub">${c.dir === "out" ? "발신" : c.dir === "in" ? "수신" : "부재중"} · ${ft(c.ts)}</div></div></div>`).join("");
     return h || empty("검색 결과 없음");
   }
@@ -96,7 +103,7 @@ const PhoneApp = (() => {
   function ovHtml(o) {
     if (o.t === "contact") {
       const c = byId(o.id); if (!c) return "";
-      return `<div class="tl-ovp"><div class="tl-bar"><button class="tl-b" data-t="back">${I.back}<span>뒤로</span></button><button class="tl-b" data-t="editcon" data-id="${c.id}">편집</button></div><div class="tl-hero">${av(c.name)}<div class="tl-hn">${esc(c.name)}</div></div><div class="tl-acts"><button data-t="msg" data-n="${esc(c.name)}">${I.msg}<span>메시지</span></button><button data-t="callc" data-id="${c.id}">${I.phone}<span>통화</span></button><button class="${c.fav ? "on" : ""}" data-t="favtoggle" data-id="${c.id}">${I.star}<span>${c.fav ? "즐겨찾기 해제" : "즐겨찾기"}</span></button></div><div class="tl-card">${c.num ? `<button data-t="callnum" data-n="${esc(c.num)}"><small>휴대전화</small><span class="blue">${esc(c.num)}</span></button>` : ""}${c.email ? `<div><small>이메일</small><span class="blue">${esc(c.email)}</span></div>` : ""}</div><div class="tl-card"><button data-t="delcon" data-id="${c.id}"><span class="red">연락처 삭제</span></button></div></div>`;
+      return `<div class="tl-ovp"><div class="tl-bar"><button class="tl-b" data-t="back">${I.back}<span>뒤로</span></button><button class="tl-b" data-t="editcon" data-id="${c.id}">편집</button></div><div class="tl-hero">${av(c.name)}<div class="tl-hn">${esc(c.name)}</div></div><div class="tl-acts"><button data-t="msg" data-n="${esc(c.name)}">${I.msg}<span>메시지</span></button><button data-t="callc" data-id="${c.id}">${I.phone}<span>통화</span></button><button class="${c.fav ? "on" : ""}" data-t="favtoggle" data-id="${c.id}">${I.star}<span>${c.fav ? "즐겨찾기 해제" : "즐겨찾기"}</span></button></div><div class="tl-card">${c.num ? `<button data-t="callnum" data-n="${esc(c.num)}"><small>휴대전화</small><span class="blue">${esc(msk(c.num))}</span></button>` : ""}${c.email ? `<div><small>이메일</small><span class="blue">${esc(c.email)}</span></div>` : ""}</div><div class="tl-card"><button data-t="delcon" data-id="${c.id}"><span class="red">연락처 삭제</span></button></div></div>`;
     }
     if (o.t === "edit") {
       const c = o.id ? byId(o.id) : null;
@@ -105,7 +112,7 @@ const PhoneApp = (() => {
     if (o.t === "cdet") {
       const k = D.calls.find(x => x.id === o.id); if (!k) return "";
       const h = D.calls.filter(x => dg(x.num) === dg(k.num)).sort((a, b) => b.ts - a.ts), nm = nameOf(k.num), con = byNum(k.num);
-      return `<div class="tl-ovp"><div class="tl-bar"><button class="tl-b" data-t="back">${I.back}<span>뒤로</span></button><span></span></div><div class="tl-hero">${av(con ? nm : "")}<div class="tl-hn">${esc(nm)}</div>${con ? `<div class="tl-hs">${esc(k.num)}</div>` : ""}</div><div class="tl-acts"><button data-t="msg" data-n="${esc(nm)}">${I.msg}<span>메시지</span></button><button data-t="callnum" data-n="${esc(k.num)}">${I.phone}<span>통화</span></button>${con ? `<button data-t="opencon" data-id="${con.id}">${I.person}<span>연락처</span></button>` : `<button data-t="addnum" data-n="${esc(k.num)}">${I.plus}<span>연락처 추가</span></button>`}</div><div class="tl-card">${h.map(x => { const d = new Date(x.ts); return `<div class="tl-hr"><div><b${x.dir === "miss" ? ' style="color:#ff3b30;font-weight:600"' : ' style="font-weight:600"'}>${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}. ${tm(d)}</b><small>${x.dir === "out" ? "발신 전화" : x.dir === "in" ? "수신 전화" : "부재중 전화"}</small></div><span>${x.dur ? fdur(x.dur) : x.dir === "out" ? "취소됨" : ""}</span></div>`; }).join("")}</div><div class="tl-card"><button data-t="delnum" data-n="${esc(k.num)}"><span class="red">통화 기록 삭제</span></button></div></div>`;
+      return `<div class="tl-ovp"><div class="tl-bar"><button class="tl-b" data-t="back">${I.back}<span>뒤로</span></button><span></span></div><div class="tl-hero">${av(con ? nm : "")}<div class="tl-hn">${esc(nm)}</div>${con ? `<div class="tl-hs">${esc(msk(k.num))}</div>` : ""}</div><div class="tl-acts"><button data-t="msg" data-n="${esc(nm)}">${I.msg}<span>메시지</span></button><button data-t="callnum" data-n="${esc(k.num)}">${I.phone}<span>통화</span></button>${con ? `<button data-t="opencon" data-id="${con.id}">${I.person}<span>연락처</span></button>` : `<button data-t="addnum" data-n="${esc(k.num)}">${I.plus}<span>연락처 추가</span></button>`}</div><div class="tl-card">${h.map(x => { const d = new Date(x.ts); return `<div class="tl-hr"><div><b${x.dir === "miss" ? ' style="color:#ff3b30;font-weight:600"' : ' style="font-weight:600"'}>${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}. ${tm(d)}</b><small>${x.dir === "out" ? "발신 전화" : x.dir === "in" ? "수신 전화" : "부재중 전화"}</small></div><span>${x.dur ? fdur(x.dur) : x.dir === "out" ? "취소됨" : ""}</span></div>`; }).join("")}</div><div class="tl-card"><button data-t="delnum" data-n="${esc(k.num)}"><span class="red">통화 기록 삭제</span></button></div></div>`;
     }
     return "";
   }
@@ -168,7 +175,7 @@ const PhoneApp = (() => {
       case "favadd": { const l = D.contacts.filter(c => !c.fav).sort((a, b) => a.name.localeCompare(b.name, "ko")); sheet(`<div class="tl-sg"><div class="m">즐겨찾기에 추가할 연락처</div>${l.map(c => `<button class="p" data-t="pickfav" data-id="${c.id}">${av(c.name)}<span>${esc(c.name)}</span></button>`).join("") || `<div class="m">추가할 연락처가 없습니다</div>`}</div><div class="tl-sg"><button data-t="sheetx">취소</button></div>`); break; }
       case "pickfav": byId(d.id).fav = true; save(); closeSheet(); render(); break;
       case "unfav": byId(d.id).fav = false; save(); render(); e.stopPropagation(); break;
-      case "delcall": D.calls = D.calls.filter(c => c.id !== d.id); save(); render(); break;
+      case "delcall": { const ids = d.id.split(","); D.calls = D.calls.filter(c => !ids.includes(c.id)); } save(); render(); break;
       case "clearall": confirmSheet("모든 최근 통화를 삭제할까요?", "모두 삭제", "doclear"); break;
       case "doclear": D.calls = []; save(); closeSheet(); edit = false; render(); break;
       case "delnum": confirmSheet("이 번호의 통화 기록을 삭제할까요?", "기록 삭제", "dodelnum", `data-n="${d.n}"`); break;
