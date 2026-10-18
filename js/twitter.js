@@ -44,9 +44,9 @@ const XApp = (() => {
   /* 게시물: ago(분 전), im: [시드, 가로비, 세로비] */
   const SEED = [
     { id: "s1", u: "_starhwa_", ago: 180000, t: "좋사좋시", im: ["images/Twitter/Posts/1/IMG_7279.jpeg", 1, 1], l: 2780, rt: 897, rp: 8, v: 6820, cm: [] },
-    { id: "s2", u: "_starhwa_", ago: 120000, t: "잠이 안온당 야메추 좀", im: null, l: 432, rt: 122, rp: 21, v: 4100, cm: [] },
-    { id: "s3", u: "_starhwa_", ago: 60000, t: "내일 사클에 뭐 하나 올라가는데 관심좀…", im: null, l: 871, rt: 298, rp: 35, v: 12300, cm: [] },
-    { id: "s4", u: "_starhwa_", ago: 120, t: "빠이이이", im: ["images/Twitter/Posts/2/235F9EEA-238F-419A-BD5A-A203DDA8A0FE.jpeg", 1, 1], l: 1420, rt: 372, rp: 17, v: 17800, cm: [] },
+    { id: "s2", u: "_starhwa_", ago: 120000, t: "잠이 안온당", im: null, l: 432, rt: 122, rp: 21, v: 4100, cm: [] },
+    { id: "s3", u: "_starhwa_", ago: 60000, t: "사클에 뭐 하나 올라가는데", im: null, l: 871, rt: 298, rp: 35, v: 12300, cm: [] },
+    { id: "s4", u: "_starhwa_", ago: 120, t: "하이이이", im: ["images/Twitter/Posts/2/235F9EEA-238F-419A-BD5A-A203DDA8A0FE.jpeg", 1, 1], l: 1420, rt: 372, rp: 17, v: 17800, cm: [] },
     { id: "t1", u: "ddinghoo***", ago: 0.2, t: "혹시 이거 멜라토닌 먹고 꾸는 꿈?", im: null, l: 3, rt: 0, rp: 0, v: 120, cm: [] },
     { id: "t2", u: "tjdghkdbsg***", ago: 1.0, t: "려러분 이게 무슨일이죠?", im: null, l: 0, rt: 0, rp: 2, v: 26, cm: [] },
     { id: "t3", u: "hyung1r***", ago: 1.6, t: "안어울림 헤어져", im: null, l: 23, rt: 0, rp: 0, v: 430, cm: [] },
@@ -56,6 +56,7 @@ const XApp = (() => {
   /* 내 게시글: 올해 8월부터 4~10일 불규칙 간격 (s20이 가장 오래된 글), 현재보다 미래인 글은 제외 */
   (() => { const y = new Date(now0).getFullYear(), gaps = [6, 4, 9, 5, 7, 10, 4, 8, 5, 6, 9, 4, 7, 5, 10, 6, 8, 4, 7], hm = [[23, 41], [14, 12], [2, 8], [19, 55], [11, 30], [22, 17], [16, 4], [1, 36], [20, 48], [13, 21], [0, 52], [18, 9], [15, 33], [23, 5], [10, 44], [21, 27], [3, 15], [17, 39], [12, 58], [22, 6]];
     let day = 3; for (let n = 20, i = 0; n >= 1; n--, i++) { const p = SEED.find(x => x.id === "s" + n); if (!p) continue; p.ts0 = new Date(y, 7, day, hm[i][0], hm[i][1]).getTime(); day += gaps[i] || 0; }
+    { const off = Math.floor((new Date(new Date(now0).getFullYear(), new Date(now0).getMonth(), new Date(now0).getDate()) - new Date(2026, 9, 18)) / 864e5), FX = { s4: [7, 3], s3: [7, 24], s2: [8, 2], s1: [8, 20] }; for (const k in FX) { const p = SEED.find(x => x.id === k); if (!p) continue; const o = new Date(p.ts0 || now0); p.ts0 = new Date(2026, FX[k][0], FX[k][1] + off, o.getHours(), o.getMinutes()).getTime(); } }
     for (let i = SEED.length - 1; i >= 0; i--) if (SEED[i].ts0 && SEED[i].ts0 > now0) SEED.splice(i, 1);
     SEED.forEach(p => { if (p.ts0) p.ago = (now0 - p.ts0) / MIN; }); })();
   const SEEDS = []; SEED.forEach(p => { p.ts = now0 - p.ago * MIN; SEEDS.push(p); p.cm.forEach((c, i) => SEEDS.push({ id: p.id + "r" + i, u: c[0], re: p.id, ts: p.ts + Math.floor((now0 - p.ts) * (i + 1) / (p.cm.length + 1.5)), t: c[1], im: null, l: 3 + i * 4, rt: 0, rp: 0, v: 120 + i * 80 })); });
