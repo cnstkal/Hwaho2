@@ -248,6 +248,28 @@ const KakaoApp = (() => {
     D.v12 = 1; save();
   }
 
+  if (D.v13 !== 1) {
+    const hong = chat("c15");
+    if (hong) {
+      const msg = (from, text, time) => ({ id: uid(), from, text, ts: new Date(`2026-10-${time}`).getTime() });
+      hong.msgs = [
+        msg("f5", "어제 만든 비트 들어봤어?", "16T20:00:00+09:00"),
+        msg("me", "엉 두번째꺼 진짜 좋던데", "16T20:01:00+09:00"),
+        msg("f5", "그거 너 써", "16T20:02:00+09:00"),
+        msg("me", "헐", "16T20:02:30+09:00"),
+        msg("me", "그럼 나야 땡큐지", "16T20:03:00+09:00"),
+        msg("f5", "우리 어제 몇시까지 마셨지", "17T13:00:00+09:00"),
+        msg("me", "새벽5시인가", "17T13:01:00+09:00"),
+        msg("me", "머리깨질것같음", "17T13:02:00+09:00"),
+        msg("f5", "오늘일찍자라", "17T13:03:00+09:00"),
+        msg("me", "ㅇㅇ", "17T13:04:00+09:00"),
+        msg("f5", "축하한다", "18T16:00:00+09:00")
+      ];
+      hong.unread = 1;
+    }
+    D.v13 = 1; save();
+  }
+
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
