@@ -23,11 +23,11 @@ const KakaoApp = (() => {
       { id: "c0", ids: ["f0"], pin: 1, unread: 1, msgs: [
         { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
         { id: uid(), from: "me", text: "작업중", ts: new Date("2026-10-15T18:01:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "왱", ts: new Date("2026-10-15T18:01:30+09:00").getTime() },
+        { id: uid(), from: "me", text: "왱?", ts: new Date("2026-10-15T18:01:30+09:00").getTime() },
         { id: uid(), from: "f0", text: "심심해", ts: new Date("2026-10-15T18:02:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "촬영간 거 아냐?", ts: new Date("2026-10-15T18:03:00+09:00").getTime() },
-        { id: uid(), from: "f0", text: "무한대기중", ts: new Date("2026-10-15T18:04:00+09:00").getTime() },
-        { id: uid(), from: "f0", text: "형이랑 있구싶다 ㅠ", ts: new Date("2026-10-15T18:04:20+09:00").getTime() },
+        { id: uid(), from: "me", text: "촬영간 거 아니야?", ts: new Date("2026-10-15T18:03:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "무한대기중 ㅠ", ts: new Date("2026-10-15T18:04:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "형이랑 있구싶다", ts: new Date("2026-10-15T18:04:20+09:00").getTime() },
         { id: uid(), from: "me", text: "전화 ㄱ", ts: new Date("2026-10-15T18:05:00+09:00").getTime() },
 
         { id: uid(), from: "me", text: "미국 가는 거 담주인가?", ts: new Date("2026-10-16T13:00:00+09:00").getTime() },
@@ -82,7 +82,7 @@ const KakaoApp = (() => {
   }
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
   /* 기존 저장 데이터에도 수정된 대화 적용 */
-  if (D.chatHistoryVersion !== 3) {
+  if (D.chatHistoryVersion !== 4) {
     const yunhoChat = D.chats.find(c => c.id === "c0");
     if (yunhoChat) yunhoChat.msgs = [
         { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
@@ -147,7 +147,7 @@ const KakaoApp = (() => {
       for (const [a, b] of replacements) if (x.text === a) x.text = b;
       return x;
     });
-    D.chatHistoryVersion = 3;
+    D.chatHistoryVersion = 4;
   }
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
