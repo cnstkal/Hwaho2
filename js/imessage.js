@@ -335,6 +335,12 @@ const MessagesApp = (() => {
   else if (!localStorage.getItem(SEED_KEY)) convs = convs.concat(seedConvs().filter(s => !convs.some(c => c.name === s.name)));
   try { localStorage.setItem(SEED_KEY, "1"); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(convs)); } catch (e) {} };
+  { let mg = 0; try { mg = localStorage.getItem("ios-msgs-mig11"); } catch (e) {}
+    if (!mg) {
+      const DEL = ["홍중", "민기", "철수", "성현이형", "엄마", "형", "팬카페 운영팀", "승호형(믹싱)", "소율 누나"], RN = { "레도형": "강레도", "박대표님": "박재영(대표)", "강PD": "강민우(PD)", "한감독님": "한서진(감독)", "정팀장님": "정우석(팀장)", "쇼미 김작가님": "김하나(쇼미 작가)", "도현": "문도현", "지안": "한지안", "세준(사진)": "임세준(사진)" };
+      convs = convs.filter(c => !DEL.includes(c.name)).map(c => RN[c.name] ? { ...c, name: RN[c.name] } : c);
+      try { localStorage.setItem("ios-msgs-mig11", "1"); } catch (e) {} save();
+    } }
   { let l = 0; try { l = +localStorage.getItem("ios-msgs-day"); } catch (e) {} const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (l || t0)) / 864e5), nw = Date.now(); if (k > 0) convs.forEach(c => { (c.msgs || []).forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; }); if (c.created) c.created += k * 864e5; }); if (l !== t0) { try { localStorage.setItem("ios-msgs-day", t0); } catch (e) {} save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
   const last = c => c.msgs[c.msgs.length - 1];
   const sorted = () => convs.slice().sort((a, b) => (last(b)?.ts || b.created || 0) - (last(a)?.ts || a.created || 0));
