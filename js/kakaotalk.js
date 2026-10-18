@@ -167,7 +167,8 @@ const KakaoApp = (() => {
     D.chatHistoryVersion = 6;
   }
   const CS = [["me","결혼 생활은 좀 어때","21:10:00"],["f1","좋지 뭐 ㅋㅋ","21:11:00"],["f1","너도 한 번 초대해야되는데","21:11:20"],["me","그래 신혼집 구경 좀 가보자","21:12:00"],["f1","윤호씨도 같이 올거야?","21:13:00"],["me","내가 말했나? ","21:14:00"],["me","다시 만나는 거?","21:14:20"],["f1","걍 요즘 기분 좋아보이길래 그런가보다했지","21:15:00"],["me",";;","21:16:00"],["me","그때 함 물어보지 뭐","21:16:20"],["f1","그래라","21:17:00"]];
-  { const y = D.friends && D.friends.find(f => f.id === "f0"); if (y) { y.name = "윤둥이"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }\n  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  { const y = D.friends && D.friends.find(f => f.id === "f0"); if (y) { y.name = "윤둥이"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }
+  const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */

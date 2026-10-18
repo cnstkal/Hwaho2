@@ -106,7 +106,8 @@ const FaceTimeApp = (() => {
     ["윤호","형 하는 거 봐서","them",1900],
     ["성화","아니 윤호야,","me",1300]
   ];
-  let dialogue = DEFAULT_DIALOGUE;\n  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
+  let dialogue = DEFAULT_DIALOGUE;
+  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
   function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
   function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
   function prompt(){if(state!=="idle")return;state="prompt";setAlert(true);}
