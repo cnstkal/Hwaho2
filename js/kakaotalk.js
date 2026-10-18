@@ -82,7 +82,7 @@ const KakaoApp = (() => {
   }
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
   /* 기존 저장 데이터에도 수정된 대화 적용 */
-  if (D.chatHistoryVersion !== 2) {
+  if (D.chatHistoryVersion !== 3) {
     const yunhoChat = D.chats.find(c => c.id === "c0");
     if (yunhoChat) yunhoChat.msgs = [
         { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
@@ -147,7 +147,7 @@ const KakaoApp = (() => {
       for (const [a, b] of replacements) if (x.text === a) x.text = b;
       return x;
     });
-    D.chatHistoryVersion = 2;
+    D.chatHistoryVersion = 3;
   }
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
