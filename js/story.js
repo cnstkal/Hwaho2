@@ -1,0 +1,13 @@
+/* Story sequence controller — dates fixed to 2026-10-19 */
+(()=> {
+ const style=document.createElement("style");style.textContent="#story-ui{position:absolute;inset:0;z-index:1000;pointer-events:none;font-family:var(--font,-apple-system,sans-serif)}#story-ui .toast{pointer-events:auto;position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;right:12px;background:#f8f8fa;color:#171717;border-radius:18px;padding:14px;box-shadow:0 4px 20px #0002;display:flex;gap:12px;text-align:left}#story-ui .ico{width:38px;height:38px;border-radius:10px;background:#ffe500;display:grid;place-items:center;font-weight:800;flex:none}#story-ui .copy{font-size:13px;line-height:1.35;flex:1}#story-ui b{display:block;margin-bottom:4px}#story-ui .panel{position:absolute;inset:0;background:#f5f5f7;pointer-events:auto;display:flex;flex-direction:column;color:#111}#story-ui .head{padding:18px;text-align:center;background:white;border-bottom:1px solid #ddd;font-weight:700}#story-ui .msgs{flex:1;background:#b2c7d9;padding:14px;display:flex;flex-direction:column;gap:10px}#story-ui .bubble{align-self:flex-start;background:white;padding:11px 13px;border-radius:14px;max-width:88%;font-size:14px;line-height:1.4}#story-ui .link{display:block;margin-top:8px;padding:10px;background:#f4f4f4;border-radius:8px;color:#0875c9;text-decoration:underline}";document.head.appendChild(style);
+ const root=document.createElement("div");root.id="story-ui";document.querySelector("#screen")?.appendChild(root);
+ let stage="idle",started=false;
+ const toast=(name,msg)=>root.innerHTML='<button class="toast" data-story="open"><span class="ico">K</span><span class="copy"><b>'+name+'</b>'+msg+'</span><span style="font-size:11px;color:#777">지금</span></button>';
+ function start(){if(started)return;started=true;stage="manager-alert";toast("성현이형(매니저)","이거 합의된 거야? 기사 링크 보냄");}
+ function managerChat(){stage="manager-chat";root.innerHTML='<div class="panel"><div class="head">성현이형(매니저)</div><div class="msgs"><div class="bubble">이거 합의된 거야?<a class="link" data-story="first">정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”</a></div></div></div>';}
+ root.addEventListener("click",e=>{const b=e.target.closest("[data-story]");if(!b)return;if(b.dataset.story==="open"&&stage==="manager-alert")managerChat();if(b.dataset.story==="first"){stage="first-article";root.innerHTML="";if(window.SafariApp)SafariApp.navigate("https://m.entertain.naver.com/article/4");setTimeout(()=>{if(stage==="first-article"&&window.FaceTimeApp)FaceTimeApp.ring();},1800);}});
+ document.addEventListener("story:start",start);
+ document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;stage="yunho-alert";toast("울윤호","ㅎㅎ");});
+ window.HwahoStory={start,get stage(){return stage;}};
+})();
