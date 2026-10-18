@@ -7,15 +7,15 @@
   const hoods=["신림동"], liked=new Set(), memo={}, NAME="psh";
   const BOOKS="linear-gradient(90deg,#cfcabd 0 12%,#1d1f22 12% 22%,#34373b 22% 34%,#1d1f22 34% 46%,#3a3d41 46% 56%,#58d68d 56% 72%,#2b2d30 72%)";
   const products=[
-    {id:3,title:"마스 친필 사인 앨범",meta:"신림동 · 4일 전",price:280000,cat:"음반/굿즈",bg:"linear-gradient(145deg,#17191d,#393c42)",emoji:"💿",photo:"images/Karrot/MarsSignedAlbum/FE03829E-176A-47C2-BA20-7C4044A52F58.png",st:["chat",2,12],seller:"MARS",sloc:"신림동",temp:"36.8",time:"4일 전",chat:2,like:12,view:73,imgs:3,desc:"마스 친필 사인이 들어간 앨범입니다.\n이름 없이 사인만 되어 있어요."},
-    {id:4,title:"에어팟 프로 3 미개봉",meta:"봉천동 · 1.2km · 5일 전",price:210000,cat:"디지털기기",bg:"linear-gradient(145deg,#f4f4f4,#d8d8d8)",emoji:"🎧",photo:"images/Karrot/AirPodsPro3/IMG_7432.webp",st:["chat",5,10],seller:"포카러버",sloc:"봉천동",temp:"37.4",time:"5일 전",chat:5,like:10,view:230,imgs:2,desc:"에어팟 프로 3 미개봉 제품입니다.\n개봉하지 않은 새 상품이에요."},
-    {id:5,title:"아디다스 와플 클래식 트랙탑",meta:"신림동 · 1주일 전",price:60000,cat:"남성의류",bg:"linear-gradient(90deg,#cfcabd 0 12%,#1d1f22 12% 22%,#34373b 22% 34%,#1d1f22 34% 46%,#3a3d41 46% 56%,#58d68d 56% 72%,#2b2d30 72%)",emoji:"🧥",photo:"images/Karrot/AdidasWaffleTrackTop/IMG_7433.jpeg",st:["chat",0,3],seller:"뽀끔이",sloc:"신림동",temp:"37.9",time:"1주일 전",chat:0,like:3,view:1128,imgs:8,desc:"아디다스 와플 클래식 트랙탑 판매합니다.\n상태는 사진 참고해주세요."},
+    {id:3,title:"마스 친필 사인 앨범",meta:"신림동 · 4일 전",price:280000,cat:"음반/굿즈",bg:"linear-gradient(145deg,#17191d,#393c42)",emoji:"💿",photo:"images/Karrot/MarsSignedAlbum/FE03829E-176A-47C2-BA20-7C4044A52F58.png",st:["chat",2,12],seller:"날치알파스타",sloc:"신림동",temp:"36.8",time:"4일 전",chat:2,like:12,view:73,imgs:3,desc:"비매품 마스 친필 사인 앨범 양도"},
+    {id:4,title:"에어팟 프로 3 미개봉",meta:"봉천동 · 1.2km · 5일 전",price:210000,cat:"디지털기기",bg:"linear-gradient(145deg,#f4f4f4,#d8d8d8)",emoji:"🎧",photo:"images/Karrot/AirPodsPro3/IMG_7432.webp",st:["chat",5,10],seller:"소닉",sloc:"봉천동",temp:"37.4",time:"5일 전",chat:5,like:10,view:230,imgs:2,desc:"에어팟 프로 3 미개봉 제품입니다.\n개봉하지 않은 새 상품이에요."},
+    {id:5,title:"아디다스 와플 클래식 트랙탑",meta:"신림동 · 1주일 전",price:60000,cat:"남성의류",bg:"linear-gradient(90deg,#cfcabd 0 12%,#1d1f22 12% 22%,#34373b 22% 34%,#1d1f22 34% 46%,#3a3d41 46% 56%,#58d68d 56% 72%,#2b2d30 72%)",emoji:"🧥",photo:"images/Karrot/AdidasWaffleTrackTop/IMG_7433.jpeg",st:["chat",0,3],seller:"봄문",sloc:"신림동",temp:"37.9",time:"1주일 전",chat:0,like:3,view:1128,imgs:8,desc:"한 번 입고 안 입었어용\n직거래 가능"},
   ];
   const mySales=[
     {id:101,title:"커플링 반지 구매 원해요 가격 제시",loc:"신림동",ago:"17일 전",lift:0,price:1000000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:262,s2:["chat",1],st:"sale",desc:"커플링 반지 구해요. 일단 100만원으로 책정해둡니다.\n똑같은 반지면 좋습니다. 최대한 비슷한 거여도 됩니다.\n가격 부르는 대로 맞춰드릴 테니 제발 연락 주세요."},
     {id:102,title:"슈어 SM58 다이나믹 마이크 + 스탠드",loc:"신림동",ago:"5일 전",lift:0,price:170000,bg:"linear-gradient(135deg,#c9ccd1,#6d7178)",emoji:"🎤",photo:"images/Karrot/ShureSM58/IMG_7436.jpeg",views:142,s2:["heart",6],st:"sale",desc:"사용감 꽤 있음 작동 문제 X 네고 가능"},
     {id:103,title:"AKG K240 모니터링 헤드폰",loc:"신림동",ago:"1주 전",lift:0,price:100000,bg:"linear-gradient(135deg,#1c1d20,#5a5f66)",emoji:"🎧",photo:"images/Karrot/AKGK240/IMG_7435.jpeg",views:96,s2:["chat",2],st:"sale",desc:"사용감 꽤 있음 작동 문제 X 네고 가능"},
-    {id:104,title:"커플링 반지",loc:"신림동",ago:"1년 전",lift:0,price:10000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:0,s2:["heart",2],st:"sold",desc:"커플링으로 나온 반지입니다.\n어디서 샀는지는 모르겠습니다.\n더 이상 쓸 일이 없어서 팝니다.\n남자 12호입니다.\n소중히 썼습니다. 하자 X"}
+    {id:104,title:"커플링 반지",loc:"신림동",ago:"1년 전",lift:0,price:10000,bg:"linear-gradient(135deg,#d8d5d0,#aaa49c)",emoji:"💍",photo:"images/Karrot/CouplingRing/B2994A6C-9C7E-461F-AD9B-93AA46A085F5.png",views:125,s2:["chat",2],likes:6,st:"sold",desc:"커플링으로 나온 반지입니다.\n어디서 샀는지는 모르겠습니다.\n더 이상 쓸 일이 없어서 팝니다.\n남자 12호입니다.\n소중히 썼습니다. 하자 X"}
   ];
   const rooms=[
     {id:1,name:"당근",kind:"logo",official:1,ago:"1달 전",msg:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",unread:2,msgs:[{t:"개인정보 이용내역 안내 🥕 psh님 안녕하세요! 개인정보 이용내역을 안내드려요.",time:"오전 10:02",date:"2026년 9월 10일"}]},
@@ -294,7 +294,7 @@
   /* ---------- 판매관리 ---------- */
   function saleCard(x,first){
     const s=x.s2;
-    return '<div class="kg-sale"><div class="kg-sh"><b>'+({sale:"판매중",sold:"거래완료",hide:"숨김"})[x.st]+'</b>'+(x.buy?'<span class="kg-buyt">'+col("bag",20)+'바로구매</span>':"")+'<span class="kg-sp"></span><button class="kg-more" data-act="salemore" data-id="'+x.id+'">'+svg("more",22)+'</button></div><div class="kg-srow" data-sale="'+x.id+'"><span class="kg-sphoto" style="background:'+x.bg+'">'+(x.photo?'<img src="'+esc(x.photo)+'" alt="'+esc(x.title)+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">' :x.emoji)+'</span><div class="kg-sinfo"><div class="kg-stit">'+esc(x.title)+'</div><div class="kg-meta">'+esc(sMeta(x))+'</div><div class="kg-price">'+fmt(x.price)+'</div></div></div><div class="kg-sstat">'+svg("eye",19)+'<i>'+x.views+'</i>'+svg(s[0]==="heart"?"heartF":"chatF",19,"--dc:#fff")+'<i>'+s[1]+'</i></div>'+(x.st==="sale"?'<button class="kg-lift" data-act="lift" data-id="'+x.id+'">끌어올리기</button>':"")+(first&&banner&&x.st==="sale"?'<div class="kg-tip">'+col("wand",30)+'<p><b>판매글을 다듬을까요?</b> 자세히 쓴 판매자의 물품이 더 잘 팔려요. <u>수정안 보기</u></p><button data-act="closetip">'+svg("x",24)+'</button></div>':"")+'</div>'}
+    return '<div class="kg-sale"><div class="kg-sh"><b>'+({sale:"판매중",sold:"거래완료",hide:"숨김"})[x.st]+'</b>'+(x.buy?'<span class="kg-buyt">'+col("bag",20)+'바로구매</span>':"")+'<span class="kg-sp"></span><button class="kg-more" data-act="salemore" data-id="'+x.id+'">'+svg("more",22)+'</button></div><div class="kg-srow" data-sale="'+x.id+'"><span class="kg-sphoto" style="background:'+x.bg+'">'+(x.photo?'<img src="'+esc(x.photo)+'" alt="'+esc(x.title)+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">' :x.emoji)+'</span><div class="kg-sinfo"><div class="kg-stit">'+esc(x.title)+'</div><div class="kg-meta">'+esc(sMeta(x))+'</div><div class="kg-price">'+fmt(x.price)+'</div></div></div><div class="kg-sstat">'+svg("eye",19)+'<i>'+x.views+'</i>'+svg("chatF",19,"--dc:#fff")+'<i>'+(s[0]==="chat"?s[1]:0)+'</i>'+svg("heartF",19,"--dc:#fff")+'<i>'+(x.likes??(s[0]==="heart"?s[1]:0))+'</i></div>'+(x.st==="sale"?'<button class="kg-lift" data-act="lift" data-id="'+x.id+'">끌어올리기</button>':"")+(first&&banner&&x.st==="sale"?'<div class="kg-tip">'+col("wand",30)+'<p><b>판매글을 다듬을까요?</b> 자세히 쓴 판매자의 물품이 더 잘 팔려요. <u>수정안 보기</u></p><button data-act="closetip">'+svg("x",24)+'</button></div>':"")+'</div>'}
   function salesScreen(){
     const n=s=>mySales.filter(x=>x.st===s).length;
     const tabs=[["sale","판매중 "+n("sale")],["sold","거래완료 "+n("sold")],["hide","숨김"]];
@@ -370,13 +370,13 @@
     const t=e.target;
     const tt=t.closest("[data-toast]");if(tt){toast(tt.dataset.toast);return}
     const a=t.closest("[data-act]");if(a){act(a.dataset.act,a);return}
-    const tab=t.closest("[data-tab]");if(tab){const k=tab.dataset.tab;if(k==="community"||k==="map"){toast("준비 중이에요");return}stack=[];page=k;sheet=null;render();return}
+    const tab=t.closest("[data-tab]");if(tab){const k=tab.dataset.tab;if(k==="chat")return;if(k==="community"||k==="map"){toast("준비 중이에요");return}stack=[];page=k;sheet=null;render();return}
     const c=t.closest("[data-cat]");if(c){const k=c.dataset.cat;if(k==="중고차"||k==="부동산"||k==="알바"){return}category=k;render();return}
     const h=t.closest("[data-hood]");if(h){hoodIdx=Number(h.dataset.hood);sheet=null;render();return}
     const st=t.closest("[data-saletab]");if(st){saleTab=st.dataset.saletab;render();return}
     const pr=t.closest("[data-product]");if(pr){selected=Number(pr.dataset.product);go("detail");return}
     const sl=t.closest("[data-sale]");if(sl){selected=Number(sl.dataset.sale);go("detail");return}
-    const ch=t.closest("[data-chat]");if(ch){chatId=Number(ch.dataset.chat);const r=rooms.find(x=>x.id===chatId);if(r)r.unread=0;go("chatroom")}
+    const ch=t.closest("[data-chat]");if(ch)return;
   });
   el.addEventListener("input",e=>{
     if(e.target.id==="kg-query"){query=e.target.value;const f=$(".kg-feed");if(f)f.innerHTML=feedHTML()}
