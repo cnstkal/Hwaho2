@@ -139,7 +139,7 @@ const FaceTimeApp = (() => {
   root.addEventListener("click",e=>{
     const b=e.target.closest("[data-ft]");if(!b)return;
     switch(b.dataset.ft){
-      case "yes":setAlert(false);state="prompt";clearTimeout(ringT);ringT=setTimeout(()=>{if(state==="prompt")ring();},CFG.ringDelayMs);break;
+      case "yes":setAlert(false);state="prompt";document.dispatchEvent(new CustomEvent("story:start"));clearTimeout(ringT);ringT=setTimeout(()=>{if(state==="prompt")ring();},CFG.ringDelayMs);break;
       case "no":setAlert(false);state="idle";break;
       case "decline":clearTimeout(missT);showIncoming(false);state="idle";break;
       case "accept":openCall();break;
