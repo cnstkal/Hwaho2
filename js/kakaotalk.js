@@ -442,19 +442,19 @@ const KakaoApp = (() => {
     if (isOpen) { if (cur && cur.id === c.id) room(); else renderMain(); }
   });
 
-  function openStoryChat() {
-    const c = chat("c3");
+  function openStoryChat(chatId = "c3") {
+    const c = chat(chatId);
     if (!c) return;
     tab = "chats"; q = ""; flt = "all";
     if (!isOpen) open();
     renderMain();
     openRoom(c);
   }
-  function appendStoryMessage(text, type = "text", url = "") {
-    const c = chat("c3");
+  function appendStoryMessage(text, type = "text", url = "", chatId = "c3", from = "f2") {
+    const c = chat(chatId);
     if (!c) return;
     const duplicate = c.msgs.some(m => m.storySequence && m.text === text);
-    if (!duplicate) c.msgs.push({ id: uid(), from: "f2", text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
+    if (!duplicate) c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
     c.unread = 0; save();
     if (isOpen) { if (cur && cur.id === c.id) room(); else renderMain(); }
   }
