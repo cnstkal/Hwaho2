@@ -124,7 +124,7 @@ const PhoneApp = (() => {
   }
   function endCall() {
     if (!call) return; clearTimeout(call.t1); clearInterval(call.iv);
-    D.calls.push({ id: uid(), num: call.num, dir: "out", ts: Date.now(), dur: csec() }); save();
+    /* 통화 버튼을 눌러도 최근 통화 기록은 저장하지 않음 */
     call = null; cEl.classList.remove("on"); screen.classList.remove("in-call"); render(); renderOv();
   }
   const gotoMsg = n => { closeApp(); if (window.Home) Home.openApp("messages"); setTimeout(() => window.MessagesApp && MessagesApp.chat(n), 80); };
