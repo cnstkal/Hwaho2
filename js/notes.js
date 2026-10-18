@@ -10,8 +10,9 @@ var S={n:ld(KEY.n,null),f:ld(KEY.f,null),a:ld(KEY.a,{}),p:ld(KEY.p,{view:'list'}
 function saveN(){sv(KEY.n,S.n);var t={};S.n.forEach(function(n){n.tags.forEach(function(x){t[x]=1})});sv(KEY.t,Object.keys(t))}
 function saveF(){sv(KEY.f,S.f)}function saveA(){sv(KEY.a,S.a)}function saveP(){sv(KEY.p,S.p)}
 if(!S.f){S.f=[{id:'f0',name:'메모'}];saveF()}
-if(!S.n){var now=Date.now();S.n=[{id:uid(),title:'메모에 오신 것을 환영합니다',text:'체크리스트로 할 일을 정리하고, 표·이미지·그리기로 메모를 꾸며 보세요.\n할 일 하나\n할 일 둘',html:'<div>체크리스트로 할 일을 정리하고, 표·이미지·그리기로 메모를 꾸며 보세요.</div><div class="nt-ck" data-c="1">할 일 하나</div><div class="nt-ck" data-c="0">할 일 둘</div>',fid:'f0',pin:false,tags:[],updated:now}];saveN()}
+if(!S.n){S.n=[];saveN()}
 S.n.forEach(function(n){n.tags=[];n.html=n.html||'';n.text=n.text||''});
+S.n=S.n.filter(function(n){return n.title!=='메모에 오신 것을 환영합니다'&&n.id!=='seed_idea'});
 S.n=S.n.filter(function(n){return !(n.del&&!n.keep&&Date.now()-n.del>30*864e5)});
 /* 가사 폴더 제거: 폴더 안 메모는 최근 삭제된 항목으로 이동 */
 (function(){var rm={},c=0;S.f=S.f.filter(function(f){if(f.name==='가사'||f.id==='f_lyrics'){rm[f.id]=1;c++;return false}return true});
@@ -19,19 +20,19 @@ if(!S.f.length)S.f=[{id:'f0',name:'메모'}];
 var ch=false;S.n.forEach(function(n){if(rm[n.fid]&&!n.del){n.del=Date.now();n.pin=false;ch=true}});
 if(c)saveF();if(ch)saveN()})();
 /* 기본 메모 시드 (최초 1회) + 삭제된 항목은 항상 '3주 전'으로 유지 */
-(function(){var K='nt.seed.v1',D=864e5,now=Date.now();
+(function(){var K='nt.seed.v1',D=864e5,now=Date.now(),PWD=Date.UTC(2025,3,12,3,20);
 function body(L){return {text:L.map(function(l){return l.replace(/^\[[ x]\] /,'')}).join('\n'),html:L.map(function(l){var m=/^\[([ x])\] (.*)$/.exec(l);return m?'<div class="nt-ck" data-c="'+(m[1]==='x'?1:0)+'">'+esc(m[2])+'</div>':(l?'<div>'+esc(l)+'</div>':'<div><br></div>')}).join('')}}
 function mk(id,t,L,upd,x){var b=body(L),o={id:id,title:t,text:b.text,html:b.html,fid:'f0',pin:false,tags:[],updated:upd};for(var k in x)o[k]=x[k];return o}
 if(!ld(K,0)){
 S.n.push(
 mk('seed_trash_lyr','살어리랏다',['살어리랏다','윤호없이못살어리랏다...'],now-21*D-36e5,{del:now-21*D,keep:1}),
 mk('seed_album','앨범 작업 체크',['[x] 타이틀곡 믹싱 마감 (9/3)','[x] 앨범 전달 (9/11)','[x] 발매 (10/1)','[ ] 11/20 발매곡 마스터링 확인','[ ] 합동 싱글(12/10) 가이드 녹음','[ ] 승호형한테 보컬 톤 레퍼런스 보내기','[ ] 연말 공연(12/18) 세트 줄이기'],now-2*D,{pin:true}),
-mk('seed_idea','훅 / 영감',['새벽 세 시 편의점 불빛, 형광등 아래서 혼자 웃는 사람','후렴은 짧게. 마지막 박은 일부러 비워두기','"다시"라는 단어 너무 많이 씀 → 줄이기','느린 808 + 어쿠스틱 기타 한 줄','브릿지는 가사 없이 숨소리만 깔아볼까','택시 뒷자리에서 쓰는 곡. 창밖 네온이 지나가는 템포'],now-5*D),
 mk('seed_mix','믹싱 피드백 (승호형)',['보컬 S음 날카로움 → 디에서 2~3dB','킥 살짝 낮추고 808 롱테일 줄이기','2절 애드립 볼륨 -2','마스터링 전 헤드룸 -1dB 확보','후렴 더블링은 좌우 폭 좁게'],now-9*D),
 mk('seed_live','공연 체크리스트',['오프닝은 템포 높은 곡 3곡 연달아','멘트는 30초 이내','인이어 모니터 레벨 낮추기','앙코르는 타이틀곡','10/24 지방 / 10/31 해외 → 이동 시간 매니저한테 확인','물, 목 스프레이, 여분 마이크 커버'],now-12*D),
 mk('seed_mv','뮤비 콘셉트',['새벽 도로 + 택시 + 네온','흑백으로 갈지 형광으로 갈지 → 감독님 의견 듣기','소품: 반지 (찾아야 함)','마지막 컷은 말 없이 걷기'],now-16*D),
-mk('seed_pw','비번',['사운드클라우드','yh0323s2!','','인스타그램','sh0323insta!!','','유튜브','yh0323tube#','','멜론 아티스트','sh0323mel!','','스플라이스','hwaho0323beat','','네이버','shnaver0323*','','작업실 와이파이','studio0323','','노트북','SH0323!!','','넷플릭스','pizza!night'],Date.UTC(2025,5,14,3,20))
+mk('seed_pw','비번',['사운드클라우드','yh0323s2!','','인스타그램','sh0323insta!!','','유튜브','yh0323tube#','','멜론 아티스트','sh0323mel!','','스플라이스','hwaho0323beat','','네이버','shnaver0323*','','작업실 와이파이','studio0323','','노트북','SH0323!!','','넷플릭스','pizza!night'],PWD)
 );saveN();sv(K,1)}
+var pw=byId('seed_pw');if(pw&&pw.updated>PWD&&pw.text.indexOf('yh0323s2!')>-1&&pw.text.indexOf('pizza!night')>-1){pw.updated=PWD;saveN()}
 var t=byId('seed_trash_lyr');if(t&&t.del){t.del=now-21*D;t.updated=now-21*D-36e5;t.keep=1;saveN()}
 })();
 /* ---------- 유틸 ---------- */
@@ -190,14 +191,14 @@ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeT
 var lastR=null,tmr=null,fr=[],fi=-1;
 function ser(){var c=body.cloneNode(true);[].forEach.call(c.querySelectorAll('img[data-att]'),function(i){i.removeAttribute('src')});return c.innerHTML}
 function hyd(h){body.innerHTML=h;[].forEach.call(body.querySelectorAll('img[data-att]'),function(i){var a=S.a[i.dataset.att];if(a)i.src=a.d;i.draggable=false})}
-function emp(){body.classList.toggle('em',!body.querySelector('img,table,.nt-ck,li')&&!body.innerText.replace(/\s/g,''))}
-function commit(force){var n=cur();if(!n||S.ro)return;clearTimeout(tmr);var t=title.value.trim(),h=ser();if(!force&&t===n.title&&h===n.html)return;
-n.title=t;n.html=h;n.text=body.innerText.replace(/\u00a0/g,' ').replace(/\n{3,}/g,'\n\n').trim();n.updated=Date.now();saveN();dtE.textContent=fd(n.updated,1)}
+function emp(){body.classList.toggle('em',!body.querySelector('img,table,.nt-ck,li')&&!(body.textContent||'').replace(/\s/g,''))}
+function commit(force){var n=cur();if(!n||S.ro)return;clearTimeout(tmr);var t=title.value.trim(),h=ser();if(!force&&((t===n.title&&h===n.html)||(t===S.bt&&h===S.bh)))return;
+n.title=t;n.html=h;n.text=body.innerText.replace(/\u00a0/g,' ').replace(/\n{3,}/g,'\n\n').trim();n.updated=Date.now();S.bh=h;S.bt=t;saveN();dtE.textContent=fd(n.updated,1)}
 function sched(){emp();clearTimeout(tmr);tmr=setTimeout(commit,350)}
 function renderTags(){var n=cur(),h='';if(n)h=n.tags.map(function(t){return '<button data-act="etag">#'+esc(t)+'</button>'}).join('');$('.nt-tg').innerHTML=h}
-function openNote(id,prev,focus){var n=byId(id);if(!n)return;S.cur=id;S.prev=prev||'f';S.ro=!!n.del;title.value=n.title;hyd(n.html);dtE.textContent=fd(n.updated,1);renderTags();emp();
+function openNote(id,prev,focus){var n=byId(id);if(!n)return;S.cur=id;S.prev=prev||'f';S.ro=!!n.del;title.value=n.title;hyd(n.html);S.bh=ser();S.bt=n.title;dtE.textContent=fd(n.updated,1);renderTags();emp();
 PE.classList.toggle('ro',S.ro);title.readOnly=S.ro;body.contentEditable=S.ro?'false':'true';$('.nt-bkt').textContent=S.prev==='l'?scopeName():'폴더';
-closeFind();$('.nt-fmt').hidden=true;go('e');esc0.scrollTop=0;if(focus&&!S.ro){void PE.offsetWidth;title.focus()}}
+closeFind();$('.nt-fmt').hidden=true;go('e');emp();setTimeout(emp,0);esc0.scrollTop=0;if(focus&&!S.ro){void PE.offsetWidth;title.focus()}}
 function newNote(){var fid=S.scope!=='all'&&S.scope!=='trash'&&S.scope.indexOf('tag:')!==0&&S.f.some(function(f){return f.id===S.scope})?S.scope:defFid();
 var n={id:uid(),title:'',text:'',html:'',fid:fid,pin:false,tags:[],updated:Date.now()};S.n.push(n);saveN();openNote(n.id,S.scr,true)}
 function leaveE(skipCommit){var n=cur();if(n){if(!skipCommit)commit();if(!S.ro&&!n.title&&!n.text&&!/<img|<table/.test(n.html)){S.n=S.n.filter(function(x){return x!==n});saveN()}}
