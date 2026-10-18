@@ -378,7 +378,7 @@ const KakaoApp = (() => {
     let h = ""; ms.forEach((m, i) => {
       const p = ms[i - 1], n = ms[i + 1], sameP = p && p.from === m.from && day(p.ts) === day(m.ts) && tm(p.ts) === tm(m.ts), sameN = n && n.from === m.from && day(n.ts) === day(m.ts) && tm(n.ts) === tm(m.ts);
       if (!p || day(p.ts) !== day(m.ts)) h += `<div class="kk-dv"><span>${dl(m.ts)}</span></div>`;
-      const first = !sameP, time = !sameN ? `<span class="kk-tm">${tm(m.ts)}</span>` : "", b = m.type === "call" ? `<div class="kk-b kk-call${first ? " f" : ""}"><span class="kk-call-ico">↗</span><span>${esc(m.text)}</span></div>` : `<div class="kk-b${first ? " f" : ""}">${esc(m.text)}</div>`;
+      const first = !sameP, time = !sameN ? `<span class="kk-tm">${tm(m.ts)}</span>` : "", b = m.type === "call" ? `<div class="kk-b kk-call${first ? " f" : ""}"><span class="kk-call-ico">↗</span><span>${esc(m.text)}</span></div>` : m.type === "story-link" ? `<div class="kk-b${first ? " f" : ""}"><a href="${esc(m.url || "#")}" data-k="story-link" style="color:#1769aa;text-decoration:underline;display:block;max-width:250px;line-height:1.35">${esc(m.text)}</a></div>` : `<div class="kk-b${first ? " f" : ""}">${esc(m.text)}</div>`;
       const un = u0 >= 0 && i >= u0 && i < u0 + 6 && m.from === "me", tl = un ? `<span class="kk-ti"><i class="kk-un">1</i>${time}</span>` : time;
       if (m.from === "me") h += `<div class="kk-m me${first ? " f" : ""}">${tl}${b}</div>`;
       else { const f = fr(m.from) || { name: "?", id: m.from }; h += `<div class="kk-m${first ? " f" : ""}"><div class="kk-pa">${first ? av(f.id, f.name) : ""}</div><div class="kk-on">${first ? `<div class="n">${esc(f.name)}</div>` : ""}<div class="kk-bw">${b}${time}</div></div></div>`; }
@@ -412,6 +412,7 @@ const KakaoApp = (() => {
       case "friend": { let c = D.chats.find(x => !x.name && x.ids.length === 1 && x.ids[0] === d.id); if (!c) c = { id: uid(), ids: [d.id], unread: 0, msgs: [] }; openRoom(c); break; }
       case "chat": openRoom(d.id); break;
       case "back": back(); break;
+      case "story-link": e.preventDefault(); e.stopPropagation(); document.dispatchEvent(new CustomEvent("story:manager-link-opened", { detail: { url: t.getAttribute("href") } })); break;
       case "send": send(); inp().focus(); break;
     }
   });
@@ -441,7 +442,23 @@ const KakaoApp = (() => {
     if (isOpen) { if (cur && cur.id === c.id) room(); else renderMain(); }
   });
 
-  return { open, close };
+  function openStoryChat() {
+    const c = chat("c3");
+    if (!c) return;
+    tab = "chats"; q = ""; flt = "all";
+    if (!isOpen) open();
+    renderMain();
+    openRoom(c);
+  }
+  function appendStoryMessage(text, type = "text", url = "") {
+    const c = chat("c3");
+    if (!c) return;
+    const duplicate = c.msgs.some(m => m.storySequence && m.text === text);
+    if (!duplicate) c.msgs.push({ id: uid(), from: "f2", text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
+    c.unread = 0; save();
+    if (isOpen) { if (cur && cur.id === c.id) room(); else renderMain(); }
+  }
+  return { open, close, openStoryChat, appendStoryMessage };
 })();
 
 /* App-specific styles */
