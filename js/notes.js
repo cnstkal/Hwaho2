@@ -30,9 +30,10 @@ mk('seed_album','앨범 작업 체크',['[x] 타이틀곡 믹싱 마감 (9/3)','
 mk('seed_mix','믹싱 피드백 (승호형)',['보컬 S음 날카로움 → 디에서 2~3dB','킥 살짝 낮추고 808 롱테일 줄이기','2절 애드립 볼륨 -2','마스터링 전 헤드룸 -1dB 확보','후렴 더블링은 좌우 폭 좁게'],now-9*D),
 mk('seed_live','공연 체크리스트',['오프닝은 템포 높은 곡 3곡 연달아','멘트는 30초 이내','인이어 모니터 레벨 낮추기','앙코르는 타이틀곡','10/24 지방 / 10/31 해외 → 이동 시간 매니저한테 확인','물, 목 스프레이, 여분 마이크 커버'],now-12*D),
 mk('seed_mv','뮤비 콘셉트',['새벽 도로 + 택시 + 네온','흑백으로 갈지 형광으로 갈지 → 감독님 의견 듣기','소품: 반지 (찾아야 함)','마지막 컷은 말 없이 걷기'],now-16*D),
-mk('seed_pw','비번',['사운드클라우드','yh0323s2!','','인스타그램','sh0323insta!!','','유튜브','yh0323tube#','','멜론 아티스트','sh0323mel!','','스플라이스','hwaho0323beat','','네이버','shnaver0323*','','작업실 와이파이','studio0323','','노트북','SH0323!!','','넷플릭스','pizza!night'],PWD)
+mk('seed_pw','비번',['사운드클라우드','yh0323s2!','','인스타그램','sh0323insta!!','','유튜브','yh0323tube#','','멜론 아티스트','sh0323mel!','','네이버','shnaver0323*','','작업실 와이파이','studio0323','','노트북','SH0323!!','','넷플릭스','pizza!night'],PWD)
 );saveN();sv(K,1)}
 var pw=byId('seed_pw');if(pw&&pw.updated>PWD&&pw.text.indexOf('yh0323s2!')>-1&&pw.text.indexOf('pizza!night')>-1){pw.updated=PWD;saveN()}
+if(pw&&pw.text.indexOf('스플라이스')>-1){pw.text=pw.text.replace('스플라이스\nhwaho0323beat\n\n','');pw.html=pw.html.replace('<div>스플라이스</div><div>hwaho0323beat</div><div><br></div>','');saveN()}
 var t=byId('seed_trash_lyr');if(t&&t.del){t.del=now-21*D;t.updated=now-21*D-36e5;t.keep=1;saveN()}
 })();
 /* ---------- 유틸 ---------- */
@@ -113,7 +114,7 @@ h+='<div class="nt-sec">내 iPhone</div><div class="nt-card">'+frow('all','전�
 var tg={};S.n.forEach(function(n){if(!n.del)n.tags.forEach(function(t){tg[t]=(tg[t]||0)+1})});var ks=Object.keys(tg).sort();
 if(false)h+='<div class="nt-sec">태그</div><div class="nt-card">'+ks.map(function(t){return frow('tag:'+t,'#'+t,tg[t],'tag',e)}).join('')+'</div>';
 h+='<div class="nt-card mt">'+frow('trash','최근 삭제된 항목',c('trash'),'trash',e)+'</div>';FL.innerHTML=h}
-function rowH(n,o){var f=o.fold?'<i>'+I('folder')+esc(fname(n.fid))+'</i>':'';
+function rowH(n,o){var f='';
 return '<div class="nt-row" data-act="row" data-id="'+n.id+'"><div class="nt-cc'+(S.ids[n.id]?' on':'')+'">'+I('ck')+'</div><div class="nt-rm"><b>'+(n.pin&&!n.del?I('pin','nt-pn')+' ':'')+esc(ttl(n))+'</b><span><em>'+fd(n.updated)+'</em>'+esc(pv(n))+'</span>'+f+'</div></div>'}
 function galH(n){return '<div class="nt-g" data-act="row" data-id="'+n.id+'"><div class="nt-cc'+(S.ids[n.id]?' on':'')+'">'+I('ck')+'</div><div class="pv"><b>'+esc(ttl(n))+'</b>'+esc((n.text||'').slice(0,140))+'</div><div class="tt">'+esc(ttl(n))+'</div><div class="dd">'+fd(n.updated)+'</div></div>'}
 function rowsH(arr,o){o=o||{};if(!arr.length)return '<div class="nt-empty">'+(o.flat?'검색 결과 없음':'메모 없음')+'</div>';
