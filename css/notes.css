@@ -68,7 +68,10 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 #notes-app .nt-pl .nt-sc{padding:0 12px 18px}
 #notes-app .nt-pl .nt-sc>.nt-lt{padding:10px 8px 8px}
 #notes-app .nt-pl .nt-sc>.nt-sb{margin:6px 4px 12px;background:rgba(118,118,128,.12)}
-#notes-app .nt-pl .nt-llist{background:#fff;border-radius:26px;overflow:hidden;padding:4px 0 8px;min-height:90px}
+#notes-app .nt-pl .nt-llist{background:none;border-radius:0;overflow:visible;padding:0;min-height:90px}
+#notes-app .nt-pl .nt-llist .nt-sh{font-size:21px;font-weight:700;padding:18px 8px 8px}
+#notes-app .nt-pl .nt-llist .nt-sh:first-child{padding-top:6px}
+#notes-app .nt-pl .nt-llist .nt-sh+div:not(.nt-gal){background:#fff;border-radius:26px;overflow:hidden;padding:4px 0}
 #notes-app .nt-pl .nt-llist .nt-row{padding:13px 18px;min-height:68px}
 #notes-app .nt-pl .nt-llist .nt-row+.nt-row::before{left:18px;right:18px;border-color:#e5e5ea}
 #notes-app .nt-pl .nt-ft{background:#f2f1f6;border-top:0}
