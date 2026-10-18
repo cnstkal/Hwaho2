@@ -264,7 +264,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   }
   document.addEventListener("click", e => {
     const t = e.target.closest(".nv [data-nv=nws]"); if (!t) return;
-    go("https://entertain.naver.com/article/sample/" + t.dataset.id);
+    go(t.dataset.id === "1" ? dpUrl : "https://entertain.naver.com/article/sample/" + t.dataset.id);
   });
   (() => { const s = document.createElement("style"); s.textContent = `
 .nn{border-top:8px solid #f1f2f4;padding:0 16px 28px}.nn-h{display:flex;align-items:center;gap:14px;height:76px;font-size:19px;color:#999;white-space:nowrap}.nn-h b{font-size:22px;color:#111;margin-right:auto}.nn-h span{font-size:18px;font-weight:500;color:#9a9a9a}.nn-h .on{color:#111;font-weight:800}.nn-h .mm{font-size:17px}.nn-h .tg{flex:none;position:relative;width:44px;height:28px;border-radius:14px;background:#ccc}.nn-h .tg:after{content:"";position:absolute;top:2px;left:2px;width:24px;height:24px;border-radius:50%;background:#fff}
