@@ -423,12 +423,12 @@ const KakaoApp = (() => {
   const fit = () => { if (!isOpen) return; const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop); el.style.bottom = kb + "px"; el.classList.toggle("kb", kb > 80); if (kb > 80 && cur) { const b = $("#kk-msgs"); b.scrollTop = b.scrollHeight; } };
   if (vv) { vv.addEventListener("resize", fit); vv.addEventListener("scroll", fit); }
   function open() {
-    if (isOpen) return; isOpen = true; renderMain(); originFrom(el, "kakaotalk");
-    el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false");
+    if (isOpen) { el.style.pointerEvents = "auto"; el.style.display = "block"; el.classList.add("show", "open"); return; } isOpen = true; renderMain(); originFrom(el, "kakaotalk");
+    el.style.pointerEvents = "auto"; el.style.display = "block"; el.classList.add("show"); void el.offsetWidth; el.classList.add("open"); el.setAttribute("aria-hidden", "false");
     setTimeout(() => { if (isOpen) screen.classList.add("app-light"); }, 140);
   }
   function close() {
-    if (!isOpen) return; isOpen = false; screen.classList.remove("app-light"); el.classList.remove("open", "kb"); el.style.bottom = ""; el.setAttribute("aria-hidden", "true");
+    if (!isOpen) return; isOpen = false; screen.classList.remove("app-light"); el.classList.remove("open", "kb"); el.style.pointerEvents = "none"; el.style.bottom = ""; el.setAttribute("aria-hidden", "true");
     document.activeElement && document.activeElement.blur();
     setTimeout(() => { if (!isOpen) { el.classList.remove("show"); $("#kk-room").classList.remove("on"); $("#kk-main").classList.remove("back"); cur = null; } }, 430);
   }
