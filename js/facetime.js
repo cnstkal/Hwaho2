@@ -132,7 +132,7 @@ const FaceTimeApp = (() => {
   }
   function endCall(){
     if(state!=="call")return;
-    clearInterval(tickT);clearTimeout(dialogueT);state="idle";showCall(false);
+    clearInterval(tickT);clearTimeout(dialogueT);state="idle";showCall(false);document.dispatchEvent(new CustomEvent("story:call-ended"));
     el("ft-transcript").innerHTML="";
     root.querySelectorAll('[data-ft="mute"],[data-ft="speaker"]').forEach(b=>b.classList.remove("off"));
   }
