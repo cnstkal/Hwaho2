@@ -3,7 +3,7 @@ const FaceTimeApp = (() => {
   const CFG = {
     delaySec: 45,
     ringDelayMs: 1500,
-    missedSec: 30,
+    missedSec: 0,
     caller: "울윤호",
     callerSub: "휴대전화"
   };
@@ -110,7 +110,7 @@ const FaceTimeApp = (() => {
   function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
   function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
   function prompt(){if(state!=="idle")return;state="prompt";setAlert(true);}
-  function ring(){state="ringing";showIncoming(true);vib([400,200,400,200,400]);missT=setTimeout(()=>{if(state==="ringing"){showIncoming(false);state="idle";}},CFG.missedSec*1000);}
+  function ring(){clearTimeout(missT);if(state==="call"||state==="ringing")return;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
   function playDialogue(){
     if(state!=="call")return;
     if(lineIndex>=dialogue.length){endCall();return;}
@@ -141,7 +141,7 @@ const FaceTimeApp = (() => {
     switch(b.dataset.ft){
       case "yes":setAlert(false);state="prompt";document.dispatchEvent(new CustomEvent("story:start"));clearTimeout(ringT);break;
       case "no":setAlert(false);state="idle";break;
-      case "decline":clearTimeout(missT);showIncoming(false);state="idle";break;
+      case "decline":clearTimeout(missT);showIncoming(false);state="idle";missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;
       case "accept":openCall();break;
       case "end":endCall();break;
       case "mute":case "speaker":b.classList.toggle("off");break;
