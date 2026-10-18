@@ -169,7 +169,7 @@
   function toast(msg){const old=el.querySelector(".yt-toast");if(old)old.remove();const t=document.createElement("div");t.className="yt-toast";t.textContent=msg;el.appendChild(t);setTimeout(()=>t.remove(),1800)}
   function open(){opened=true;el.classList.add("show");el.setAttribute("aria-hidden","false");render()}
   function close(){opened=false;playing=false;if(playTimer)clearInterval(playTimer);playTimer=null;el.classList.remove("show","dark");el.setAttribute("aria-hidden","true")}
-  const tick = () => {if(!activeVideo)return;progress=Math.min(100,progress+0.12);const p=el.querySelector(".yt-progress i");if(p)p.style.width=progress+"%";const t=el.querySelector(".yt-player-controls span");const v=getVideo(activeVideo);if(t){const sec=Math.floor(progress*0.6);t.textContent=Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0")+" / "+v.duration}if(progress>=100){playing=false;clearInterval(playTimer);playTimer=null}};
+  const tick = () => {if(!activeVideo)return;const v=getVideo(activeVideo);const [mins,secs]=v.duration.split(":").map(Number);const durationSeconds=mins*60+secs;progress=Math.min(100,progress+(10/durationSeconds));const p=el.querySelector(".yt-progress i");if(p)p.style.width=progress+"%";const t=el.querySelector(".yt-player-controls span");if(t){const sec=Math.floor(durationSeconds*progress/100);t.textContent=Math.floor(sec/60)+":"+String(sec%60).padStart(2,"0")+" / "+v.duration}if(progress>=100){playing=false;clearInterval(playTimer);playTimer=null}};
   document.addEventListener("app:open",e=>{if(e.detail?.id==="youtube")open()});
   document.addEventListener("app:close",e=>{if(!e.detail?.id||e.detail.id==="youtube")close()});
   el.addEventListener("click",e=>{
