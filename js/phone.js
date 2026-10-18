@@ -139,7 +139,7 @@ const PhoneApp = (() => {
     screen.classList.add("in-call"); renderCall(); cEl.classList.add("on");
     call.t1 = setTimeout(() => { if (!call) return; call.state = "on"; call.t0 = Date.now(); updCall(); call.iv = setInterval(updCall, 1000); if (call.pb) playScript(); }, 800 + Math.random() * 400);
   }
-  const SCRIPTS = { "yunho-call-17-days": [["윤호", "여보세요?"], ["성화", "응 왜?"], ["윤호", "형 우리 반지 다시 낄까?"], ["성화", "…. 엉?"], ["윤호", "아니 전에 맞췄던 거 있는데 굳이 다시 맞춰야할까 싶어서"], ["윤호", "추억도 있고"], ["성화", "어.. 아직도 갖고있구나"], ["윤호", "설마 버린 거 아니지?"], ["성화", "아니야 ㅋㅋ 나도 있어"], ["성화", "어디 넣어놔서 그래"], ["성화", "알았어 찾아볼게"]], "yunho-call-aug": [["윤호", "술 마셨어?"], ["성화", "쪼금…"], ["윤호", "내 번호 어떻게 알았어?"], ["성화", "민기한테 물어봤지…"], ["윤호", "나 바뻐 용건만 말해"], ["성화", "다시 만나고 싶어…"], ["성화", "진심이야…"], ["성화", "많이 반성했고 다시는 그런 일 안 일어나게 잘할게"], ["윤호", "어딘데?"], ["성화", "왜..?"], ["윤호", "만나서 얘기하자고"]] };
+  const SCRIPTS = { "yunho-call-17-days": [["윤호", "여보세요?"], ["성화", "응 왜?"], ["윤호", "형 우리 반지 다시 낄까?"], ["성화", "…. 엉?"], ["윤호", "아니 전에 맞췄던 거 있는데 굳이 다시 맞춰야할까 싶어서"], ["윤호", "추억도 있고"], ["성화", "어.. 아직도 갖고있구나"], ["윤호", "설마 버린 거 아니지?"], ["성화", "아니야 ㅋㅋ 나도 있어"], ["성화", "어디 넣어놔서 그래"], ["성화", "알았어 찾아볼게 (좆됐다)"]], "sunghyun-call-today": [["성현", "야 기사 진짜 네가 낸 거 아니지?"], ["성화", "저 그 정도로 정신 빠진 놈은 아니에요"], ["성현", "그럼 정윤호쪽에서 낸 것 같은데 걔는 뭐래?"], ["성화", "전화를 안받아요"], ["성현", "너 걔한테 뭐 잘못했냐?"], ["성화", "잘못은 많이 했는데..."], ["성현", "아니 최근에"], ["성화", "그럼 딱히 없는데..."], ["성현", "일단 회사로 와라"], ["성현", "근데 진짜 사귀는 거야?"], ["성화", "저번주에도 말했잖아요..."], ["성현", "너 말은 잘 기억 안해서"], ["", "(통화 끊김)"]], "yunho-call-aug": [["윤호", "술 마셨어?"], ["성화", "쪼금…"], ["윤호", "내 번호 어떻게 알았어?"], ["성화", "민기한테 물어봤지…"], ["윤호", "나 바뻐 용건만 말해"], ["성화", "다시 만나고 싶어…"], ["성화", "진심이야…"], ["성화", "많이 반성했고 다시는 그런 일 안 일어나게 잘할게"], ["윤호", "어딘데?"], ["성화", "왜..?"], ["윤호", "만나서 얘기하자고"]] };
   function playScript() { let t = 1200; SCRIPTS[call.pb].forEach(l => { call.pt.push(setTimeout(() => { if (!call) return; call.pl.push(l); const e = $("#tl-pb"); if (e) e.innerHTML = pbHtml(); }, t)); t += 1500 + l[1].length * 90; }); call.pt.push(setTimeout(endCall, t + 1500)); }
   const pbHtml = () => call.pl.slice(-5).map((l, i, a) => `<div style="opacity:${(0.35 + 0.65 * (i + 1) / a.length).toFixed(2)}"><b>${l[0]}</b> ${esc(l[1])}</div>`).join("");
   const csec = () => call && call.state === "on" ? Math.floor((Date.now() - call.t0) / 1000) : 0;
@@ -163,6 +163,15 @@ const PhoneApp = (() => {
     const L = [["송민기 (FIXON)", "out", "07-31", "22:50", 75], ["송민기 (FIXON)", "in", "08-01", "23:55", 210], ["김철수", "in", "08-04", "18:20", 330], ["엄마", "out", "08-07", "20:10", 420], ["정성현(매니저)", "in", "08-11", "11:05", 130], ["강민우(PD)", "miss", "08-14", "15:42", 0], ["한지안", "out", "08-18", "21:30", 560], ["오승호(믹싱)", "in", "08-22", "14:15", 905], ["김홍중 (NO1)", "in", "08-27", "23:10", 240], ["박재영(대표)", "out", "09-01", "10:30", 190], ["엄마", "in", "09-05", "19:45", 380], ["소율 누나", "miss", "09-08", "13:20", 0], ["강레도", "in", "09-12", "22:05", 1480], ["김하나(쇼미 작가)", "out", "09-15", "16:40", 145], ["아빠", "out", "09-19", "12:15", 62], ["송민기 (FIXON)", "in", "09-23", "20:35", 610], ["한서진(감독)", "miss", "09-26", "17:50", 0], ["정성현(매니저)", "out", "09-29", "09:40", 95], ["김철수", "out", "10-04", "21:15", 780], ["엠더스트", "in", "10-06", "19:25", 320], ["최민재(무대감독)", "in", "10-09", "14:50", 175], ["엄마", "miss", "10-11", "08:55", 0], ["오승호(믹싱)", "out", "10-12", "16:10", 240]];
     D.calls = D.calls.filter(c => c.blueRecord || c.ts >= T("10-14", "00:00")).concat(L.map(([n, dir, d, h, dur]) => ({ id: uid(), num: nm(n), dir, ts: T(d, h), dur, fixed: 1 })));
     D.v17 = 1; save();
+  }
+  if (D.v18 !== 1) {
+    const sh = D.contacts.find(c => c.name === "정성현(매니저)"), ts = new Date("2026-10-18T14:08:00+09:00").getTime();
+    if (sh && !D.calls.some(c => c.blueRecord === "sunghyun-call-today")) {
+      const o = D.calls.find(c => c.num === sh.num && c.dir === "in" && c.dur === 180 && !c.blueRecord);
+      if (o) Object.assign(o, { ts, blueRecord: "sunghyun-call-today", fixed: 1 });
+      else D.calls.push({ id: uid(), num: sh.num, dir: "in", ts, dur: 180, blueRecord: "sunghyun-call-today", fixed: 1 });
+    }
+    D.v18 = 1; save();
   }
   const gotoMsg = n => { closeApp(); if (window.Home) Home.openApp("messages"); setTimeout(() => window.MessagesApp && MessagesApp.chat(n), 80); };
 
