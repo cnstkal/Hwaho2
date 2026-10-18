@@ -306,7 +306,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   document.addEventListener("click", e => {
     const t = e.target.closest(".nv.en .cm [data-nv]"); if (!t) return; const cm = t.closest(".cm"), comments = (cm.dataset.articleId === "4" || cm.dataset.articleId === "5") ? NVY : NVC, ls = cm.querySelector(".cm-ls"), sync = () => { ls.innerHTML = cmItems(comments); cm.querySelectorAll("[data-cmn]").forEach(x => x.textContent = comments.length); };
     switch (t.dataset.nv) {
-      case "cmreg": { const inp = cm.querySelector(".cm-ip input"), v = inp.value.trim(); if (!v) break; const d = new Date(), p = n => String(n).padStart(2, "0"); comments.unshift({ u: "me****", t: v, d: `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())}. ${p(d.getHours())}:${p(d.getMinutes())}`, l: 0, x: 0 }); inp.value = ""; sync(); break; }
+      case "cmreg": { const inp = cm.querySelector(".cm-ip input"), v = inp.value.trim(); if (!v) break; const now = new Date(), d = new Date(2026, 9, 19, now.getHours(), now.getMinutes()), p = n => String(n).padStart(2, "0"); comments.unshift({ u: "me****", t: v, d: `${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())}. ${p(d.getHours())}:${p(d.getMinutes())}`, l: 0, x: 0 }); inp.value = ""; sync(); break; }
       case "cmup": case "cmdn": { const c = comments[+t.closest(".cm-c").dataset.i], k = t.dataset.nv === "cmup" ? 1 : -1; c.my = c.my === k ? 0 : k; sync(); break; }
       case "cmsort": cm.querySelectorAll(".cm-so span").forEach(s => s.classList.toggle("on", s === t)); break;
     }
@@ -410,7 +410,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   })();
 
   /* 고정 날짜를 접속한 날 기준으로 이동 (a: 기준일 → 오늘) */
-  const dsh = (s, a) => { const [ay, am, ad] = a.split(".").map(Number), off = Math.round((new Date().setHours(0, 0, 0, 0) - new Date(ay, am - 1, ad)) / 864e5), p = n => String(n).padStart(2, "0"); return s.replace(/(?:(\d{4})\.)?(\d{2})\.(\d{2})/, (m, y, mo, da) => { const d = new Date(y ? +y : ay, +mo - 1, +da + off); return (y ? d.getFullYear() + "." : "") + p(d.getMonth() + 1) + "." + p(d.getDate()); }); };
+  const dsh = (s, a) => { const [ay, am, ad] = a.split(".").map(Number), off = Math.round((new Date(2026, 9, 19).setHours(0, 0, 0, 0) - new Date(ay, am - 1, ad)) / 864e5), p = n => String(n).padStart(2, "0"); return s.replace(/(?:(\d{4})\.)?(\d{2})\.(\d{2})/, (m, y, mo, da) => { const d = new Date(y ? +y : ay, +mo - 1, +da + off); return (y ? d.getFullYear() + "." : "") + p(d.getMonth() + 1) + "." + p(d.getDate()); }); };
   NV.recent.forEach(r => r.d = dsh(r.d, "2026.10.12"));
   NVC.forEach(c => c.d = dsh(c.d, "2026.10.11"));
   NVY.forEach(c => c.d = dsh(c.d, "2026.09.03"));
@@ -574,7 +574,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
     showSh(`<div class="sf-sc"><div class="hd"><b>${esc(title)}</b><small>${esc(u)}</small></div><button data-s="copy">링크 복사</button><button data-s="rladd" ${isRl(u) ? "disabled" : ""}>${isRl(u) ? "읽기 목록에 있음" : "읽기 목록에 추가"}</button><button data-s="bmtog">${isBm(u) ? "즐겨찾기에서 삭제" : "즐겨찾기에 추가"}</button></div><div class="sf-sc"><button data-s="sx">닫기</button></div>`);
   }
   let pn = { seg: "bm", edit: false, form: null, q: "" };
-  const fdate = ts => { const d = new Date(ts), n = new Date(), p = x => String(x).padStart(2, "0"), tm = `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${p(d.getMinutes())}`; return d.toDateString() === n.toDateString() ? tm : `${d.getMonth() + 1}월 ${d.getDate()}일 ${tm}`; };
+  const fdate = ts => { const src = new Date(ts), n = new Date(2026, 9, 19), d = new Date(2026, 9, 19, src.getHours(), src.getMinutes()), p = x => String(x).padStart(2, "0"), tm = `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${p(d.getMinutes())}`; return d.toDateString() === n.toDateString() ? tm : `${d.getMonth() + 1}월 ${d.getDate()}일 ${tm}`; };
   function plist() {
     const row = (it, k, sub) => `<button class="sf-sg" data-s="pgo" data-u="${esc(it.url)}">${pn.edit ? `<span class="sf-minus" data-s="pdel" data-k="${k}" data-id="${esc(it.id || it.url + "|" + it.ts)}">−</span>` : I.globe}<div><b>${esc(it.title || host(it.url))}</b><small>${esc(sub)}</small></div></button>`;
     if (pn.seg === "bm") return S.bm.map(b => `<button class="sf-sg" data-s="${pn.edit ? "bform" : "pgo"}" data-id="${b.id}" data-u="${esc(b.url)}">${pn.edit ? `<span class="sf-minus" data-s="pdel" data-k="bm" data-id="${b.id}">−</span>` : I.globe}<div><b>${esc(b.title)}</b><small>${esc(b.url)}</small></div></button>`).join("") || `<div class="sf-em">즐겨찾기가 없습니다.<br>공유 버튼에서 추가할 수 있습니다.</div>`;
