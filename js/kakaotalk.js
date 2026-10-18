@@ -13,7 +13,7 @@ const KakaoApp = (() => {
   };
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])), uid = () => Math.random().toString(36).slice(2, 9), KEY = "ios-kakao-v6";
   const REPLIES = ["ㅋㅋㅋㅋ 그래!", "오 좋다 👍", "잠깐만~ 이따 연락할게", "알겠어ㅎㅎ", "진짜? 대박", "지금 뭐해?", "나중에 밥 먹자!", "확인했어 고마워 😊"];
-  const FR = [["f0", "울윤호", "", 1], ["f3", "엄마", "좋은 날. 좋은.시간.^^", 1], ["h6", "아빠", "더 높은 곳을 바라보아야 한다", 1], ["f5", "홍중", "", 0], ["f4", "민기", "", 0], ["f1", "철수", "💍 D+120", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
+  const FR = [["f0", "울윤호", "", 1], ["f3", "엄마", "좋은 날. 좋은.시간.^^", 1], ["h6", "아빠", "더 높은 곳을 바라보아야 한다", 1], ["f5", "김홍중 (NO1)", "", 0], ["f4", "송민기 (FIXON)", "", 0], ["f1", "철수", "💍 D+120", 0], ["f2", "성현이형(매니저)", "", 0], ["f7", "형", "", 0],
     ["f8", "승호형(믹싱)", "믹싱 중 🎚️", 0, 1], ["f9", "지안", "Be happy", 0, 1], ["f6", "도현", "", 0, 1], ["f10", "레도형", "Be humble", 0, 1], ["h1", "최PD(무대감독)", "", 0, 1], ["h2", "박팀장(조명)", "", 0, 1], ["h3", "김팀장님(레코드)", "", 0, 1], ["h4", "성민(동창)", "", 0, 1], ["h5", "수아 실장", "", 0, 1], ["ad1", "배달의민족", "", 0, 1], ["ad2", "CGV", "", 0, 1], ["ad3", "올리브영", "", 0, 1], ["ad4", "CJ대한통운", "", 0, 1]];
   const TOTAL = 302;
   let D = null; try { D = window.HwahoStability ? window.HwahoStability.readJSON(KEY, null) : JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
@@ -166,11 +166,25 @@ const KakaoApp = (() => {
     if (yunhoUnread) yunhoUnread.unread = 1;
     D.chatHistoryVersion = 6;
   }
+  const CS = [["me","결혼 생활은 좀 어때","21:10:00"],["f1","좋지 뭐 ㅋㅋ","21:11:00"],["f1","너도 한 번 초대해야되는데","21:11:20"],["me","그래 신혼집 구경 좀 가보자","21:12:00"],["f1","윤호씨도 같이 올거야?","21:13:00"],["me","내가 말했나? ","21:14:00"],["me","다시 만나는 거?","21:14:20"],["f1","걍 요즘 기분 좋아보이길래 그런가보다했지","21:15:00"],["me",";;","21:16:00"],["me","그때 함 물어보지 뭐","21:16:20"],["f1","그래라","21:17:00"]];
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
+
+  if (D.v7 !== 1) {
+    const c1 = chat("c1"); if (c1) { c1.msgs = CS.map(([f, t, s]) => ({ id: uid(), from: f, text: t, ts: new Date(`2026-10-15T${s}+09:00`).getTime() })); c1.unread = 0; }
+    const c6 = chat("c6"); if (c6) { c6.ids = c6.ids.filter(i => i !== "f1"); c6.msgs = c6.msgs.filter(x => x.from !== "f1"); }
+    const f5 = fr("f5"), f4 = fr("f4"); if (f5) f5.name = "김홍중 (NO1)"; if (f4) f4.name = "송민기 (FIXON)";
+    D.v7 = 1; save();
+  }
+
+  if (D.v8 !== 1) {
+    const FM = [["f3","아들 밥은 잘 챙겨 먹고 다니니?","10-13T12:00:00"],["me","응 걱정마 ㅋㅋ","10-13T12:01:00"],["f3","사진 보니까 살 빠진 것 같던데","10-13T12:02:00"],["me","작업 때문에 좀 바빴어 요즘","10-13T12:03:00"],["f7","연예인병","10-13T12:05:00"],["me","꺼져","10-13T12:05:30"],["f7","ㅋ","10-13T12:06:00"],["h6","아들 너무 무리하지마라 건강이 최고라는 걸 잊지말거라","10-13T19:00:00"],["me","넵 명심하겠습니다","10-13T19:01:00"],["f3","어머","10-18T15:02:00"],["f3","윤호랑 다시 만나니?","10-18T15:02:20"],["f3","너무 잘됐다. 언제 한 번 집 좀 데려와","10-18T15:02:40"],["h6","윤호가 그.덩치큰애. 맞지?","10-18T15:05:00"],["f3","응~ 저번에 갈비찜만 4인분 먹고 갔잖아~","10-18T15:06:00"],["h6","흠.","10-18T15:07:00"],["f3","아무튼 한 번 데려와~","10-18T15:08:00"],["f3","오랜만에 윤호 좀 보고싶네~","10-18T15:08:20"]];
+    const c2 = chat("c2"); if (c2) { c2.msgs = FM.map(([f, t, d]) => ({ id: uid(), from: f, text: t, ts: new Date(`2026-${d}+09:00`).getTime() })); c2.unread = 8; }
+    D.v8 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
@@ -183,8 +197,8 @@ const KakaoApp = (() => {
     "형": "형/IMG_7422.jpeg",
     "성현이형(매니저)": "성현이형(매니저)/IMG_7422.jpeg",
     "철수": "철수/609BC795-2DDD-4E26-8E22-62FAD41F247F.png",
-    "민기": "민기/IMG_7425.jpeg",
-    "홍중": "홍중/IMG_7424.jpeg"
+    "송민기 (FIXON)": "민기/IMG_7425.jpeg",
+    "김홍중 (NO1)": "홍중/IMG_7424.jpeg"
   };
   const av = (id, nm, c = "") => {
     const photo = KAKAO_PHOTOS[nm];
@@ -225,11 +239,13 @@ const KakaoApp = (() => {
   const sbox = () => $("#kk-sb");
   function room() {
     const c = cur, ms = c.msgs, gc = c.name || c.ids.length > 1;
+    const u0 = c.id === "c0" ? ms.findIndex(x => x.text === "윤호야 너 들은 거 잇어?") : -1;
     let h = ""; ms.forEach((m, i) => {
       const p = ms[i - 1], n = ms[i + 1], sameP = p && p.from === m.from && day(p.ts) === day(m.ts) && tm(p.ts) === tm(m.ts), sameN = n && n.from === m.from && day(n.ts) === day(m.ts) && tm(n.ts) === tm(m.ts);
       if (!p || day(p.ts) !== day(m.ts)) h += `<div class="kk-dv"><span>${dl(m.ts)}</span></div>`;
       const first = !sameP, time = !sameN ? `<span class="kk-tm">${tm(m.ts)}</span>` : "", b = `<div class="kk-b${first ? " f" : ""}">${esc(m.text)}</div>`;
-      if (m.from === "me") h += `<div class="kk-m me${first ? " f" : ""}">${time}${b}</div>`;
+      const un = u0 >= 0 && i >= u0 && i < u0 + 6 && m.from === "me", tl = un ? `<span class="kk-ti"><i class="kk-un">1</i>${time}</span>` : time;
+      if (m.from === "me") h += `<div class="kk-m me${first ? " f" : ""}">${tl}${b}</div>`;
       else { const f = fr(m.from) || { name: "?", id: m.from }; h += `<div class="kk-m${first ? " f" : ""}"><div class="kk-pa">${first ? av(f.id, f.name) : ""}</div><div class="kk-on">${first ? `<div class="n">${esc(f.name)}</div>` : ""}<div class="kk-bw">${b}${time}</div></div></div>`; }
     });
     const box = $("#kk-msgs"); box.innerHTML = h; box.scrollTop = box.scrollHeight;
@@ -292,3 +308,4 @@ const KakaoApp = (() => {
 
 /* App-specific styles moved from base.css */
 (()=>{const s=document.createElement("style");s.textContent="#kk-room{transform:translateX(100%);z-index:2;background:#b2c7d9}\n#kk-room.on{transform:none}\n#kk-main.back{transform:translateX(-25%)}";document.head.appendChild(s);})();
+(()=>{const s=document.createElement("style");s.textContent="#kko-app .kk-ti{display:flex;flex-direction:column;align-items:flex-end;align-self:flex-end;line-height:1.15}\n#kko-app .kk-un{font-style:normal;font-size:10.5px;font-weight:700;color:#f5c400}\n#kko-app .kk-rh{position:relative}\n#kko-app .kk-rh .t{position:absolute;left:0;right:0;bottom:10px;height:22px;line-height:22px;text-align:center;pointer-events:none}\n#kko-app .kk-rh .kk-ic{margin-left:auto}";document.head.appendChild(s);})();
