@@ -48,8 +48,8 @@
     extra.forEach(e => { if (!ids.has(e.id)) events.push(e); });
     store(KEY_E, events); store(KEY, true);
   })();
-  let today = ymd(new Date());
-  const T0 = new Date();
+  let today = ymd(new Date(2026, 9, 19));
+  const T0 = new Date(2026, 9, 19);
   const S = { view: "month", y: T0.getFullYear(), m: T0.getMonth(), sel: today, q: "" };
   let isOpen = false, editing = null, pv = null;
 
