@@ -240,7 +240,7 @@ const SafariApp = (() => {
     { id: "5", outlet: "Atzen", nothumb: 1, ago: "6주 전", ts: "2026.09.02. 오후 3:02", hue: 40, title: "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”", sum: "정윤호 측이 래퍼 마스와의 열애설에 대해 사실무근이라는 입장을 밝혔다.", react: "420",
       body: ["정윤호 측이 래퍼 마스와의 열애설에 대해 “사실무근”이라는 입장을 밝혔다.", "정윤호 소속사 측은 “마스와의 열애설은 사실이 아니다”라며 관련 보도 및 주장에 대해 선을 그었다. 이어 “배우 본인에게 확인한 결과 열애설의 내용을 전혀 알지 못하고 있으며, 사실과 다른 내용에 당황스러워하고 있다”고 전했다.", "갑작스럽게 불거진 열애설에 대해 정윤호 측은 사실이 아니라는 입장을 재차 강조했다.", "김코 기자 koooo@atzen.com"] }
   ];
-  function nvTodayTs(ts) { const d = new Date(); const pad = n => String(n).padStart(2, "0"); const today = `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}.`; return ts.replace(/^\d{4}\.\d{2}\.\d{2}\./, today); }
+  function nvTodayTs(ts) { const d = new Date(2026, 9, 19); const pad = n => String(n).padStart(2, "0"); const today = `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}.`; return ts.replace(/^\d{4}\.\d{2}\.\d{2}\./, today); }
   const nvPress = a => `<span class="pi" style="background:hsl(${a.hue} 40% 92%);color:hsl(${a.hue} 55% 40%)">${a.outlet[0]}</span>`;
   function nvRap(q, job = "래퍼", g = "힙합", x0 = NVN[2]) {
     const row = (k, v) => `<div class="rs-r"><span>${k}</span><div>${v}</div></div>`;
@@ -336,7 +336,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   const dcImg = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2fb36d"/><path d="M6 17l4-6 3 4 2-2 3 4z" fill="#fff"/><circle cx="9" cy="8.5" r="1.6" fill="#fff"/></svg>';
   const dcCm = (n, t, d) => { const m = /^([^(]*)(\(.*\))?$/.exec(n) || [0, n, ""]; return `<div class="dc-m"><div class="dc-mn2"><span>${esc(m[1])}<em>${esc(m[2] || "")}</em></span>${dcX}</div><p>${esc(t)}</p><small>${d}</small></div>`; };
   const dcNew = c => dcCm(c.n, c.t, c.d);
-  const dcNow = () => { const d = new Date(), p = x => String(x).padStart(2, "0"); return `${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
+  const dcNow = () => { const d = new Date(2026, 9, 19, 14, 0); const p = x => String(x).padStart(2, "0"); return `${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
   const DCL = [[0,"도끼 still on my way 내 맘대로 불러봤다 재능 있어?","작업물","아산페이커","09.28",85,1,0],[1,"절대못하지 너 없이 난 none","일반","ㅇㅇ(1.239)","09.28",50,0,0],[1,"ㅈㄷㅌ","지듣노","TAKEWON","09.27",36,0,0],[1,"저스디스","일반","양준석은댄..(49.170)","09.27",720,6,4],[0,"지듣텔","지듣노","TAKEONE","09.27",60,0,0],[1,"나플라 실제로 본 후기","일반","ㅇㅇ(118.235)","09.26",101,0,0],[0,"지듣텔","지듣노","TAKEONE","09.26",44,0,0],[1,"저스디스가 너무 싫으면 어떡함?","일반","ㅇㅇ(125.188)","09.25",193,2,1],[1,"이거랑 비슷한 노래 ㅊㅊ좀","일반","ㅇㅇ(180.69)","09.25",70,0,0],[1,"황금귀가 꼽는 현시점 국힙 top5","일반","ㅇㅇ","09.25",222,4,2]];
   const dcLR = p => `<div class="dc-c"><div class="dc-cb">${p[0] ? dcI.bub : dcImg}<b>${esc(p[1])}</b><small>${p[2]}<i></i>${esc(p[3])}<i></i>${p[4]}<i></i>조회 ${p[5]}<i></i>추천 ${p[6] >= 5 ? `<u>${p[6]}</u>` : p[6]}</small></div><div class="dc-cr">${p[7]}</div></div>`;
   function dcPage() {
