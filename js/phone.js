@@ -117,7 +117,7 @@ const PhoneApp = (() => {
   function updCall() { const e = $("#tl-cst"); if (e && call) e.textContent = call.state === "dialing" ? "연결 중..." : call.hold ? "통화 보류 중" : (call.rec ? "● " : "") + mmss(csec()); }
   function renderCall() {
     const k = call, b = (t, on, i, l, c = "") => `<button class="tl-cb${on ? " on" : ""}${c}" data-t="${t}"><i>${i}</i><span>${l}</span></button>`;
-    cEl.innerHTML = `<div class="tl-cs" id="tl-cst"></div><div class="tl-cn">${esc(nameOf(k.num))}</div><div class="tl-cnum">${byNum(k.num) ? esc(fmt(k.num)) : "대한민국"}</div>` + (k.keys
+    cEl.innerHTML = `<div class="tl-cs" id="tl-cst"></div><div class="tl-cn">${esc(nameOf(k.num))}</div>${byNum(k.num) ? "" : `<div class="tl-cnum">대한민국</div>`}` + (k.keys
       ? `<div class="tl-cdt">${esc(k.dt)}</div><div class="tl-ck">${"123456789*0#".split("").map(x => `<button data-t="ckey" data-k="${x}">${x}</button>`).join("")}</div><div class="tl-cg" style="margin:0">${b("ckeyx", 0, I.grid, "숨기기")}${b("endcall", 0, I.phone, "종료", " end")}</div>`
       : `<div class="tl-cg">${b("cspk", k.spk, I.spk, "스피커")}${b("cft", 0, I.cam, "FaceTime")}${b("cmute", k.mute, I.micoff, "소리 끔")}${b("cmore", 0, I.more, "더 보기")}${b("endcall", 0, I.phone, "종료", " end")}${b("ckeys", 0, I.grid, "키패드")}</div>`);
     updCall();
@@ -208,9 +208,9 @@ const PhoneApp = (() => {
 (()=>{const s=document.createElement("style");s.textContent=`
 #tel-app .tl-call-s{background:linear-gradient(#3d5b53,#254138)!important;color:#fff!important;flex-direction:column;align-items:center;padding:0!important}
 #tel-app .tl-call-s.on{display:flex!important}
-#tel-app .tl-cs{margin-top:21%!important;font-size:32px!important;font-weight:500;color:rgba(255,255,255,.45)!important}
-#tel-app .tl-cn{margin-top:6px!important;font-size:50px!important;font-weight:700!important;letter-spacing:-1px;color:#fff!important}
-#tel-app .tl-cnum{margin-top:8px;font-size:32px;font-weight:500;color:rgba(255,255,255,.45)}
+#tel-app .tl-cs{margin-top:21%!important;font-size:20px!important;font-weight:500;color:rgba(255,255,255,.45)!important}
+#tel-app .tl-cn{margin-top:6px!important;font-size:34px!important;font-weight:700!important;letter-spacing:-1px;color:#fff!important}
+#tel-app .tl-cnum{margin-top:8px;font-size:20px;font-weight:500;color:rgba(255,255,255,.45)}
 #tel-app .tl-cg{position:absolute!important;left:0;right:0;bottom:7%;margin:0!important;padding:0 10%;display:grid!important;grid-template-columns:repeat(3,1fr);gap:22px 0}
 #tel-app .tl-cb{display:flex!important;flex-direction:column;align-items:center;gap:10px;font-size:15px!important;color:#fff!important;background:none!important}
 #tel-app .tl-cb i{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 1px rgba(255,255,255,.2)}
