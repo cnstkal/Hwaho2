@@ -101,7 +101,22 @@ window.IgApp = (() => {
 <div class="ig-tabs"><span class="on">${I.grid}</span><span>${I.tag}</span></div>
 <div class="ig-gr">${MINE.map(p => `<button data-g="open" data-id="${p.id}"><img src="${art(p.imgs[0])}" alt="" draggable="false">${p.imgs.length > 1 ? `<em>${I.multi}</em>` : ""}</button>`).join("")}</div></div>`; };
   const UPROF = { "yunou._.u": { posts: 5, followers: "106만", following: 1, img: 7701 } };
-  document.addEventListener("story:instagram-published", () => { if (!FOLLOWING.includes("yunou._.u")) FOLLOWING.push("yunou._.u"); });
+  let yunhoPostLive = false;
+  document.addEventListener("story:instagram-published", () => {
+    if (!FOLLOWING.includes("yunou._.u")) FOLLOWING.push("yunou._.u");
+    if (yunhoPostLive) return;
+    yunhoPostLive = true;
+    const yp = P.find(p => p.id === "yunho1");
+    if (!yp) return;
+    if (!FEED.includes("yunho1")) FEED.unshift("yunho1");
+    const scroller = document.querySelector("#ig-home .ig-sc");
+    if (scroller && !scroller.querySelector('[data-id="yunho1"]')) scroller.insertAdjacentHTML("afterbegin", postHtml(yp));
+    setInterval(() => {
+      if (!document.querySelector("#ig-app.show")) return;
+      yp.likes += 2 + Math.floor(Math.random() * 5);
+      document.querySelectorAll('#ig-app .ig-post[data-id="yunho1"] .ig-lk').forEach(node => { node.textContent = "좋아요 " + fmt(yp.likes + (S.like[yp.id] ? 1 : 0)) + "개"; });
+    }, 2200);
+  });
   const uProfHtml = id => { const u = usr(id), c = UPROF[id];
     return hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(id)}</small>프로필</div>`, "") +
     `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${c.posts}</b>게시물</div><div><b>${c.followers}</b>팔로워</div><div><b>${c.following}</b>팔로잉</div></div></div>
