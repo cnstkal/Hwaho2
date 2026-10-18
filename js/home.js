@@ -205,9 +205,10 @@ window.APPS = {
   document.addEventListener("touchend", homeFromBottomGesture, { capture: true, passive: true });
 
   /* ---------- 시계 ---------- */
-  let lastDay = new Date().getDate();
+  let lastDay = 19;
   function tick() {
-    const d = new Date();
+    const now = new Date();
+    const d = new Date(2026, 9, 19, now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
     $("#clock").textContent = `${d.getHours() % 12 || 12}:${String(d.getMinutes()).padStart(2, "0")}`;
     if (d.getDate() !== lastDay) { lastDay = d.getDate(); render(); }
     setTimeout(tick, 60000 - d.getSeconds() * 1000 - d.getMilliseconds() + 20);
