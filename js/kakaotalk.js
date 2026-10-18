@@ -248,6 +248,22 @@ const KakaoApp = (() => {
     D.v12 = 1; save();
   }
 
+  if (D.v14 !== 1) {
+    const mg = chat("c16");
+    if (mg) {
+      const make = (from, text, stamp) => ({ id: uid(), from, text, ts: new Date(`2026-10-${stamp}+09:00`).getTime() });
+      mg.msgs = [
+        make("f4", "레온 고?", "02T21:00:00"), make("me", "ㄱ", "02T21:01:00"),
+        make("f4", "레온 ㄱ?", "06T21:00:00"), make("me", "ㄱ", "06T21:01:00"),
+        make("f4", "ㄹㅇ ㄱ?", "10T21:00:00"), make("me", "ㄱ", "10T21:01:00"),
+        make("f4", "ㄹㅇ?", "14T21:00:00"), make("me", "ㄱ", "14T21:01:00"),
+        make("f4", "ㄹ?", "18T21:00:00"), make("me", "ㄱ", "18T21:01:00")
+      ];
+      mg.unread = 0;
+    }
+    D.v14 = 1; save();
+  }
+
   if (D.v13 !== 1) {
     const hong = chat("c15");
     if (hong) {
