@@ -70,6 +70,43 @@ const KakaoApp = (() => {
     ] };
   }
   D.ui = D.ui || { col: {} }; D.ui.col = D.ui.col || {};
+  /* 기존 저장 데이터에도 10/15~10/18 윤호 대화 적용 */
+  if (D.chatHistoryVersion !== 1) {
+    const yunhoChat = D.chats.find(c => c.id === "c0");
+    if (yunhoChat) yunhoChat.msgs = [
+        { id: uid(), from: "f0", text: "모해", ts: new Date("2026-10-15T18:00:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "작업중", ts: new Date("2026-10-15T18:01:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "왱?", ts: new Date("2026-10-15T18:01:30+09:00").getTime() },
+        { id: uid(), from: "me", text: "심심해", ts: new Date("2026-10-15T18:02:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "촬영간 거 아니야?", ts: new Date("2026-10-15T18:03:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "무한대기중 ㅠ\n형이랑 있구싶다", ts: new Date("2026-10-15T18:04:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "전화 ㄱ", ts: new Date("2026-10-15T18:05:00+09:00").getTime() },
+
+        { id: uid(), from: "me", text: "미국 가는 거 담주인가?", ts: new Date("2026-10-16T13:00:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "웅", ts: new Date("2026-10-16T13:00:30+09:00").getTime() },
+        { id: uid(), from: "me", text: "무슨 촬영을 미국까지 가서해?", ts: new Date("2026-10-16T13:01:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "나도 모르겠당", ts: new Date("2026-10-16T13:01:30+09:00").getTime() },
+        { id: uid(), from: "me", text: "너 없이 나 어떡하라고 ㅠㅠ", ts: new Date("2026-10-16T13:02:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "ㅎㅎㅎㅎ", ts: new Date("2026-10-16T13:03:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "알아서 해", ts: new Date("2026-10-16T13:03:30+09:00").getTime() },
+        { id: uid(), from: "me", text: "차가워…", ts: new Date("2026-10-16T13:04:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "형 작업실이지", ts: new Date("2026-10-16T13:05:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "엉", ts: new Date("2026-10-16T13:05:30+09:00").getTime() },
+        { id: uid(), from: "f0", text: "나와봐", ts: new Date("2026-10-16T13:06:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "헐 ㅁㅊ\nㄱㄷ\n바로나감", ts: new Date("2026-10-16T13:07:00+09:00").getTime() },
+
+        { id: uid(), from: "me", text: "촬영 없음 저녁에 잠깐 올래?\n홍중이도 있음", ts: new Date("2026-10-17T17:00:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "몇시쯤?", ts: new Date("2026-10-17T17:15:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "아홉시열시? 오래 있을 것 같은데\n너 편할 때 와도 돼", ts: new Date("2026-10-17T17:16:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "나 자정 다 되어야 퇴근할듯\n못갈 것 같으면 연락할겡", ts: new Date("2026-10-17T17:20:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "ㅇㅋ\n사랑해❤️", ts: new Date("2026-10-17T17:21:00+09:00").getTime() },
+        { id: uid(), from: "f0", text: "나두", ts: new Date("2026-10-17T17:22:00+09:00").getTime() },
+
+        { id: uid(), from: "me", text: "윤호야 너 들은 거 잇어?\n난 없는데 진짜 미치겠다\n회사야? 내가 갈까?", ts: new Date("2026-10-18T14:08:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "똑똑\n혹시 나도 모르는 사이에 우리 헤어진거 아니지?\n전화 좀 받아 ㅜㅜ", ts: new Date("2026-10-18T15:18:00+09:00").getTime() }
+      ];
+    D.chatHistoryVersion = 1;
+  }
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
