@@ -28,7 +28,7 @@ const PhoneApp = (() => {
     D.calls = [mk("울윤호", "in", 0, "13:40", 4980),mk("울윤호", "out", 0, "09:15", 612),mk("승호형(믹싱)", "out", 0, "11:05", 236),mk("강PD", "miss", 0, "10:22", 0),mk("울윤호", "out", 1, "23:20", 7860),mk("울윤호", "in", 1, "14:05", 321),mk("엄마", "in", 1, "20:15", 305),mk("레도형", "in", 1, "18:47", 642),mk("성현이형(매니저)", "in", 1, "12:03", 125),mk("녹음실 사장님", "out", 1, "15:30", 58),mk("울윤호", "in", 2, "21:50", 5400),mk("울윤호", "miss", 2, "12:30", 0),mk("지안", "out", 2, "22:10", 540),mk("한감독님", "in", 2, "16:20", 198),mk("승호형(믹싱)", "in", 2, "14:05", 871),mk("엠더스트", "miss", 2, "19:36", 0),mk("울윤호", "out", 3, "00:35", 8420),mk("울윤호", "in", 3, "18:10", 1260),mk("성현이형(매니저)", "in", 3, "09:20", 89),mk("새벽 레코즈 대표", "in", 3, "17:44", 330),mk("소율 누나", "miss", 3, "13:28", 0),mk("울윤호", "in", 4, "22:40", 3910),mk("철수", "out", 4, "21:03", 95),mk("김팀장님(레코드)", "in", 4, "15:17", 264),mk("홍중", "in", 4, "15:00", 76),mk("쇼미 김작가님", "out", 4, "11:50", 142),mk("울윤호", "out", 5, "13:15", 188),mk("울윤호", "miss", 5, "20:05", 0),mk("레도형", "miss", 5, "23:41", 0),mk("녹스", "in", 5, "20:08", 415),mk("민기", "out", 5, "18:30", 67),mk("최PD(무대감독)", "in", 5, "14:12", 180),mk("소율 누나", "out", 5, "11:20", 90),mk("울윤호", "in", 6, "23:55", 6720),mk("아빠", "out", 6, "19:26", 44),mk("성현이형(매니저)", "out", 6, "10:15", 33),mk("울윤호", "out", 7, "15:30", 2540),mk("박대표", "in", 7, "16:58", 226),mk("강PD", "out", 7, "13:11", 388),mk("울윤호", "in", 8, "22:10", 4300),mk("엄마", "miss", 8, "09:52", 0),mk("울윤호", "miss", 9, "11:45", 0),mk("홍중", "in", 9, "22:35", 152),mk("지안", "in", 9, "19:03", 310),mk("성현이형(매니저)", "out", 9, "08:50", 47),mk("울윤호", "out", 10, "01:20", 9100),mk("도현", "miss", 10, "12:27", 0),mk("형", "in", 11, "21:20", 205),mk("엄마", "out", 11, "19:40", 612),mk("울윤호", "in", 12, "19:30", 3600),mk("성민(동창)", "miss", 13, "18:15", 0),mk("철수", "in", 13, "20:30", 1740),mk("울윤호", "out", 14, "21:00", 5150),mk("한감독님", "out", 14, "14:32", 121),mk("수아 실장", "out", 14, "11:09", 36),mk("블루후디", "in", 15, "20:44", 276),mk("소율 누나", "in", 16, "17:21", 167),mk("세준(사진)", "out", 17, "16:05", 89),mk("가온", "miss", 18, "23:08", 0),mk("레도형", "out", 19, "22:14", 953),mk("정팀장님", "in", 20, "10:41", 142),mk("02-3489-7720", "miss", 21, "14:55", 0)];
   }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
-  { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.calls.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; }); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 통화 기록을 접속일 기준으로 이동 */
+  { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.calls.forEach(x => { if (x.blueRecord) return; x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; }); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 통화 기록을 접속일 기준으로 이동 */
   if (D.v12 !== 1) {
     const RN = { "철수": "김철수", "민기": "송민기 (FIXON)", "홍중": "김홍중 (NO1)", "레도형": "강레도", "성현이형(매니저)": "정성현(매니저)", "박대표": "박재영(대표)", "강PD": "강민우(PD)", "승호형(믹싱)": "오승호(믹싱)", "한감독님": "한서진(감독)", "정팀장님": "정우석(팀장)", "쇼미 김작가님": "김하나(쇼미 작가)", "도현": "문도현", "지안": "한지안", "세준(사진)": "임세준(사진)", "김팀장님(레코드)": "김태훈(레코드)", "최PD(무대감독)": "최민재(무대감독)", "박팀장(조명)": "박서준(조명)", "성민(동창)": "이성민(동창)", "수아 실장": "윤수아 실장" };
     D.contacts.forEach(c => { if (RN[c.name]) c.name = RN[c.name]; });
@@ -77,7 +77,7 @@ const PhoneApp = (() => {
   function pRec() {
     const l = D.calls.filter(c => filt === "all" || c.dir === "miss").sort((a, b) => b.ts - a.ts);
     const G = []; l.forEach(c => { const g = G[G.length - 1]; if (g && dg(g.c.num) === dg(c.num) && g.c.dir === c.dir && !g.c.dur && !c.dur && g.last - c.ts <= 12e5) { g.n++; g.ids.push(c.id); g.last = c.ts; } else G.push({ c, n: 1, ids: [c.id], last: c.ts }); });
-    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="recall" data-n="${esc(c.num)}"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${esc(nameOf(c.num))}</div><div class="tl-sub"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm"${c.blueRecord === "yunho-call-17-days" ? ' style="color:#007aff"' : ""}>${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
+    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="${c.blueRecord ? "recall" : "noop"}" data-n="${esc(c.num)}"${c.blueRecord ? ' data-b="${c.blueRecord}" style="color:#007aff"' : ""}>${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}"${c.blueRecord ? ' style="color:#007aff"' : ""}>${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}"${c.blueRecord ? ' style="color:#007aff"' : ""}>${esc(nameOf(c.num))}</div><div class="tl-sub"${c.blueRecord ? ' style="color:#007aff"' : ""}>${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm"${c.blueRecord ? ' style="color:#007aff"' : ""}>${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
   }
   function conList() {
     const q = conQ.trim().toLowerCase(), l = D.contacts.filter(c => !q || c.name.toLowerCase().includes(q) || (dg(q) && dg(c.num).includes(dg(q)))).sort((a, b) => { const x = grp(a.name), y = grp(b.name); return x[0] - y[0] || a.name.localeCompare(b.name, "ko"); });
@@ -133,26 +133,31 @@ const PhoneApp = (() => {
   const confirmSheet = (msg, label, t, extra = "") => sheet(`<div class="tl-sg"><div class="m">${msg}</div><button class="red" data-t="${t}" ${extra}>${label}</button></div><div class="tl-sg"><button data-t="sheetx">취소</button></div>`);
 
   /* ---- 통화 ---- */
-  function startCall(num) {
+  function startCall(num, pb) {
     if (!dg(num) || call) return;
-    call = { num, state: "dialing", mute: 0, spk: 0, hold: 0, rec: 0, keys: false, dt: "", t0: 0 };
+    call = { num, state: "dialing", mute: 0, spk: 0, hold: 0, rec: 0, keys: false, dt: "", t0: 0, pb: pb || "", pl: [], pt: [] };
     screen.classList.add("in-call"); renderCall(); cEl.classList.add("on");
-    call.t1 = setTimeout(() => { if (!call) return; call.state = "on"; call.t0 = Date.now(); updCall(); call.iv = setInterval(updCall, 1000); }, 2200 + Math.random() * 1000);
+    call.t1 = setTimeout(() => { if (!call) return; call.state = "on"; call.t0 = Date.now(); updCall(); call.iv = setInterval(updCall, 1000); if (call.pb) playScript(); }, 800 + Math.random() * 400);
   }
+  const SCRIPTS = { "yunho-call-17-days": [["윤호", "여보세요?"], ["성화", "응 왜?"], ["윤호", "형 우리 반지 다시 낄까?"], ["성화", "…. 엉?"], ["윤호", "아니 전에 맞췄던 거 있는데 굳이 다시 맞춰야할까 싶어서"], ["윤호", "추억도 있고"], ["성화", "어.. 아직도 갖고있구나"], ["윤호", "설마 버린 거 아니지?"], ["성화", "아니야 ㅋㅋ 나도 있어"], ["성화", "어디 넣어놔서 그래"], ["성화", "알았어 찾아볼게"]], "yunho-call-aug": [["윤호", "술 마셨어?"], ["성화", "쪼금…"], ["윤호", "내 번호 어떻게 알았어?"], ["성화", "민기한테 물어봤지…"], ["윤호", "나 바뻐 용건만 말해"], ["성화", "다시 만나고 싶어…"], ["성화", "진심이야…"], ["성화", "많이 반성했고 다시는 그런 일 안 일어나게 잘할게"], ["윤호", "어딘데?"], ["성화", "왜..?"], ["윤호", "만나서 얘기하자고"]] };
+  function playScript() { let t = 1200; SCRIPTS[call.pb].forEach(l => { call.pt.push(setTimeout(() => { if (!call) return; call.pl.push(l); const e = $("#tl-pb"); if (e) e.innerHTML = pbHtml(); }, t)); t += 1500 + l[1].length * 90; }); call.pt.push(setTimeout(endCall, t + 1500)); }
+  const pbHtml = () => call.pl.slice(-5).map((l, i, a) => `<div style="opacity:${(0.35 + 0.65 * (i + 1) / a.length).toFixed(2)}"><b>${l[0]}</b> ${esc(l[1])}</div>`).join("");
   const csec = () => call && call.state === "on" ? Math.floor((Date.now() - call.t0) / 1000) : 0;
   function updCall() { const e = $("#tl-cst"); if (e && call) e.textContent = call.state === "dialing" ? "연결 중..." : call.hold ? "통화 보류 중" : (call.rec ? "● " : "") + mmss(csec()); }
   function renderCall() {
     const k = call, b = (t, on, i, l, c = "") => `<button class="tl-cb${on ? " on" : ""}${c}" data-t="${t}"><i>${i}</i><span>${l}</span></button>`;
     cEl.innerHTML = `<div class="tl-cs" id="tl-cst"></div><div class="tl-cn">${esc(nameOf(k.num))}</div>${byNum(k.num) ? "" : `<div class="tl-cnum">대한민국</div>`}` + (k.keys
-      ? `<div class="tl-cdt">${esc(k.dt)}</div><div class="tl-ck">${"123456789*0#".split("").map(x => `<button data-t="ckey" data-k="${x}">${x}</button>`).join("")}</div><div class="tl-cg" style="margin:0">${b("ckeyx", 0, I.grid, "숨기기")}${b("endcall", 0, I.phone, "종료", " end")}</div>`
-      : `<div class="tl-cg">${b("cspk", k.spk, I.spk, "스피커")}${b("cft", 0, I.cam, "FaceTime")}${b("cmute", k.mute, I.micoff, "소리 끔")}${b("cmore", 0, I.more, "더 보기")}${b("endcall", 0, I.phone, "종료", " end")}${b("ckeys", 0, I.grid, "키패드")}</div>`);
+      ? `<div class="kx-dt">${esc(k.dt)}</div><div class="kx-g">${"123456789*0#".split("").map((x, i) => `<button data-t="ckey" data-k="${x}"><b>${x}</b><small>${i < 9 ? ["", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"][i] : x === "0" ? "+" : ""}</small></button>`).join("")}</div><div class="kx-b"><span></span><button class="kx-end" data-t="endcall" aria-label="통화 종료">${I.phone}</button><button class="kx-h" data-t="ckeyx">키패드 가리기</button></div>`
+      : (call.pb ? `<div class="tl-pb" id="tl-pb">${pbHtml()}</div>` : "") + `<div class="tl-cg">${b("cspk", k.spk, I.spk, "스피커")}${b("cft", 0, I.cam, "FaceTime")}${b("cmute", k.mute, I.micoff, "소리 끔")}${b("cmore", 0, I.more, "더 보기")}${b("endcall", 0, I.phone, "종료", " end")}${b("ckeys", 0, I.grid, "키패드")}</div>`);
     updCall();
   }
   function endCall() {
-    if (!call) return; clearTimeout(call.t1); clearInterval(call.iv);
+    if (!call) return; clearTimeout(call.t1); clearInterval(call.iv); call.pt.forEach(clearTimeout);
     /* 통화 버튼을 눌러도 최근 통화 기록은 저장하지 않음 */
     call = null; cEl.classList.remove("on"); screen.classList.remove("in-call"); render(); renderOv();
   }
+  if (D.v15 !== 1) { const bl = D.calls.filter(c => c.blueRecord), r = D.calls.filter(c => !c.blueRecord).sort((a, b) => b.ts - a.ts).slice(0, 18); D.calls = bl.concat(r); D.v15 = 1; save(); }
+  if (D.v16 !== 1) { const y = D.contacts.find(c => c.name === "울윤호"); if (y && !D.calls.some(c => c.blueRecord === "yunho-call-aug")) D.calls.push({ id: uid(), num: y.num, dir: "out", ts: new Date("2026-08-01T23:40:00+09:00").getTime(), dur: 154, blueRecord: "yunho-call-aug" }); D.v16 = 1; save(); }
   const gotoMsg = n => { closeApp(); if (window.Home) Home.openApp("messages"); setTimeout(() => window.MessagesApp && MessagesApp.chat(n), 80); };
 
   /* ---- 이벤트 ---- */
@@ -163,7 +168,8 @@ const PhoneApp = (() => {
       case "edit": edit = !edit; render(); break;
       case "seg": filt = d.k; render(); break;
       case "callc": { const c = byId(d.id); if (c) startCall(c.num); break; }
-      case "callnum": case "recall": startCall(d.n); break;
+      case "callnum": startCall(d.n); break;
+      case "recall": startCall(d.n, d.b); break;
       case "msg": gotoMsg(d.n); break;
       case "cdet": pushOv({ t: "cdet", id: d.id }); break;
       case "opencon": pushOv({ t: "contact", id: d.id }); break;
@@ -247,3 +253,8 @@ const PhoneApp = (() => {
 #tel-app .tl-cdt{margin-top:18px;font-size:34px;min-height:42px}
 #tel-app .tl-ck{display:grid;grid-template-columns:repeat(3,64px);gap:12px;margin:18px 0 90px}
 #tel-app .tl-ck button{height:64px;border-radius:50%;background:rgba(255,255,255,.12)!important;color:#fff;font-size:26px}`;document.head.appendChild(s);})();
+
+/* 통화 중 키패드 화면 */
+(()=>{const s=document.createElement("style");s.textContent="#tel-app .tl-call-s .kx-dt{min-height:24px;font-size:22px;margin-top:6px;word-break:break-all;text-align:center}#tel-app .kx-g,#tel-app .kx-b{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;justify-items:center;padding:0 clamp(16px,6vw,28px);box-sizing:border-box}#tel-app .kx-g{margin-top:clamp(16px,5vh,56px)}#tel-app .kx-g button{width:100%;max-width:92px;aspect-ratio:1;border-radius:50%;background:#06140f;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}#tel-app .kx-g b{font-size:34px;font-weight:400;line-height:1}#tel-app .kx-g small{font-size:10px;font-weight:600;letter-spacing:.2em;height:12px;margin-top:3px}#tel-app .kx-b{margin-top:22px;align-items:center}#tel-app .kx-end{grid-column:2;width:72px;height:72px;border-radius:50%;background:#ff3b30;color:#fff;display:flex;align-items:center;justify-content:center}#tel-app .kx-end svg{width:32px;height:32px;fill:#fff;stroke:none;transform:rotate(135deg)}#tel-app .kx-h{justify-self:end;font-size:16px;color:#fff;white-space:nowrap}";document.head.appendChild(s);})();
+
+(()=>{const s=document.createElement("style");s.textContent="#tel-app .tl-pb{width:100%;box-sizing:border-box;padding:0 28px;margin-top:28px;text-align:center;color:rgba(255,255,255,.55);font-size:17px;line-height:1.55;min-height:150px}#tel-app .tl-pb b{font-weight:600;margin-right:6px;opacity:.8}";document.head.appendChild(s);})();
