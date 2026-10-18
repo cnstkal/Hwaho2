@@ -29,6 +29,18 @@ const PhoneApp = (() => {
   }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.calls.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; }); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 통화 기록을 접속일 기준으로 이동 */
+  if (D.v12 !== 1) {
+    const RN = { "철수": "김철수", "민기": "송민기 (FIXON)", "홍중": "김홍중 (NO1)", "레도형": "강레도", "성현이형(매니저)": "정성현(매니저)", "박대표": "박재영(대표)", "강PD": "강민우(PD)", "승호형(믹싱)": "오승호(믹싱)", "한감독님": "한서진(감독)", "정팀장님": "정우석(팀장)", "쇼미 김작가님": "김하나(쇼미 작가)", "도현": "문도현", "지안": "한지안", "세준(사진)": "임세준(사진)", "김팀장님(레코드)": "김태훈(레코드)", "최PD(무대감독)": "최민재(무대감독)", "박팀장(조명)": "박서준(조명)", "성민(동창)": "이성민(동창)", "수아 실장": "윤수아 실장" };
+    D.contacts.forEach(c => { if (RN[c.name]) c.name = RN[c.name]; });
+    const num = n => (D.contacts.find(c => c.name === n) || {}).num || n, yn = num("울윤호");
+    D.calls = D.calls.filter(c => !(c.num === yn && c.dir === "in" && (c.dur === 4980 || c.dur === 1260)));
+    const T = d => new Date(`2026-${d}+09:00`).getTime(), add = (nm, dir, d, dur) => D.calls.push({ id: uid(), num: num(nm), dir, ts: T(d), dur }), p2 = n => String(n).padStart(2, "0");
+    add("울윤호", "in", "10-15T18:05:00", 3600);
+    [0, 18, 36].forEach(s => add("울윤호", "out", `10-18T14:09:${p2(s)}`, 0));
+    for (let i = 0; i < 7; i++) add("울윤호", "out", `10-18T15:15:${p2(i * 8)}`, 0);
+    add("정성현(매니저)", "in", "10-18T14:08:00", 180);
+    D.v12 = 1; save();
+  }
   window.PhoneData = { names: () => D.contacts.map(c => c.name) };
   const dg = x => String(x).replace(/\D/g, "");
   function fmt(x) { const d = dg(x); if (!d) return ""; if (d.startsWith("010") || d.startsWith("011")) return d.length <= 3 ? d : d.length <= 7 ? d.slice(0, 3) + "-" + d.slice(3) : d.slice(0, 3) + "-" + d.slice(3, 7) + "-" + d.slice(7, 11); return String(x).trim(); }
