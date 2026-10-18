@@ -250,6 +250,7 @@
     "@keyframes kgUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}"
   ];
   style.textContent="#dg-app{--kst:max(env(safe-area-inset-top,0px),54px);position:absolute;inset:0;z-index:6;display:none;overflow:hidden;background:#fff;color:#212529;font-family:'Pretendard Variable',Pretendard,-apple-system,'Apple SD Gothic Neo',var(--font,Arial,sans-serif);letter-spacing:-.025em;-webkit-font-smoothing:antialiased}#dg-app.show{display:block}#dg-app *{box-sizing:border-box}#dg-app svg{display:block;flex:none}#dg-app button{font:inherit;letter-spacing:inherit;border:0;padding:0;background:none;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}#dg-app button:active{opacity:.7}"+R.map(r=>r.replace(/^[^{]+/,s=>s.split(",").map(x=>"#dg-app "+x.trim()).join(","))).join("");
+  style.textContent += "#dg-app .kg-cnt{display:none!important}";
   document.head.appendChild(style);
 
   /* ---------- 공통 조각 ---------- */
