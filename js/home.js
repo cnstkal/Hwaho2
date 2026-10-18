@@ -37,8 +37,6 @@ window.APPS = {
     { id: "netflix", label: "Netflix", img: "images/app/Netflix/IMG_7152.png", svg:
       `<rect width="60" height="60" fill="#000"/><path d="M20 12h6v36h-6zM34 12h6v36h-6z" fill="#b20710"/><path d="M20 12h6l14 36h-6z" fill="#e50914"/>` },
     { id: "danggeun", label: "당근", img: "images/app/Karrot/IMG_7150.png", svg: `<svg viewBox="0 0 60 60" width="100%" height="100%"><rect width="60" height="60" fill="#ff6f0f"/><path d="M30 20c-9 0-15 6-15 14s6 12 15 12 15-4 15-12-6-14-15-14z" fill="#fff"/><path d="M30 20c-1-5-4-8-8-9 1 4 4 7 8 9zM30 20c1-5 4-8 8-9-1 4-4 7-8 9z" fill="#fff"/></svg>` },
-    { id: "baemin", label: "배달의민족", img: "images/app/Baemin/IMG_7158.png", svg:
-      `<rect width="60" height="60" fill="#2ac1bc"/><text x="30" y="38" text-anchor="middle" font-size="22" font-weight="900" fill="#fff" font-family="sans-serif">배민</text><circle cx="45" cy="15" r="3" fill="#fff" opacity=".85"/>` },
     { id: "albamon", label: "알바몬", img: "images/app/Albamon/IMG_7144.png", svg:
       `<rect width="60" height="60" fill="#ff5a1f"/><text x="30" y="37" text-anchor="middle" font-size="19" font-weight="900" fill="#fff" font-family="sans-serif">알바몬</text><circle cx="44" cy="15" r="3" fill="#ffd23f"/>` },
     { id: "notes", label: "메모", img: "images/app/Notes/notes.svg", svg:
@@ -114,8 +112,6 @@ window.APPS = {
       Home.current = id;
       try { localStorage.setItem(HOME_STATE_KEY, id); } catch (_) {}
       document.dispatchEvent(new CustomEvent("app:open", { detail: { id } }));
-      /* Ensure the Baemin screen opens even if a stale app-layer state swallowed its event. */
-      if (id === "baemin" && window.BaeminApp) window.BaeminApp.open();
       if (id === "instagram" && window.IgApp) window.IgApp.open();
     },
     goHome() {
