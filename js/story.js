@@ -1,7 +1,7 @@
 /* Story sequence controller — uses the site's existing KakaoTalk UI */
 (()=> {
  const style=document.createElement("style");
- style.textContent="#story-ui{position:absolute;inset:0;z-index:1000;pointer-events:none;font-family:var(--font,-apple-system,sans-serif)}#story-ui .toast{pointer-events:auto;position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;right:12px;background:rgba(248,248,250,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#171717;border:0;border-radius:18px;padding:12px;box-shadow:0 4px 20px #0002;display:flex;gap:11px;text-align:left;align-items:center;width:calc(100% - 24px)}#story-ui .ico{width:40px;height:40px;border-radius:10px;object-fit:cover;flex:none}#story-ui .copy{font-size:13px;line-height:1.35;flex:1;min-width:0}#story-ui b{display:block;margin-bottom:4px;font-weight:650}#story-ui .preview{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}#story-ui .when{font-size:11px;color:#777;align-self:flex-start;white-space:nowrap}";
+ style.textContent="#story-ui{position:absolute;inset:0;z-index:1000;pointer-events:none;font-family:var(--font,-apple-system,sans-serif)}#story-ui .toast{pointer-events:auto;transform-origin:50% 0;will-change:transform,opacity;animation:storyToastIn .62s cubic-bezier(.2,1,.3,1) both;position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;right:12px;background:rgba(248,248,250,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#171717;border:0;border-radius:18px;padding:12px;box-shadow:0 4px 20px #0002;display:flex;gap:11px;text-align:left;align-items:center;width:calc(100% - 24px)}#story-ui .ico{width:40px;height:40px;border-radius:10px;object-fit:cover;flex:none}#story-ui .copy{font-size:13px;line-height:1.35;flex:1;min-width:0}#story-ui b{display:block;margin-bottom:4px;font-weight:650}#story-ui .preview{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}#story-ui .when{font-size:11px;color:#777;align-self:flex-start;white-space:nowrap}@keyframes storyToastIn{0%{transform:translateY(-135%) scale(.9);opacity:0}55%{transform:translateY(9px) scale(1.018);opacity:1}78%{transform:translateY(-2px) scale(.999)}100%{transform:none;opacity:1}}@keyframes storyToastOut{0%{transform:none;opacity:1}100%{transform:translateY(-135%) scale(.92);opacity:0}}#story-ui .toast.out{animation:storyToastOut .3s cubic-bezier(.5,0,.85,.45) both;pointer-events:none}";
  document.head.appendChild(style);
  const root=document.createElement("div");root.id="story-ui";document.querySelector("#screen")?.appendChild(root);
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
@@ -29,14 +29,15 @@
  const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
  const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
 
- const toast=(name,msg,app="KakaoTalk")=>{const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
+ const dismiss=()=>{const t=root.querySelector(".toast");if(!t||t.classList.contains("out"))return;t.classList.add("out");setTimeout(()=>{if(t.parentNode===root)root.removeChild(t);},320);};
+ const toast=(name,msg,app="KakaoTalk")=>{try{navigator.vibrate&&navigator.vibrate(30);}catch(e){}const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
  function openYunhoChat(){if(window.Home)Home.openApp("kakaotalk");if(window.KakaoApp){KakaoApp.open();KakaoApp.openStoryChat("c0");}}
  /* 지금 화면에 열려 있는 카카오톡 채팅방이 id 인지 (다른 방의 탭으로 윤둥이 대화가 진행되지 않도록) */
  const inChat=id=>!!(window.KakaoApp&&typeof KakaoApp.currentChatId==="function"&&KakaoApp.currentChatId()===id);
 
- function start(){if(started)return;started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");toast("성현이형(매니저)",ARTICLE1);}
+ function start(){if(started)return;try{localStorage.removeItem("hwaho-ig-yunho-t0");}catch(e){}started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");toast("성현이형(매니저)",ARTICLE1);}
  function managerLink(){setStage("manager-question-alert");openManager();KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4");later("ack",()=>{if(stage==="manager-question-alert"&&!ack)toast("성현이형(매니저)","이거 합의된 거야?");},2000);}
  function scheduleRing(ms){later("ring",()=>{if(stage!=="first-article")return;if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이"});},ms);}
  function openFirstArticle(){cancel("ack");root.innerHTML="";const entering=stage!=="first-article";setStage("first-article");forceSafari("https://entertain.naver.com/article/sample/4");if(entering)scheduleRing(RING_DELAY);}
@@ -45,7 +46,7 @@
 
  root.addEventListener("click",e=>{
   const b=e.target.closest("[data-story]");if(!b||b.dataset.story!=="open")return;
-  const tappedStage=stage;root.innerHTML="";
+  const tappedStage=stage;dismiss();
   if(tappedStage==="manager-link-alert")managerLink();
   else if(tappedStage==="manager-question-alert"){ack=true;persist();openManager();KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2");}
   /* ㅎㅎ 는 통화 종료 시 이미 추가되어 있다. 알림 탭은 방만 열고 메시지는 추가하지 않는다. */
