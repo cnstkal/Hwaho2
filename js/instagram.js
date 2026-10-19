@@ -105,7 +105,6 @@ window.IgApp = (() => {
   const UPROF = { "yunou._.u": { posts: 5, followers: "106만", following: 1, img: 7701 } };
   let yunhoPostLive = false;
   document.addEventListener("story:instagram-published", () => {
-    if (!FOLLOWING.includes("yunou._.u")) FOLLOWING.push("yunou._.u");
     if (yunhoPostLive) return;
     yunhoPostLive = true;
     const yp = P.find(p => p.id === "yunho1");
