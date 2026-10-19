@@ -104,6 +104,7 @@
 
   /* optional API: HwahoLock.notify({app,title,body,time}) / HwahoLock.lock() */
   window.HwahoLock = {
+    promptUnlock: function () { if (state === 'locked') enter(); },
     notify: function (n) {
       var el = document.createElement('div'); el.className = 'lk-n';
       var h = document.createElement('div'); h.className = 'h';
