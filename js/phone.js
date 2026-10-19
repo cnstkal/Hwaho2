@@ -259,8 +259,8 @@ const PhoneApp = (() => {
 
 /* 통화 화면 (iOS 스타일) */
 (()=>{const s=document.createElement("style");s.textContent=`
-#tel-app .tl-call-s{background:linear-gradient(180deg,#24252a 0%,#111216 48%,#050506 100%)!important;color:#fff!important;flex-direction:column;align-items:center;padding:0!important;position:relative;overflow:hidden}
-#tel-app .tl-call-s.on{display:flex!important}
+#tel-app .tl-call-s{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;z-index:100!important;display:none;background:linear-gradient(180deg,#24252a 0%,#111216 48%,#050506 100%)!important;color:#fff!important;flex-direction:column;align-items:center;padding:0!important;overflow:hidden;box-sizing:border-box;pointer-events:auto}
+#tel-app .tl-call-s.on{display:flex!important;visibility:visible!important;opacity:1!important;pointer-events:auto!important}
 #tel-app .tl-cs{margin-top:calc(env(safe-area-inset-top,0px) + 13%)!important;font-size:20px!important;font-weight:500;color:rgba(255,255,255,.45)!important}
 #tel-app .tl-cn{margin-top:8px!important;font-size:34px!important;font-weight:600!important;letter-spacing:-1px;color:#fff!important}
 #tel-app .tl-cnum{margin-top:8px;font-size:20px;font-weight:500;color:rgba(255,255,255,.45)}
