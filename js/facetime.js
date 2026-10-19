@@ -75,7 +75,7 @@ const FaceTimeApp = (() => {
 #ft-root .ft-call{padding:0}
 #ft-root .ft-cs{margin-top:calc(env(safe-area-inset-top,0px) + 13%);font-size:20px;font-weight:500;color:rgba(255,255,255,.45);font-variant-numeric:tabular-nums}
 #ft-root .ft-cn{margin-top:8px;font-size:34px;font-weight:600;letter-spacing:-1px;color:#fff}
-#ft-root .ft-pb{position:absolute;top:clamp(180px,24%,250px);bottom:calc(env(safe-area-inset-bottom,0px) + clamp(340px,39%,430px));left:0;width:100%;padding:12px 22px;text-align:left;color:#fff;font-size:15px;line-height:1.4;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+#ft-root .ft-pb{-webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 14%,#000 46%);mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 14%,#000 46%);position:absolute;top:clamp(180px,24%,250px);bottom:calc(env(safe-area-inset-bottom,0px) + clamp(340px,39%,430px));left:0;width:100%;padding:12px 22px;text-align:left;color:#fff;font-size:15px;line-height:1.4;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
 #ft-root .ft-pb-line{max-width:88%;padding:10px 13px;border-radius:17px;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere;box-shadow:0 1px 1px #0001}
 #ft-root .ft-pb-line.me{align-self:flex-end;background:#0a84ff;border-bottom-right-radius:5px}
 #ft-root .ft-pb-line.them{align-self:flex-start;background:#343438;border-bottom-left-radius:5px}

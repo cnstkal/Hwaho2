@@ -8,7 +8,7 @@
  const ARTICLE1="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
  const ARTICLE2="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”";
  /* 1=성화(me, 오른쪽 노란 말풍선), f0=윤둥이. ㅎㅎ(윤둥이)는 통화 종료 시 자동 추가되므로 여기엔 2~6번만 둔다. */
- const yunhoLines=[["me","너 지금 웃음이 나오냐",[15,40]],["f0","형 표정 안 봐도 보이네 ㅋㅋㅋ",[15,40]],["me","아까 통화도 그렇고 나만 이상한 거야?",[15,40]],["f0","형이 걱정이 많아서 그래",[15,40]],["me","사실무근은 회사에서 정한 거지?",[15,40]],["f0","응 일단은",[15,41]],["me","일단은이 뭔데",[15,41]],["f0","일단은 일단이지 ㅎㅎ",[15,41]],["f0","근데 댓글은 좀 시끄럽더라",[15,41]],["me","무슨 댓글? 너 그거 봤어?",[15,41]],["f0","조금? 별 얘기가 다 있긴 해",[15,41]],["me","이번 일로 뭐라하는 놈 있으면 나한테 데려와",[15,42]],["f0","ㅋㅋㅋㅋ 누구를 데려오는데",[15,42]],["me","내가 처리할게",[15,42]],["f0","형이 뭘 처리해ㅋㅋㅋ 싸우지 마",[15,42]],["me","진지하다 나",[15,42]],["f0","알아 ㅎㅎ 그래서 더 웃겨",[15,42]],["f0","고마워 형",[15,42]],["f0","배고팡",[15,43]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[15,43]],["f0","웅 완전 맞아 어떻게 알아",[15,43]],["me","내가 너 입맛을 몇 년째 보고 있는데 ㅋㅋ",[15,43]],["f0","빨리와 💗",[15,43]]];
+ const yunhoLines=[["me","너 지금 웃음이 나오냐",[15,40]],["f0","웅",[15,40]],["me","아까 통화도 그렇고 나만 이상한 거야?",[15,40]],["f0","형이 걱정이 많아서 그래",[15,40]],["me","사실무근은 회사에서 정한 거지?",[15,40]],["f0","응 일단은",[15,41]],["me","일단은이 뭔데",[15,41]],["f0","일단은 일단이지 ㅎㅎ",[15,41]],["f0","근데 댓글은 좀 시끄럽더라",[15,41]],["me","무슨 댓글? 너 그거 봤어?",[15,41]],["f0","조금? 별 얘기가 다 있긴 해",[15,41]],["me","이번 일로 뭐라하는 놈 있으면 나한테 데려와",[15,42]],["me","내가 처리할게",[15,42]],["f0","형이 뭘 처리해ㅋㅋㅋ 싸우지 마",[15,42]],["me","진심이야",[15,42]],["f0","배고팡",[15,43]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[15,43]],["f0","웅 빨리왕",[15,43]],["f0","빨리와 💗",[15,43]]];
 
  /* ---- 타이밍(ms) ---- */
  const RING_DELAY=5000;        /* 첫 기사 열람 후 전화까지 (기존 10초 → 5초) */
@@ -40,7 +40,7 @@
 
  function start(){if(started)return;try{localStorage.removeItem("hwaho-ig-yunho-t0");}catch(e){}started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");sendManagerMessages();}
  /* 성현이형이 기사를 먼저 보내고 잠시 뒤 "합의된 거야?"를 이어서 보낸다. 카톡창 진입과 무관하게 진행되며 추가 알림은 없다. */
- function sendManagerMessages(){if(!window.KakaoApp)return;const U="https://entertain.naver.com/article/sample/4";KakaoApp.appendStoryMessage(ARTICLE1,"link",U,"c3","f2",[15,37]);if(stage==="manager-link-alert")toast("성현이형(매니저)",ARTICLE1);later("m1",()=>{if(!window.KakaoApp)return;KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);if(stage==="manager-link-alert")toast("성현이형(매니저)","이거 합의된 거야?","KakaoTalk",true);},MANAGER_MSG2_DELAY);}
+ function sendManagerMessages(){if(!window.KakaoApp)return;const U="https://entertain.naver.com/article/sample/4";KakaoApp.appendStoryMessage(ARTICLE1,"link",U,"c3","f2",[15,37]);if(stage==="manager-link-alert")toast("성현이형(매니저)",ARTICLE1);later("m1",()=>{if(!window.KakaoApp)return;KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);if(stage==="manager-link-alert"){dismiss();later("m1b",()=>{if(stage==="manager-link-alert")toast("성현이형(매니저)","이거 합의된 거야?");},420);}},MANAGER_MSG2_DELAY);}
  function sendManagerMessagesSilent(){if(!window.KakaoApp)return;KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4","c3","f2",[15,37]);KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);}
  function managerLink(){setStage("manager-question-alert");openManager();}
  function scheduleRing(ms){later("ring",()=>{if(stage!=="first-article")return;if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이"});},ms);}
@@ -60,7 +60,7 @@
  });
  document.addEventListener("story:start",start);
  /* 카카오톡 앱을 열어 확인하면 알림을 지운다 (그 전에는 사라지지 않음) */
- document.addEventListener("app:open",e=>{if(!e.detail||e.detail.id!=="kakaotalk")return;if(stage==="manager-link-alert"){cancel("m1");setStage("manager-question-alert");sendManagerMessagesSilent();dismiss();}else if(stage==="yunho-alert")dismiss();});
+ document.addEventListener("app:open",e=>{if(!e.detail||e.detail.id!=="kakaotalk")return;if(stage==="manager-link-alert"){cancel("m1");cancel("m1b");setStage("manager-question-alert");sendManagerMessagesSilent();dismiss();}else if(stage==="yunho-alert")dismiss();});
  document.addEventListener("story:manager-link-opened",e=>{if(stage==="manager2-chat"||stage==="final-article"){root.innerHTML="";setStage("final-article");forceSafari("https://entertain.naver.com/article/sample/6");return;}if(stage!=="manager-link-alert"&&stage!=="manager-question-alert"&&stage!=="first-article")return;openFirstArticle();});
  document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;cancel("ring");setStage("yunho-alert");if(window.KakaoApp)KakaoApp.appendStoryMessage("ㅎㅎ","text","","c0","f0",[15,40]);toast("윤둥이","ㅎㅎ");});
 
