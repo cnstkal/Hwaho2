@@ -61,7 +61,7 @@
   justify-content: space-evenly;
   align-items: center;
 }
-/* 통화 화면 */
+/* 통화 화면: 실제 facetime.js 클래스명(.ft-pb / .ft-cg)에 맞춰 transcript와 버튼 영역 분리 */
 #ft-root .ft-call {
   padding: calc(env(safe-area-inset-top, 0px) + clamp(24px, 5vh, 40px)) 18px calc(env(safe-area-inset-bottom, 0px) + clamp(14px, 3vh, 24px));
 }
@@ -69,23 +69,35 @@
   flex: none;
   width: 100%;
 }
-#ft-root .ft-transcript {
+#ft-root .ft-pb {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   width: 100%;
   overflow: hidden;
   padding: 16px 0 12px !important;
 }
-#ft-root .ft-call-controls {
+#ft-root .ft-cg {
   flex: none !important;
   width: 100%;
   margin-top: 0;
   padding-top: 8px;
   gap: clamp(10px, 2.2vh, 18px) 8px;
 }
-#ft-root .ft-call-controls button {
+#ft-root .ft-cg button {
   min-height: 0;
 }
 `;
   document.head.appendChild(s);
 })();
+
+/* 대화 말풍선이 통화 버튼·라벨 뒤로 비치지 않도록 영역을 분리 */
+#ft-root .ft-pb {
+  top: clamp(150px, 21%, 220px) !important;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(390px, 46%, 460px)) !important;
+  z-index: 1 !important;
+}
+#ft-root .ft-cg {
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 5%) !important;
+  gap: clamp(10px, 1.8vh, 16px) 0 !important;
+  z-index: 3 !important;
+}
