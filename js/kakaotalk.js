@@ -390,6 +390,7 @@ const KakaoApp = (() => {
     "엄마": "엄마/E3B1FD1A-B038-4228-9A1F-8FE2ABEBF06D.png",
     "윤호": "윤호/IMG_0012.jpeg",
     "울윤호": "윤호/IMG_0012.jpeg",
+    "윤둥이": "윤호/IMG_0012.jpeg",
     "아빠": "아빠/C954DC40-2B5B-446F-997A-C49C13F0C07F.png",
     "형": "형/IMG_7422.jpeg",
     "정성현(매니저)": "성현이형(매니저)/IMG_7422.jpeg",
