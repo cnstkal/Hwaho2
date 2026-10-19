@@ -8,7 +8,7 @@
  const ARTICLE1="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
  const ARTICLE2="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”";
  /* 1=성화(me, 오른쪽 노란 말풍선), f0=윤둥이. ㅎㅎ(윤둥이)는 통화 종료 시 자동 추가되므로 여기엔 2~6번만 둔다. */
- const yunhoLines=[["me","너 지금 웃음이 나오냐",[15,40]],["f0","웅",[15,40]],["me","아까 통화도 그렇고 나만 이상한 거야?",[15,40]],["f0","형이 걱정이 많아서 그래",[15,40]],["me","사실무근은 회사에서 정한 거지?",[15,40]],["f0","응 일단은",[15,41]],["me","일단은이 뭔데",[15,41]],["f0","일단은 일단이지 ㅎㅎ",[15,41]],["f0","근데 댓글은 좀 시끄럽더라",[15,41]],["me","무슨 댓글? 너 그거 봤어?",[15,41]],["f0","조금? 별 얘기가 다 있긴 해",[15,41]],["me","이번 일로 뭐라하는 놈 있으면 나한테 데려와",[15,42]],["me","내가 처리할게",[15,42]],["f0","형이 뭘 처리해ㅋㅋㅋ 싸우지 마",[15,42]],["me","진심이야",[15,42]],["f0","배고팡",[15,43]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[15,43]],["f0","웅 빨리왕",[15,43]],];
+ const yunhoLines=[["f0","배고팡",[15,43]],["me","지금 그런 말이 나와?",[15,43]],["f0","배고프다고",[15,43]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가?",[15,43]],["f0","웅 맞아",[15,43]],["f0","형은 나를 너무 잘알아",[15,43]],["f0","빨리와",[15,43]],];
 
  /* ---- 타이밍(ms) ---- */
  const RING_DELAY=5000;        /* 첫 기사 열람 후 전화까지 (기존 10초 → 5초) */
@@ -62,7 +62,7 @@
  /* 카카오톡 앱을 열어 확인하면 알림을 지운다 (그 전에는 사라지지 않음) */
  document.addEventListener("app:open",e=>{if(!e.detail||e.detail.id!=="kakaotalk")return;if(stage==="manager-link-alert"){cancel("m1");cancel("m1b");setStage("manager-question-alert");sendManagerMessagesSilent();dismiss();}else if(stage==="yunho-alert")dismiss();});
  document.addEventListener("story:manager-link-opened",e=>{if(stage==="manager2-chat"||stage==="final-article"){root.innerHTML="";setStage("final-article");forceSafari("https://entertain.naver.com/article/sample/6");return;}if(stage!=="manager-link-alert"&&stage!=="manager-question-alert"&&stage!=="first-article")return;openFirstArticle();});
- document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;cancel("ring");setStage("yunho-alert");if(window.KakaoApp)KakaoApp.appendStoryMessage("ㅎㅎ","text","","c0","f0",[15,40]);toast("윤둥이","ㅎㅎ");});
+ document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;cancel("ring");setStage("yunho-alert");toast("윤둥이","배고팡");});
 
  /* 윤둥이 방에서 탭으로 진행하는 동안 입력창에 회색 안내 문구 표시 */
  const HINT="화면을 탭하세요";
@@ -91,7 +91,7 @@
    case "manager-link-alert":sendManagerMessages();break;
    case "manager-question-alert":sendManagerMessages();break;
    case "first-article":scheduleRing(RING_DELAY);break;
-   case "yunho-alert":toast("윤둥이","ㅎㅎ");break;
+   case "yunho-alert":toast("윤둥이","배고팡");break;
    case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();break;
    case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
    case "instagram":scheduleManager2Alert();break;
