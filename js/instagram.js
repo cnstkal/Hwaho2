@@ -57,7 +57,7 @@ window.IgApp = (() => {
     "xnn****": "@legacy/xnn****/IMG_7263.jpeg",
     "iwaitedfortherightmo****": "@legacy/iwaitedfortherightmo****/IMG_7268.jpeg",
     "sgyun***": "@legacy/sgyun***/IMG_7267.jpeg",
-    "yunou._.u": "IMG_8361.jpeg"
+    "yunou._.u": "@legacy/yunou._.u/IMG_8361.jpeg"
   };
   const av = (u, s, extra = "") => {
     const id = String(u.id || "");
@@ -82,7 +82,7 @@ window.IgApp = (() => {
   const cmTot = p => p.u === ME.id ? 0 : Math.max(p.n || 0, p.cm.length) + (S.cmt[p.id] || []).length;
   const cmHtml = p => "";
   const postHtml = p => { const u = usr(p.u), n = p.imgs.length, lk = !!S.like[p.id], sv = !!S.save[p.id], colorTags = text => esc(text).replace(/(^|\s)(#[\p{L}\p{N}_]+)/gu, "$1<span class=\"ig-hashtag\">$2</span>");
-    return `<article class="ig-post" data-id="${p.id}"><div class="ig-ph">${p.u === "yunou._.u" ? `<span data-g="uprof" data-id="${p.u}" style="display:flex;flex:none;cursor:pointer">${av(u, 32)}</span>` : av(u, 32)}<div class="ig-pn"><b>${u.id}</b>${p.loc ? `<small>${esc(p.loc)}</small>` : ""}</div><span class="ig-more">${I.more}</span></div>
+    return `<article class="ig-post" data-id="${p.id}"><div class="ig-ph">${p.u === "yunou._.u" ? `<span data-g="uprof" data-id="${p.u}" style="display:flex;flex:none;cursor:pointer">${av(u, 32)}</span>` : av(u, 32)}<div class="ig-pn"><b ${p.u === "yunou._.u" ? `data-g="uprof" data-id="${p.u}" style="cursor:pointer"` : ""}>${u.id}</b>${p.loc ? `<small>${esc(p.loc)}</small>` : ""}</div><span class="ig-more">${I.more}</span></div>
 <div class="ig-cw"><div class="ig-car">${p.imgs.map(s => `<img src="${art(s)}" alt="" draggable="false">`).join("")}</div>${n > 1 ? `<span class="ig-cnt">1/${n}</span>` : ""}</div>
 <div class="ig-ac"><button data-g="like" class="${lk ? "on" : ""}" aria-label="좋아요">${I.heart}</button><button data-g="cmt" aria-label="댓글">${I.comment}</button><span>${I.send}</span>${n > 1 ? `<div class="ig-dt">${p.imgs.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}<button data-g="save" class="sv ${sv ? "on" : ""}" aria-label="저장">${I.mark}</button></div>
 <div class="ig-lk">좋아요 ${fmt(lkNum(p, lk))}개</div><div class="ig-cp"><b>${u.id}</b> ${colorTags(p.cap)} <span class="ig-tg">${colorTags(p.tags)}</span></div>
