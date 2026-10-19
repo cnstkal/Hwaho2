@@ -94,6 +94,15 @@ const FaceTimeApp = (() => {
 #screen.ft-call-on .bat-body i{background:#fff!important}
 #screen.ft-call-on .bat-cap{background:rgba(255,255,255,.4)!important}
 `;
+  /* 수신 전화가 다른 앱의 레이아웃/배경에 반쯤 가려지는 현상 방지 */
+  style.textContent += `
+#ft-root{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-width:0!important;max-width:none!important;overflow:hidden!important;isolation:isolate!important;z-index:2147483000!important}
+#ft-root .ft-incoming,#ft-root .ft-call{left:0!important;right:0!important;top:0!important;bottom:0!important;width:100%!important;height:100%!important;min-width:0!important;max-width:none!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;overflow:hidden!important;background:#111216!important}
+#ft-root .ft-incoming:before,#ft-root .ft-call:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#24252a 0%,#111216 48%,#050506 100%);pointer-events:none;z-index:0}
+#ft-root .ft-incoming>* ,#ft-root .ft-call>*{position:relative;z-index:1}
+#ft-root .ft-incoming .ft-in-actions,#ft-root .ft-call .ft-cg,#ft-root .ft-call .ft-pb{z-index:2}
+#screen.ft-call-on #ft-root{z-index:2147483000!important}
+`;
   document.head.appendChild(style);
   const el = id => $("#" + id);
   let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false, callKind = "";
