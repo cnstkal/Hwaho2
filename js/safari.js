@@ -263,7 +263,7 @@ const SafariApp = (() => {
 <div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:8px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${nvTodayTs(a.ts)}</span></div></div>
 ${a.nothumb ? "" : `<div class="en-img" style="${a.image ? `background-image:url(${a.image});background-size:cover;background-position:center` : `background:linear-gradient(150deg,hsl(${a.hue} 30% 70%),hsl(${a.hue + 30} 30% 28%))`}">${a.image ? "" : "<em>SAMPLE</em>"}</div>`}
 <div class="en-bd">${a.body.map(p => `<p>${p}</p>`).join("")}</div>
-${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
+${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
   }
   document.addEventListener("click", e => {
     const t = e.target.closest(".nv [data-nv=nws]"); if (!t) return;

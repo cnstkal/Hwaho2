@@ -79,7 +79,7 @@ const FaceTimeApp = (() => {
 #ft-root .ft-pb-line{max-width:88%;padding:10px 13px;border-radius:17px;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere;box-shadow:0 1px 1px #0001}
 #ft-root .ft-pb-line.me{align-self:flex-end;background:#0a84ff;border-bottom-right-radius:5px}
 #ft-root .ft-pb-line.them{align-self:flex-start;background:#343438;border-bottom-left-radius:5px}
-#ft-root .ft-pb-speaker{font-size:10px;opacity:.65}
+#ft-root .ft-pb-line.note{align-self:center;max-width:92%;background:none;box-shadow:none;padding:4px 8px;text-align:center}#ft-root .ft-pb-line.note .ft-pb-words{font-size:13px;color:rgba(255,255,255,.62);font-style:italic}#ft-root .ft-pb-line.note .ft-pb-speaker{display:none}#ft-root .ft-pb-speaker{font-size:10px;opacity:.65}
 #ft-root .ft-pb-words{font-size:15px;color:#fff}
 #ft-root .ft-cg{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 7%);margin:0;padding:0 10%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center;gap:22px 0}
 #ft-root .ft-cb{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:15px;color:#fff;background:none}
@@ -104,19 +104,29 @@ const FaceTimeApp = (() => {
   function renderLines(){const box=el("ft-transcript");box.innerHTML="";const vis=lines.slice(-6);vis.forEach((l,i)=>{const row=document.createElement("div");row.className="ft-pb-line "+l.side;row.style.opacity=(0.45+0.55*(i+1)/vis.length).toFixed(2);const sp=document.createElement("span");sp.className="ft-pb-speaker";sp.textContent=l.speaker;const w=document.createElement("span");w.className="ft-pb-words";w.textContent=l.text;row.append(sp,w);box.appendChild(row);});}
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
   const DEFAULT_DIALOGUE = [
-    ["성화","여보세요?","me",1500],
-    ["성화","전화는 왜 안받았어?","me",1800],
-    ["성화","괜찮은 거 맞지?","me",1800],
-    ["윤호","나야 괜찮지","them",1900],
-    ["성화","아니 근데 사실무근은 무슨 소리야?","me",2300],
-    ["윤호","왜?","them",1400],
-    ["성화","우리 헤어졌어?","me",1700],
-    ["윤호","아니?","them",1300],
-    ["성화","그럼 왜?","me",1500],
-    ["성화","알았어","me",1300],
-    ["성화","정정기사는 내줄거지?","me",1900],
-    ["윤호","형 하는 거 봐서","them",1900],
-    ["성화","아니 윤호야,","me",1300]
+    ["성화","여보세요?","me",1600],
+    ["","(연결음이 끊기고, 잠시 숨소리만 들린다)","note",2400],
+    ["윤호","…어, 형","them",2200],
+    ["성화","전화는 왜 안받았어?","me",2000],
+    ["윤호","아… 폰 무음이었어. 기사 때문에 정신이 없어서","them",2600],
+    ["성화","괜찮은 거 맞지?","me",2000],
+    ["","(대답이 나오기까지 몇 초가 걸린다)","note",2300],
+    ["윤호","나야 괜찮지","them",2300],
+    ["성화","…근데 목소리가 왜 그래","me",2100],
+    ["윤호","그냥 좀 피곤해서","them",2100],
+    ["성화","아니 근데 사실무근은 무슨 소리야?","me",2600],
+    ["윤호","…","them",2000],
+    ["윤호","왜?","them",1800],
+    ["성화","우리 헤어졌어?","me",2200],
+    ["","(수화기 너머로 짧은 정적이 흐른다)","note",2600],
+    ["윤호","아니?","them",1700],
+    ["성화","그럼 왜?","me",1900],
+    ["윤호","회사에서 일단 그렇게 나가자고 해서… 나도 어쩔 수 없었어","them",2800],
+    ["성화","알았어","me",2000],
+    ["성화","정정기사는 내줄거지?","me",2300],
+    ["윤호","형 하는 거 봐서","them",2300],
+    ["","(장난기 섞인 웃음소리에 성화가 말문이 막힌다)","note",2400],
+    ["성화","아니 윤호야,","me",1800]
   ];
   let dialogue = DEFAULT_DIALOGUE;
   function setAlert(on){alertOpen=!!on;el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}

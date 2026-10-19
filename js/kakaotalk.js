@@ -461,7 +461,7 @@ const KakaoApp = (() => {
       const p = ms[i - 1], n = ms[i + 1], sameP = p && p.from === m.from && day(p.ts) === day(m.ts) && tm(p.ts) === tm(m.ts), sameN = n && n.from === m.from && day(n.ts) === day(m.ts) && tm(n.ts) === tm(m.ts);
       if (!p || day(p.ts) !== day(m.ts)) h += `<div class="kk-dv"><span>${dl(m.ts)}</span></div>`;
       const first = !sameP, time = !sameN ? `<span class="kk-tm">${tm(m.ts)}</span>` : "", b = m.type === "call" ? `<div class="kk-b kk-call${first ? " f" : ""}"><span class="kk-call-ico">↗</span><span>${esc(m.text)}</span></div>` : m.type === "story-link" ? `<div class="kk-b${first ? " f" : ""}"><a href="${esc(m.url || "#")}" data-k="story-link" data-story-url="${esc(m.url || "#")}" style="color:#1769aa;text-decoration:underline;display:block;max-width:250px;line-height:1.35">${esc(m.text)}</a></div>` : `<div class="kk-b${first ? " f" : ""}">${esc(m.text)}</div>`;
-      const un = u0 >= 0 && i >= u0 && i < u0 + 6 && m.from === "me", tl = un ? `<span class="kk-ti"><i class="kk-un">1</i>${time}</span>` : time;
+      const un = u0 >= 0 && !ms.some(x => x.storySequence) && i >= u0 && i < u0 + 6 && m.from === "me", tl = un ? `<span class="kk-ti"><i class="kk-un">1</i>${time}</span>` : time;
       if (m.from === "me") h += `<div class="kk-m me${first ? " f" : ""}">${tl}${b}</div>`;
       else { const f = fr(m.from) || { name: "?", id: m.from }; h += `<div class="kk-m${first ? " f" : ""}"><div class="kk-pa">${first ? av(f.id, f.name) : ""}</div><div class="kk-on">${first ? `<div class="n">${esc(f.name)}</div>` : ""}<div class="kk-bw">${b}${time}</div></div></div>`; }
     });
@@ -472,7 +472,7 @@ const KakaoApp = (() => {
   function openRoom(arg) {
     cur = typeof arg === "string" ? chat(arg) : arg; cur.unread = 0; save(); const gc = cur.name || cur.ids.length > 1;
     $("#kk-rh").innerHTML = `<button class="bk" data-k="back" aria-label="뒤로">${I.back}</button><div class="t">${esc(cname(cur))}${gc ? `<small>${cur.ids.length + 1}</small>` : ""}</div><div class="kk-ic"><span>${I.search}</span><span>${I.menu}</span></div>`;
-    inp().value = ""; grow(); room(); $("#kk-room").classList.add("on"); $("#kk-main").classList.add("back");
+    inp().value = ""; grow(); room(); $("#kk-room").classList.add("on"); $("#kk-main").classList.add("back"); document.dispatchEvent(new CustomEvent("kakao:room-opened", { detail: { id: cur.id } }));
   }
   function back() { $("#kk-room").classList.remove("on"); $("#kk-main").classList.remove("back"); inp().blur(); cur = null; renderMain(); }
   function send() {
