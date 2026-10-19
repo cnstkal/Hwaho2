@@ -38,7 +38,7 @@
  /* 지금 화면에 열려 있는 카카오톡 채팅방이 id 인지 (다른 방의 탭으로 윤둥이 대화가 진행되지 않도록) */
  const inChat=id=>!!(window.KakaoApp&&typeof KakaoApp.currentChatId==="function"&&KakaoApp.currentChatId()===id);
 
- function start(){if(started)return;try{localStorage.removeItem("hwaho-ig-yunho-t0");}catch(e){}if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");sendManagerMessages();}
+ function start(){if(started)return;try{localStorage.removeItem("hwaho-ig-yunho-t0");}catch(e){}if(window.HwahoIntroDone){started=true;yunhoIndex=0;ack=true;setStage("yunho-alert");toast("윤둥이","배고팡");return;}if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");sendManagerMessages();}
  /* 성현이형이 기사를 먼저 보내고 잠시 뒤 "합의된 거야?"를 이어서 보낸다. 카톡창 진입과 무관하게 진행되며 추가 알림은 없다. */
  function sendManagerMessages(){if(!window.KakaoApp)return;const U="https://entertain.naver.com/article/sample/4";KakaoApp.appendStoryMessage(ARTICLE1,"link",U,"c3","f2",[15,37]);if(stage==="manager-link-alert")toast("성현이형(매니저)",ARTICLE1);later("m1",()=>{if(!window.KakaoApp)return;KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);if(stage==="manager-link-alert"){dismiss();later("m1b",()=>{if(stage==="manager-link-alert")toast("성현이형(매니저)","이거 합의된 거야?");},420);}},MANAGER_MSG2_DELAY);}
  function sendManagerMessagesSilent(){if(!window.KakaoApp)return;KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4","c3","f2",[15,37]);KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);}
