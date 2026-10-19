@@ -1,6 +1,6 @@
 /* Intro sequence: lock screen -> missed manager call -> urgent alerts -> Dispatch -> second call -> acknowledgement article. */
 (()=> {
- const MANAGER="성현이형(매니저)", AVATAR="images/app/KakaoTalk/Profile/성현이형(매니저)/IMG_7422.jpeg";
+ const MANAGER="성현", AVATAR="images/app/KakaoTalk/Profile/성현/IMG_7422.jpeg";
  const DISPATCH="https://www.dispatch.co.kr/article/1";
  const ACK="https://entertain.naver.com/article/sample/6";
  const KEY="hwaho-story-intro-v1";
@@ -21,11 +21,11 @@
  {const l=document.getElementById("lock");if(l&&window.MutationObserver)new MutationObserver(place).observe(l,{attributes:true,attributeFilter:["data-state"]})}
  function clearNotice(){root.innerHTML=""}
  function ringFirst(){if(stage!=="first-call"||!window.FaceTimeApp)return;FaceTimeApp.ring({caller:MANAGER,kind:"manager-first",avatar:AVATAR,subtitle:"휴대전화"})}
- function urgent(){if(stage!=="first-call")return;if(window.PhoneApp&&PhoneApp.recordStoryMissedCall)PhoneApp.recordStoryMissedCall(MANAGER,"manager-first");stage="urgent";save();if(window.KakaoApp)KakaoApp.appendStoryMessage("윤호야, 너 지금 장난해? 당장 회사로 와.","text","","c3","f2",[22,14]);notice(MANAGER,"윤호야, 너 지금 장난해? 당장 회사로 와.","KakaoTalk",()=>{clearNotice();stage="dispatch";save();setTimeout(dispatchNotice,350)})}
+ function urgent(){if(stage!=="first-call")return;if(window.PhoneApp&&PhoneApp.recordStoryMissedCall)PhoneApp.recordStoryMissedCall(MANAGER,"manager-first");stage="urgent";save();if(window.KakaoApp)KakaoApp.appendStoryMessage("성화야, 너 지금 장난해? 당장 회사로 와.","text","","c3","f2",[22,14]);notice(MANAGER,"윤호야, 너 지금 장난해? 당장 회사로 와.","KakaoTalk",()=>{clearNotice();stage="dispatch";save();setTimeout(dispatchNotice,350)})}
  function dispatchNotice(){if(stage!=="dispatch")return;notice("Dispatch","[단독] \"누가 봐도 평범한 사이는 아니었다\"…마스♥정윤호, 심야 데이트 포착","Dispatch",()=>{clearNotice();stage="dispatch-reading";viewedAt=0;save();openArticle(DISPATCH);})}
  function openArticle(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url)}}
  function scheduleSecond(ms){clearTimeout(ringTimer);ringTimer=setTimeout(ringSecond,Math.max(0,ms))}
- function ringSecond(){ringTimer=0;if(stage!=="dispatch-reading"||secondStarted||!viewedAt)return;secondStarted=true;stage="second-call";save();const dialogue=[["성현이형(매니저)","윤호야, 디스패치 기사 봤지? 너희 둘 실제로 사귀는 거 맞아?","me",2600],["윤호","네, 맞아요.","them",2100],["성현이형(매니저)","…회사 입장에서 봐도 생각보다 큰 타격은 아닐 것 같아.","me",2700],["성현이형(매니저)","무조건 부인하기보다 인정하는 편이 낫겠어.","me",2400],["윤호","저도 그렇게 생각해요.","them",2200],["성현이형(매니저)","알았어. 회사에서 열애 인정 입장 낼게.","me",2500],["윤호","네, 형.","them",1800]];FaceTimeApp.ring({caller:MANAGER,kind:"manager-second",avatar:AVATAR,subtitle:"휴대전화",dialogue})}
+ function ringSecond(){ringTimer=0;if(stage!=="dispatch-reading"||secondStarted||!viewedAt)return;secondStarted=true;stage="second-call";save();const dialogue=[["성현","성화야, 디스패치 기사 봤지? 너희 둘 실제로 사귀는 거 맞아?","them",2600],["성화","네, 맞아요.","me",2100],["성현","…회사 입장에서 봐도 생각보다 큰 타격은 아닐 것 같아.","them",2700],["성현","무조건 부인하기보다 인정하는 편이 낫겠어.","them",2400],["성화","저도 그렇게 생각해요.","me",2200],["성현","알았어. 회사에서 열애 인정 입장 낼게.","them",2500],["성화","네, 성현 씨.","me",1800]];FaceTimeApp.ring({caller:MANAGER,kind:"manager-second",avatar:AVATAR,subtitle:"휴대전화",dialogue})}
  function showAck(){stage="ack-article";save();notice("열애 인정 기사","정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”","Dispatch",()=>{clearNotice();stage="ack-reading";save();openArticle(ACK)})}
  document.addEventListener("story:manager-first-call-missed",urgent);
  document.addEventListener("story:dispatch-article-viewed",()=>{if(stage!=="dispatch-reading"||secondStarted||viewedAt)return;viewedAt=Date.now();save();scheduleSecond(7000)});
