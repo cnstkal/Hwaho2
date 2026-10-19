@@ -103,11 +103,12 @@
  if(window.HwahoIntroActive){
   /* Intro owns the screen; do not revive timers/toasts from an older saved run. */
   started=false;stage="idle";yunhoIndex=0;ack=false;
+ }else if(saved){
+  /* Once handoff has happened, restore the current story stage instead of replaying its beginning. */
+  started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));ack=!!saved.ack;resume();
  }else if(window.HwahoIntroDone){
-  /* The acknowledgement article was opened before refresh. Start the next story exactly once. */
   started=false;stage="idle";yunhoIndex=0;ack=false;start();
- }else if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));ack=!!saved.ack;resume();}
- else if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
+ }else if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
 
  window.HwahoStory={start,get stage(){return stage;},get started(){return started;}};
 })();
