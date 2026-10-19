@@ -100,7 +100,13 @@
  }
  document.addEventListener("click",()=>setTimeout(updateHint,0),true);
  const saved=load();
- if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));ack=!!saved.ack;resume();}
+ if(window.HwahoIntroActive){
+  /* Intro owns the screen; do not revive timers/toasts from an older saved run. */
+  started=false;stage="idle";yunhoIndex=0;ack=false;
+ }else if(window.HwahoIntroDone){
+  /* The acknowledgement article was opened before refresh. Start the next story exactly once. */
+  started=false;stage="idle";yunhoIndex=0;ack=false;start();
+ }else if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));ack=!!saved.ack;resume();}
  else if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
 
  window.HwahoStory={start,get stage(){return stage;},get started(){return started;}};
