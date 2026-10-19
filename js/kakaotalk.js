@@ -171,7 +171,7 @@ const KakaoApp = (() => {
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
-  { const t0 = new Date().setHours(0, 0, 0, 0), k = Math.round((t0 - (D.day || t0)) / 864e5), nw = Date.now(); if (k > 0) D.chats.forEach(c => c.msgs.forEach(x => { x.ts += k * 864e5; if (x.ts > nw) x.ts -= 864e5; })); if (D.day !== t0) { D.day = t0; save(); } } /* 날짜가 바뀌면 대화 시각을 접속일 기준으로 이동 */
+  { const t0 = new Date().setHours(0, 0, 0, 0); if (D.day !== t0) { D.day = t0; save(); } } /* 대화 날짜는 설정된 날짜로 고정 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
 
   if (D.v7 !== 1) {
@@ -249,14 +249,7 @@ const KakaoApp = (() => {
     D.v12 = 1; save();
   }
 
-  if (D.v17 !== 1) {
-    const yunho = chat("c0");
-    if (yunho && !yunho.msgs.some(m => m.type === "call" && new Date(m.ts).toISOString().startsWith("2026-10-01"))) {
-      yunho.msgs.push({ id: uid(), from: "me", type: "call", text: "음성 통화 · 12분", ts: new Date("2026-10-01T21:16:00+09:00").getTime() });
-      yunho.msgs.sort((a,b) => a.ts-b.ts);
-    }
-    D.v17 = 1; save();
-  }
+  if (D.v17 !== 1) { D.v17 = 1; save(); }
 
   if (D.v16 !== 1) {
     const yunho = chat("c0"), seonghyeon = chat("c3");
@@ -323,6 +316,22 @@ const KakaoApp = (() => {
     D.chats.forEach(c => c.msgs.sort((a,b) => a.ts - b.ts));
     const y = D.chats.find(c => c.id === "c0"); if (y) y.unread = 1;
     D.v18 = 1; save();
+  }
+  if (D.v19 !== 1) {
+    const unreadTexts = new Set(["윤호야 너 들은 거 잇어?","난 없는데 진짜 미치겠다","회사야? 내가 갈까?","똑똑","혹시 나도 모르는 사이에 우리 헤어진거 아니지?","전화 좀 받아 ㅜㅜ"]);
+    const from = new Date("2026-10-16T00:00:00+09:00").getTime();
+    const to = new Date("2026-10-19T00:00:00+09:00").getTime();
+    D.chats.forEach(c => c.msgs.forEach(m => {
+      if (m.type === "call" && /음성 통화 · 12분/.test(m.text)) { m._remove = true; return; }
+      if (m.ts >= from && m.ts < to) m.ts += 864e5;
+      if (c.id === "c0" && unreadTexts.has(m.text)) {
+        const d = new Date(m.ts), hh = d.getHours(), mm = d.getMinutes(), ss = d.getSeconds();
+        m.ts = new Date(2026, 9, 19, hh, mm, ss).getTime();
+      }
+    }));
+    D.chats.forEach(c => { c.msgs = c.msgs.filter(m => !m._remove).sort((a,b) => a.ts-b.ts); });
+    const t0 = new Date(); t0.setHours(0,0,0,0); D.day = t0.getTime();
+    D.v19 = 1; save();
   }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
