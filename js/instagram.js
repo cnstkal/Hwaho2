@@ -61,7 +61,7 @@ window.IgApp = (() => {
   };
   const av = (u, s, extra = "") => {
     const id = String(u.id || "");
-    const photo = id === "_starhwa_" ? null : PROFILE_PHOTOS[id];
+    const photo = id === "_starhwa_" ? "IMG_7064.jpeg" : PROFILE_PHOTOS[id];
     const src = photo && photo.startsWith("@legacy/")
       ? "images/Instagram/Profile/" + photo.slice(8).split("/").map(encodeURIComponent).join("/")
       : photo
