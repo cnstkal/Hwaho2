@@ -356,6 +356,19 @@ const KakaoApp = (() => {
     }
     D.v20 = 1; save();
   }
+  if (D.v21 !== 1) {
+    const y = D.chats.find(c => c.id === "c0");
+    if (y) {
+      const moveTo18 = new Set(["촬영 없음 저녁에 잠깐 올래?", "홍중이도 있음", "나두"]);
+      y.msgs.forEach(m => {
+        if (!moveTo18.has(m.text)) return;
+        const d = new Date(m.ts);
+        m.ts = new Date(2026, 9, 18, d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds()).getTime();
+      });
+      y.msgs.sort((a,b) => a.ts-b.ts);
+    }
+    D.v21 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
