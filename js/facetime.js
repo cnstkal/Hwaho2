@@ -141,7 +141,7 @@ const FaceTimeApp = (() => {
     const b=e.target.closest("[data-ft]");if(!b)return;
     switch(b.dataset.ft){
       case "yes":setAlert(false);state="prompt";document.dispatchEvent(new CustomEvent("story:start"));clearTimeout(ringT);break;
-      case "no":setAlert(false);state="idle";break;
+      case "no":setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{if(state==="idle")prompt();},40000);break;
       case "decline":clearTimeout(missT);showIncoming(false);state="idle";missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;
       case "accept":openCall();break;
       case "end":endCall();break;
