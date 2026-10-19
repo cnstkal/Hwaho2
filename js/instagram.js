@@ -52,17 +52,19 @@ window.IgApp = (() => {
     "hoodie.hooligan": "229FB30C-0EDC-48D6-A1D0-BDE553DFDD46.png",
     "himothy._": "3111F199-6B45-451B-80CD-6B4B281AD868.png",
     "0fficiallyheytaaaaa": "4DFB4DC8-305C-46AF-A502-DADB9385E6C4.png",
-    "xnn****": "IMG_7263.jpeg",
-    "iwaitedfortherightmo****": "IMG_7268.jpeg",
-    "sgyun***": "IMG_7267.jpeg",
+    "xnn****": "@legacy/xnn****/IMG_7263.jpeg",
+    "iwaitedfortherightmo****": "@legacy/iwaitedfortherightmo****/IMG_7268.jpeg",
+    "sgyun***": "@legacy/sgyun***/IMG_7267.jpeg",
     "yunou._.u": "IMG_8361.jpeg"
   };
   const av = (u, s, extra = "") => {
     const id = String(u.id || "");
     const photo = PROFILE_PHOTOS[id];
-    const src = photo
-      ? "images/app/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
-      : ((window.HwahoIdentity && window.HwahoIdentity.avatar(id)) || "");
+    const src = photo && photo.startsWith("@legacy/")
+      ? "images/Instagram/Profile/" + photo.slice(8).split("/").map(encodeURIComponent).join("/")
+      : photo
+        ? "images/app/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
+        : ((window.HwahoIdentity && window.HwahoIdentity.avatar(id)) || "");
     return `<div class="ig-av ${extra}" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${Math.round(s * .42)}px;background:linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))"><span>${esc([...u.name][0] || "")}</span>${src ? `<img alt="" src="${src}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : ""}</div>`;
   };
   const ago = ts => { const m = Math.floor((Date.now() - ts) / 6e4); return m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전"; };
