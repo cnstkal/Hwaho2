@@ -358,7 +358,13 @@ const KakaoApp = (() => {
   const cav = c => c.ids.length > 1 || c.name ? `<div class="kk-gav">${[...c.ids, "me"].slice(0, 4).map(i => { const nm = i === "me" ? "박성화" : (fr(i) || {}).name || "?", s = psrc(nm); return `<i style="background:${col(i)};position:relative;overflow:hidden">${esc([...nm][0])}${s ? `<img alt="" src="${s}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ""}</i>`; }).join("")}</div>` : av(c.ids[0], cname(c), "kk-cav");
   const pad = n => String(n).padStart(2, "0"), fixedDate = new Date(2026, 9, 19), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
   const day = ts => { const d = new Date(ts); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }, dl = ts => { const d = new Date(ts), w = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]; return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${w[d.getDay()]}`; };
-  function lt(ts) { return tm(ts); }
+  function lt(ts) {
+    const d = new Date(ts), now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), date = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const diff = Math.round((today - date) / 864e5);
+    if (diff === 0) return tm(ts);
+    if (diff === 1) return "어제";
+    return `${d.getMonth()+1}월 ${d.getDate()}일`;
+  }
   let tab = "friends", q = "", flt = "all", cur = null, isOpen = false;
   const totalUnread = () => D.chats.reduce((a, c) => a + (c.unread || 0), 0);
 
