@@ -167,7 +167,7 @@ const FaceTimeApp = (() => {
     switch(b.dataset.ft){
       case "yes":if(!alertOpen)break;setAlert(false);state="prompt";clearTimeout(ringT);ringT=0;document.dispatchEvent(new CustomEvent("story:start"));break;
       case "no":if(!alertOpen)break;setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{ringT=0;if(state==="idle")prompt();},40000);break;
-      case "decline":{clearTimeout(missT);showIncoming(false);state="idle";const k=callKind;callKind="";if(k==="manager-first")document.dispatchEvent(new CustomEvent("story:manager-first-call-missed"));else if(k==="legacy")missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;}
+      case "decline":{clearTimeout(missT);showIncoming(false);state="idle";const k=callKind;callKind="";if(k==="manager-first")document.dispatchEvent(new CustomEvent("story:manager-first-call-missed"));else if(k==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-second-declined"));else if(k==="legacy")missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;}
       case "accept":{if(callKind==="manager-first"){showIncoming(false);state="idle";callKind="";document.dispatchEvent(new CustomEvent("story:manager-first-call-missed"));}else openCall();break;}
       case "end":endCall();break;
       case "mute":case "speaker":b.classList.toggle("on");break;

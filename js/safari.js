@@ -224,7 +224,7 @@ const SafariApp = (() => {
 .dp-article-head{margin:28px 6.5% 0}.dp-article-head h1{margin:0;font-size:27px;line-height:1.3;font-weight:850;letter-spacing:-.7px;color:#222}.dp-date{margin:20px 0 16px;font-size:14px;line-height:1.5;color:#aaa}.dp-article-photo{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#fff}.nn-i .th{overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;width:120px;height:120px;flex:0 0 120px;border-radius:12px}.nn-i .th img{display:block;width:100%;height:100%;aspect-ratio:1/1;object-fit:cover;object-position:center;border-radius:12px}.dp-b{padding:24px 6.5% 40px;font-size:19px;line-height:1.75;color:#111}.dp-b p{margin:0 0 26px}
 `; document.head.appendChild(s); })();
   /* "열애 인정" 기사(id 6)는 이야기 최종 단계(final-article)에서만 노출 */
-  const nvFinal = () => { try { const S = window.HwahoStability ? window.HwahoStability.readJSON("hwaho-story-v1", null) : JSON.parse(localStorage.getItem("hwaho-story-v1")); return !!S && S.started === true && S.stage === "final-article"; } catch (e) { return false; } };
+  const nvFinal = () => { try { const I = JSON.parse(localStorage.getItem("hwaho-story-intro-v1") || "null"); if (I && ["ack-article", "ack-reading", "handoff"].indexOf(I.stage) >= 0) return true; } catch (e) {} try { const S = window.HwahoStability ? window.HwahoStability.readJSON("hwaho-story-v1", null) : JSON.parse(localStorage.getItem("hwaho-story-v1")); return !!S && S.started === true && S.stage === "final-article"; } catch (e) { return false; } };
   const nvVis = x => x.id !== "6" || nvFinal();
   /* ===== 정윤호 프로필 하단 뉴스 + 엔터 기사 상세 (가상의 예시 기사) ===== */
   const NVN = [
@@ -508,7 +508,7 @@ ${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY
     } catch (e) { if (id !== r.req) return; r.err = timed ? "응답 시간이 초과되었습니다." : (e.name === "AbortError" ? "" : (e.message === "Failed to fetch" ? "네트워크에 연결할 수 없거나 서버가 요청을 거부했습니다." : e.message)); if (e.name === "AbortError" && !timed) { r.loading = false; clearTimeout(to); if (t.id === S.cur) { ui(); } return; } }
     clearTimeout(to); r.loading = false;
     if (t.id === S.cur) { r.scroll = 0; paint(t); ui(); setProg("done"); }
-    try { const x=new URL(u); if(x.hostname==="www.dispatch.co.kr"&&x.pathname==="/article/1"&&p&&p.html)document.dispatchEvent(new CustomEvent("story:dispatch-article-viewed")); if(x.hostname==="entertain.naver.com"&&x.pathname==="/article/sample/6"&&p&&p.html)document.dispatchEvent(new CustomEvent("story:ack-article-viewed")); } catch (_) {}
+    try { const x=new URL(u); if(x.hostname==="www.dispatch.co.kr"&&x.pathname==="/article/1"&&t.id===S.cur&&cache.has(u)&&cache.get(u).virt)document.dispatchEvent(new CustomEvent("story:dispatch-article-viewed")); if(x.hostname==="entertain.naver.com"&&x.pathname==="/article/sample/6"&&t.id===S.cur&&cache.has(u)&&cache.get(u).virt)document.dispatchEvent(new CustomEvent("story:ack-article-viewed")); } catch (_) {}
   }
   function go(url, newT) {
     let t = tab(); { const c = t.hist[t.idx]; if (c) c.sc = view().scrollTop; } if (newT) { t = newTab(); S.tabs.push(t); S.cur = t.id; }

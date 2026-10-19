@@ -103,6 +103,7 @@
  if(window.HwahoIntroActive){
   /* Intro owns the screen; do not revive timers/toasts from an older saved run. */
   started=false;stage="idle";yunhoIndex=0;ack=false;
+  if(window.HwahoIntroFresh){try{localStorage.removeItem(KEY);}catch(e){}if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();}
  }else if(saved){
   /* Once handoff has happened, restore the current story stage instead of replaying its beginning. */
   started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));ack=!!saved.ack;resume();
