@@ -382,6 +382,17 @@ const KakaoApp = (() => {
     }
     D.v22 = 1; save();
   }
+  if (D.v23 !== 1) {
+    const manager = D.chats.find(c => c.id === "c3");
+    if (manager) {
+      manager.msgs = manager.msgs.filter(m =>
+        m.text !== "정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”" &&
+        m.text !== "이거 합의된 거야?"
+      );
+      manager.msgs.sort((a,b) => a.ts-b.ts);
+    }
+    D.v23 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
