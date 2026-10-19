@@ -886,8 +886,9 @@ html.pvo #screen:has(#pv.on) #home-indicator{opacity:0;transition:opacity .15s}
 @keyframes irisT{0%{transform:translateY(-100%)}35%{transform:translateY(0)}100%{transform:translateY(-100%)}}
 @keyframes irisB{0%{transform:translateY(100%)}35%{transform:translateY(0)}100%{transform:translateY(100%)}}
 
-/* ===== 수정: 사진 앱 썸네일 정사각형 (행 높이 계산 오류 방지, 원본은 object-fit:cover로 중앙 잘라 표시) ===== */
-#pho-app .pl-grid .pl-cell{height:0!important;padding:0 0 100%!important;aspect-ratio:auto!important;box-sizing:border-box!important}
+/* ===== 사진 앱 썸네일: 실제 셀 박스와 클릭 영역을 일치시켜 아래 행이 눌리는 현상 방지 ===== */
+#pho-app .pl-grid{grid-auto-rows:auto!important}
+#pho-app .pl-grid .pl-cell{height:auto!important;min-height:0!important;padding:0!important;aspect-ratio:1/1!important;box-sizing:border-box!important;align-self:start!important}
 #pho-app .pl-grid .pl-cell img,#pho-app .pl-grid .pl-cell .g{object-fit:cover!important;object-position:center!important}
 
 /* Dynamic Island: 정확한 화면 중앙 정렬 */
