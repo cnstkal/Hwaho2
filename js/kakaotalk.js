@@ -393,6 +393,31 @@ const KakaoApp = (() => {
     }
     D.v23 = 1; save();
   }
+  if (D.v24 !== 1) {
+    const yunho = D.chats.find(c => c.id === "c0");
+    if (yunho) {
+      const removeTexts = new Set([
+        "너 지금 웃음이 나오냐",
+        "웅",
+        "아까 통화도 그렇고 나만 이상한 거야?",
+        "형이 걱정이 많아서 그래",
+        "사실무근은 회사에서 정한 거지?",
+        "응 일단은",
+        "일단은이 뭔데",
+        "일단은 일단이지 ㅎㅎ",
+        "근데 댓글은 좀 시끄럽더라",
+        "무슨 댓글? 너 그거 봤어?",
+        "조금? 별 얘기가 다 있긴 해",
+        "이번 일로 뭐라하는 놈 있으면 나한테 데려와",
+        "내가 처리할게",
+        "형이 뭘 처리해ㅋㅋㅋ 싸우지 마",
+        "진심이야"
+      ]);
+      yunho.msgs = yunho.msgs.filter(m => !removeTexts.has(m.text));
+      yunho.msgs.sort((a,b) => a.ts-b.ts);
+    }
+    D.v24 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
