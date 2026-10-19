@@ -333,6 +333,29 @@ const KakaoApp = (() => {
     const t0 = new Date(); t0.setHours(0,0,0,0); D.day = t0.getTime();
     D.v19 = 1; save();
   }
+  if (D.v20 !== 1) {
+    const fixedLastDates = [
+      ["c17", 15], ["c1", 13], ["c6", 14], ["c19", 16], ["c4", 12]
+    ];
+    fixedLastDates.forEach(([id, day]) => {
+      const c = D.chats.find(x => x.id === id);
+      if (!c || !c.msgs.length) return;
+      const last = c.msgs.reduce((a,b) => a.ts > b.ts ? a : b);
+      const d = new Date(last.ts), target = new Date(2026, 9, day, d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+      const shift = target.getTime() - last.ts;
+      c.msgs.forEach(m => { m.ts += shift; });
+      c.msgs.sort((a,b) => a.ts-b.ts);
+    });
+    const taehun = D.chats.find(c => c.ids.length === 1 && c.ids[0] === "h3");
+    if (taehun && taehun.msgs.length) {
+      const last = taehun.msgs.reduce((a,b) => a.ts > b.ts ? a : b);
+      const d = new Date(last.ts), target = new Date(2026, 9, 14, d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+      const shift = target.getTime() - last.ts;
+      taehun.msgs.forEach(m => { m.ts += shift; });
+      taehun.msgs.sort((a,b) => a.ts-b.ts);
+    }
+    D.v20 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
