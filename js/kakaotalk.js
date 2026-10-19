@@ -536,11 +536,23 @@ const KakaoApp = (() => {
     const c = chat(chatId);
     if (!c) return;
     const duplicate = c.msgs.some(m => m.storySequence && m.text === text);
-    if (!duplicate) c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
-    c.unread = 0; save();
+    if (!duplicate) {
+      c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
+      /* 지금 보고 있는 채팅방이면 읽음, 아니면 상대 메시지만 안 읽음 수에 반영 */
+      if (isOpen && cur && cur.id === c.id) c.unread = 0;
+      else if (from !== "me") c.unread = (c.unread || 0) + 1;
+    }
+    save();
     if (isOpen) { if (cur && cur.id === c.id) room(); else renderMain(); }
   }
-  return { open, close, openStoryChat, appendStoryMessage };
+  /* 스토리가 시작되지 않은 상태에서는 이전에 저장된 스토리 메시지를 모두 제거한다 (원래 대화는 건드리지 않음) */
+  function purgeStoryMessages() {
+    let n = 0;
+    D.chats.forEach(c => { const keep = c.msgs.filter(m => !m.storySequence); n += c.msgs.length - keep.length; c.msgs = keep; });
+    if (n) { save(); if (isOpen) { if (cur) room(); else renderMain(); } }
+    return n;
+  }
+  return { open, close, openStoryChat, appendStoryMessage, purgeStoryMessages };
 })();
 window.KakaoApp = KakaoApp;
 

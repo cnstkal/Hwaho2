@@ -89,7 +89,8 @@ const FaceTimeApp = (() => {
 `;
   document.head.appendChild(style);
   const el = id => $("#" + id);
-  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0;
+  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false;
+  const storyStarted = () => !!(window.HwahoStory && window.HwahoStory.started);
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
   const DEFAULT_DIALOGUE = [
     ["성화","여보세요?","me",1500],
@@ -107,11 +108,13 @@ const FaceTimeApp = (() => {
     ["성화","아니 윤호야,","me",1300]
   ];
   let dialogue = DEFAULT_DIALOGUE;
-  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
+  function setAlert(on){alertOpen=!!on;el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
   function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
   function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
-  function prompt(){if(state!=="idle")return;state="prompt";setAlert(true);}
-  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;el("ft-in-name").textContent=CFG.caller;el("ft-contact-avatar").textContent=CFG.caller.slice(0,1);el("ft-call-head b").textContent=CFG.caller;el("ft-call-avatar").textContent=CFG.caller.slice(0,1);state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
+  /* 안내창은 한 번에 하나만, 그리고 스토리가 이미 시작된 뒤에는 다시 띄우지 않는다 */
+  function prompt(){if(state!=="idle"||alertOpen||storyStarted())return;state="prompt";setAlert(true);}
+  /* 수신 화면의 이름/아바타 요소는 id가 아니라 class로 존재하므로 root 안에서 class로 찾는다 */
+  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-call-head b").textContent=CFG.caller;root.querySelector(".ft-call-avatar").textContent=ini;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
   function playDialogue(){
     if(state!=="call")return;
     if(lineIndex>=dialogue.length){endCall();return;}
@@ -140,8 +143,8 @@ const FaceTimeApp = (() => {
   root.addEventListener("click",e=>{
     const b=e.target.closest("[data-ft]");if(!b)return;
     switch(b.dataset.ft){
-      case "yes":setAlert(false);state="prompt";document.dispatchEvent(new CustomEvent("story:start"));clearTimeout(ringT);break;
-      case "no":setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{if(state==="idle")prompt();},40000);break;
+      case "yes":if(!alertOpen)break;setAlert(false);state="prompt";clearTimeout(ringT);ringT=0;document.dispatchEvent(new CustomEvent("story:start"));break;
+      case "no":if(!alertOpen)break;setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{ringT=0;if(state==="idle")prompt();},40000);break;
       case "decline":clearTimeout(missT);showIncoming(false);state="idle";missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;
       case "accept":openCall();break;
       case "end":endCall();break;
