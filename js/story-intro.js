@@ -1,6 +1,6 @@
 /* Intro sequence: lock screen -> missed manager call -> urgent alerts -> Dispatch -> second call -> acknowledgement article. */
 (()=> {
- const MANAGER="성현", AVATAR="images/app/KakaoTalk/Profile/성현/IMG_7422.jpeg";
+ const MANAGER="성현이형(매니저)", AVATAR="images/app/KakaoTalk/Profile/성현이형(매니저)/IMG_7422.jpeg";
  const DISPATCH="https://www.dispatch.co.kr/article/1";
  const ACK="https://entertain.naver.com/article/sample/6";
  const KEY="hwaho-story-intro-v3";
