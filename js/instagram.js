@@ -111,6 +111,8 @@ window.IgApp = (() => {
     if (!yp) return;
     if (!FEED.includes("yunho1")) FEED.unshift("yunho1");
     const scroller = document.querySelector("#ig-home .ig-sc");
+    /* 프로필/상세 화면에 있었더라도 알림을 누르면 홈 피드 맨 위에서 새 게시물이 보이도록 */
+    tab = "home"; $("#ig-det").classList.remove("on"); setNav(); if (scroller) scroller.scrollTop = 0;
     if (scroller && !scroller.querySelector('[data-id="yunho1"]')) { const stories = scroller.querySelector(".ig-sts"); if (stories) stories.insertAdjacentHTML("afterend", postHtml(yp)); else scroller.insertAdjacentHTML("afterbegin", postHtml(yp)); }
     setInterval(() => {
       if (!document.querySelector("#ig-app.show")) return;

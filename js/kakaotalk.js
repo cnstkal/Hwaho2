@@ -537,7 +537,9 @@ const KakaoApp = (() => {
     if (!c) return;
     const duplicate = c.msgs.some(m => m.storySequence && m.text === text);
     if (!duplicate) {
-      c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
+      /* 기존 마지막 메시지보다 항상 뒤의 시각으로 붙인다 (고정 15:10 이면 기존 15:18 메시지보다 앞선 시각으로 보였음) */
+      const lastTs = c.msgs.reduce((a, m) => Math.max(a, m.ts || 0), 0), n = new Date(), clock = new Date(2026, 9, 19, n.getHours(), n.getMinutes(), n.getSeconds()).getTime();
+      c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: Math.max(clock, lastTs + 60000) });
       /* 지금 보고 있는 채팅방이면 읽음, 아니면 상대 메시지만 안 읽음 수에 반영 */
       if (isOpen && cur && cur.id === c.id) c.unread = 0;
       else if (from !== "me") c.unread = (c.unread || 0) + 1;
@@ -552,7 +554,9 @@ const KakaoApp = (() => {
     if (n) { save(); if (isOpen) { if (cur) room(); else renderMain(); } }
     return n;
   }
-  return { open, close, openStoryChat, appendStoryMessage, purgeStoryMessages };
+  /* 지금 화면에 열려 있는 채팅방 id (story.js 가 윤둥이 방에서만 탭 진행을 처리하도록 사용) */
+  const currentChatId = () => (isOpen && cur ? cur.id : null);
+  return { open, close, openStoryChat, appendStoryMessage, purgeStoryMessages, currentChatId };
 })();
 window.KakaoApp = KakaoApp;
 

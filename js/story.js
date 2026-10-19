@@ -7,7 +7,14 @@
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
  const ARTICLE1="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
  const ARTICLE2="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”";
+ /* 1=성화(me, 오른쪽 노란 말풍선), f0=윤둥이. ㅎㅎ(윤둥이)는 통화 종료 시 자동 추가되므로 여기엔 2~6번만 둔다. */
  const yunhoLines=[["me","이번 일로 뭐라하는 놈 있으면 나한테 데려와"],["me","내가 처리할게"],["f0","배고팡"],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?"],["f0","빨리와 💗"]];
+
+ /* ---- 타이밍(ms) ---- */
+ const RING_DELAY=5000;        /* 첫 기사 열람 후 전화까지 (기존 10초 → 5초) */
+ const IG_ALERT_DELAY=1200;    /* 마지막 메시지 이후 인스타 알림까지 */
+ const MANAGER2_DELAY=5000;    /* 게시물 확인 후 매니저 2차 알림까지 */
+ const TAP_GUARD=250;          /* 한 번의 탭이 두 번 처리되는 것을 막는 최소 간격 */
 
  /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 카카오톡 메시지와 일관되게 유지한다 ---- */
  const KEY="hwaho-story-v1";
@@ -17,7 +24,7 @@
  const setStage=s=>{stage=s;persist();};
  const load=()=>{try{const s=window.HwahoStability?window.HwahoStability.readJSON(KEY,null):JSON.parse(localStorage.getItem(KEY));if(s&&s.v===1&&s.started===true&&STAGES.indexOf(s.stage)>=0)return s;}catch(e){}return null;};
 
- /* ---- 타이머: 이름별로 하나만 등록되도록 관리 ---- */
+ /* ---- 타이머: 이름별로 하나만 등록되도록 관리 (앱 전환/홈 이동으로는 취소하지 않는다) ---- */
  const timers={};
  const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
  const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
@@ -26,19 +33,22 @@
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
  function openYunhoChat(){if(window.Home)Home.openApp("kakaotalk");if(window.KakaoApp){KakaoApp.open();KakaoApp.openStoryChat("c0");}}
+ /* 지금 화면에 열려 있는 카카오톡 채팅방이 id 인지 (다른 방의 탭으로 윤둥이 대화가 진행되지 않도록) */
+ const inChat=id=>!!(window.KakaoApp&&typeof KakaoApp.currentChatId==="function"&&KakaoApp.currentChatId()===id);
 
  function start(){if(started)return;started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");toast("성현이형(매니저)",ARTICLE1);}
  function managerLink(){setStage("manager-question-alert");openManager();KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4");later("ack",()=>{if(stage==="manager-question-alert"&&!ack)toast("성현이형(매니저)","이거 합의된 거야?");},2000);}
  function scheduleRing(ms){later("ring",()=>{if(stage!=="first-article")return;if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이"});},ms);}
- function openFirstArticle(){cancel("ack");root.innerHTML="";const entering=stage!=="first-article";setStage("first-article");forceSafari("https://entertain.naver.com/article/sample/4");if(entering)scheduleRing(5000);}
- function scheduleInstagramAlert(){later("ig",()=>{if(stage!=="yunho-chat")return;setStage("ig-alert");toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},1200);}
- function scheduleManager2Alert(){later("m2",()=>{if(stage!=="instagram")return;setStage("manager2-alert");toast("성현이형(매니저)","정윤호쪽에서 인정했네");},5000);}
+ function openFirstArticle(){cancel("ack");root.innerHTML="";const entering=stage!=="first-article";setStage("first-article");forceSafari("https://entertain.naver.com/article/sample/4");if(entering)scheduleRing(RING_DELAY);}
+ function scheduleInstagramAlert(){later("ig",()=>{if(stage!=="yunho-chat")return;setStage("ig-alert");toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},IG_ALERT_DELAY);}
+ function scheduleManager2Alert(){later("m2",()=>{if(stage!=="instagram")return;setStage("manager2-alert");toast("성현이형(매니저)","정윤호쪽에서 인정했네");},MANAGER2_DELAY);}
 
  root.addEventListener("click",e=>{
   const b=e.target.closest("[data-story]");if(!b||b.dataset.story!=="open")return;
   const tappedStage=stage;root.innerHTML="";
   if(tappedStage==="manager-link-alert")managerLink();
   else if(tappedStage==="manager-question-alert"){ack=true;persist();openManager();KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2");}
+  /* ㅎㅎ 는 통화 종료 시 이미 추가되어 있다. 알림 탭은 방만 열고 메시지는 추가하지 않는다. */
   else if(tappedStage==="yunho-alert"){yunhoIndex=0;setStage("yunho-chat");openYunhoChat();}
   else if(tappedStage==="ig-alert"){setStage("instagram");document.dispatchEvent(new CustomEvent("story:instagram-published"));if(window.Home)Home.openApp("instagram");if(window.IgApp)IgApp.open();scheduleManager2Alert();}
   else if(tappedStage==="manager2-alert"){setStage("manager2-chat");openManager();KakaoApp.appendStoryMessage("정윤호쪽에서 인정했네");KakaoApp.appendStoryMessage(ARTICLE2,"link","https://entertain.naver.com/article/sample/6");}
@@ -48,7 +58,20 @@
  document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;cancel("ring");setStage("yunho-alert");if(window.KakaoApp)KakaoApp.appendStoryMessage("ㅎㅎ","text","","c0","f0");toast("윤둥이","ㅎㅎ");});
 
  function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;const [from,msg]=yunhoLines[yunhoIndex++];persist();KakaoApp.appendStoryMessage(msg,"text","", "c0",from);if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
- document.addEventListener("click",e=>{if(stage!=="yunho-chat")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
+
+ /* 채팅 영역 탭 → 다음 메시지 하나.
+    - 윤둥이 채팅방(c0)이 실제로 열려 있을 때만 진행한다 (다른 방의 #kk-msgs 탭은 무시).
+    - 알림을 거치지 않고 직접 윤둥이 방에 들어온 경우(yunho-alert)에도 첫 탭에서 진행을 이어 받고 남은 알림을 지운다.
+    - 방에 들어가는 것만으로는 아무 것도 추가하지 않는다. */
+ let lastTap=0;
+ document.addEventListener("click",e=>{
+  if(stage!=="yunho-alert"&&stage!=="yunho-chat")return;
+  if(!e.target||!e.target.closest||!e.target.closest("#kko-app #kk-msgs"))return;
+  if(!inChat("c0"))return;
+  const t=Date.now();if(t-lastTap<TAP_GUARD)return;lastTap=t;
+  if(stage==="yunho-alert"){root.innerHTML="";yunhoIndex=0;setStage("yunho-chat");}
+  nextYunhoMessage();
+ },true);
 
  /* ---- 새로고침 후 복원: 이미 진행된 단계의 알림만 다시 띄우고, 끝난 이벤트는 다시 실행하지 않는다 ---- */
  function resume(){
@@ -56,7 +79,7 @@
   switch(stage){
    case "manager-link-alert":toast("성현이형(매니저)",ARTICLE1);break;
    case "manager-question-alert":if(!ack)toast("성현이형(매니저)","이거 합의된 거야?");break;
-   case "first-article":scheduleRing(10000);break;
+   case "first-article":scheduleRing(RING_DELAY);break;
    case "yunho-alert":toast("윤둥이","ㅎㅎ");break;
    case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();break;
    case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
