@@ -547,6 +547,7 @@ const PhotosApp = (() => {
     const tinted = false;
     main.innerHTML = `<div class="pl-head"><div class="pl-title-wrap"><h1>보관함</h1><div class="pl-count">${np + nv}개의 항목</div></div><div class="pl-r"><button class="pl-circ" aria-label="필터" disabled>${I.filter}</button><button class="pl-pill" disabled>선택</button></div></div>
 <div class="pl-grid">${cells}</div>
+${sel ? "" : `<div class="pl-tabbar"><div class="pl-tabs"><button class="pl-tab on" disabled aria-label="보관함">${I.photo}<span>보관함</span></button><button class="pl-tab" disabled aria-label="모음">${I.coll}<span>모음</span></button></div><button class="pl-sbtn" disabled aria-label="검색">${I.search}</button></div>`}
 ${sel ? `<div class="pl-bottom"><span></span><button class="pl-circ big" data-p="bdel" ${realSel ? "" : "disabled"} aria-label="삭제">${I.trash}</button></div>`
   : ""}`;
     const ng = el.querySelector(".pl-grid"); if (ng) { const go = () => { ng.scrollTop = bottom ? ng.scrollHeight : keep; }; go(); if (bottom) requestAnimationFrame(() => { go(); setTimeout(go, 120); }); }

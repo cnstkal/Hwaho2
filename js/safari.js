@@ -169,7 +169,7 @@ const SafariApp = (() => {
     return `<div class="nv rs"><div class="rs-sb"><svg class="n" viewBox="0 0 24 24"><path d="M3 3h6.200l5.800 9V3h6v18h-6.200L9 12v9H3z" fill="#03c75a"/></svg><b>${displayName}</b><button data-nv="rclr" class="cl" aria-label="지우기"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#8e9096"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><svg class="mic" viewBox="0 0 24 24" fill="none" stroke="#1ec997" stroke-width="2" stroke-linecap="round"><rect x="8.500" y="2.500" width="7" height="12" rx="3.500"/><path d="M5 11.500a7 7 0 0 0 14 0M12 18.500V22"/></svg></div>
 <div class="rs-tb"><span class="ai">AI<i>N</i></span><span>이미지</span><span>뉴스</span><span>클립</span><span>블로그</span><span>카페</span><span>지식iN</span><span>동영상</span><span>쇼핑</span></div>
 <div class="rs-bd"><div class="rs-hd"><div class="t"><b>${displayName}</b><i>⋮</i></div><small>${seonghwa ? "박성화, 마스 · 래퍼" : "정윤호 · 가수"}</small><div class="rs-cp"><span class="on">전체</span><span>프로필</span><span>수상</span><span>최근영상</span><span>필모그래피</span><span>활동</span></div></div>
-<div class="rs-tbl"><div class="rs-ph"><img src="${profile.image}" alt="${esc(q)} 프로필 사진"></div>${profile.rows || ""}</div></div>${nvNews(seonghwa ? NVN[2] : NVN[4], NVN[1])} </div>`;
+<div class="rs-tbl"><div class="rs-ph"><img src="${profile.image}" alt="${esc(q)} 프로필 사진"></div>${profile.rows || ""}</div></div>${nvNews(seonghwa ? NVN[2] : (nvFinal() ? NVN[4] : NVN[3]), NVN[1])} </div>`;
   }
   (() => { const s = document.createElement("style"); s.textContent = `
 .nv.rs,.nv.en{zoom:.85}
@@ -223,6 +223,9 @@ const SafariApp = (() => {
 .dp-ft{margin:26px 16px 0;font-size:13px;color:#9a9a9a}
 .dp-article-head{margin:28px 6.5% 0}.dp-article-head h1{margin:0;font-size:27px;line-height:1.3;font-weight:850;letter-spacing:-.7px;color:#222}.dp-date{margin:20px 0 16px;font-size:14px;line-height:1.5;color:#aaa}.dp-article-photo{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:#fff}.nn-i .th{overflow:hidden;background:#fff;display:flex;align-items:center;justify-content:center;aspect-ratio:1/1;width:120px;height:120px;flex:0 0 120px;border-radius:12px}.nn-i .th img{display:block;width:100%;height:100%;aspect-ratio:1/1;object-fit:cover;object-position:center;border-radius:12px}.dp-b{padding:24px 6.5% 40px;font-size:19px;line-height:1.75;color:#111}.dp-b p{margin:0 0 26px}
 `; document.head.appendChild(s); })();
+  /* "열애 인정" 기사(id 6)는 이야기 최종 단계(final-article)에서만 노출 */
+  const nvFinal = () => { try { const S = window.HwahoStability ? window.HwahoStability.readJSON("hwaho-story-v1", null) : JSON.parse(localStorage.getItem("hwaho-story-v1")); return !!S && S.started === true && S.stage === "final-article"; } catch (e) { return false; } };
+  const nvVis = x => x.id !== "6" || nvFinal();
   /* ===== 정윤호 프로필 하단 뉴스 + 엔터 기사 상세 (가상의 예시 기사) ===== */
   const NVN = [
     { id: "1", outlet: "Dispatch", ago: "오늘", ts: "2026.10.18. 오후 2:22", hue: 215, image: "./images/app/Dispatch/정윤호_마스_열애설/collage%202.png", title: "[단독] \"누가 봐도 평범한 사이는 아니었다\"…마스♥정윤호, 심야 데이트 포착", sum: "마스와 정윤호가 약 3개월 전부터 교제 중인 것으로 전해졌다. 두 사람은 늦은 밤 식사와 카페 데이트를 즐기며 조심스럽게 만남을 이어오고 있다.", react: "312",
@@ -254,7 +257,7 @@ const SafariApp = (() => {
   }
   const ensv = { sp: '<svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.600" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.500h3l4-3.500v12l-4-3.500H4zM15 9a4 4 0 0 1 0 6M17.500 6.500a7.500 7.500 0 0 1 0 11"/></svg>', sh: '<svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.600" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4l6 5-6 5V11c-5 0-8 2-9 6 .5-6 4-9 9-9z"/><path d="M5 12v7h12"/></svg>', bub: '<svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="1.800"><path d="M12 3.500c-5 0-9 3.300-9 7.500 0 2.300 1.200 4.300 3.100 5.700L5 20.500l4-2.200c.9.200 1.900.4 3 .4 5 0 9-3.300 9-7.500S17 3.500 12 3.500z"/><circle cx="8.500" cy="11.200" r=".5" fill="#111"/><circle cx="12" cy="11.200" r=".5" fill="#111"/><circle cx="15.500" cy="11.200" r=".5" fill="#111"/></svg>' };
   function nvEnt(id) {
-    const a = NVN.find(x => x.id === id) || NVN[0], rel = NVN.filter(x => x !== a);
+    const a = NVN.find(x => x.id === id && nvVis(x)) || NVN[0], rel = NVN.filter(x => x !== a && nvVis(x));
     return `<div class="nv en"><div class="en-hd"><i class="lg"><svg viewBox="0 0 24 24"><path d="M5 4h5l4 6.200V4h5v16h-5l-4-6.200V20H5z" fill="#fff"/></svg></i><b>엔터</b></div>
 <div class="en-cat"><span class="on">홈</span><span>드라마</span><span>영화</span><span>뮤직</span><span>연애</span><span>포토</span><span>랭킹</span><span>최신뉴스</span></div>
 <div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:8px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${nvTodayTs(a.ts)}</span></div></div>
@@ -323,7 +326,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
 .cm-c{display:flex;gap:12px;padding:26px 16px 4px;border-bottom:1px solid #e5e5e5}.cm-c .av{flex:none;width:30px;height:30px;margin-top:2px}.cm-c .bd{flex:1;min-width:0}.cm-c .tp{display:flex;align-items:center;gap:8px}.cm-c .tp b{font-size:19px;font-weight:800}.cm-c .ar{width:16px;height:16px;margin-right:auto}.cm-c .fl{padding:7px 14px;border-radius:16px;background:#f1f2f4;color:#666;font-size:15px}.cm-c .mr{width:22px;height:22px;margin-left:6px}
 .cm-c p{margin:8px 0 0;font-size:18px;line-height:1.5;word-break:break-all}.cm-c small{display:block;margin-top:6px;font-size:16px;color:#aaa}.cm-c .bt{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-bottom:24px}.cm-c .rp{font-size:16.5px;font-weight:700;color:#777}.cm-c .rc{display:flex;gap:18px}.cm-c .rc button{display:flex;align-items:center;gap:6px;font-size:19px;color:#777}.cm-c .rc svg{width:24px;height:24px}.cm-c .rc em{font-style:normal;min-width:10px}.cm-c .rc .on{color:#3b5bdb;font-weight:700}.cm-c .rc .on svg{stroke:#3b5bdb}`; document.head.appendChild(s); })();
   /* ===== 43차: 디시인사이드 국내힙합 갤러리 (가상 페이지, 화면 내 상태만 사용) ===== */
-  const DC = { cm: [], ex: [["ㅋㅋㅋㅋㅋㅋ 제목부터 개웃기네", "ㅇㅇ", "09.03 15:45", 0], ["와 마지막줄 ㅈㄴ 부럽다", "ㅇㅇ(223.38)", "09.03 16:11", 0], ["옾비면 인정 아니냐", "ㅇㅇ(59.15)", "09.03 16:16", 0], ["원큐에 해결이 말이 되냐 ㅋㅋ", "ㅇㅇ(121.149)", "09.03 16:23", 0], ["인맥이 실력이다 진짜", "ㅇㅇ(223.38)", "09.03 17:01", 0], ["이게 부러운 새끼 맞지", "ㅇㅇ(175.223)", "09.03 17:34", 0], ["ㅇㅈ", "ㅇㅇ(118.235)", "09.03 17:37", 0], ["ㅇㅈㅇㅈ", "ㅇㅇ(211.234)", "09.03 18:05", 0], ["와꾸 하나로 먹고사는 거 ㅈㄴ 현실이네", "ㅇㅇ(175.223)", "09.03 18:10", 0], ["배우 남친이 아니라 여친이겠지 ㅋㅋ", "ㅇㅇ(59.15)", "09.03 18:16", 0], ["저 새끼 쇼미 우승했을때부터 이럴줄 알았다", "ㅇㅇ(223.38)", "09.03 18:44", 0], ["솔직히 질투나서 쓴 글 같은데 ㅋㅋㅋ", "ㅇㅇ(118.235)", "09.03 19:21", 0], ["이 정도면 뭐 팔자임", "ㅇㅇ", "09.03 19:36", 0], ["ㅅㅂ 나도 인맥이나 쌓을걸", "ㅇㅇ", "09.03 19:40", 0], ["첫줄부터 인정할 수밖에 없음", "ㅇㅇ(211.234)", "09.03 20:18", 0], ["잘되는 놈은 뭘 해도 잘됨", "ㅇㅇ(175.223)", "09.03 20:22", 0], ["ㅋㅋㅋ 마지막 글씨체 뭐냐", "ㅇㅇ(59.15)", "09.03 20:25", 0], ["대성화가 뭔 뜻임?", "ㅇㅇ(39.7)", "09.03 20:34", 0], ["마지막에 대성화 적은거 ㅈㄴ 웃기네", "ㅇㅇ", "09.03 21:01", 0], ["글쓴이 부러워서 잠 못잤냐", "ㅇㅇ(118.235)", "09.03 21:36", 0], ["아니 근데 와꾸 얘기는 좀 너무하다 ㅋㅋ", "ㅇㅇ(39.7)", "09.03 22:13", 0], ["ㅇㅇ 부럽긴 부럽다", "ㅇㅇ", "09.03 22:49", 0], ["이런 글 올릴 시간에 가사나 써라", "ㅇㅇ", "09.03 22:56", 0], ["갤에서도 이름 나오는 거 보면 뜬 건 맞네", "ㅇㅇ(175.223)", "09.03 23:33", 0], ["배우 누구냐 아는 사람", "ㅇㅇ(118.235)", "09.03 23:57", 0], ["알아도 말 못하지 ㅋㅋ", "ㅇㅇ(118.235)", "09.04 00:33", 0], ["ㄹㅇ 현시점 갓생 1위", "ㅇㅇ(223.38)", "09.04 01:10", 0], ["ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ", "ㅇㅇ(106.101)", "09.04 01:24", 0], ["음악은 좀 별론데 팔자는 인정", "ㅇㅇ(211.234)", "09.04 01:59", 0], ["음악도 괜찮음 ㅇㅇ", "ㅇㅇ(106.101)", "09.04 02:20", 0], ["이거 오늘 개념글 가냐", "ㅇㅇ(106.101)", "09.04 02:58", 0], ["개추 ㅇㅈ", "ㅇㅇ(39.7)", "09.04 03:22", 0], ["나만 부러운거 아니었네", "ㅇㅇ", "09.04 03:38", 0], ["그냥 인생이 쉬운 놈임", "ㅇㅇ(118.235)", "09.04 03:54", 0]] };
+  const DC = { cm: [], ex: [] };
   const dcI = {
     bub: '<svg viewBox="0 0 24 24"><path d="M12 3C6.800 3 3 6.300 3 10.500c0 2.300 1.200 4.300 3 5.600V21l4.200-3c.600.100 1.200.100 1.800.100 5.200 0 9-3.300 9-7.600S17.200 3 12 3z" fill="#c9ccd6"/><circle cx="8.500" cy="10.500" r="1.100" fill="#fff"/><circle cx="12" cy="10.500" r="1.100" fill="#fff"/><circle cx="15.500" cy="10.500" r="1.100" fill="#fff"/></svg>',
     mob: '<svg viewBox="0 0 24 24"><rect x="6" y="2.500" width="12" height="19" rx="2.500" fill="none" stroke="#a9acb8" stroke-width="2"/><circle cx="12" cy="18" r="1" fill="#a9acb8"/></svg>',
@@ -341,7 +344,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   const DCL = [[0,"도끼 still on my way 내 맘대로 불러봤다 재능 있어?","작업물","아산페이커","09.28",85,1,0],[1,"절대못하지 너 없이 난 none","일반","ㅇㅇ(1.239)","09.28",50,0,0],[1,"ㅈㄷㅌ","지듣노","TAKEWON","09.27",36,0,0],[1,"저스디스","일반","양준석은댄..(49.170)","09.27",720,6,4],[0,"지듣텔","지듣노","TAKEONE","09.27",60,0,0],[1,"나플라 실제로 본 후기","일반","ㅇㅇ(118.235)","09.26",101,0,0],[0,"지듣텔","지듣노","TAKEONE","09.26",44,0,0],[1,"저스디스가 너무 싫으면 어떡함?","일반","ㅇㅇ(125.188)","09.25",193,2,1],[1,"이거랑 비슷한 노래 ㅊㅊ좀","일반","ㅇㅇ(180.69)","09.25",70,0,0],[1,"황금귀가 꼽는 현시점 국힙 top5","일반","ㅇㅇ","09.25",222,4,2]];
   const dcLR = p => `<div class="dc-c"><div class="dc-cb">${p[0] ? dcI.bub : dcImg}<b>${esc(p[1])}</b><small>${p[2]}<i></i>${esc(p[3])}<i></i>${p[4]}<i></i>조회 ${p[5]}<i></i>추천 ${p[6] >= 5 ? `<u>${p[6]}</u>` : p[6]}</small></div><div class="dc-cr">${p[7]}</div></div>`;
   function dcPage() {
-    const n = 34 + DC.cm.length, sep = "<i></i>";
+    const n = DC.ex.length + DC.cm.length, sep = "<i></i>";
     return `<div class="dc">
 <div class="dc-h"><svg class="dc-lg" viewBox="0 0 40 30"><circle cx="11" cy="18" r="7.500" fill="none" stroke="#fff" stroke-width="5.500"/><rect x="15" y="2" width="6" height="24" fill="#fff"/><path d="M21 15c5-3 9 3 17 0l-5-5" fill="none" stroke="#fff" stroke-width="3.500" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <div class="dc-sb"><span class="dc-mn"><svg viewBox="0 0 24 24" fill="none" stroke="#9b9ba6" stroke-width="2.600" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="dc-ph">갤러리 &amp; 통합검색</span><svg class="dc-sg" viewBox="0 0 24 24" fill="none" stroke="#3b4890" stroke-width="2.500" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/></svg><span class="dc-rc">최근방문</span></div></div>
@@ -404,9 +407,9 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
         DC.cm.push({ t: v, n: root.querySelector("#dc-nk").value.trim() || "ㅇㅇ", d: dcNow() });
         tx.value = ""; root.querySelector("#dc-pw").value = "";
         root.querySelector("#dc-new").innerHTML = DC.cm.map(dcNew).join("");
-        root.querySelectorAll(".dc-n").forEach(x => { x.textContent = 34 + DC.cm.length; });
+        root.querySelectorAll(".dc-n").forEach(x => { x.textContent = DC.ex.length + DC.cm.length; });
         for (const [k, c] of cache) if (/dcinside\.com/.test(k)) { c.html = dcPage(); c.pv = c.html; }
-      } else if (b.dataset.dc === "rf") root.querySelectorAll(".dc-n").forEach(x => { x.textContent = 34 + DC.cm.length; });
+      } else if (b.dataset.dc === "rf") root.querySelectorAll(".dc-n").forEach(x => { x.textContent = DC.ex.length + DC.cm.length; });
     });
   })();
 
@@ -423,7 +426,7 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
     const h = x.hostname.replace(/^www\./, ""), p = x.pathname, g = k => x.searchParams.get(k) || "", t = g("t"), is = d => h === d || h.endsWith("." + d);
     if (is("dcinside.com")) return { title: "국내힙합 갤러리 - DCinside", html: dcPage() };
     const K = is("google.com") ? "g" : is("naver.com") ? "n" : is("youtube.com") ? "y" : is("wikipedia.org") ? "w" : is("apple.com") ? "a" : is("github.com") ? "h" : is("dispatch.co.kr") ? "d" : h === "news.ycombinator.com" ? "k" : ""; if (!K) return null;
-    if (K === "n" && h === "entertain.naver.com" && p.startsWith("/article")) { const a = NVN.find(x => p.endsWith("/" + x.id)) || NVN[0]; return { title: a.title, html: nvEnt(a.id) }; }
+    if (K === "n" && h === "entertain.naver.com" && p.startsWith("/article")) { const a = NVN.find(x => p.endsWith("/" + x.id) && nvVis(x)) || NVN[0]; return { title: a.title, html: nvEnt(a.id) }; }
     if (K === "d") return { title: p.startsWith("/article") ? "[단독] 마스♥정윤호, 심야 데이트 포착 - Dispatch" : "Dispatch", html: p.startsWith("/article") ? dpArt() : dpMain() };
     const root = p === "/" || p === "" || (K === "a" && /^\/kr\/?$/.test(p));
     let q = ""; if (K === "g" && p === "/search") q = g("q"); else if (K === "n" && h === "search.naver.com") q = g("query"); else if (K === "h" && p === "/search") q = g("q"); else if (K === "y" && p === "/results") q = g("search_query");

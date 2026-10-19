@@ -32,7 +32,7 @@
     const KEY_S = "ioshome.calendar.seed.v6"; if (load(KEY_S, false)) return;
     events = events.filter(e => !String(e.id).startsWith("seed"));
     const Y = new Date().getFullYear();
-    const R = [[1,8,"엄마 생일",8],[1,14,"타투",14],[1,22,"여행",24],[1,29,"건강검진",29],[2,11,"철수 생일",11],[2,20,"부산",20],[2,26,"치과",26],[3,16,"동창회",16],[3,23,"강아지 생일",23],[4,3,"생일",3],[4,26,"제주도",30],[5,12,"가족 식사",12],[6,10,"레도형 결혼식",10],[6,24,"베트남",28],[7,9,"프로필 사진 촬영",9],[7,21,"앨범 콘셉트 미팅",21],[8,2,"앨범 시작",2],[8,7,"피처링 녹음",7],[8,9,"민기 생일",9],[8,12,"1차 마감",12],[8,16,"프로듀서 미팅",16],[8,20,"재킷 촬영",20],[8,22,"뮤직비디오 사전 미팅",22],[8,27,"뮤직비디오 촬영",27],[8,30,"마스터링 마감",30],[9,1,"트랙리스트 확정",1],[9,3,"타이틀곡 믹싱 마감",3],[9,7,"클럽 공연",7],[9,11,"앨범 전달",11],[9,13,"힙페",13],[9,21,"대축",21],[10,1,"발매",1],[10,6,"대축",6],[10,12,"화보",12],[10,14,"공연",14],[10,24,"지방 공연",24],[10,22,"클럽 공연",22],[10,31,"해외 공연",31],[11,4,"녹음",4],[11,6,"대학 축제",6],[11,7,"홍중 생일",7],[11,8,"힙페",8],[11,10,"리믹스 작업 마감",10],[11,14,"클럽 공연",14],[11,18,"뮤직비디오 촬영",18],[11,20,"발매",20],[11,22,"음악 방송",22],[11,21,"지방 공연",21],[11,28,"합동 공연",28],[12,2,"연말 무대 사전 녹화",2],[12,4,"브랜드 행사",4],[12,10,"합동 싱글 발매",10],[12,12,"클럽 공연",12],[12,18,"연말 공연",18],[12,27,"마지막 공연",27],[12,29,"앨범 미팅",29],[2,8,"쇼미",8],[3,15,"쇼미",15],[4,19,"쇼미",19],[5,24,"쇼미",24],[6,28,"쇼미",28],[7,24,"쇼미",24]];
+    const R = [[1,8,"엄마 생일",8],[1,14,"타투",14],[1,22,"여행",24],[1,29,"건강검진",29],[2,11,"철수 생일",11],[2,20,"부산",20],[2,26,"치과",26],[3,16,"동창회",16],[3,23,"강아지 생일",23],[4,3,"생일",3],[4,26,"제주도",30],[5,12,"가족 식사",12],[6,10,"레도형 결혼식",10],[7,9,"프로필 사진 촬영",9],[7,21,"앨범 콘셉트 미팅",21],[8,2,"앨범 시작",2],[8,7,"피처링 녹음",7],[8,9,"민기 생일",9],[8,12,"1차 마감",12],[8,16,"프로듀서 미팅",16],[8,20,"재킷 촬영",20],[8,22,"뮤직비디오 사전 미팅",22],[8,27,"뮤직비디오 촬영",27],[8,30,"마스터링 마감",30],[9,1,"트랙리스트 확정",1],[9,3,"타이틀곡 믹싱 마감",3],[9,7,"클럽 공연",7],[9,11,"앨범 전달",11],[9,13,"힙페",13],[9,21,"대축",21],[10,1,"발매",1],[10,6,"대축",6],[10,12,"화보",12],[10,14,"공연",14],[10,24,"지방 공연",24],[10,22,"클럽 공연",22],[10,31,"해외 공연",31],[11,4,"녹음",4],[11,6,"대학 축제",6],[11,7,"홍중 생일",7],[11,8,"힙페",8],[11,10,"리믹스 작업 마감",10],[11,14,"클럽 공연",14],[11,18,"뮤직비디오 촬영",18],[11,20,"발매",20],[11,22,"음악 방송",22],[11,21,"지방 공연",21],[11,28,"합동 공연",28],[12,2,"연말 무대 사전 녹화",2],[12,4,"브랜드 행사",4],[12,10,"합동 싱글 발매",10],[12,12,"클럽 공연",12],[12,18,"연말 공연",18],[12,27,"마지막 공연",27],[12,29,"앨범 미팅",29],[2,9,"쇼미",9],[3,17,"쇼미",17],[4,20,"쇼미",20],[5,26,"쇼미",26],[6,29,"쇼미",29],[7,24,"쇼미",24]];
     R.forEach((r, i) => { const k = `${Y}-${pad(r[0])}-${pad(r[1])}`, k2 = `${Y}-${pad(r[0])}-${pad(r[3])}`; events.push({ id: "seed" + i, title: r[2], loc: "", notes: "", allDay: true, start: k + "T00:00", end: k2 + "T23:59", cal: "school", rep: "", trv: "0", alr: "", url: "" }); });
     store(KEY_E, events); store(KEY_S, true);
   })();
@@ -46,6 +46,20 @@
     ];
     const ids = new Set(events.map(e => e.id));
     extra.forEach(e => { if (!ids.has(e.id)) events.push(e); });
+    store(KEY_E, events); store(KEY, true);
+  })();
+  /* 일정 수정(베트남 삭제, 쇼미 평일 재배치): 기존 저장 데이터에도 한 번만 반영 */
+  (function fixShowmeEvents() {
+    const KEY = "ioshome.calendar.fixShowme.v1";
+    if (load(KEY, false)) return;
+    const mv = { "-02-08": "-02-09", "-03-15": "-03-17", "-04-19": "-04-20", "-05-24": "-05-26", "-06-28": "-06-29" };
+    events = events.filter(e => !(e.title === "베트남" && String(e.start).slice(5, 7) === "06"));
+    events.forEach(e => {
+      if (e.title !== "쇼미") return;
+      const s = String(e.start).slice(4, 10), n = mv[s]; if (!n) return;
+      const y = String(e.start).slice(0, 4);
+      e.start = y + n + String(e.start).slice(10); e.end = y + n + String(e.end).slice(10);
+    });
     store(KEY_E, events); store(KEY, true);
   })();
   let today = ymd(new Date(2026, 9, 19));
@@ -448,12 +462,24 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">일�
   /* ---------- 알림 ---------- */
   let fired = load(KEY_A, {}), bnT = 0;
   const bn = document.createElement("div"); bn.id = "cal-banner"; screen.appendChild(bn);
+  let bnQ = [], bnShow = false, bnHide = false;
+  function bnPump() {
+    if (bnShow || !bnQ.length) return;
+    const n = bnQ.shift(); bnShow = true; bnHide = false;
+    bn.innerHTML = `<span class="bi">${n.day}</span><div class="bt"><div class="br"><b>${esc(n.title)}</b><small>지금</small></div><span>${esc(n.sub)}</span></div>`;
+    void bn.offsetWidth;
+    requestAnimationFrame(() => { bn.classList.add("on"); bnT = setTimeout(bnClose, 5000); });
+  }
+  function bnClose() {
+    if (!bnShow || bnHide) return;
+    bnHide = true; clearTimeout(bnT); bn.classList.remove("on");
+    setTimeout(() => { bnShow = false; bnHide = false; bnPump(); }, 450);
+  }
   function banner(title, sub, day) {
-    bn.innerHTML = `<span class="bi">${day}</span><div class="bt"><small>캘린더 · 지금</small><b>${esc(title)}</b><span>${esc(sub)}</span></div>`;
-    bn.classList.add("on"); clearTimeout(bnT); bnT = setTimeout(() => bn.classList.remove("on"), 5000);
+    bnQ.push({ title, sub, day }); bnPump();
     try { if (window.Notification && Notification.permission === "granted") new Notification(title, { body: sub }); } catch (e) {}
   }
-  bn.addEventListener("click", () => { bn.classList.remove("on"); if (!isOpen && window.Home) Home.openApp("calendar"); });
+  bn.addEventListener("click", () => { if (!bnShow || bnHide) return; bnClose(); if (!isOpen && window.Home) Home.openApp("calendar"); });
   function checkAlerts() {
     const now = Date.now(); let dirty = false, base = ymd(new Date());
     events.forEach(e => {
@@ -592,4 +618,4 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">일�
 `;document.head.appendChild(st);})();
 
 /* App-specific styles moved from base.css */
-(()=>{const s=document.createElement("style");s.textContent="#cal-main{flex:1;display:flex;flex-direction:column;min-height:0}\n#cal-banner{position:absolute;left:8px;right:8px;top:calc(env(safe-area-inset-top,0px) + 56px);z-index:30;background:rgba(250,250,250,.94);color:#000;border-radius:22px;padding:12px 14px;display:flex;gap:10px;align-items:center;box-shadow:0 8px 30px rgba(0,0,0,.25);transform:translateY(-160%);opacity:0;transition:transform .4s cubic-bezier(.2,.9,.25,1),opacity .3s;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);cursor:pointer}\n#cal-banner.on{transform:none;opacity:1}\n#cal-banner .bi{width:38px;height:38px;border-radius:9px;background:#fff;color:#ff3b30;display:grid;place-items:center;font-size:20px;font-weight:700;flex:none;box-shadow:0 0 0 .5px rgba(0,0,0,.15)}\n#cal-banner .bt{min-width:0;display:flex;flex-direction:column}\n#cal-banner small{font-size:12px;color:#6e6e73}\n#cal-banner b{font-size:15px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n#cal-banner .bt span{font-size:14px;color:#3c3c43}";document.head.appendChild(s);})();
+(()=>{const s=document.createElement("style");s.textContent="#cal-main{flex:1;display:flex;flex-direction:column;min-height:0}\n#cal-banner{position:absolute;left:8px;right:8px;top:calc(env(safe-area-inset-top,0px) + 8px);z-index:30;display:flex;gap:11px;align-items:center;padding:11px 14px;min-height:64px;box-sizing:border-box;color:#000;border-radius:24px;background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%);border:.5px solid rgba(255,255,255,.65);box-shadow:0 8px 28px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.5) inset;cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0;visibility:hidden;pointer-events:none;transform:translate3d(0,-130%,0);will-change:transform,opacity;backface-visibility:hidden;transition:transform .42s cubic-bezier(.4,0,.6,1),opacity .3s cubic-bezier(.4,0,.6,1),visibility 0s linear .42s}\n#cal-banner.on{opacity:1;visibility:visible;pointer-events:auto;transform:translate3d(0,0,0);transition:transform .55s cubic-bezier(.16,1,.3,1),opacity .4s cubic-bezier(.16,1,.3,1),visibility 0s}\n#cal-banner .bi{width:40px;height:40px;border-radius:10px;background:#fff;color:#ff3b30;display:grid;place-items:center;font-size:21px;font-weight:700;flex:none;box-shadow:0 0 0 .5px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.12)}\n#cal-banner .bt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}\n#cal-banner .br{display:flex;align-items:baseline;gap:8px}\n#cal-banner b{flex:1;min-width:0;font-size:15px;line-height:1.3;font-weight:600;letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n#cal-banner small{flex:none;font-size:12.5px;line-height:1.3;color:rgba(60,60,67,.65)}\n#cal-banner .bt>span{font-size:14.5px;line-height:1.3;color:rgba(0,0,0,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n@media (prefers-reduced-motion:reduce){#cal-banner,#cal-banner.on{transition:opacity .2s linear,visibility 0s}}";document.head.appendChild(s);})();

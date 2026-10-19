@@ -25,6 +25,7 @@ const FaceTimeApp = (() => {
 <div class="ft-alert" id="ft-alert" role="alertdialog" aria-hidden="true">
   <div class="ft-at">진행하시겠습니까?</div>
   <div class="ft-ab"><button data-ft="no">아니요</button><button data-ft="yes" class="b">네</button></div>
+  <div class="ft-note">* 아니오를 누르면 40초 후 창이 다시 활성화됩니다.</div>
 </div>
 <div class="ft-incoming" id="ft-incoming" aria-hidden="true">
   <div class="ft-in-small">전화가 오고 있습니다</div>
@@ -56,6 +57,7 @@ const FaceTimeApp = (() => {
 #ft-root .ft-at{padding:22px 16px 20px;font-size:17px;font-weight:600;line-height:1.3}
 #ft-root .ft-ab{display:flex;border-top:.5px solid rgba(60,60,67,.3)}
 #ft-root .ft-ab button{flex:1;height:44px;font-size:17px;color:#007aff;background:transparent}
+#ft-root .ft-note{padding:8px 14px 10px;font-size:11px;line-height:1.35;color:#8e8e93;border-top:.5px solid rgba(60,60,67,.18)}
 #ft-root .ft-ab button.b{font-weight:600;border-left:.5px solid rgba(60,60,67,.3)}
 #ft-root .ft-incoming,#ft-root .ft-call{position:absolute;inset:0;background:linear-gradient(180deg,#24252a 0%,#111216 48%,#050506 100%);opacity:0;visibility:hidden;transition:opacity .25s;display:flex;flex-direction:column;align-items:center}
 #ft-root .ft-incoming.on,#ft-root .ft-call.on{opacity:1;visibility:visible;pointer-events:auto}

@@ -85,6 +85,13 @@
     el.innerHTML = PAGES[page]() + (sheet ? sheetH() : "");
     rendered = page; const s = $(".fmx-sc"); if (!s) return;
     s.scrollTop = keep && memo[page] != null ? memo[page] : page === "room" ? s.scrollHeight : (memo[page] || 0);
+    if (page === "room" && !(keep && memo.room != null)) {
+      const rm = s, bot = () => { if (rm.isConnected) rm.scrollTop = rm.scrollHeight; };
+      requestAnimationFrame(() => { bot(); requestAnimationFrame(bot); });
+      rm.querySelectorAll("img").forEach(i => { if (!i.complete) i.addEventListener("load", bot, { once: true }); });
+      [120, 350].forEach(d => setTimeout(bot, d));
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(bot);
+    }
   }
   const go = p => { stack.push(page); page = p; sheet = null; prof = null; render(); };
   const back = () => { page = stack.pop() || tab; sheet = null; prof = null; render(); };
