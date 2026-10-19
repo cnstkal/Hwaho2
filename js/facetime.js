@@ -100,7 +100,7 @@ const FaceTimeApp = (() => {
 #ft-root .ft-incoming,#ft-root .ft-call{left:0!important;right:0!important;top:0!important;bottom:0!important;width:100%!important;height:100%!important;min-width:0!important;max-width:none!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important;overflow:hidden!important;background:#111216!important}
 #ft-root .ft-incoming:before,#ft-root .ft-call:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#24252a 0%,#111216 48%,#050506 100%);pointer-events:none;z-index:0}
 #ft-root .ft-incoming>* ,#ft-root .ft-call>*{position:relative;z-index:1}
-#ft-root .ft-incoming .ft-in-actions,#ft-root .ft-call .ft-cg,#ft-root .ft-call .ft-pb{z-index:2}
+#ft-root .ft-incoming .ft-in-actions{position:absolute!important;left:0!important;right:0!important;bottom:calc(env(safe-area-inset-bottom,0px) + 66px)!important;z-index:2!important}#ft-root .ft-call .ft-cg,#ft-root .ft-call .ft-pb{z-index:2}#ft-root .ft-contact-avatar img{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover}#ft-root .ft-in-name{font-size:clamp(24px,7vw,30px);max-width:calc(100% - 32px);text-align:center;overflow-wrap:anywhere}
 #screen.ft-call-on #ft-root{z-index:2147483000!important}
 `;
   document.head.appendChild(style);
