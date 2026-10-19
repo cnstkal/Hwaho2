@@ -341,26 +341,39 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   const dcCm = (n, t, d) => { const m = /^([^(]*)(\(.*\))?$/.exec(n) || [0, n, ""]; return `<div class="dc-m"><div class="dc-mn2"><span>${esc(m[1])}<em>${esc(m[2] || "")}</em></span>${dcX}</div><p>${esc(t)}</p><small>${d}</small></div>`; };
   const dcNew = c => dcCm(c.n, c.t, c.d);
   const dcNow = () => { const d = new Date(2026, 9, 19, 14, 0); const p = x => String(x).padStart(2, "0"); return `${p(d.getMonth() + 1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`; };
-  const DCL = [[0,"도끼 still on my way 내 맘대로 불러봤다 재능 있어?","작업물","아산페이커","09.28",85,1,0],[1,"절대못하지 너 없이 난 none","일반","ㅇㅇ(1.239)","09.28",50,0,0],[1,"ㅈㄷㅌ","지듣노","TAKEWON","09.27",36,0,0],[1,"저스디스","일반","양준석은댄..(49.170)","09.27",720,6,4],[0,"지듣텔","지듣노","TAKEONE","09.27",60,0,0],[1,"나플라 실제로 본 후기","일반","ㅇㅇ(118.235)","09.26",101,0,0],[0,"지듣텔","지듣노","TAKEONE","09.26",44,0,0],[1,"저스디스가 너무 싫으면 어떡함?","일반","ㅇㅇ(125.188)","09.25",193,2,1],[1,"이거랑 비슷한 노래 ㅊㅊ좀","일반","ㅇㅇ(180.69)","09.25",70,0,0],[1,"황금귀가 꼽는 현시점 국힙 top5","일반","ㅇㅇ","09.25",222,4,2]];
-  const dcLR = p => `<div class="dc-c"><div class="dc-cb">${p[0] ? dcI.bub : dcImg}<b>${esc(p[1])}</b><small>${p[2]}<i></i>${esc(p[3])}<i></i>${p[4]}<i></i>조회 ${p[5]}<i></i>추천 ${p[6] >= 5 ? `<u>${p[6]}</u>` : p[6]}</small></div><div class="dc-cr">${p[7]}</div></div>`;
+  const DCL = [
+    ["공지","국힙갤 이용 안내 및 필독","운영팀","10.19",2841,18,0],
+    ["일반","요즘 마스 무대 계속 돌려보게 되네","ㅇㅇ(118.235)","10.19",1842,21,0],
+    ["일반","잘하는 건 알겠는데 팬덤 분위기는 좀 피곤함","ㅇㅇ(223.38)","10.19",963,7,0],
+    ["일반","마스 라이브 영상 보니까 생각보다 더 안정적이더라","힙찔이감별사","10.19",1277,15,0],
+    ["일반","잘나가니까 별걸로 다 까이노 ㅋㅋ","ㅇㅇ(211.36)","10.19",805,12,0],
+    ["일반","솔직히 랩은 인정하는데 취향은 아님","ㅇㅇ(106.101)","10.19",642,4,0],
+    ["일반","요즘 국힙에 저 정도 무대 장악력 흔하진 않음","붐뱁충","10.19",1104,19,0],
+    ["일반","마스 얘기 하루종일 하는 갤이 됐네","ㅇㅇ(39.7)","10.19",731,6,0],
+    ["일반","픽스온 신곡 비트는 괜찮은데 훅이 아쉽다","ㅇㅇ(121.140)","10.19",528,3,0],
+    ["일반","실력으로 뜬 거라 더 배 아픈 애들 많을 듯","ㅇㅇ(175.223)","10.19",916,10,0],
+    ["일반","쇼미 파이널 무대 다시 보는데 편곡 잘했네","무대충","10.19",1493,17,0],
+    ["일반","마스 벌스 듣고 다른 참가자들 거도 찾아봄","ㅇㅇ(14.36)","10.19",477,5,0],
+    ["일반","엔오원 이번 곡은 믹싱이 좀 아깝다","ㅇㅇ(220.92)","10.19",389,2,0],
+    ["일반","랩 잘하면 성격까지 싫어해야 되는 법이라도 있냐","ㅇㅇ(58.29)","10.19",682,8,0],
+    ["일반","요즘 붐뱁 하는 애들 중에 추천할 만한 앨범 있음?","앨범수집가","10.19",344,1,0],
+    ["일반","쇼미는 이제 참가자보다 프로듀서 조합이 더 궁금함","ㅇㅇ(118.235)","10.19",591,4,0],
+    ["지듣노","오늘은 이센스 1집이나 다시 듣는다","ㅇㅇ(211.234)","10.19",413,6,0],
+    ["일반","요즘 래퍼들 라이브 클립은 왜 다 세로로 찍냐","ㅇㅇ(223.62)","10.19",276,0,0],
+    ["일반","가사에 힘 너무 주면 오히려 촌스러워지는 듯","리스너","10.19",358,2,0],
+    ["일반","신곡 쏟아지는데 정작 저장하는 건 몇 개 없네","ㅇㅇ(106.102)","10.19",302,1,0]
+  ];
+  const dcLR = p => `<div class="dc-row"><span class="dc-kind">${esc(p[0])}</span><span class="dc-subject">${esc(p[1])}</span><span class="dc-author">${esc(p[2])}</span><span class="dc-date">10.19</span><span class="dc-num">${p[4]}</span><span class="dc-num">${p[5]}</span><span class="dc-num dc-comments">0</span></div>`;
   function dcPage() {
-    const n = DC.ex.length + DC.cm.length, sep = "<i></i>";
     return `<div class="dc">
 <div class="dc-h"><svg class="dc-lg" viewBox="0 0 40 30"><circle cx="11" cy="18" r="7.500" fill="none" stroke="#fff" stroke-width="5.500"/><rect x="15" y="2" width="6" height="24" fill="#fff"/><path d="M21 15c5-3 9 3 17 0l-5-5" fill="none" stroke="#fff" stroke-width="3.500" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <div class="dc-sb"><span class="dc-mn"><svg viewBox="0 0 24 24" fill="none" stroke="#9b9ba6" stroke-width="2.600" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="dc-ph">갤러리 &amp; 통합검색</span><svg class="dc-sg" viewBox="0 0 24 24" fill="none" stroke="#3b4890" stroke-width="2.500" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/></svg><span class="dc-rc">최근방문</span></div></div>
 <div class="dc-mb"><span>갤러리</span><span class="on">마이너갤</span><span>미니갤</span><span>인물갤</span><svg viewBox="0 0 24 24"><path d="M4 8h16l-8 9z" fill="#aab0d8"/></svg></div>
-<div class="dc-gi"><div class="dc-gn"><b>국내힙합</b><span class="dc-mk">m</span></div><div class="dc-gt"><svg viewBox="0 0 24 24" fill="none" stroke="#b5b7c2" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500v.5" stroke-linecap="round"/></svg>${sep}<span>설정<em>N</em></span>${sep}<span>연관</span><button class="dc-wb" data-dc="x">글쓰기</button></div></div>
-<div class="dc-tt"><div class="dc-t1"><b>현시점 제일 부러운 새끼</b></div><div class="dc-t2"><span>ㅇㅇ <u class="fx">ㅅ</u>${sep}${dsh("2026.09.03 15:21", "2026.09.04")}</span><span style="display:flex;align-items:center;gap:12px">${dcI.fp}<button data-dc="x" style="border:1px solid #c9cde0!important;border-radius:18px;padding:6px 12px;font-size:14px;color:#222!important">갤로그가기</button></span></div></div>
-<div class="dc-st"><span>조회수 2432</span>${sep}<span>추천 168</span>${sep}<span class="dc-pl">댓글 <em class="dc-n">${n}</em></span></div>
-<div class="dc-im"></div><div class="dc-bd">쇼미 1등한 새끼<br>끝나자마자 옾비 들어간 새끼<br>인맥이고 뭐고 원큐에 다 해결한 새끼<br>와꾸만으로도 죽을 때까지 먹고살 새끼<br>배우 남친까지 둔 새끼<br><div class="dc-rd">"대성화"</div></div><div class="dc-rec"><div class="dc-rb"><div class="dc-nums"><span>168</span></div><div class="dc-cir up">${dcI.star}<small>개념</small></div><div class="dc-cir dn">${dcI.arr}<small>비추</small></div><div class="dc-nm">0</div></div>
-<div class="dc-tl"><span><u class="b">B</u>실베추</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#1e90ff" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12V9a2 2 0 0 1 2-2h12l-3-3M20 12v3a2 2 0 0 1-2 2H6l3 3"/></svg>펌 0</span><span><svg viewBox="0 0 24 24" fill="none" stroke="#a4a8b6" stroke-width="2.200"><circle cx="6" cy="12" r="2.500"/><circle cx="18" cy="5.500" r="2.500"/><circle cx="18" cy="18.500" r="2.500"/><path d="M8 11l8-4M8 13l8 4"/></svg>공유</span><span>${dcI.fp}스크랩</span><span class="rd"><svg viewBox="0 0 24 24"><path d="M5 19v-2a7 7 0 0 1 14 0v2zM3 20h18v2H3zM12 2v3M4.500 5l2 2M19.500 5l-2 2" fill="#d32f2f" stroke="#d32f2f" stroke-width="1.800" stroke-linecap="round"/></svg>신고</span></div></div>
-<div class="dc-bt"><button data-dc="x">목록보기</button><button class="p" data-dc="x">글쓰기</button><button data-dc="x">수정</button><button data-dc="x">삭제</button></div>
-<div class="dc-ch"><span class="l"><b>댓글</b><span class="rd">[<span class="dc-n">${n}</span>]</span><button class="dc-rf" data-dc="rf" aria-label="새로고침">${dcI.rl}</button></span><span class="r">본문${sep}등록순${dcI.dn}</span></div>
-<div class="dc-cl">${DC.ex.map(c => dcCm(c[1], c[0], c[2])).join("")}<div id="dc-new">${DC.cm.map(dcNew).join("")}</div></div>
-<div class="dc-ch dc-ch2"><span class="l"><b>댓글</b><span class="rd">[<span class="dc-n">${n}</span>]</span><button class="dc-rf" data-dc="rf" aria-label="새로고침">${dcI.rl}</button></span><span class="r">본문${sep}댓글 위로<svg viewBox="0 0 24 24"><path d="M5 17h14l-7-9z" fill="#9a9ca8"/></svg></span></div>
-<div class="dc-bx"><div class="dc-in2"><input id="dc-nk" placeholder="닉네임" maxlength="12" autocomplete="off"><input id="dc-pw" type="password" placeholder="비밀번호" maxlength="20" autocomplete="off"></div><textarea id="dc-tx" placeholder="댓글을 입력해주세요."></textarea><div class="dc-fb"><span class="ic"><svg viewBox="0 0 40 30" fill="#fff" stroke="#333" stroke-width="1.600"><path d="M5 20c0-8 7-14 15-14s15 6 15 14c0 4-3 6-7 6H12c-4 0-7-2-7-6z"/><circle cx="14" cy="18" r="1" fill="#333"/><circle cx="26" cy="18" r="1" fill="#333"/><path d="M17 21q3 2 6 0" fill="none"/></svg><b class="tt">T</b><svg class="mic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#a4a8b6"/><rect x="9.500" y="5" width="5" height="9" rx="2.500" fill="#fff"/><path d="M7.500 12a4.500 4.500 0 0 0 9 0M12 16.500V19" stroke="#fff" stroke-width="1.600" fill="none" stroke-linecap="round"/></svg></span><button class="dc-rg" data-dc="reg">등록</button></div></div>
-<div class="dc-gap"></div>
-<div class="dc-lst">${DCL.map(dcLR).join("")}</div>
+<div class="dc-gi"><div class="dc-gn"><b>국내힙합</b><span class="dc-mk">m</span></div><div class="dc-gt"><svg viewBox="0 0 24 24" fill="none" stroke="#b5b7c2" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500v.5" stroke-linecap="round"/></svg><i></i><span>설정<em>N</em></span><i></i><span>연관</span></div></div>
+<div class="dc-list-tools"><b>전체글</b><span>개념글</span><span>공지</span><span class="dc-tool-right">글 수 20</span></div>
+<div class="dc-table"><div class="dc-head"><span>말머리</span><span>제목</span><span>글쓴이</span><span>날짜</span><span>조회</span><span>추천</span><span>댓글</span></div><div class="dc-lst">${DCL.map(dcLR).join("")}</div></div>
+<div class="dc-foot"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>›</span></div>
+<div class="dc-searchbar"><span>제목+내용</span><span>검색어를 입력하세요</span><b>검색</b></div>
 </div>`;
   }
   (() => {
@@ -399,6 +412,9 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
 .dc-m{padding:11px 12px 10px;border-bottom:1px solid #e3e5ee}.dc-mn2{display:flex;justify-content:space-between;align-items:center;font-size:17px;font-weight:500}.dc-mn2 em{font-style:normal;font-weight:400;color:#9a9ca8}.dc-mn2 svg{width:26px;height:26px}.dc-m p{margin:6px 0 4px;font-size:17px;line-height:1.45;word-break:break-all;letter-spacing:-.4px}.dc-m small{font-size:14px;color:#9a9ca8}
 .dc-ch2{border-top:2px solid #e6e7ee;height:46px;background:#f6f7fb}.dc-gap{height:40px;border-bottom:4px solid #dfe2f0}.dc-cb small u{text-decoration:none;color:#1e90ff}
 .dc-sr{margin:12px;border:1px solid #c9cde0;height:38px;display:flex;align-items:center;gap:8px;padding:0 10px;font-size:15px;color:#aaa}.dc-sr b{color:#222;font-weight:600}.dc-sr svg{width:22px;height:22px}.dc-sr svg:last-child{margin-left:auto}.dc-bn{display:flex;justify-content:space-between;padding:12px 24px;font-size:20px;font-weight:800;border-top:1px solid #e3e5ee}.dc-bn span:last-child{color:var(--nv)}
+
+.dc-list-tools{height:42px;display:flex;align-items:center;gap:18px;padding:0 12px;border-bottom:1px solid #dfe1ea;font-size:14px;color:#777}.dc-list-tools b{color:#3b4890;font-size:17px}.dc-tool-right{margin-left:auto;font-size:12px;color:#999}
+.dc-table{width:100%;overflow:hidden}.dc-head,.dc-row{display:grid;grid-template-columns:48px minmax(0,1fr) 70px 42px 34px 32px 34px;align-items:center;column-gap:3px;padding:0 5px}.dc-head{height:32px;background:#f5f6fa;border-bottom:1px solid #d8dbe6;color:#777;font-size:10px;text-align:center;white-space:nowrap}.dc-row{min-height:43px;border-bottom:1px solid #e5e6ed;font-size:11px;color:#666;text-align:center}.dc-kind{font-size:10px;color:#737ca8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dc-subject{text-align:left;font-size:12px;line-height:1.3;color:#222;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}.dc-author{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}.dc-date,.dc-num{font-size:10px;white-space:nowrap;color:#777}.dc-comments{color:#d32f2f}.dc-foot{display:flex;justify-content:center;gap:18px;padding:18px 0;color:#777;font-size:13px}.dc-foot span:first-child{color:#3b4890;font-weight:800}.dc-searchbar{display:flex;align-items:center;gap:8px;margin:0 10px 16px;border:1px solid #d5d8e5;padding:9px;font-size:12px;color:#999}.dc-searchbar span:first-child{color:#555;white-space:nowrap}.dc-searchbar b{margin-left:auto;background:#3b4890;color:#fff;padding:5px 10px;font-weight:500}
 `; document.head.appendChild(st);
     document.addEventListener("click", e => {
       const b = e.target.closest && e.target.closest(".dc [data-dc]"); if (!b) return; const root = b.closest(".dc");
@@ -419,7 +435,6 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
   NVC.forEach(c => c.d = dsh(c.d, "2026.10.11"));
   NVY.forEach(c => c.d = dsh(c.d, "2026.09.03"));
   DC.ex.forEach(c => c[2] = dsh(c[2], "2026.09.04"));
-  DCL.forEach(r => r[4] = dsh(r[4], "2026.09.28"));
 
   function virt(url) {
     let x; try { x = new URL(url); } catch (e) { return null; }
