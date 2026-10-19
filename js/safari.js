@@ -344,23 +344,14 @@ ${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY
   const DCL = [
     ["일반","어케 꼬셨노 ㅅㅂ","ㅇㅇ(118.235)","10.19",412,5,0],
     ["일반","그럼 그 가사 전부 실화였던 거냐?","ㅇㅇ(223.38)","10.19",358,4,0],
-    ["일반","그럼 정윤호 이제 비처녀임..?","ㅇㅇ(211.36)","10.19",527,3,0],
+    ["일반","정윤호 이제 비처녀임..?","ㅇㅇ(211.36)","10.19",527,3,0],
     ["일반","한 놈은 인정했는데 한 놈은 까인 거면 짝사랑 아님?","ㅇㅇ(106.101)","10.19",296,2,0],
     ["일반","솔직히 부러우면 부럽다고 해라 ㅋㅋ","ㅇㅇ(39.7)","10.19",244,1,0],
     ["일반","픽스온 이번 신곡 괜찮네","ㅇㅇ(175.223)","10.19",187,2,0],
     ["일반","3am 같은 곡 추천좀","ㅇㅇ(14.36)","10.19",163,0,0],
-    ["일반","마스 2집 수록곡 가사 해석 보다가 소름 돋았다","ㅇㅇ(58.29)","10.19",332,6,0],
-    ["일반","마스는 박자 가지고 노는 게 진짜 다르긴 하다","ㅇㅇ(220.92)","10.19",271,3,0],
-    ["일반","쇼미 파이널 마스 무대 지금 들어도 좋네","ㅇㅇ(121.140)","10.19",219,2,0],
-    ["일반","마스는 앨범보다 라이브가 낫다는 말이 맞는 듯","ㅇㅇ(106.102)","10.19",198,1,0],
-    ["일반","마스 피처링 들어간 곡 모음 있냐","ㅇㅇ(211.234)","10.19",142,0,0],
-    ["일반","요즘 신곡 중에 저장한 건 마스랑 픽스온 정도밖에 없음","ㅇㅇ(223.62)","10.19",176,1,0],
-    ["일반","마스 사생활 얘기보다 다음 앨범이 더 궁금함","ㅇㅇ(118.40)","10.19",154,2,0],
-    ["일반","엔오원 이번 곡 믹싱이 좀 아깝다","ㅇㅇ(61.73)","10.19",121,0,0],
-    ["일반","붐뱁 앨범 추천 좀 해줘라","ㅇㅇ(175.116)","10.19",109,0,0],
-    ["지듣노","오늘은 이센스 1집이나 다시 듣는다","ㅇㅇ(39.118)","10.19",93,1,0],
-    ["일반","국힙 신곡 쏟아지는데 막상 들을 게 없네","ㅇㅇ(110.70)","10.19",88,0,0],
-    ["일반","랩은 잘하는데 가사는 좀 더 솔직했으면 좋겠음","ㅇㅇ(223.33)","10.19",134,1,0]
+    ["일반","성화야 너는 진짜 힙합을 하는 구나","ㅇㅇ(58.29)","10.19",332,6,0],
+    ["일반","파이널 무대는 지금 들어도 좋네","ㅇㅇ(220.92)","10.19",271,3,0],
+    ["일반","픽스온이랑 배우랑 친하던데 다리 놔줫나봄","ㅇㅇ(121.140)","10.19",219,2,0]
   ];
   const dcLR = p => `<div class="dc-c"><div class="dc-cb">${dcI.bub}<b>${esc(p[1])}</b><small>${esc(p[0])}<i></i>${esc(p[2])}<i></i>${esc(p[3])}<i></i>조회 ${p[4]}<i></i>추천 ${p[5] >= 5 ? `<u>${p[5]}</u>` : p[5]}</small></div><div class="dc-cr">${p[6]}</div></div>`;
   function dcPage() {
@@ -369,7 +360,7 @@ ${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY
 <div class="dc-sb"><span class="dc-mn"><svg viewBox="0 0 24 24" fill="none" stroke="#9b9ba6" stroke-width="2.600" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="dc-ph">갤러리 &amp; 통합검색</span><svg class="dc-sg" viewBox="0 0 24 24" fill="none" stroke="#3b4890" stroke-width="2.500" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/></svg><span class="dc-rc">최근방문</span></div></div>
 <div class="dc-mb"><span>갤러리</span><span class="on">마이너갤</span><span>미니갤</span><span>인물갤</span><svg viewBox="0 0 24 24"><path d="M4 8h16l-8 9z" fill="#aab0d8"/></svg></div>
 <div class="dc-gi"><div class="dc-gn"><b>국내힙합</b><span class="dc-mk">m</span></div><div class="dc-gt"><svg viewBox="0 0 24 24" fill="none" stroke="#b5b7c2" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.500v.5" stroke-linecap="round"/></svg><i></i><span>설정<em>N</em></span><i></i><span>연관</span></div></div>
-<div class="dc-tt"><div class="dc-t1"><b>현시점 제일 부러운 새끼</b></div><div class="dc-t2"><span>ㅇㅇ <u class="fx">ㅅ</u><i></i>10.19 15:21</span><span style="display:flex;align-items:center;gap:12px">${dcI.fp}<button data-dc="x" style="border:1px solid #c9cde0!important;border-radius:18px;padding:6px 12px;font-size:14px;color:#222!important">갤로그가기</button></span></div></div><div class="dc-st"><span>조회수 2432</span><i></i><span>추천 23</span><i></i><span class="dc-pl">댓글 <em class="dc-n">${DC.ex.length + DC.cm.length}</em></span></div><div class="dc-im"></div><div class="dc-bd">쇼미 1등한 새끼<br>끝나자마자 옾비 들어간 새끼<br>인맥이고 뭐고 원큐에 다 해결한 새끼<br>와꾸만으로도 죽을 때까지 먹고살 새끼<br>배우 남친까지 둔 새끼<br><div class="dc-rd">"대성화"</div></div><div class="dc-rec"><div class="dc-rb"><div class="dc-nums"><span>23</span></div><div class="dc-cir up">${dcI.star}<small>개념</small></div><div class="dc-cir dn">${dcI.arr}<small>비추</small></div><div class="dc-nm">0</div></div><div class="dc-tl"><span><u class="b">B</u>실베추</span><span>펌 0</span><span>공유</span><span>${dcI.fp}스크랩</span><span class="rd">신고</span></div></div><div class="dc-bt"><button data-dc="x">목록보기</button><button class="p" data-dc="x">글쓰기</button><button data-dc="x">수정</button><button data-dc="x">삭제</button></div><div class="dc-ch"><span class="l"><b>댓글</b><span class="rd">[<span class="dc-n">${DC.ex.length + DC.cm.length}</span>]</span><button class="dc-rf" data-dc="rf" aria-label="새로고침">${dcI.rl}</button></span><span class="r">본문<i></i>등록순${dcI.dn}</span></div><div class="dc-cl">${DC.ex.map(c => dcCm(c[1], c[0], c[2])).join("")}<div id="dc-new">${DC.cm.map(dcNew).join("")}</div></div><div class="dc-ch dc-ch2"><span class="l"><b>댓글</b></span><span class="r">본문<i></i>댓글 위로</span></div><div class="dc-bx"><div class="dc-in2"><input id="dc-nk" placeholder="닉네임" maxlength="12" autocomplete="off"><input id="dc-pw" type="password" placeholder="비밀번호" maxlength="20" autocomplete="off"></div><textarea id="dc-tx" placeholder="댓글을 입력해주세요."></textarea><div class="dc-fb"><button class="dc-rg" data-dc="reg">등록</button></div></div><div class="dc-gap"></div><div class="dc-lst">${DCL.map(dcLR).join("")}</div>
+<div class="dc-tt"><div class="dc-t1"><b>현시점 제일 부러운 새끼</b></div><div class="dc-t2"><span>ㅇㅇ <u class="fx">ㅅ</u><i></i>10.19 15:21</span><span style="display:flex;align-items:center;gap:12px">${dcI.fp}<button data-dc="x" style="border:1px solid #c9cde0!important;border-radius:18px;padding:6px 12px;font-size:14px;color:#222!important">갤로그가기</button></span></div></div><div class="dc-st"><span>조회수 2432</span><i></i><span>추천 23</span><i></i><span class="dc-pl">댓글 <em class="dc-n">${DC.ex.length + DC.cm.length}</em></span></div><div class="dc-im"></div><div class="dc-bd">쇼미 1등한 새끼<br>끝나자마자 옾비 들어간 새끼<br>인맥이고 뭐고 원큐에 다 해결한 새끼<br>와꾸만으로도 죽을 때까지 먹고살 새끼<br>배우 남친까지 둔 새끼<br><div class="dc-rd">"대성화"</div></div><div class="dc-rec"><div class="dc-rb"><div class="dc-nums"><span>23</span></div><div class="dc-cir up">${dcI.star}<small>개념</small></div><div class="dc-cir dn">${dcI.arr}<small>비추</small></div><div class="dc-nm">0</div></div><div class="dc-tl"><span><u class="b">B</u>실베추</span><span>펌 0</span><span>공유</span><span>${dcI.fp}스크랩</span><span class="rd">신고</span></div></div><div class="dc-bt"><button data-dc="x">목록보기</button><button class="p" data-dc="x">글쓰기</button><button data-dc="x">수정</button><button data-dc="x">삭제</button></div><div class="dc-ch"><span class="l"><b>댓글</b><span class="rd">[<span class="dc-n">${DC.ex.length + DC.cm.length}</span>]</span><button class="dc-rf" data-dc="rf" aria-label="새로고침">${dcI.rl}</button></span><span class="r">본문<i></i>등록순${dcI.dn}</span></div><div class="dc-cl">${DC.ex.map(c => dcCm(c[1], c[0], c[2])).join("")}<div id="dc-new">${DC.cm.map(dcNew).join("")}</div></div><div class="dc-gap"></div><div class="dc-lst">${DCL.map(dcLR).join("")}</div>
 </div>`;
   }
   (() => {
