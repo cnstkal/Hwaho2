@@ -538,6 +538,20 @@ const PhotosApp = (() => {
     }), { root: tr, rootMargin: "0px 200% 0px 200%" });
     tr.querySelectorAll(".pv-s").forEach(d => { const item = l.find(i => String(i.id) === d.dataset.id); if (item && !item.ph && !item.repoPhoto) pvIO.observe(d); });
   }
+  // PC 키보드 방향키로 사진 뷰어에서 이전/다음 사진으로 이동
+  document.addEventListener("keydown", e => {
+    const viewer = pv();
+    if (!viewer || !viewer.classList.contains("on") || !pvL.length) return;
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    e.preventDefault();
+    const next = Math.max(0, Math.min(pvL.length - 1, pvJ + (e.key === "ArrowRight" ? 1 : -1)));
+    if (next === pvJ) return;
+    const tr = viewer.querySelector(".pv-track");
+    if (!tr) return;
+    tr.scrollTo({ left: next * (tr.clientWidth + 40), behavior: "smooth" });
+    pvSync(next);
+  });
   function closeViewer() { document.documentElement.classList.remove("pvo", "pvb"); pv().classList.remove("on"); pv().innerHTML = ""; if (pvIO) pvIO.disconnect(); pvUrls.forEach(u => URL.revokeObjectURL(u)); pvUrls = []; }
   async function load(bottom) {
     await loadRepoPhotos();
