@@ -40,13 +40,13 @@
 
  function start(){if(started)return;try{localStorage.removeItem("hwaho-ig-yunho-t0");}catch(e){}if(window.HwahoIntroDone){started=true;yunhoIndex=0;ack=true;setStage("yunho-alert");toast("윤둥이","배고팡");return;}if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");sendManagerMessages();}
  /* 성현이형이 기사를 먼저 보내고 잠시 뒤 "합의된 거야?"를 이어서 보낸다. 카톡창 진입과 무관하게 진행되며 추가 알림은 없다. */
- function sendManagerMessages(){if(!window.KakaoApp)return;const U="https://entertain.naver.com/article/sample/4";KakaoApp.appendStoryMessage(ARTICLE1,"link",U,"c3","f2",[15,37]);if(stage==="manager-link-alert")toast("성현이형(매니저)",ARTICLE1);later("m1",()=>{if(!window.KakaoApp)return;KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);if(stage==="manager-link-alert"){dismiss();later("m1b",()=>{if(stage==="manager-link-alert")toast("성현이형(매니저)","이거 합의된 거야?");},420);}},MANAGER_MSG2_DELAY);}
+ function sendManagerMessages(){if(!window.KakaoApp)return;const U="https://entertain.naver.com/article/sample/4";KakaoApp.appendStoryMessage(ARTICLE1,"link",U,"c3","f2",[15,37]);if(stage==="manager-link-alert")toast("성현",ARTICLE1);later("m1",()=>{if(!window.KakaoApp)return;KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);if(stage==="manager-link-alert"){dismiss();later("m1b",()=>{if(stage==="manager-link-alert")toast("성현","이거 합의된 거야?");},420);}},MANAGER_MSG2_DELAY);}
  function sendManagerMessagesSilent(){if(!window.KakaoApp)return;KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4","c3","f2",[15,37]);KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2",[15,37]);}
  function managerLink(){setStage("manager-question-alert");openManager();}
  function scheduleRing(ms){later("ring",()=>{if(stage!=="first-article")return;if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이"});},ms);}
  function openFirstArticle(){cancel("ack");root.innerHTML="";const entering=stage!=="first-article";setStage("first-article");forceSafari("https://entertain.naver.com/article/sample/4");if(entering)scheduleRing(RING_DELAY);}
  function scheduleInstagramAlert(){later("ig",()=>{if(stage!=="yunho-chat")return;setStage("ig-alert");toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},IG_ALERT_DELAY);}
- function scheduleManager2Alert(){later("m2",()=>{if(stage!=="instagram")return;setStage("manager2-alert");toast("성현이형(매니저)","정윤호쪽에서 인정했네");},MANAGER2_DELAY);}
+ function scheduleManager2Alert(){later("m2",()=>{if(stage!=="instagram")return;setStage("manager2-alert");toast("성현","정윤호쪽에서 인정했네");},MANAGER2_DELAY);}
 
  root.addEventListener("click",e=>{
   const b=e.target.closest("[data-story]");if(!b||b.dataset.story!=="open")return;
@@ -95,7 +95,7 @@
    case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();break;
    case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
    case "instagram":scheduleManager2Alert();break;
-   case "manager2-alert":toast("성현이형(매니저)","정윤호쪽에서 인정했네");break;
+   case "manager2-alert":toast("성현","정윤호쪽에서 인정했네");break;
   }
  }
  document.addEventListener("click",()=>setTimeout(updateHint,0),true);
