@@ -82,7 +82,7 @@ window.IgApp = (() => {
   const cmTot = p => p.u === ME.id ? 0 : Math.max(p.n || 0, p.cm.length) + (S.cmt[p.id] || []).length;
   const cmHtml = p => "";
   const postHtml = p => { const u = usr(p.u), n = p.imgs.length, lk = !!S.like[p.id], sv = !!S.save[p.id], colorTags = text => esc(text).replace(/(^|\s)(#[\p{L}\p{N}_]+)/gu, "$1<span class=\"ig-hashtag\">$2</span>");
-    return `<article class="ig-post" data-id="${p.id}"><div class="ig-ph">${av(u, 32)}<div class="ig-pn"><b>${u.id}</b>${p.loc ? `<small>${esc(p.loc)}</small>` : ""}</div><span class="ig-more">${I.more}</span></div>
+    return `<article class="ig-post" data-id="${p.id}"><div class="ig-ph">${p.u === "yunou._.u" ? `<span data-g="uprof" data-id="${p.u}" style="display:flex;flex:none;cursor:pointer">${av(u, 32)}</span>` : av(u, 32)}<div class="ig-pn"><b>${u.id}</b>${p.loc ? `<small>${esc(p.loc)}</small>` : ""}</div><span class="ig-more">${I.more}</span></div>
 <div class="ig-cw"><div class="ig-car">${p.imgs.map(s => `<img src="${art(s)}" alt="" draggable="false">`).join("")}</div>${n > 1 ? `<span class="ig-cnt">1/${n}</span>` : ""}</div>
 <div class="ig-ac"><button data-g="like" class="${lk ? "on" : ""}" aria-label="좋아요">${I.heart}</button><button data-g="cmt" aria-label="댓글">${I.comment}</button><span>${I.send}</span>${n > 1 ? `<div class="ig-dt">${p.imgs.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}<button data-g="save" class="sv ${sv ? "on" : ""}" aria-label="저장">${I.mark}</button></div>
 <div class="ig-lk">좋아요 ${fmt(lkNum(p, lk))}개</div><div class="ig-cp"><b>${u.id}</b> ${colorTags(p.cap)} <span class="ig-tg">${colorTags(p.tags)}</span></div>
@@ -122,11 +122,21 @@ window.IgApp = (() => {
     let t0 = 0; try { t0 = +localStorage.getItem(YH_KEY) || 0; } catch (e) {}
     if (!t0 || t0 > Date.now()) { t0 = Date.now(); try { localStorage.setItem(YH_KEY, String(t0)); } catch (e) {} }
     const calc = () => { const x = Math.min(1, (Date.now() - t0) / YH_DUR); const base = Math.round(YH_MAX * (1 - Math.pow(1 - x, 3))); return Math.min(YH_MAX, Math.max(yp.likes, base + (x < 1 ? Math.floor(Math.random() * 40) : 0))); };
+    const yhDone = () => !!(window.HwahoStory && window.HwahoStory.stage === "final-article");
     const yhTimer = setInterval(() => {
+      if (yhDone()) yp.likes = YH_MAX;
       yp.likes = calc();
       if (document.querySelector("#ig-app.show")) document.querySelectorAll('#ig-app .ig-post[data-id="yunho1"] .ig-lk').forEach(node => { node.textContent = "좋아요 " + fmt(lkNum(yp, !!S.like[yp.id])) + "개"; });
       if (yp.likes >= YH_MAX) clearInterval(yhTimer);
     }, 700);
+  });
+  /* 스토리 완료 후 인스타에 다시 들어오면 윤호 게시물 좋아요는 최종값(82,400 = 내 좋아요 포함)으로 고정 */
+  document.addEventListener("app:open", e => {
+    if (!e.detail || e.detail.id !== "instagram" || !window.HwahoStory || window.HwahoStory.stage !== "final-article") return;
+    const yp = P.find(p => p.id === "yunho1"); if (!yp) return;
+    if (!FEED.includes("yunho1")) FEED.unshift("yunho1");
+    yp.likes = 82400;
+    document.querySelectorAll('#ig-app .ig-post[data-id="yunho1"] .ig-lk').forEach(n => { n.textContent = "좋아요 " + fmt(lkNum(yp, !!S.like[yp.id])) + "개"; });
   });
   const uProfHtml = id => { const u = usr(id), c = UPROF[id];
     return hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(id)}</small>프로필</div>`, "") +
