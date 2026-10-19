@@ -1,0 +1,181 @@
+diff --git a/index.html b/index.html
+index 35bb776..148485b 100644
+--- a/index.html
++++ b/index.html
+@@ -67,7 +67,7 @@
+ <script src="js/imessage.js?v=20261017-2"></script>
+ <script src="js/phone.js?v=20261019-6"></script>
+ <script src="js/safari.js?v=20261019-4"></script>
+-<script src="js/kakaotalk.js?v=20261019-15"></script>
++<script src="js/kakaotalk.js?v=20261019-16"></script>
+ <script src="js/instagram.js?v=20261019-3"></script>
+ <script src="js/clock.js?v=20261015-2"></script>
+ <script src="js/twitter.js?v=20261016-12"></script>
+@@ -81,8 +81,8 @@
+ <script src="js/notes.js?v=20261016-1"></script>
+ <script src="js/youtube.js?v=20261016-1"></script>
+ <script src="js/fromm-app.js?v=20261017-2"></script>
+-<script src="js/facetime.js?v=20261019-8"></script>
+- <script src="js/story.js?v=20261019-14"></script>
++<script src="js/facetime.js?v=20261019-9"></script>
++ <script src="js/story.js?v=20261019-15"></script>
+ <script src="js/view-only.js?v=20261015-2"></script>
+ <script src="js/launch-motion.js?v=20261017-1"></script>
+ 
+diff --git a/js/facetime.js b/js/facetime.js
+index 0dc52da..463707d 100644
+--- a/js/facetime.js
++++ b/js/facetime.js
+@@ -89,7 +89,8 @@ const FaceTimeApp = (() => {
+ `;
+   document.head.appendChild(style);
+   const el = id => $("#" + id);
+-  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0;
++  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false;
++  const storyStarted = () => !!(window.HwahoStory && window.HwahoStory.started);
+   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+   const DEFAULT_DIALOGUE = [
+     ["성화","여보세요?","me",1500],
+@@ -107,11 +108,13 @@ const FaceTimeApp = (() => {
+     ["성화","아니 윤호야,","me",1300]
+   ];
+   let dialogue = DEFAULT_DIALOGUE;
+-  function setAlert(on){el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
++  function setAlert(on){alertOpen=!!on;el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
+   function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
+   function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
+-  function prompt(){if(state!=="idle")return;state="prompt";setAlert(true);}
+-  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;el("ft-in-name").textContent=CFG.caller;el("ft-contact-avatar").textContent=CFG.caller.slice(0,1);el("ft-call-head b").textContent=CFG.caller;el("ft-call-avatar").textContent=CFG.caller.slice(0,1);state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
++  /* 안내창은 한 번에 하나만, 그리고 스토리가 이미 시작된 뒤에는 다시 띄우지 않는다 */
++  function prompt(){if(state!=="idle"||alertOpen||storyStarted())return;state="prompt";setAlert(true);}
++  /* 수신 화면의 이름/아바타 요소는 id가 아니라 class로 존재하므로 root 안에서 class로 찾는다 */
++  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-call-head b").textContent=CFG.caller;root.querySelector(".ft-call-avatar").textContent=ini;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
+   function playDialogue(){
+     if(state!=="call")return;
+     if(lineIndex>=dialogue.length){endCall();return;}
+@@ -140,8 +143,8 @@ const FaceTimeApp = (() => {
+   root.addEventListener("click",e=>{
+     const b=e.target.closest("[data-ft]");if(!b)return;
+     switch(b.dataset.ft){
+-      case "yes":setAlert(false);state="prompt";document.dispatchEvent(new CustomEvent("story:start"));clearTimeout(ringT);break;
+-      case "no":setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{if(state==="idle")prompt();},40000);break;
++      case "yes":if(!alertOpen)break;setAlert(false);state="prompt";clearTimeout(ringT);ringT=0;document.dispatchEvent(new CustomEvent("story:start"));break;
++      case "no":if(!alertOpen)break;setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{ringT=0;if(state==="idle")prompt();},40000);break;
+       case "decline":clearTimeout(missT);showIncoming(false);state="idle";missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;
+       case "accept":openCall();break;
+       case "end":endCall();break;
+diff --git a/js/kakaotalk.js b/js/kakaotalk.js
+index 791356b..228507a 100644
+--- a/js/kakaotalk.js
++++ b/js/kakaotalk.js
+@@ -536,11 +536,23 @@ const KakaoApp = (() => {
+     const c = chat(chatId);
+     if (!c) return;
+     const duplicate = c.msgs.some(m => m.storySequence && m.text === text);
+-    if (!duplicate) c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
+-    c.unread = 0; save();
++    if (!duplicate) {
++      c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: new Date(2026, 9, 19, 15, 10 + c.msgs.filter(m => m.storySequence).length).getTime() });
++      /* 지금 보고 있는 채팅방이면 읽음, 아니면 상대 메시지만 안 읽음 수에 반영 */
++      if (isOpen && cur && cur.id === c.id) c.unread = 0;
++      else if (from !== "me") c.unread = (c.unread || 0) + 1;
++    }
++    save();
+     if (isOpen) { if (cur && cur.id === c.id) room(); else renderMain(); }
+   }
+-  return { open, close, openStoryChat, appendStoryMessage };
++  /* 스토리가 시작되지 않은 상태에서는 이전에 저장된 스토리 메시지를 모두 제거한다 (원래 대화는 건드리지 않음) */
++  function purgeStoryMessages() {
++    let n = 0;
++    D.chats.forEach(c => { const keep = c.msgs.filter(m => !m.storySequence); n += c.msgs.length - keep.length; c.msgs = keep; });
++    if (n) { save(); if (isOpen) { if (cur) room(); else renderMain(); } }
++    return n;
++  }
++  return { open, close, openStoryChat, appendStoryMessage, purgeStoryMessages };
+ })();
+ window.KakaoApp = KakaoApp;
+ 
+diff --git a/js/story.js b/js/story.js
+index f25eb46..50dcbdb 100644
+--- a/js/story.js
++++ b/js/story.js
+@@ -7,20 +7,66 @@
+  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
+  const ARTICLE1="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
+  const ARTICLE2="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”";
+- let stage="idle",started=false,yunhoIndex=0;
++ const yunhoLines=[["me","이번 일로 뭐라하는 놈 있으면 나한테 데려와"],["me","내가 처리할게"],["f0","배고팡"],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?"],["f0","빨리와 💗"]];
++
++ /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 카카오톡 메시지와 일관되게 유지한다 ---- */
++ const KEY="hwaho-story-v1";
++ const STAGES=["manager-link-alert","manager-question-alert","first-article","yunho-alert","yunho-chat","ig-alert","instagram","manager2-alert","manager2-chat","final-article"];
++ let stage="idle",started=false,yunhoIndex=0,ack=false;
++ const persist=()=>{if(!started)return;const v={v:1,started:true,stage,yunhoIndex,ack};try{if(window.HwahoStability)window.HwahoStability.writeJSON(KEY,v);else localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
++ const setStage=s=>{stage=s;persist();};
++ const load=()=>{try{const s=window.HwahoStability?window.HwahoStability.readJSON(KEY,null):JSON.parse(localStorage.getItem(KEY));if(s&&s.v===1&&s.started===true&&STAGES.indexOf(s.stage)>=0)return s;}catch(e){}return null;};
++
++ /* ---- 타이머: 이름별로 하나만 등록되도록 관리 ---- */
++ const timers={};
++ const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
++ const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
++
+  const toast=(name,msg,app="KakaoTalk")=>{const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
+  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
+- function start(){if(started)return;started=true;stage="manager-link-alert";toast("성현이형(매니저)",ARTICLE1);}
+- function managerLink(){stage="manager-question-alert";openManager();KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4");setTimeout(()=>toast("성현이형(매니저)","이거 합의된 거야?"),2000);}
+  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
+- function openFirstArticle(){stage="first-article";root.innerHTML="";forceSafari("https://entertain.naver.com/article/sample/4");setTimeout(()=>{if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이"});const incoming=document.getElementById("ft-incoming");if(incoming){incoming.classList.add("on");incoming.setAttribute("aria-hidden","false");incoming.style.pointerEvents="auto";}},10000);}
+- root.addEventListener("click",e=>{const b=e.target.closest("[data-story]");if(!b)return;const tappedStage=stage;root.innerHTML="";if(b.dataset.story==="open"&&tappedStage==="manager-link-alert")managerLink();else if(b.dataset.story==="open"&&tappedStage==="manager-question-alert"){openManager();KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2");}else if(b.dataset.story==="open"&&tappedStage==="yunho-alert"){stage="yunho-chat";yunhoIndex=0;openYunhoChat();}else if(b.dataset.story==="open"&&tappedStage==="ig-alert"){stage="instagram";document.dispatchEvent(new CustomEvent("story:instagram-published"));root.innerHTML="";if(window.Home)Home.openApp("instagram");if(window.IgApp)IgApp.open();setTimeout(()=>{stage="manager2-alert";toast("성현이형(매니저)","정윤호쪽에서 인정했네");},5000);}else if(b.dataset.story==="open"&&tappedStage==="manager2-alert"){stage="manager2-chat";openManager();KakaoApp.appendStoryMessage("정윤호쪽에서 인정했네");KakaoApp.appendStoryMessage(ARTICLE2,"link","https://entertain.naver.com/article/sample/6");} });
+- document.addEventListener("story:start",start);
+- document.addEventListener("story:manager-link-opened",e=>{if(stage==="manager2-chat"||stage==="final-article"){stage="final-article";root.innerHTML="";forceSafari("https://entertain.naver.com/article/sample/6");return;}if(stage!=="manager-question-alert"&&stage!=="first-article")return;openFirstArticle();});
+- document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;stage="yunho-alert";if(window.KakaoApp)KakaoApp.appendStoryMessage("ㅎㅎ","text","","c0","f0");toast("윤둥이","ㅎㅎ");});
+- const yunhoLines=[["me","이번 일로 뭐라하는 놈 있으면 나한테 데려와"],["me","내가 처리할게"],["f0","배고팡"],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?"],["f0","빨리와 💗"]];
+  function openYunhoChat(){if(window.Home)Home.openApp("kakaotalk");if(window.KakaoApp){KakaoApp.open();KakaoApp.openStoryChat("c0");}}
+- function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;const [from,msg]=yunhoLines[yunhoIndex++];KakaoApp.appendStoryMessage(msg,"text","", "c0",from);if(yunhoIndex===yunhoLines.length)setTimeout(()=>{stage="ig-alert";toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},1200);}
++
++ function start(){if(started)return;started=true;yunhoIndex=0;ack=false;setStage("manager-link-alert");toast("성현이형(매니저)",ARTICLE1);}
++ function managerLink(){setStage("manager-question-alert");openManager();KakaoApp.appendStoryMessage(ARTICLE1,"link","https://entertain.naver.com/article/sample/4");later("ack",()=>{if(stage==="manager-question-alert"&&!ack)toast("성현이형(매니저)","이거 합의된 거야?");},2000);}
++ function scheduleRing(ms){later("ring",()=>{if(stage!=="first-article")return;if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이"});},ms);}
++ function openFirstArticle(){cancel("ack");root.innerHTML="";const entering=stage!=="first-article";setStage("first-article");forceSafari("https://entertain.naver.com/article/sample/4");if(entering)scheduleRing(10000);}
++ function scheduleInstagramAlert(){later("ig",()=>{if(stage!=="yunho-chat")return;setStage("ig-alert");toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},1200);}
++ function scheduleManager2Alert(){later("m2",()=>{if(stage!=="instagram")return;setStage("manager2-alert");toast("성현이형(매니저)","정윤호쪽에서 인정했네");},5000);}
++
++ root.addEventListener("click",e=>{
++  const b=e.target.closest("[data-story]");if(!b||b.dataset.story!=="open")return;
++  const tappedStage=stage;root.innerHTML="";
++  if(tappedStage==="manager-link-alert")managerLink();
++  else if(tappedStage==="manager-question-alert"){ack=true;persist();openManager();KakaoApp.appendStoryMessage("이거 합의된 거야?","text","","c3","f2");}
++  else if(tappedStage==="yunho-alert"){yunhoIndex=0;setStage("yunho-chat");openYunhoChat();}
++  else if(tappedStage==="ig-alert"){setStage("instagram");document.dispatchEvent(new CustomEvent("story:instagram-published"));if(window.Home)Home.openApp("instagram");if(window.IgApp)IgApp.open();scheduleManager2Alert();}
++  else if(tappedStage==="manager2-alert"){setStage("manager2-chat");openManager();KakaoApp.appendStoryMessage("정윤호쪽에서 인정했네");KakaoApp.appendStoryMessage(ARTICLE2,"link","https://entertain.naver.com/article/sample/6");}
++ });
++ document.addEventListener("story:start",start);
++ document.addEventListener("story:manager-link-opened",e=>{if(stage==="manager2-chat"||stage==="final-article"){root.innerHTML="";setStage("final-article");forceSafari("https://entertain.naver.com/article/sample/6");return;}if(stage!=="manager-question-alert"&&stage!=="first-article")return;openFirstArticle();});
++ document.addEventListener("story:call-ended",()=>{if(stage!=="first-article")return;cancel("ring");setStage("yunho-alert");if(window.KakaoApp)KakaoApp.appendStoryMessage("ㅎㅎ","text","","c0","f0");toast("윤둥이","ㅎㅎ");});
++
++ function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;const [from,msg]=yunhoLines[yunhoIndex++];persist();KakaoApp.appendStoryMessage(msg,"text","", "c0",from);if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
+  document.addEventListener("click",e=>{if(stage!=="yunho-chat")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
+- window.HwahoStory={start,get stage(){return stage;}};
+-})();
+\ No newline at end of file
++
++ /* ---- 새로고침 후 복원: 이미 진행된 단계의 알림만 다시 띄우고, 끝난 이벤트는 다시 실행하지 않는다 ---- */
++ function resume(){
++  if(["instagram","manager2-alert","manager2-chat","final-article"].indexOf(stage)>=0)document.dispatchEvent(new CustomEvent("story:instagram-published"));
++  switch(stage){
++   case "manager-link-alert":toast("성현이형(매니저)",ARTICLE1);break;
++   case "manager-question-alert":if(!ack)toast("성현이형(매니저)","이거 합의된 거야?");break;
++   case "first-article":scheduleRing(10000);break;
++   case "yunho-alert":toast("윤둥이","ㅎㅎ");break;
++   case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();break;
++   case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
++   case "instagram":scheduleManager2Alert();break;
++   case "manager2-alert":toast("성현이형(매니저)","정윤호쪽에서 인정했네");break;
++  }
++ }
++ const saved=load();
++ if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));ack=!!saved.ack;resume();}
++ else if(window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
++
++ window.HwahoStory={start,get stage(){return stage;},get started(){return started;}};
++})();
