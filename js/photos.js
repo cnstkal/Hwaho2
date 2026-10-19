@@ -476,14 +476,20 @@ const PhotosApp = (() => {
       const candidates = (tree.tree || []).filter(f => f.type === "blob" && supported.test(f.path));
       const inPhotoFolder = candidates.filter(f => {
         const parts = f.path.split("/");
-        return parts.length >= 4 &&
-          /^(images|image|이미지)$/i.test(parts[0]) &&
-          /^app$/i.test(parts[1]) &&
-          /^(photos?|포토)$/i.test(parts[2]);
+        return (
+          (parts.length >= 3 && /^(images|image|이미지)$/i.test(parts[0]) && /^(photos?|포토)$/i.test(parts[1])) ||
+          (parts.length >= 4 && /^(images|image|이미지)$/i.test(parts[0]) && /^app$/i.test(parts[1]) && /^(photos?|포토)$/i.test(parts[2]))
+        );
       });
-      const files = inPhotoFolder.length ? inPhotoFolder : candidates.filter(f =>
+      const files = (inPhotoFolder.length ? inPhotoFolder : candidates.filter(f =>
         /(^|\/)(photos?|포토)(\/|$)/i.test(f.path)
-      );
+      )).sort((a, b) => {
+        const an = Number((a.path.split("/").pop().match(/^(\d+)/) || [])[1]);
+        const bn = Number((b.path.split("/").pop().match(/^(\d+)/) || [])[1]);
+        if (Number.isFinite(an) && Number.isFinite(bn) && an !== bn) return bn - an;
+        if (Number.isFinite(an) !== Number.isFinite(bn)) return Number.isFinite(bn) ? 1 : -1;
+        return b.path.localeCompare(a.path, undefined, { numeric: true });
+      });
       repoPhotos = files.map((f, i) => ({
         id: "repo-photo-" + i, repoPhoto: true, type: "photo",
         name: f.path.split("/").pop(),
