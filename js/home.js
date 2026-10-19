@@ -88,7 +88,9 @@ window.APPS = {
       mount.appendChild(el);
     });
   }
-  const render = () => { renderApps(APPS.grid, $("#grid")); renderApps(APPS.dock, $("#dock")); };
+  // 에브리타임은 앱 데이터와 구현을 유지한 채 홈 화면에서만 숨김 처리합니다. 다시 활성화하려면 필터에서 every time 제외 조건을 제거하세요.
+  const HIDDEN_HOME_APPS = new Set(["everytime"]);
+  const render = () => { renderApps(APPS.grid.filter(app => !HIDDEN_HOME_APPS.has(app.id)), $("#grid")); renderApps(APPS.dock, $("#dock")); };
   render();
 
   /* ---------- 앱 열기/홈 복귀 훅 (앱 UI는 추후 구현) ---------- */
