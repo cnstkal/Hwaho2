@@ -369,6 +369,19 @@ const KakaoApp = (() => {
     }
     D.v21 = 1; save();
   }
+  if (D.v22 !== 1) {
+    const y = D.chats.find(c => c.id === "c0");
+    const texts = new Set(["촬영 없음 저녁에 잠깐 올래?", "홍중이도 있음", "몇시쯤?", "아홉시열시? 오래 있을 것 같은데", "너 편할 때 와도 돼", "나 자정 다 되어야 퇴근할듯", "못갈 것 같으면 연락할겡", "ㅇㅋ", "사랑해❤️", "나두"]);
+    if (y) {
+      y.msgs.forEach(m => {
+        if (!texts.has(m.text)) return;
+        const d = new Date(m.ts);
+        m.ts = new Date(2026, 9, 18, d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds()).getTime();
+      });
+      y.msgs.sort((a,b) => a.ts-b.ts);
+    }
+    D.v22 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
