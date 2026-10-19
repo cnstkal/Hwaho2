@@ -22,12 +22,9 @@
 .lk-r{justify-content:flex-end}
 .lk-isl{position:absolute;left:50%;top:11px;width:120px;height:35px;margin-left:-60px;border-radius:26px;background:#000;
   transition:width var(--T) var(--E),height var(--T) var(--E),margin var(--T) var(--E)}
-.lk-isl::before,.lk-isl::after{content:"";position:absolute;top:50%;width:26px;height:26px;margin-top:-13px;opacity:0;
-  background:center/contain no-repeat;transition:opacity .2s}
-.lk-isl::before{left:18px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 27'%3E%3Crect y='11' width='22' height='16' rx='4' fill='%23ccc'/%3E%3Cpath d='M5 12V8a6 6 0 0112 0v4' stroke='%23ccc' stroke-width='3' fill='none'/%3E%3C/svg%3E")}
-.lk-isl::after{right:16px;width:32px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 30' fill='none' stroke='%238ef08e' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M2 8V4a2 2 0 012-2h4M28 2h4a2 2 0 012 2v4M2 22v4a2 2 0 002 2h4M34 22v4a2 2 0 01-2 2h-4M12 10v4M24 10v4M18 12v5M11 21q7 5 14 0'/%3E%3C/svg%3E")}
+
 #lock[data-state=pass] .lk-isl{width:min(52cqw,205px);height:52px;margin-left:calc(min(52cqw,205px)/-2)}
-#lock[data-state=pass] .lk-isl::before,#lock[data-state=pass] .lk-isl::after{opacity:1;transition-delay:.25s}
+
 .lk-bat{display:flex;align-items:center}
 .lk-bat .b{position:relative;width:25px;height:12.5px;border-radius:4px;border:1px solid rgba(255,255,255,.45);padding:1.5px}
 .lk-bat .b i{display:block;height:100%;width:80%;border-radius:2px;background:#fff}
