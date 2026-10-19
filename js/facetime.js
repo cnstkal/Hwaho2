@@ -75,13 +75,13 @@ const FaceTimeApp = (() => {
 #ft-root .ft-call{padding:0}
 #ft-root .ft-cs{margin-top:calc(env(safe-area-inset-top,0px) + 13%);font-size:20px;font-weight:500;color:rgba(255,255,255,.45);font-variant-numeric:tabular-nums}
 #ft-root .ft-cn{margin-top:8px;font-size:34px;font-weight:600;letter-spacing:-1px;color:#fff}
-#ft-root .ft-pb{-webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 14%,#000 46%);mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 14%,#000 46%);position:absolute;top:clamp(180px,24%,250px);bottom:calc(env(safe-area-inset-bottom,0px) + clamp(340px,39%,430px));left:0;width:100%;padding:12px 22px;text-align:left;color:#fff;font-size:15px;line-height:1.4;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px}
+#ft-root .ft-pb{-webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 14%,#000 46%);mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.3) 14%,#000 46%);position:absolute;top:clamp(150px,21%,220px);bottom:calc(env(safe-area-inset-bottom,0px) + clamp(390px,46%,460px));left:0;width:100%;padding:12px 22px;text-align:left;color:#fff;font-size:15px;line-height:1.4;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;z-index:1}
 #ft-root .ft-pb-line{max-width:88%;padding:10px 13px;border-radius:17px;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere;box-shadow:0 1px 1px #0001}
 #ft-root .ft-pb-line.me{align-self:flex-end;background:#0a84ff;border-bottom-right-radius:5px}
 #ft-root .ft-pb-line.them{align-self:flex-start;background:#343438;border-bottom-left-radius:5px}
 #ft-root .ft-pb-line.note{align-self:center;max-width:92%;background:none;box-shadow:none;padding:4px 8px;text-align:center}#ft-root .ft-pb-line.note .ft-pb-words{font-size:13px;color:rgba(255,255,255,.62);font-style:italic}#ft-root .ft-pb-line.note .ft-pb-speaker{display:none}#ft-root .ft-pb-speaker{font-size:10px;opacity:.65}
 #ft-root .ft-pb-words{font-size:15px;color:#fff}
-#ft-root .ft-cg{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 7%);margin:0;padding:0 10%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center;gap:22px 0}
+#ft-root .ft-cg{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 5%);margin:0;padding:0 10%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));justify-items:center;gap:clamp(10px,1.8vh,16px) 0;z-index:3}
 #ft-root .ft-cb{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:15px;color:#fff;background:none}
 #ft-root .ft-cb i{width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font-style:normal;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);box-shadow:inset 0 1px 1px rgba(255,255,255,.2)}
 #ft-root .ft-cb i svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
