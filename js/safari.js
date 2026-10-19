@@ -363,7 +363,8 @@ ${a.id === "3" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<d
     ["일반","가사에 힘 너무 주면 오히려 촌스러워지는 듯","리스너","10.19",358,2,3],
     ["일반","신곡 쏟아지는데 정작 저장하는 건 몇 개 없네","ㅇㅇ(106.102)","10.19",302,1,0]
   ];
-  const dcLR = p => `<div class="dc-c"><div class="dc-cb">${dcI.bub}<b>${esc(p[1])}</b><small>${esc(p[0])}<i></i>${esc(p[2])}<i></i>${esc(p[3])}<i></i>조회 ${p[4]}<i></i>추천 ${p[5] >= 5 ? `<u>${p[5]}</u>` : p[5]}</small></div><div class="dc-cr">${p[6]}</div></div>`;\n  function dcPage() {
+  const dcLR = p => `<div class="dc-c"><div class="dc-cb">${dcI.bub}<b>${esc(p[1])}</b><small>${esc(p[0])}<i></i>${esc(p[2])}<i></i>${esc(p[3])}<i></i>조회 ${p[4]}<i></i>추천 ${p[5] >= 5 ? `<u>${p[5]}</u>` : p[5]}</small></div><div class="dc-cr">${p[6]}</div></div>`;
+  function dcPage() {
     return `<div class="dc">
 <div class="dc-h"><svg class="dc-lg" viewBox="0 0 40 30"><circle cx="11" cy="18" r="7.500" fill="none" stroke="#fff" stroke-width="5.500"/><rect x="15" y="2" width="6" height="24" fill="#fff"/><path d="M21 15c5-3 9 3 17 0l-5-5" fill="none" stroke="#fff" stroke-width="3.500" stroke-linecap="round" stroke-linejoin="round"/></svg>
 <div class="dc-sb"><span class="dc-mn"><svg viewBox="0 0 24 24" fill="none" stroke="#9b9ba6" stroke-width="2.600" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></span><span class="dc-ph">갤러리 &amp; 통합검색</span><svg class="dc-sg" viewBox="0 0 24 24" fill="none" stroke="#3b4890" stroke-width="2.500" stroke-linecap="round"><circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/></svg><span class="dc-rc">최근방문</span></div></div>
