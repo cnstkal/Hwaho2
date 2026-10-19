@@ -532,14 +532,17 @@ const KakaoApp = (() => {
     renderMain();
     openRoom(c);
   }
-  function appendStoryMessage(text, type = "text", url = "", chatId = "c3", from = "f2") {
+  function appendStoryMessage(text, type = "text", url = "", chatId = "c3", from = "f2", at = null) {
     const c = chat(chatId);
     if (!c) return;
     const duplicate = c.msgs.some(m => m.storySequence && m.text === text);
     if (!duplicate) {
       /* 기존 마지막 메시지보다 항상 뒤의 시각으로 붙인다 (고정 15:10 이면 기존 15:18 메시지보다 앞선 시각으로 보였음) */
       const lastTs = c.msgs.reduce((a, m) => Math.max(a, m.ts || 0), 0), n = new Date(), clock = new Date(2026, 9, 19, n.getHours(), n.getMinutes(), n.getSeconds()).getTime();
-      c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts: Math.max(clock, lastTs + 60000) });
+      let ts = Math.max(clock, lastTs + 60000);
+      /* at=[시,분] 이면 같은 분 안에 여러 메시지를 1초 간격으로 쌓는다 */
+      if (Array.isArray(at)) { const base = new Date(2026, 9, 19, at[0], at[1], 0).getTime(), same = c.msgs.filter(m => m.storySequence && m.ts >= base && m.ts < base + 60000).length; ts = Math.max(base + same * 1000, lastTs + 1); }
+      c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts });
       /* 지금 보고 있는 채팅방이면 읽음, 아니면 상대 메시지만 안 읽음 수에 반영 */
       if (isOpen && cur && cur.id === c.id) c.unread = 0;
       else if (from !== "me") c.unread = (c.unread || 0) + 1;

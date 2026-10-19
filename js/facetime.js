@@ -1,7 +1,7 @@
 /* ===== 일반 전화 시뮬레이션: 안내창 → 수신 전화 → 대화 → 자동 끊김 ===== */
 const FaceTimeApp = (() => {
   const CFG = {
-    delaySec: 45,
+    delaySec: 30,
     ringDelayMs: 1500,
     missedSec: 0,
     caller: "윤둥이",
@@ -28,7 +28,7 @@ const FaceTimeApp = (() => {
   <div class="ft-note">* 아니오를 누르면 40초 후 창이 다시 활성화됩니다.</div>
 </div>
 <div class="ft-incoming" id="ft-incoming" aria-hidden="true">
-  <div class="ft-in-small">전화가 오고 있습니다</div>
+  <div class="ft-in-small">&nbsp;</div>
   <div class="ft-contact-avatar">${CFG.caller.slice(0,1)}</div>
   <div class="ft-in-name">${CFG.caller}</div>
   <div class="ft-in-sub">${CFG.callerSub}</div>
@@ -105,35 +105,41 @@ const FaceTimeApp = (() => {
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
   const DEFAULT_DIALOGUE = [
     ["성화","여보세요?","me",1600],
-    ["","(연결음이 끊기고, 잠시 숨소리만 들린다)","note",2400],
-    ["윤호","…어, 형","them",2200],
+    ["윤호","어~ 형 왜","them",2000],
     ["성화","전화는 왜 안받았어?","me",2000],
-    ["윤호","아… 폰 무음이었어. 기사 때문에 정신이 없어서","them",2600],
+    ["윤호","어? 전화 왔었어? 몰랐네 ㅎㅎ","them",2400],
+    ["성화","톡도 몇 개나 보냈잖아","me",2200],
+    ["윤호","아 그래? 이따 볼게","them",2200],
     ["성화","괜찮은 거 맞지?","me",2000],
-    ["","(대답이 나오기까지 몇 초가 걸린다)","note",2300],
-    ["윤호","나야 괜찮지","them",2300],
-    ["성화","…근데 목소리가 왜 그래","me",2100],
-    ["윤호","그냥 좀 피곤해서","them",2100],
-    ["성화","아니 근데 사실무근은 무슨 소리야?","me",2600],
-    ["윤호","…","them",2000],
+    ["윤호","나야 괜찮지","them",2200],
+    ["성화","기사는 본 거지?","me",2000],
+    ["윤호","기사? 아 그거. 봤지","them",2300],
+    ["성화","근데 왜 이렇게 아무렇지 않아?","me",2400],
+    ["윤호","내가 뭐 어때서ㅋㅋ 밥은 먹었어?","them",2500],
+    ["성화","지금 밥이 중요해?","me",1900],
+    ["성화","아니 근데 사실무근은 무슨 소리야?","me",2500],
+    ["윤호","음~ 글쎄","them",2200],
     ["윤호","왜?","them",1800],
     ["성화","우리 헤어졌어?","me",2200],
-    ["","(수화기 너머로 짧은 정적이 흐른다)","note",2600],
-    ["윤호","아니?","them",1700],
+    ["윤호","아니?","them",1800],
     ["성화","그럼 왜?","me",1900],
-    ["윤호","회사에서 일단 그렇게 나가자고 해서… 나도 어쩔 수 없었어","them",2800],
-    ["성화","알았어","me",2000],
-    ["성화","정정기사는 내줄거지?","me",2300],
+    ["윤호","왜긴. 다 이유가 있겠지 ㅎㅎ","them",2500],
+    ["성화","무슨 이유?","me",1900],
+    ["윤호","그건 나중에 알려줄게. 오늘 날씨 좋다 그치","them",2800],
+    ["성화","아니 잠깐, 나 지금 이해가 안 되는데","me",2500],
+    ["성화","알았어","me",1800],
+    ["성화","정정기사는 내줄거지?","me",2200],
     ["윤호","형 하는 거 봐서","them",2300],
-    ["","(장난기 섞인 웃음소리에 성화가 말문이 막힌다)","note",2400],
-    ["성화","아니 윤호야,","me",1800]
+    ["성화","아니 윤호야,","me",1800],
+    ["윤호","형, 나 스케줄 들어가야 돼서 끊을게. 이따 봐~","them",2600],
+    ["성화","윤호야? 여보세요? 윤호야!","me",1800]
   ];
   let dialogue = DEFAULT_DIALOGUE;
   function setAlert(on){alertOpen=!!on;el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
   function showIncoming(on){incOn=!!on;syncBar();el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
   function showCall(on){callOn=!!on;syncBar();el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
   /* 안내창은 한 번에 하나만, 그리고 스토리가 이미 시작된 뒤에는 다시 띄우지 않는다 */
-  function prompt(){if(state!=="idle"||alertOpen||storyStarted())return;state="prompt";setAlert(true);}
+  function prompt(){if(state!=="idle"||alertOpen||storyStarted())return;state="prompt";document.dispatchEvent(new CustomEvent("story:start"));}
   /* 수신 화면의 이름/아바타 요소는 id가 아니라 class로 존재하므로 root 안에서 class로 찾는다 */
   function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-cn").textContent=CFG.caller;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
   function playDialogue(){
