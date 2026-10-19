@@ -319,6 +319,11 @@ const KakaoApp = (() => {
     D.v13 = 1; save();
   }
 
+  if (D.v18 !== 1) {
+    D.chats.forEach(c => c.msgs.sort((a,b) => a.ts - b.ts));
+    const y = D.chats.find(c => c.id === "c0"); if (y) y.unread = 1;
+    D.v18 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
@@ -343,7 +348,7 @@ const KakaoApp = (() => {
 
   const cav = c => c.ids.length > 1 || c.name ? `<div class="kk-gav">${[...c.ids, "me"].slice(0, 4).map(i => { const nm = i === "me" ? "박성화" : (fr(i) || {}).name || "?", s = psrc(nm); return `<i style="background:${col(i)};position:relative;overflow:hidden">${esc([...nm][0])}${s ? `<img alt="" src="${s}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : ""}</i>`; }).join("")}</div>` : av(c.ids[0], cname(c), "kk-cav");
   const pad = n => String(n).padStart(2, "0"), fixedDate = new Date(2026, 9, 19), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
-  const day = ts => "Mon Oct 19 2026", dl = ts => `2026년 10월 19일 월요일`;
+  const day = ts => { const d = new Date(ts); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }, dl = ts => { const d = new Date(ts), w = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]; return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${w[d.getDay()]}`; };
   function lt(ts) { return tm(ts); }
   let tab = "friends", q = "", flt = "all", cur = null, isOpen = false;
   const totalUnread = () => D.chats.reduce((a, c) => a + (c.unread || 0), 0);
