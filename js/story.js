@@ -7,7 +7,7 @@
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
  const ARTICLE1="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
  const ARTICLE2="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”";
- /* 1=성화(me, 오른쪽 노란 말풍선), f0=윤둥이. ㅎㅎ(윤둥이)는 통화 종료 시 자동 추가되므로 여기엔 2~6번만 둔다. */
+ /* 1=성화(me, 오른쪽 노란 말풍선), f0=윤둥이. 통화 종료 후에는 배고팡부터 진행한다. */
  const yunhoLines=[["f0","배고팡",[15,43]],["me","지금 그런 말이 나와?",[15,43]],["f0","배고프다고",[15,43]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가?",[15,43]],["f0","웅 맞아",[15,43]],["f0","형은 나를 너무 잘알아",[15,43]],["f0","빨리와",[15,43]],];
 
  /* ---- 타이밍(ms) ---- */
@@ -53,7 +53,7 @@
   const tappedStage=stage;dismiss();
   if(tappedStage==="manager-link-alert")managerLink();
   else if(tappedStage==="manager-question-alert"){ack=true;persist();openManager();}
-  /* ㅎㅎ 는 통화 종료 시 이미 추가되어 있다. 알림 탭은 방만 열고 메시지는 추가하지 않는다. */
+  /* 알림 탭은 방만 열고 메시지는 추가하지 않는다. */
   else if(tappedStage==="yunho-alert"){yunhoIndex=0;setStage("yunho-chat");openYunhoChat();}
   else if(tappedStage==="ig-alert"){setStage("instagram");document.dispatchEvent(new CustomEvent("story:instagram-published"));if(window.Home)Home.openApp("instagram");if(window.IgApp)IgApp.open();scheduleManager2Alert();}
   else if(tappedStage==="manager2-alert"){setStage("manager2-chat");openManager();KakaoApp.appendStoryMessage("정윤호쪽에서 인정했네","text","","c3","f2",[15,44]);KakaoApp.appendStoryMessage(ARTICLE2,"link","https://entertain.naver.com/article/sample/6","c3","f2",[15,44]);}
