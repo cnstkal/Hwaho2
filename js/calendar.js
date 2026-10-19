@@ -62,7 +62,8 @@
     });
     store(KEY_E, events); store(KEY, true);
   })();
-  let today = ymd(new Date(2026, 9, 19));
+  const FIXED_TODAY = "2026-10-19";
+  let today = FIXED_TODAY;
   const T0 = new Date(2026, 9, 19);
   const S = { view: "month", y: T0.getFullYear(), m: T0.getMonth(), sel: today, q: "" };
   let isOpen = false, editing = null, pv = null;
@@ -443,7 +444,7 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">일�
       case "search": case "upcoming": S.view = "search"; S.q = ""; render(); break;
       case "search-close": S.view = "month"; render(); break;
       case "add": openEditor(null); break;
-      case "today": { today = ymd(new Date()); const d = new Date(); if (S.view === "year" || S.view === "search") S.view = "month"; S.sc = null; setMonth(d.getFullYear(), d.getMonth()); S.sel = today; render(); break; }
+      case "today": { today = FIXED_TODAY; const d = pd(FIXED_TODAY); if (S.view === "year" || S.view === "search") S.view = "month"; S.sc = null; setMonth(d.getFullYear(), d.getMonth()); S.sel = today; render(); break; }
       case "cals": openCals(); break;
       case "ev-open": { const k = t.dataset.k; if (S.view === "search" && k) { S.sel = k; const d = pd(k); setMonth(d.getFullYear(), d.getMonth()); } openDetail(t.dataset.id, k); break; }
       case "sheet-close": closeSheet(); break;
@@ -498,7 +499,7 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">일�
   /* ---------- 열기/닫기 (홈 화면 연결) ---------- */
   function open() {
     if (isOpen) return; isOpen = true;
-    today = ymd(new Date());
+    today = FIXED_TODAY;
     if (S.view === "search") S.view = "month";
     render();
     const ic = document.querySelector('[data-app="calendar"] .icon'), sr = screen.getBoundingClientRect();
