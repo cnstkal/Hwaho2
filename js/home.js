@@ -106,6 +106,8 @@ window.APPS = {
         if (app.getAttribute("aria-hidden") === "true") app.removeAttribute("aria-hidden");
         app.style.display = "";
       });
+      const previous = Home.current;
+      if (previous && previous !== id) document.dispatchEvent(new CustomEvent("app:close", { detail: { id: previous, next: id } }));
       const h = $("#home");
       h.style.display = "";
       h.style.pointerEvents = "";
