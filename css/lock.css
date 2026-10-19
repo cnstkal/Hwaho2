@@ -81,3 +81,8 @@
 .lk-pad .act:active{background:none;opacity:.55}
 .lk-pad .act svg{width:calc(var(--k)*.4);height:calc(var(--k)*.4);fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .lk-home{position:absolute;left:50%;bottom:8px;width:min(36cqw,140px);height:5px;margin-left:calc(min(36cqw,140px)/-2);border-radius:3px;background:rgba(255,255,255,.9);z-index:3}
+
+/* Intro: incoming call and notices must sit above the lock screen */
+#screen:has(#lock:not([data-state=open])) #ft-root{z-index:100000}
+#screen:has(#lock:not([data-state=open])) #story-intro-notice{z-index:100001}
+#screen:has(#lock[data-state=pass]) #story-intro-notice,#screen:has(#lock[data-state=unlocking]) #story-intro-notice{opacity:0;pointer-events:none}
