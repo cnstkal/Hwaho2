@@ -12,7 +12,7 @@
  document.addEventListener("pointerdown", function unlockGeneralTone(){
   try { generalTone.muted = true; const p = generalTone.play(); if (p && p.then) p.then(() => { generalTone.pause(); generalTone.currentTime = 0; generalTone.muted = false; }).catch(() => { generalTone.muted = false; }); else generalTone.muted = false; } catch(e) { generalTone.muted = false; }
  }, { once: true, capture: true });
- function playGeneralTone(){try{generalTone.currentTime=0.3;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+ function playGeneralTone(){try{generalTone.currentTime=0.5;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
  const $=s=>document.querySelector(s);
