@@ -33,7 +33,7 @@
  function showManagerChat(){if(stage!=="unlock-chat")return;stage="manager-chat";save();root.innerHTML="";if(window.KakaoApp){KakaoApp.openStoryChat("c3");sendText();sendLink();}}
  function place(){const stack=root.querySelector(".stack:not(.top)");if(stack)stack.style.top="39%"}
  function clearNotice(){root.innerHTML=""}
- function notice(title,body,app,fn,time){root.innerHTML="";if(app!=="KakaoTalk")playGeneralTone();const stack=document.createElement("div");stack.className="stack top";stack.appendChild(makeNotice(title,body,app,fn,time||"지금"));root.appendChild(stack);place()}
+ function notice(title,body,app,fn,time){root.innerHTML="";if(app==="KakaoTalk"){if(window.KakaoApp&&KakaoApp.playNotificationTone)KakaoApp.playNotificationTone()}else playGeneralTone();const stack=document.createElement("div");stack.className="stack top";stack.appendChild(makeNotice(title,body,app,fn,time||"지금"));root.appendChild(stack);place()}
  function ringFirst(){if(stage!=="first-call"||!window.FaceTimeApp)return;FaceTimeApp.ring({caller:MANAGER,kind:"manager-first",avatar:AVATAR,subtitle:"휴대전화"})}
  function urgent(){if(stage!=="first-call")return;if(window.PhoneApp&&PhoneApp.recordStoryMissedCall)PhoneApp.recordStoryMissedCall(MANAGER,"manager-first");stage="urgent";save();if(window.KakaoApp)KakaoApp.appendStoryMessage("뒤지기 싫으면 회사로 튀어온다 실시","text","","c3","f2",[22,14]);notice(MANAGER,"뒤지기 싫으면 회사로 튀어온다 실시","KakaoTalk",()=>{clearNotice();stage="dispatch";save();setTimeout(dispatchNotice,350)})}
  function dispatchNotice(){if(stage!=="dispatch")return;notice("Dispatch","[단독] \"누가 봐도 평범한 사이는 아니었다\"…마스♥정윤호, 심야 데이트 포착","Dispatch",()=>{clearNotice();stage="dispatch-reading";viewedAt=0;save();openArticle(DISPATCH);})}
