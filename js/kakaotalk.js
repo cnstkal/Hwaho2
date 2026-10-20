@@ -489,6 +489,20 @@ const KakaoApp = (() => {
     D.v27 = 1; save();
   }
 
+  /* v28: 사용자 요청 문구 정리. 기존 저장 대화에도 반영 */
+  if (D.v28 !== 1) {
+    const mg = D.chats.find(c => c.ids && c.ids.length === 1 && c.ids[0] === "f4");
+    if (mg) {
+      const day24 = new Date("2026-09-24T00:00:00+09:00").getTime();
+      const day25 = new Date("2026-09-25T00:00:00+09:00").getTime();
+      const day26 = new Date("2026-09-26T00:00:00+09:00").getTime();
+      const day27 = new Date("2026-09-27T00:00:00+09:00").getTime();
+      mg.msgs = mg.msgs.filter(m => !(m.ts >= day24 && m.ts < day25 && m.text === "잔다") && !(m.ts >= day26 && m.ts < day27 && m.text === "이새끼 존나 일찍 일어나네?"));
+      mg.msgs.forEach(m => { if (m.text === "일어났냐") m.text = "일어남?"; });
+    }
+    D.v28 = 1; save();
+  }
+
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
