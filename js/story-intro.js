@@ -6,7 +6,7 @@
  const KEY="hwaho-story-intro-v3";
  const $=s=>document.querySelector(s);
  const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}})();
- let stage=saved&&saved.stage||"manager-message", secondStarted=!!(saved&&saved.secondStarted), viewedAt=saved&&saved.viewedAt||0, ringTimer=0, messageTimer=0;
+ let redialNext=false, stage=saved&&saved.stage||"manager-message", secondStarted=!!(saved&&saved.secondStarted), viewedAt=saved&&saved.viewedAt||0, ringTimer=0, messageTimer=0;
  window.HwahoIntroFresh = stage === "manager-message";
  /* story.js must not resume its previous sequence while this intro is in progress. */
  window.HwahoIntroDone = stage === "handoff";
@@ -20,7 +20,7 @@
  function makeNotice(title,body,app,fn,time){const b=document.createElement("button");b.className="card";b.type="button";const im=document.createElement("img");im.src=app==="Dispatch"?"images/app/Dispatch/정윤호_마스_열애설/collage 2.png":app==="Naver"?"images/app/Naver/IMG_7151.png":"images/app/KakaoTalk/IMG_7149.png";const t=document.createElement("span");t.className="txt";const meta=document.createElement("span");meta.className="meta";const h=document.createElement("b");h.textContent=title;meta.append(h);if(time){const tm=document.createElement("small");tm.className="time";tm.textContent=time;meta.append(tm)}const p=document.createElement("span");p.className="body";p.textContent=body;t.append(meta,p);b.append(im,t);b.onclick=fn;return b}
  const sendText=()=>{if(window.KakaoApp)KakaoApp.appendStoryMessage("너 이거 뭐야?","text","","c3","f2",[14,25])};
  const sendLink=()=>{if(window.KakaoApp)KakaoApp.appendStoryMessage("[단독] 마스♥정윤호, 심야 데이트 포착 — 디스패치 기사 링크","link",DISPATCH,"c3","f2",[14,25])};
- function showManagerNotification(){root.innerHTML="";sendText();const stack=document.createElement("div");stack.className="stack";const go=()=>{if(stage!=="manager-message")return;clearTimeout(messageTimer);stage="unlock-chat";save();root.innerHTML="";if(window.HwahoLock)HwahoLock.promptUnlock();};stack.appendChild(makeNotice("성현이형(매니저)","너 이거 뭐야?","KakaoTalk",go,"오후 2:25"));root.appendChild(stack);stage="manager-message";save();place();
+ function showManagerNotification(){root.innerHTML="";if(window.HwahoClock&&window.HwahoIntroFresh)HwahoClock.set(14,25,0);sendText();const stack=document.createElement("div");stack.className="stack";const go=()=>{if(stage!=="manager-message")return;clearTimeout(messageTimer);stage="unlock-chat";save();root.innerHTML="";if(window.HwahoLock)HwahoLock.promptUnlock();};stack.appendChild(makeNotice("성현이형(매니저)","너 이거 뭐야?","KakaoTalk",go,"오후 2:25"));root.appendChild(stack);stage="manager-message";save();place();
   /* 잠시 뒤 기사 링크가 위쪽에 새로 도착 (최신 알림이 맨 위) */
   clearTimeout(messageTimer);messageTimer=setTimeout(()=>{if(stage!=="manager-message"||!stack.isConnected)return;sendLink();stack.insertBefore(makeNotice("성현이형(매니저)","[단독] 마스♥정윤호, 심야 데이트 포착 — 디스패치 기사 링크","KakaoTalk",go,"오후 2:25"),stack.firstChild);},1600)}
  function showManagerChat(){if(stage!=="unlock-chat")return;stage="manager-chat";save();root.innerHTML="";if(window.KakaoApp){KakaoApp.openStoryChat("c3");sendText();sendLink();}}
@@ -32,19 +32,19 @@
  function dispatchNotice(){if(stage!=="dispatch")return;notice("Dispatch","[단독] \"누가 봐도 평범한 사이는 아니었다\"…마스♥정윤호, 심야 데이트 포착","Dispatch",()=>{clearNotice();stage="dispatch-reading";viewedAt=0;save();openArticle(DISPATCH);})}
  function openArticle(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url)}}
  function scheduleSecond(ms){clearTimeout(ringTimer);ringTimer=setTimeout(ringSecond,Math.max(0,ms))}
- function ringSecond(){ringTimer=0;if(stage!=="dispatch-reading"||secondStarted||!viewedAt)return;secondStarted=true;stage="second-call";save();const dialogue=[["성현","성화야, 디스패치 기사 봤지?","them",2400],["성화","아… 네 형, 방금 봤어요. 저 지금 좀 정신이 없어서…","me",2900],["성현","너희 둘 실제로 사귀는 거 맞아?","them",2300],["성화","네? 아, 그게… 네, 맞아요.","me",2300],["성현","…하. 회사 입장에서 보면 생각보다 큰 타격은 아닐 것 같아.","them",3000],["성현","무조건 부인하기보다 인정하는 편이 낫겠어.","them",2500],["성화","인정이요? 아… 네, 저도 그게 낫겠다 싶긴 해요.","me",2800],["성현","알았어. 회사에서 열애 인정 입장 낼게.","them",2500],["성화","네 형… 죄송해요, 감사합니다.","me",2200]];const redial=[["성현","왜 안 받냐?","them",1900],["성화","아, 형 죄송해요. 지금 정신이 없어서…","me",2400]].concat(dialogue);FaceTimeApp.ring({caller:"정성현(매니저)",kind:"manager-second",avatar:AVATAR,subtitle:"휴대전화",dialogue,redial})}
- function showAck(){stage="ack-article";save();notice("네이버 뉴스","[단독] 마스 측 “정윤호와 열애 중” 공식 인정…‘친한 동료’에서 연인으로","Naver",()=>{clearNotice();stage="ack-reading";save();openArticle(ACK)})}
+ function ringSecond(){ringTimer=0;if(stage!=="dispatch-reading"||secondStarted||!viewedAt)return;secondStarted=true;stage="second-call";save();const dialogue=[["성현","성화야, 디스패치 기사 봤지?","them",2400],["성화","아… 네 형, 방금 봤어요. 저 지금 좀 정신이 없어서…","me",2900],["성현","너희 둘 실제로 사귀는 거 맞아?","them",2300],["성화","네? 아, 그게… 네, 맞아요.","me",2300],["성현","…하. 회사 입장에서 보면 생각보다 큰 타격은 아닐 것 같아.","them",3000],["성현","무조건 부인하기보다 인정하는 편이 낫겠어.","them",2500],["성화","인정이요? 아… 네, 저도 그게 낫겠다 싶긴 해요.","me",2800],["성현","알았어. 회사에서 열애 인정 입장 낼게.","them",2500],["성화","네 형… 죄송해요, 감사합니다.","me",2200]];const redial=[["성현","왜 안 받냐?","them",1900],["성화","아, 형 죄송해요. 지금 정신이 없어서…","me",2400]].concat(dialogue);const useRedial=redialNext;redialNext=false;FaceTimeApp.ring({caller:"정성현(매니저)",kind:"manager-second",avatar:AVATAR,subtitle:"휴대전화",dialogue:useRedial?redial:dialogue,redial})}
+ function showAck(){stage="ack-article";save();if(window.HwahoClock)HwahoClock.set(14,53,0);notice("네이버 뉴스","[단독] 마스 측 “정윤호와 열애 중” 공식 인정…‘친한 동료’에서 연인으로","Naver",()=>{clearNotice();stage="ack-reading";save();openArticle(ACK)})}
  document.addEventListener("story:manager-link-opened",e=>{if(stage==="dispatch-reading"){e.stopImmediatePropagation();if(window.KakaoApp)KakaoApp.close();openArticle((e.detail&&e.detail.url)||DISPATCH);return}if(stage!=="manager-chat")return;e.stopImmediatePropagation();stage="dispatch-reading";viewedAt=0;save();if(window.KakaoApp)KakaoApp.close();openArticle((e.detail&&e.detail.url)||DISPATCH);});
- document.addEventListener("story:dispatch-article-viewed",()=>{if(stage!=="dispatch-reading"||secondStarted||viewedAt)return;viewedAt=Date.now();save();scheduleSecond(7000)});
- document.addEventListener("story:manager-second-declined",()=>{if(stage!=="second-call"&&stage!=="second-call-active")return;secondStarted=false;stage="dispatch-reading";save();scheduleSecond(5000)});
+ document.addEventListener("story:dispatch-article-viewed",()=>{if(stage!=="dispatch-reading"||secondStarted||viewedAt)return;viewedAt=Date.now();save();scheduleSecond(4000)});
+ document.addEventListener("story:manager-second-declined",()=>{if(stage!=="second-call"&&stage!=="second-call-active")return;redialNext=true;secondStarted=false;stage="dispatch-reading";save();scheduleSecond(5000)});
  document.addEventListener("story:manager-call-connected",()=>{if(stage==="second-call")stage="second-call-active";save()});
  document.addEventListener("story:manager-call-ended",()=>{if(stage==="second-call-active")showAck()});
- document.addEventListener("story:ack-article-viewed",()=>{if(stage!=="ack-reading")return;stage="handoff";save();window.HwahoIntroDone=true;window.HwahoIntroActive=false;document.dispatchEvent(new CustomEvent("story:start"))});
+ document.addEventListener("story:ack-article-viewed",()=>{if(stage!=="ack-reading")return;if(window.HwahoClock)HwahoClock.set(15,2,0);stage="handoff";save();window.HwahoIntroDone=true;window.HwahoIntroActive=false;document.dispatchEvent(new CustomEvent("story:start"))});
  const lockNode=document.getElementById("lock");
  if(lockNode&&window.MutationObserver)new MutationObserver(()=>{if(lockNode.dataset.state==="open"&&stage==="unlock-chat")showManagerChat();}).observe(lockNode,{attributes:true,attributeFilter:["data-state"]});
  if(stage==="manager-message")setTimeout(showManagerNotification,450);
  else if(stage==="unlock-chat")setTimeout(()=>{if(document.getElementById("lock")?.dataset.state==="open")showManagerChat();},300);
    else if(stage==="dispatch")dispatchNotice();
- else if(stage==="dispatch-reading"&&viewedAt)scheduleSecond(7000-(Date.now()-viewedAt));
+ else if(stage==="dispatch-reading"&&viewedAt)scheduleSecond(4000-(Date.now()-viewedAt));
  else if(stage==="ack-article"||stage==="ack-reading")showAck();
 })();

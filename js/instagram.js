@@ -117,6 +117,9 @@ window.IgApp = (() => {
     /* 프로필/상세 화면에 있었더라도 알림을 누르면 홈 피드 맨 위에서 새 게시물이 보이도록 */
     tab = "home"; $("#ig-det").classList.remove("on"); setNav(); if (scroller) scroller.scrollTop = 0;
     if (scroller && !scroller.querySelector('[data-id="yunho1"]')) { const stories = scroller.querySelector(".ig-sts"); if (stories) stories.insertAdjacentHTML("afterend", postHtml(yp)); else scroller.insertAdjacentHTML("afterbegin", postHtml(yp)); }
+    /* 사용자가 새 게시물을 실제로 화면에서 확인했을 때 한 번만 알린다 */
+    const seen = () => document.dispatchEvent(new CustomEvent("story:yunho-post-viewed"));
+    setTimeout(() => { const node = document.querySelector('#ig-home .ig-post[data-id="yunho1"]'); if (!node || !window.IntersectionObserver) return; const io = new IntersectionObserver(en => { if (en.some(x => x.isIntersecting && x.intersectionRatio >= 0.6) && document.querySelector("#ig-app.show")) { io.disconnect(); seen(); } }, { threshold: [0.6] }); io.observe(node); }, 400);
     /* 좋아요: 0에서 시작해 계속 올라가 82,400에서 멈춘다 (새로고침 해도 시작 시각을 기억해 이어서 올라감) */
     const YH_MAX = 82400, YH_DUR = 240000, YH_KEY = "hwaho-ig-yunho-t0";
     let t0 = 0; try { t0 = +localStorage.getItem(YH_KEY) || 0; } catch (e) {}
@@ -140,7 +143,7 @@ window.IgApp = (() => {
   });
   const uProfHtml = id => { const u = usr(id), c = UPROF[id];
     return hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(id)}</small>프로필</div>`, "") +
-    `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${c.posts}</b>게시물</div><div><b>${c.followers}</b>팔로워</div><div><b>${c.following}</b>팔로잉</div></div></div>
+    `<div class="ig-sc"><div class="ig-pt">${av(u, 86)}<div class="ig-stat"><div><b>${c.posts}</b>게시물</div><div><b>${c.followers}</b>팔로워</div><button data-g="ufing" data-id="${esc(id)}"><b>${c.following}</b>팔로잉</button></div></div>
 <div class="ig-bio"><b>${esc(u.name)}</b></div><div class="ig-bt"><span>팔로잉</span><span>메시지</span></div>
 <div class="ig-tabs"><span class="on">${I.grid}</span><span>${I.tag}</span></div>
 <div class="ig-gr">${["yunho1","yunho2","yunho3","yunho4","yunho5"].map((pid,i)=>`<button data-g="open" data-id="${pid}"><img src="${art(post(pid).imgs[0])}" alt="" draggable="false"></button>`).join("")}</div></div>`; };
@@ -154,8 +157,9 @@ window.IgApp = (() => {
   el.addEventListener("click", e => { const t = e.target.closest("[data-g]"); if (!t) return; const d = t.dataset;
     if (d.g === "nav") { if (tab === d.t) { const sc = $(d.t === "home" ? "#ig-home .ig-sc" : "#ig-prof .ig-sc"); sc.scrollTo({ top: 0, behavior: "smooth" }); } tab = d.t; $("#ig-det").classList.remove("on"); setNav(); }
     else if (d.g === "like" || d.g === "save") { const id = t.closest(".ig-post").dataset.id, k = d.g === "like" ? "like" : "save"; S[k][id] = !S[k][id]; persist(); sync(id); }
-    else if (d.g === "open") { const p = post(d.id); $("#ig-det").dataset.backProfile = p && p.u === "yunou._.u" ? "yunou._.u" : ""; $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(p && p.u === "yunou._.u" ? p.u : ME.id)}</small>게시물</div>`, "") + `<div class="ig-sc">${postHtml(p)}</div>`; $("#ig-det").classList.add("on"); }
+    else if (d.g === "open") { const p = post(d.id); if (p && p.id === "yunho1") document.dispatchEvent(new CustomEvent("story:yunho-post-viewed")); $("#ig-det").dataset.backProfile = p && p.u === "yunou._.u" ? "yunou._.u" : ""; $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(p && p.u === "yunou._.u" ? p.u : ME.id)}</small>게시물</div>`, "") + `<div class="ig-sc">${postHtml(p)}</div>`; $("#ig-det").classList.add("on"); }
     else if (d.g === "fing") { $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${ME.id}</small>팔로잉</div>`, "") + `<div class="ig-sc">${FOLLOWING.map(k => { const u = usr(k); return `<div class="ig-fr"${k === "yunou._.u" ? ' data-g="uprof" data-id="yunou._.u" style="cursor:pointer"' : ""}>${av(u, 48)}<div class="ig-fn"><b>${esc(k)}</b><small>${esc(u.name)}</small></div><span class="ig-fb">${MUTUAL.has(k) ? "맞팔" : "팔로잉"}</span></div>`; }).join("")}</div>`; $("#ig-det").classList.add("on"); }
+    else if (d.g === "ufing") { const me = usr(ME.id); $("#ig-det").dataset.backProfile = d.id; $("#ig-det").innerHTML = hdr(`<button class="ig-bk" data-g="back" aria-label="뒤로">${I.back}</button><div class="ig-dtt"><small>${esc(d.id)}</small>팔로잉</div>`, "") + `<div class="ig-sc"><div class="ig-fr">${av(me, 48)}<div class="ig-fn"><b>${esc(ME.id)}</b><small>박성화</small></div><span class="ig-fb">팔로잉</span></div></div>`; $("#ig-det").classList.add("on"); }
     else if (d.g === "uprof") { $("#ig-det").innerHTML = uProfHtml(d.id); $("#ig-det").classList.add("on"); }
     else if (d.g === "back") { const backProfile = $("#ig-det").dataset.backProfile; if (backProfile) { $("#ig-det").innerHTML = uProfHtml(backProfile); delete $("#ig-det").dataset.backProfile; } else $("#ig-det").classList.remove("on"); }
     else if (d.g === "cmt") return;

@@ -167,7 +167,7 @@ const FaceTimeApp = (() => {
     switch(b.dataset.ft){
       case "yes":if(!alertOpen)break;setAlert(false);state="prompt";clearTimeout(ringT);ringT=0;document.dispatchEvent(new CustomEvent("story:start"));break;
       case "no":if(!alertOpen)break;setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{ringT=0;if(state==="idle")prompt();},40000);break;
-      case "decline":clearTimeout(missT);showIncoming(false);state="idle";{const o=lastOpts||{},mgr=String(o.kind||"").indexOf("manager")===0;missT=setTimeout(()=>{if(state==="idle")ring(mgr&&o.redial?Object.assign({},o,{dialogue:o.redial}):o);},mgr?20000:1000);}break;
+      case "decline":clearTimeout(missT);showIncoming(false);state="idle";if(curKind==="manager-second"){document.dispatchEvent(new CustomEvent("story:manager-second-declined"));break;}{const o=lastOpts||{},mgr=String(o.kind||"").indexOf("manager")===0;missT=setTimeout(()=>{if(state==="idle")ring(mgr&&o.redial?Object.assign({},o,{dialogue:o.redial}):o);},mgr?20000:1000);}break;
       case "accept":openCall();break;
       case "end":endCall();break;
       case "mute":case "speaker":b.classList.toggle("off");break;

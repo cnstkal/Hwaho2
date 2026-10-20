@@ -209,14 +209,23 @@ window.APPS = {
   document.addEventListener("touchend", homeFromBottomGesture, { capture: true, passive: true });
 
   /* ---------- 시계 ---------- */
-  let lastDay = 19;
+  /* 스토리 시계: 날짜는 2026-10-19 고정, 시각은 스토리 이벤트 기준점에서 실시간으로 흐른다 (새로고침 후에도 유지) */
+  const CK = "hwaho-story-clock-off", DAY = 86400000;
+  const dayMs = () => { const n = new Date(); return n.getTime() - new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime(); };
+  let ckOff = null; try { const v = localStorage.getItem(CK); if (v !== null && v !== "") ckOff = Number(v); } catch (e) {}
+  const ckSet = (h, m, s = 0) => { ckOff = (h * 3600 + m * 60 + s) * 1000 - dayMs(); try { localStorage.setItem(CK, String(ckOff)); } catch (e) {} document.dispatchEvent(new CustomEvent("story:clock")); };
+  if (ckOff === null || isNaN(ckOff)) ckSet(14, 24, 50);
+  const ckNow = () => new Date(new Date(2026, 9, 19).getTime() + ((((dayMs() + ckOff) % DAY) + DAY) % DAY));
+  window.HwahoClock = { now: ckNow, set: ckSet, hm() { const d = ckNow(); return [d.getHours(), d.getMinutes()]; }, label() { const d = ckNow(); return (d.getHours() < 12 ? "오전 " : "오후 ") + (d.getHours() % 12 || 12) + ":" + String(d.getMinutes()).padStart(2, "0"); } };
+  let lastDay = 19, tickT = 0;
   function tick() {
-    const now = new Date();
-    const d = new Date(2026, 9, 19, now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+    clearTimeout(tickT);
+    const d = ckNow();
     $("#clock").textContent = `${d.getHours() % 12 || 12}:${String(d.getMinutes()).padStart(2, "0")}`;
     if (d.getDate() !== lastDay) { lastDay = d.getDate(); render(); }
-    setTimeout(tick, 60000 - d.getSeconds() * 1000 - d.getMilliseconds() + 20);
+    tickT = setTimeout(tick, 60000 - d.getSeconds() * 1000 - d.getMilliseconds() + 20);
   }
+  document.addEventListener("story:clock", tick);
   tick();
 
   /* ---------- 배터리 ---------- */

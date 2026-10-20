@@ -571,6 +571,8 @@ const KakaoApp = (() => {
       /* 기존 마지막 메시지보다 항상 뒤의 시각으로 붙인다 (고정 15:10 이면 기존 15:18 메시지보다 앞선 시각으로 보였음) */
       const lastTs = c.msgs.reduce((a, m) => Math.max(a, m.ts || 0), 0), n = new Date(), clock = new Date(2026, 9, 19, n.getHours(), n.getMinutes(), n.getSeconds()).getTime();
       let ts = Math.max(clock, lastTs + 60000);
+      /* 스토리 시계가 있으면 그 시각(초 단위)을 그대로 사용 — 상태바/알림/기사 시각과 일치 */
+      if (window.HwahoClock) { const lastStory = c.msgs.reduce((a, m) => m.storySequence ? Math.max(a, m.ts || 0) : a, 0); ts = Math.max(window.HwahoClock.now().getTime(), lastStory + 1000); at = null; }
       /* at=[시,분] 이면 같은 분 안에 여러 메시지를 1초 간격으로 쌓는다 */
       if (Array.isArray(at)) { const base = new Date(2026, 9, 19, at[0], at[1], 0).getTime(), same = c.msgs.filter(m => m.storySequence && m.ts >= base && m.ts < base + 60000).length; ts = Math.max(base + same * 1000, lastTs + 1); }
       c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts });
