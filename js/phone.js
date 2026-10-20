@@ -141,7 +141,7 @@ const PhoneApp = (() => {
     call.t1 = setTimeout(() => { if (!call) return; call.state = "on"; call.t0 = Date.now(); updCall(); call.iv = setInterval(updCall, 1000); if (call.pb) playScript(); }, 800 + Math.random() * 400);
   }
   const SCRIPTS = { "yunho-call-17-days": [["윤호", "여보세요?"], ["성화", "응 왜?"], ["윤호", "뭐해"], ["성화", "그냥 있지 왜"], ["윤호", "형 우리 반지 다시 낄까?"], ["성화", "…. 엉?"], ["윤호", "아니 전에 맞췄던 거 있는데 굳이 다시 맞춰야할까 싶어서"], ["윤호", "추억도 있고"], ["성화", "어.. 아직도 갖고있구나"], ["윤호", "서랍 열 때마다 보이던데 뭐"], ["윤호", "설마 버린 거 아니지?"], ["성화", "…"], ["성화", "아니야 ㅋㅋ 나도 있어"], ["성화", "어디 넣어놔서 그래"], ["윤호", "어디?"], ["성화", "이사하면서… 박스에 있을 걸"], ["윤호", "형 그 박스 아직도 안 풀었어?"], ["성화", "풀었는데 그 박스만 안 풀었어"], ["윤호", "ㅋㅋㅋ 이번 주말에 끼고 나와"], ["성화", "알았어 찾아볼게 (좆됐다)"]], "sunghyun-call-today": [["성현", "야 기사 진짜 네가 낸 거 아니지?"], ["성화", "저 그 정도로 정신 빠진 놈은 아니에요"], ["성화", "저도 방금 봤어요"], ["성현", "그럼 정윤호쪽에서 낸 것 같은데 걔는 뭐래?"], ["성화", "전화를 안받아요"], ["성현", "몇 번 했는데"], ["성화", "…세 번이요"], ["성현", "세 번이면 받기 싫다는 거야"], ["성현", "너 걔한테 뭐 잘못했냐?"], ["성화", "잘못은 많이 했는데..."], ["성현", "아니 최근에"], ["성화", "그럼 딱히 없는데..."], ["성현", "일단 회사로 와라"], ["성화", "지금요?"], ["성현", "택시 타고 와"], ["성현", "근데 진짜 사귀는 거야?"], ["성화", "저번주에도 말했잖아요..."], ["성현", "너 말은 잘 기억 안해서"], ["성화", "형 저 상처받아요"], ["성현", "와서 받아"]], "mom-call-jul3": [["엄마", "너는 요즘 소식없니?"], ["성화", "갑자기 무슨 소리야"], ["엄마", "그냥 궁금해서"], ["엄마", "만나는 사람 없냐고"], ["성화", "바뻐"], ["성화", "만날 시간도 없어"], ["엄마", "그래도 만날 사람은 다 만나"], ["엄마", "밥은 먹었어?"], ["성화", "먹었어"], ["엄마", "엄마는 윤호가 참 좋았는데"], ["성화", "무슨 일년 전 얘기를 해"], ["엄마", "윤호 요즘 잘나가더라"], ["성화", "알아"], ["엄마", "알아? 너 연락하니?"], ["성화", "아니 테레비에 나오잖아"], ["엄마", "영숙 아줌마도 윤호 좋아해"], ["성화", "그게 나랑 무슨 상관인데..."], ["엄마", "말도 이쁘게하고"], ["엄마", "밥도 복스럽게 잘먹고 얼마나 예뻤는데"], ["성화", "엄마"], ["엄마", "그냥 하는 말이야"], ["성화", "나 일해야 돼 끊는다"], ["엄마", "다시 잘해봐~"], ["성화", "끊는다 쉬세요"], ["엄마", "밥 챙겨 먹어"]], "yunho-call-aug": [["윤호", "술 마셨어?"], ["성화", "쪼금…"], ["윤호", "목소리가 쪼금이 아닌데"], ["윤호", "내 번호 어떻게 알았어?"], ["성화", "민기한테 물어봤지…"], ["성화", "걔 뭐라 하지 마 내가 협박했어"], ["윤호", "나 바뻐 용건만 말해"], ["성화", "어… 용건…"], ["성화", "그게… 어디서부터 말해야 되지"], ["성화", "다시 만나고 싶어…"], ["윤호", "…"], ["성화", "진심이야…"], ["성화", "맨정신이면 말 못 할 거 같아서 마신 거야"], ["성화", "많이 반성했고 다시는 그런 일 안 일어나게 잘할게"], ["윤호", "그런 일이 뭔데"], ["성화", "어… 다…? 그냥 다"], ["윤호", "어딘데?"], ["성화", "왜..?"], ["윤호", "전화로 할 얘기 아니잖아"], ["윤호", "만나서 얘기하자고"]] };
-  function playScript() { let t = 1200; SCRIPTS[call.pb].forEach(l => { call.pt.push(setTimeout(() => { if (!call) return; call.pl.push(l); const e = $("#tl-pb"); if (e) e.innerHTML = pbHtml(); }, t)); t += 1500 + l[1].length * 90 + (/^…|…$|\.{2,}$/.test(l[1]) ? 1200 : 0); }); call.pt.push(setTimeout(endCall, t + 1500)); }
+  function playScript() { let t = 1200; SCRIPTS[call.pb].forEach(l => { call.pt.push(setTimeout(() => { if (!call) return; call.pl.push(l); const e = $("#tl-pb"); if (e) e.innerHTML = pbHtml(); }, t)); t += l[2] || (1500 + l[1].length * 90 + (/^…|…$|\.{2,}$/.test(l[1]) ? 1200 : 0)); }); call.pt.push(setTimeout(endCall, t + 1500)); }
   const pbHtml = () => call.pl.slice(-6).map((l, i, a) => `<div class="tl-pb-line ${l[0] === "성화" || l[0] === "나" ? "me" : "them"}" style="opacity:${(0.45 + 0.55 * (i + 1) / a.length).toFixed(2)}"><span class="tl-pb-speaker">${esc(l[0])}</span><span class="tl-pb-words">${esc(l[1])}</span></div>`).join("");
   const csec = () => call && call.state === "on" ? Math.floor((Date.now() - call.t0) / 1000) : 0;
   function updCall() { const e = $("#tl-cst"); if (e && call) e.textContent = call.state === "dialing" ? "연결 중..." : call.hold ? "통화 보류 중" : (call.rec ? "● " : "") + mmss(csec()); }
@@ -153,9 +153,18 @@ const PhoneApp = (() => {
     updCall();
   }
   function endCall() {
-    if (!call) return; clearTimeout(call.t1); clearInterval(call.iv); call.pt.forEach(clearTimeout);
+    if (!call) return; const onEnd = call.onEnd; clearTimeout(call.t1); clearInterval(call.iv); call.pt.forEach(clearTimeout);
     /* 통화 버튼을 눌러도 최근 통화 기록은 저장하지 않음 */
     call = null; cEl.classList.remove("on"); screen.classList.remove("in-call"); render(); renderOv();
+    if (onEnd) { try { onEnd(); } catch (e) {} }
+  }
+  /* 스토리 통화: 기존 전화 앱의 통화 화면(정성현(매니저) 등)을 그대로 사용하고 대사만 재생 */
+  function storyCall(o) {
+    if (call || !o || !o.lines) return false;
+    const c = D.contacts.find(x => x.name === o.name); if (!c) return false;
+    const key = "story-call"; SCRIPTS[key] = o.lines;
+    if (window.Home && Home.current !== "phone") Home.openApp("phone"); else open();
+    startCall(c.num, key); if (!call) return false; call.onEnd = o.onEnd; return true;
   }
   if (D.v15 !== 1) { const bl = D.calls.filter(c => c.blueRecord), r = D.calls.filter(c => !c.blueRecord).sort((a, b) => b.ts - a.ts).slice(0, 18); D.calls = bl.concat(r); D.v15 = 1; save(); }
   if (D.v16 !== 1) { const y = D.contacts.find(c => c.name === "윤둥이"); if (y && !D.calls.some(c => c.blueRecord === "yunho-call-aug")) D.calls.push({ id: uid(), num: y.num, dir: "out", ts: new Date("2026-08-01T23:40:00+09:00").getTime(), dur: 154, blueRecord: "yunho-call-aug" }); D.v16 = 1; save(); }
@@ -250,7 +259,7 @@ const PhoneApp = (() => {
   }
   document.addEventListener("app:open", e => { if (e.detail.id === "phone") open(); });
   document.addEventListener("app:close", closeApp);
-  return { open, close: closeApp, startCall, recordStoryMissedCall };
+  return { open, close: closeApp, startCall, recordStoryMissedCall, storyCall };
 })();
 
 (()=>{const s=document.createElement("style");s.textContent="#tel-app{position:absolute;inset:0;z-index:5;display:none;background:#fff;color:#000;overflow:hidden;opacity:0;transform:scale(.15);border-radius:44px;transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .22s,border-radius .42s;font-family:var(--font)}\n#tel-app.show{display:block}\n#tel-app.open{opacity:1;transform:none;border-radius:0}\n#tel-app button{font-family:var(--font);background:none;border:0;padding:0;cursor:pointer;color:inherit}\n#tel-app svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}\n#tel-app .tl-card>button[data-t=delnum]{min-height:52px;justify-content:center;align-items:flex-start;padding:0 16px!important}\n/* ===== 11차: 키패드 취소선 제거 ===== */\n#tel-app .tl-kd,#tel-app .tl-kn,#tel-app .tl-kn *,#tel-app .tl-k,#tel-app .tl-k *{text-decoration:none!important;-webkit-text-decoration:none!important;border-image:none;background-image:none}\n#tel-app .tl-kn{line-height:1.25;overflow:visible}\n#tel-app .tl-kp{margin-top:clamp(24px,7vh,64px)}\n#tel-app .tl-tabs button[data-k=search]{opacity:.4;pointer-events:none}\n#tel-app .tl-search{opacity:.6;pointer-events:none}";document.head.appendChild(s);})();
@@ -280,3 +289,5 @@ const PhoneApp = (() => {
 (()=>{const s=document.createElement("style");s.textContent="#tel-app .tl-call-s .kx-dt{min-height:24px;font-size:22px;margin-top:6px;word-break:break-all;text-align:center}#tel-app .kx-g,#tel-app .kx-b{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;width:100%;justify-items:center;padding:0 clamp(16px,6vw,28px);box-sizing:border-box}#tel-app .kx-g{margin-top:clamp(16px,5vh,56px)}#tel-app .kx-g button{width:100%;max-width:92px;aspect-ratio:1;border-radius:50%;background:#06140f;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}#tel-app .kx-g b{font-size:34px;font-weight:400;line-height:1}#tel-app .kx-g small{font-size:10px;font-weight:600;letter-spacing:.2em;height:12px;margin-top:3px}#tel-app .kx-b{margin-top:22px;align-items:center}#tel-app .kx-end{grid-column:2;width:72px;height:72px;border-radius:50%;background:#ff3b30;color:#fff;display:flex;align-items:center;justify-content:center}#tel-app .kx-end svg{width:32px;height:32px;fill:#fff;stroke:none;transform:rotate(135deg)}#tel-app .kx-h{justify-self:end;font-size:16px;color:#fff;white-space:nowrap}";document.head.appendChild(s);})();
 
 (()=>{const s=document.createElement("style");s.textContent="#tel-app .tl-pb{position:absolute;top:clamp(180px,24%,250px);bottom:calc(env(safe-area-inset-bottom,0px) + clamp(340px,39%,430px));left:0;width:100%;box-sizing:border-box;padding:12px 22px;margin:0;text-align:left;color:#fff;font-size:15px;line-height:1.4;min-height:0;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;gap:10px}#tel-app .tl-pb-line{max-width:88%;padding:10px 13px;border-radius:17px;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere;box-shadow:0 1px 1px #0001}#tel-app .tl-pb-line.me{align-self:flex-end;background:#0a84ff;border-bottom-right-radius:5px}#tel-app .tl-pb-line.them{align-self:flex-start;background:#343438;border-bottom-left-radius:5px}#tel-app .tl-pb-speaker{font-size:10px;opacity:.65}#tel-app .tl-pb-words{font-size:15px;color:#fff}";document.head.appendChild(s);})();
+
+window.PhoneApp = PhoneApp;

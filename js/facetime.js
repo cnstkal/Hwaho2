@@ -135,13 +135,28 @@ const FaceTimeApp = (() => {
     el("ft-st").textContent="00:"+String(sec).padStart(2,"0");
     dialogueT=setTimeout(()=>{if(lineIndex>=dialogue.length)endCall();else playDialogue();},wait);
   }
+  function finishCall(){
+    if(state!=="pcall")return;
+    state="idle";const k=curKind,who=CFG.caller;
+    if(window.Home&&Home.goHome)Home.goHome();
+    document.dispatchEvent(new CustomEvent("story:call-ended",{detail:{kind:k,caller:who}}));
+    if(k==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-ended"));
+  }
   function openCall(){
-    clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="call";sec=0;lineIndex=0;if(curKind==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-connected"));
+    /* 기존 전화 앱의 통화 화면으로 진행 (연락처가 없으면 아래 기본 화면 사용) */
+    if(window.PhoneApp&&PhoneApp.storyCall){
+      clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="pcall";
+      if(curKind==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-connected"));
+      if(PhoneApp.storyCall({name:CFG.caller,lines:dialogue.map(l=>[l[0],l[1],l[3]]),onEnd:finishCall}))return;
+      state="ringing";showIncoming(true);
+    }
+        clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="call";sec=0;lineIndex=0;if(curKind==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-connected"));
     el("ft-transcript").innerHTML="";showCall(true);el("ft-st").textContent="연결 중…";
     clearInterval(tickT);tickT=setInterval(()=>{sec++;el("ft-st").textContent="00:"+String(sec).padStart(2,"0");},1000);
     dialogueT=setTimeout(playDialogue,900);
   }
   function endCall(){
+    if(state==="pcall")return;
     if(state!=="call")return;
     clearInterval(tickT);clearTimeout(dialogueT);state="idle";showCall(false);const k=curKind,who=CFG.caller;document.dispatchEvent(new CustomEvent("story:call-ended",{detail:{kind:k,caller:who}}));if(k==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-ended"));
     el("ft-transcript").innerHTML="";
