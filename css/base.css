@@ -996,3 +996,7 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 /* 지피티 후속 질문 버튼 */
 .gp-fus{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .gp-fu{border:1px solid #d9d9d9;border-radius:18px;padding:8px 14px;font-size:14px;background:#fff;color:#0d0d0d;text-align:left}
+
+/* 사진 썸네일 1:1 */
+.pl-cell{aspect-ratio:1/1;height:auto}
+.pl-cell img,.pl-cell .g{width:100%;height:100%;object-fit:cover;display:block}

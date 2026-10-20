@@ -69,9 +69,9 @@ const KakaoApp = (() => {
         { id: uid(), from: "me", text: "사랑해❤️", ts: new Date("2026-10-17T17:21:20+09:00").getTime() },
         { id: uid(), from: "f0", text: "나두", ts: new Date("2026-10-17T17:22:00+09:00").getTime() },
 
-        { id: uid(), from: "me", text: "윤호야 너 들은 거 잇어?", ts: new Date("2026-10-18T14:08:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "난 없는데 진짜 미치겠다", ts: new Date("2026-10-18T14:08:20+09:00").getTime() },
-        { id: uid(), from: "me", text: "회사야? 내가 갈까?", ts: new Date("2026-10-18T14:08:40+09:00").getTime() },
+        { id: uid(), from: "me", text: "윤호야 너 들은 거 잇어?", ts: new Date("2026-10-18T14:20:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "난 없는데 진짜 미치겠다", ts: new Date("2026-10-18T14:20:20+09:00").getTime() },
+        { id: uid(), from: "me", text: "회사야? 내가 갈까?", ts: new Date("2026-10-18T14:20:40+09:00").getTime() },
         { id: uid(), from: "me", text: "똑똑", ts: new Date("2026-10-18T15:18:00+09:00").getTime() },
         { id: uid(), from: "me", text: "혹시 나도 모르는 사이에 우리 헤어진거 아니지?", ts: new Date("2026-10-18T15:18:20+09:00").getTime() },
         { id: uid(), from: "me", text: "전화 좀 받아 ㅜㅜ", ts: new Date("2026-10-18T15:18:40+09:00").getTime() }
@@ -133,9 +133,9 @@ const KakaoApp = (() => {
         { id: uid(), from: "me", text: "사랑해❤️", ts: new Date("2026-10-17T17:21:20+09:00").getTime() },
         { id: uid(), from: "f0", text: "나두", ts: new Date("2026-10-17T17:22:00+09:00").getTime() },
 
-        { id: uid(), from: "me", text: "윤호야 너 들은 거 잇어?", ts: new Date("2026-10-18T14:08:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "난 없는데 진짜 미치겠다", ts: new Date("2026-10-18T14:08:20+09:00").getTime() },
-        { id: uid(), from: "me", text: "회사야? 내가 갈까?", ts: new Date("2026-10-18T14:08:40+09:00").getTime() },
+        { id: uid(), from: "me", text: "윤호야 너 들은 거 잇어?", ts: new Date("2026-10-18T14:20:00+09:00").getTime() },
+        { id: uid(), from: "me", text: "난 없는데 진짜 미치겠다", ts: new Date("2026-10-18T14:20:20+09:00").getTime() },
+        { id: uid(), from: "me", text: "회사야? 내가 갈까?", ts: new Date("2026-10-18T14:20:40+09:00").getTime() },
         { id: uid(), from: "me", text: "똑똑", ts: new Date("2026-10-18T15:18:00+09:00").getTime() },
         { id: uid(), from: "me", text: "혹시 나도 모르는 사이에 우리 헤어진거 아니지?", ts: new Date("2026-10-18T15:18:20+09:00").getTime() },
         { id: uid(), from: "me", text: "전화 좀 받아 ㅜㅜ", ts: new Date("2026-10-18T15:18:40+09:00").getTime() }
@@ -181,10 +181,12 @@ const KakaoApp = (() => {
   }
   const CS = [["me","결혼 생활은 좀 어때","21:10:00"],["f1","좋지 뭐 ㅋㅋ","21:11:00"],["f1","너도 한 번 초대해야되는데","21:11:20"],["me","그래 신혼집 구경 좀 가보자","21:12:00"],["f1","윤호씨도 같이 올거야?","21:13:00"],["me","내가 말했나? ","21:14:00"],["me","다시 만나는 거?","21:14:20"],["f1","걍 요즘 기분 좋아보이길래 그런가보다했지","21:15:00"],["me",";;","21:16:00"],["me","그때 함 물어보지 뭐","21:16:20"],["f1","그래라","21:17:00"]];
   { const y = D.friends && D.friends.find(f => f.id === "f0"); if (y) { y.name = "윤둥이"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }
+  { const g = D.friends && D.friends.find(f => f.id === "f2"); if (g && g.name === "성현이형") { g.name = "성현이형(매니저)"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
   /* 무뼈국물닭발 이후 윤둥이 메시지는 오후 4:15 로 고정 (이미 저장된 메시지도 보정) */
+  { if (!D.fix1420) { (D.chats || []).forEach(c => { c.msgs.forEach(m => { if (m.from === "f4" && m.ts >= new Date("2026-10-19T00:00:00+09:00").getTime()) m.__del = 1; }); c.msgs = c.msgs.filter(m => !m.__del); }); D.fix1420 = 1; save(); } }
   { if (!D.fix415) { const c0 = (D.chats || []).find(c => c.id === "c0"); if (c0) c0.msgs.forEach(m => { if (m.storySequence && m.text === "무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?") m.ts = new Date(2026, 9, 19, 16, 15, 0).getTime(); if (m.storySequence && m.text === "빨리왕 💗") m.ts = new Date(2026, 9, 19, 16, 15, 1).getTime(); }); D.fix415 = 1; save(); } }
   { const t0 = new Date().setHours(0, 0, 0, 0); if (D.day !== t0) { D.day = t0; save(); } } /* 대화 날짜는 설정된 날짜로 고정 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
@@ -204,7 +206,7 @@ const KakaoApp = (() => {
 
   if (D.v9 !== 1) {
     const T = d => new Date(`2026-${d}+09:00`).getTime(), mk = a => a.map(([f, t, d]) => ({ id: uid(), from: f, text: t, ts: T(d) }));
-    const NM = { f1: "김철수", f2: "성현이형", f8: "오승호(믹싱)", f9: "한지안", f6: "문도현", f10: "강레도", h1: "최민재(무대감독)", h2: "박서준(조명)", h3: "김태훈(레코드)", h4: "이성민(동창)", h5: "윤수아 실장" };
+    const NM = { f1: "김철수", f2: "성현이형(매니저)", f8: "오승호(믹싱)", f9: "한지안", f6: "문도현", f10: "강레도", h1: "최민재(무대감독)", h2: "박서준(조명)", h3: "김태훈(레코드)", h4: "이성민(동창)", h5: "윤수아 실장" };
     D.friends.forEach(f => { if (NM[f.id]) f.name = NM[f.id]; });
     [["f11", "백진우(편곡)"], ["f12", "서하린(보컬 디렉터)"], ["f13", "윤재호 (띵신고)"], ["f14", "강태민 (띵신고)"], ["f15", "조현우 (띵신고)"]].forEach(([id, name]) => { if (!fr(id)) D.friends.push({ id, name, st: "", fav: 0, hid: 1 }); });
     D.friends = D.friends.filter(f => f.id !== "ad4"); D.chats = D.chats.filter(c => c.id !== "c7" && c.id !== "c12");
@@ -450,7 +452,7 @@ const KakaoApp = (() => {
     "윤둥이": "윤호/IMG_0012.jpeg",
     "아빠": "아빠/C954DC40-2B5B-446F-997A-C49C13F0C07F.png",
     "형": "형/IMG_7422.jpeg",
-    "성현이형": "성현이형(매니저)/IMG_7422.jpeg",
+    "성현이형(매니저)": "성현이형(매니저)/IMG_7422.jpeg",
     "김철수": "철수/609BC795-2DDD-4E26-8E22-62FAD41F247F.png",
     "송민기 (FIXON)": "민기/IMG_7425.jpeg",
     "김홍중 (NO1)": "홍중/IMG_7424.jpeg"

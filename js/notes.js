@@ -282,7 +282,7 @@ v.addEventListener('resize',f);v.addEventListener('scroll',f)})();
 window.addEventListener('pagehide',function(){commit()});document.addEventListener('visibilitychange',function(){if(document.hidden)commit()});
 /* ---------- 열기/닫기·홈 연동 ---------- */
 var dark=window.matchMedia('(prefers-color-scheme: dark)');
-function theme(){SCR.classList.toggle('app-light',R.classList.contains('on')&&!dark.matches)}
+function theme(){SCR.classList.toggle('app-light',R.classList.contains('on'))}
 if(dark.addEventListener)dark.addEventListener('change',theme);
 function openApp(){S.fedit=false;S.sel=false;S.ids={};if(S.scr==='e'&&!cur())go(S.prev||'f');rerender();R.classList.add('on');R.setAttribute('aria-hidden','false');theme()}
 function closeApp(){if(!R.classList.contains('on'))return;if(S.scr==='e')leaveE();R.classList.remove('on');R.setAttribute('aria-hidden','true');R.style.bottom='';theme()}

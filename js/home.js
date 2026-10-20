@@ -92,11 +92,11 @@ window.APPS = {
   /* 홈 위젯: 날씨(표시만) · 캘린더(누르면 캘린더 앱으로 이동). 2x2 크기로 맨 위에 놓임 */
   const WX_ICON = `<svg class="wx-cloud" viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.6-9.96A6.5 6.5 0 0 1 19 9.5a4 4 0 0 1-.5 7.96z"/></svg>`;
   const widgetsHtml = () => {
-    const d = new Date(), dow = ["일","월","화","수","목","금","토"];
+    const d = new Date(), cd = new Date(2026, 9, 19), dow = ["일","월","화","수","목","금","토"];
     /* D+ 위젯: 시작일 2023.03.01 부터 오늘까지 (당일 포함). 배경 사진은 비워 둠 */
     const days = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2023, 3, 4)) / 864e5) + 1;
     return `<div class="wgt-wrap"><div class="wgt wgt-dd" aria-label="내 강아지 ${days}일"><div class="dd-top"><b>내 강아지</b><span>2023.04.04(화)</span></div><div class="dd-num">${days}일</div></div></div>` +
-      `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span><span class="cw-sch"><b>최종 녹음</b></span></button></div>`;
+      `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[cd.getDay()]}</span><span class="cw-day">${cd.getDate()}</span><span class="cw-sch"><b>최종 녹음</b></span></button></div>`;
   };
   const render = () => {
     renderApps(APPS.grid.filter(app => !HIDDEN_HOME_APPS.has(app.id)), $("#grid"));
@@ -223,12 +223,12 @@ window.APPS = {
 
   /* ---------- 시계 ---------- */
   /* 스토리 시계: 날짜는 2026-10-19 고정, 시각은 스토리 이벤트 기준점에서 실시간으로 흐른다 (새로고침 후에도 유지) */
-  const CK = "hwaho-story-clock-off", DAY = 86400000;
+  const CK = "hwaho-story-clock-abs-v1", DAY = 86400000;
   const dayMs = () => { const n = new Date(); return n.getTime() - new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime(); };
   let ckOff = null; try { const v = localStorage.getItem(CK); if (v !== null && v !== "") ckOff = Number(v); } catch (e) {}
-  const ckSet = (h, m, s = 0) => { ckOff = (h * 3600 + m * 60 + s) * 1000 - dayMs(); try { localStorage.setItem(CK, String(ckOff)); } catch (e) {} document.dispatchEvent(new CustomEvent("story:clock")); };
+  const ckSet = (h, m, s = 0) => { ckOff = (h * 3600 + m * 60 + s) * 1000; try { localStorage.setItem(CK, String(ckOff)); } catch (e) {} document.dispatchEvent(new CustomEvent("story:clock")); };
   if (ckOff === null || isNaN(ckOff)) ckSet(14, 25, 0); /* 스토리 시작 시각 (오후 2:25) */
-  const ckNow = () => new Date(new Date(2026, 9, 19).getTime() + ((((dayMs() + ckOff) % DAY) + DAY) % DAY));
+  const ckNow = () => new Date(new Date(2026, 9, 19).getTime() + ((((ckOff) % DAY) + DAY) % DAY));
   window.HwahoClock = { now: ckNow, set: ckSet, hm() { const d = ckNow(); return [d.getHours(), d.getMinutes()]; }, label() { const d = ckNow(); return (d.getHours() < 12 ? "오전 " : "오후 ") + (d.getHours() % 12 || 12) + ":" + String(d.getMinutes()).padStart(2, "0"); } };
   let lastDay = 19, tickT = 0;
   function tick() {
