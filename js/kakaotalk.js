@@ -441,6 +441,30 @@ const KakaoApp = (() => {
     if (c3) c3.msgs = c3.msgs.filter(m => !m.storySequence && (m.ts || 0) < cut);
     D.v25 = 1; save();
   }
+
+  /* v26: 사용자 지정 카톡/기사 시간 수정. 로컬에 이미 저장된 대화에도 적용 */
+  if (D.v26 !== 1) {
+    const hong = D.chats.find(c => c.id === "c15");
+    if (hong) {
+      const patchText = (oldText, newText) => hong.msgs.forEach(m => { if (m.text === oldText) m.text = newText; });
+      patchText("어제 만든 비트 들어봤어?", "어제 보낸 거 들어봤어?");
+      patchText("우리 어제 몇시까지 마셨지", "우리 몇 시까지 마셨지");
+      const congratulate = hong.msgs.find(m => m.text === "축하한다");
+      if (congratulate) congratulate.ts = new Date("2026-10-19T17:00:00+09:00").getTime();
+      const cut = new Date("2026-10-19T00:00:00+09:00").getTime();
+      D.chats.forEach(c => {
+        if (c.ids && c.ids.includes("f4") && c.ids.length === 1) {
+          c.msgs = c.msgs.filter(m => {
+            const d = new Date(m.ts);
+            return !(d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() === 19);
+          });
+          c.unread = 0;
+        }
+      });
+    }
+    D.v26 = 1; save();
+  }
+
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
