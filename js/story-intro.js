@@ -4,6 +4,10 @@
  const DISPATCH="https://www.dispatch.co.kr/article/1";
  const generalTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
  generalTone.preload = "auto";
+ generalTone.load();
+ document.addEventListener("pointerdown", function unlockGeneralTone(){
+  try { generalTone.muted = true; const p = generalTone.play(); if (p && p.then) p.then(() => { generalTone.pause(); generalTone.currentTime = 0; generalTone.muted = false; }).catch(() => { generalTone.muted = false; }); else generalTone.muted = false; } catch(e) { generalTone.muted = false; }
+ }, { once: true, capture: true });
  function playGeneralTone(){try{generalTone.currentTime=0;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
