@@ -10,7 +10,18 @@
  function playGeneralTone(){if(!audioUnlocked){pendingGeneralTone=true;return;}try{generalTone.pause();generalTone.currentTime=0.5;generalTone.muted=false;generalTone.volume=1;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{pendingGeneralTone=true;});}catch(e){pendingGeneralTone=true;}}
  document.addEventListener("pointerdown",function unlockStoryAudio(){
   audioUnlocked=true;
-  try{const tone=pendingKakaoTone?kakaoTopTone:pendingGeneralTone?generalTone:null;if(tone){pendingKakaoTone=false;pendingGeneralTone=false;tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{});}}catch(e){}
+  /* iOS Safari must start each audio element during a real user gesture.
+     Muted priming here lets later story timers replay the same elements. */
+  for(const tone of [generalTone,kakaoTopTone]){
+   try{
+    const wasMuted=tone.muted;tone.muted=true;tone.volume=1;
+    const p=tone.play();
+    if(p&&p.then)p.then(()=>{tone.pause();try{tone.currentTime=0;}catch(e){}tone.muted=wasMuted;}).catch(()=>{tone.muted=wasMuted;});
+    else {tone.pause();tone.muted=wasMuted;}
+   }catch(e){tone.muted=false;}
+  }
+  const tone=pendingKakaoTone?kakaoTopTone:pendingGeneralTone?generalTone:null;
+  if(tone){pendingKakaoTone=false;pendingGeneralTone=false;try{tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;});}catch(e){if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;}}
  },{once:true,capture:true});
  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
