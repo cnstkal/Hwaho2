@@ -40,16 +40,17 @@
  const toast=(name,msg,app="KakaoTalk")=>{if(app==="KakaoTalk"&&window.KakaoApp&&typeof KakaoApp.playNotificationTone==="function")KakaoApp.playNotificationTone();else playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
- function openBrother(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
+ function openBrother(){if(window.HwahoClock)HwahoClock.set(14,52,0);if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
  function openYunhoChat(){if(window.Home)Home.openApp("kakaotalk");if(window.KakaoApp){KakaoApp.open();KakaoApp.openStoryChat("c0");}}
 
  /* 4. 열애 인정 기사 확인(story:start) 3초 후 성현 카톡 */
  function start(){if(started||window.HwahoIntroActive)return;started=true;yunhoIndex=0;viewedAt=0;igViewedAt=0;dotAt=0;setStage("manager-wait");later("m1",managerMsg,8000);}
- const bro1=()=>KakaoApp.appendStoryMessage(MANAGER_Q,"text","","c19","f7",[14,52]);
- const broReply=()=>KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c19","me",[14,52]);
- const broCare1=()=>KakaoApp.appendStoryMessage("기사에 아니라고 떴길래","text","","c19","f7",[14,52]);
- const broCare2=()=>KakaoApp.appendStoryMessage("무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);
- const bro2=()=>KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);
+ const setBrotherTime=()=>{if(window.HwahoClock)HwahoClock.set(14,52,0);};
+ const bro1=()=>{setBrotherTime();KakaoApp.appendStoryMessage(MANAGER_Q,"text","","c19","f7",[14,52]);};
+ const broReply=()=>{setBrotherTime();KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c19","me",[14,52]);};
+ const broCare1=()=>{setBrotherTime();KakaoApp.appendStoryMessage("기사에 아니라고 떴길래","text","","c19","f7",[14,52]);};
+ const broCare2=()=>{setBrotherTime();KakaoApp.appendStoryMessage("무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);};
+ const bro2=()=>{setBrotherTime();KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);};
  const onBrotherTap=()=>{
   if(stage!=="brother-chat")return;
   /* 한 번 탭할 때마다 메시지 하나만 표시 */
