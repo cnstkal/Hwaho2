@@ -950,3 +950,12 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 .cw-day{font-size:calc(var(--icon)*.85);font-weight:300;margin-top:2px}
 .cw-sch{margin-top:auto;padding:calc(var(--icon)*.1) calc(var(--icon)*.14);border-radius:calc(var(--icon)*.12);background:rgba(90,150,255,.22);border-left:3px solid #4d9bff;font-size:calc(var(--icon)*.2);font-weight:600;color:#9cc8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
 .cw-sch b{font-weight:600}
+
+/* 캘린더 위젯: 흰 바탕, 검은 글씨 */
+.wgt-cal{background:#fff;color:#000;border:0;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.cw-dow,.cw-day{color:#000}
+.cw-sch{margin-top:6px;background:rgba(0,122,255,.12);border-left:3px solid #0a84ff;color:#0a5fd1}
+/* 하단 독: 살짝 위로 */
+.dock-wrap{margin-bottom:calc(env(safe-area-inset-bottom,0px) + 40px)}
+/* 페이지 점 숨김 */
+.page-dots{display:none}
