@@ -41,7 +41,7 @@
   background:linear-gradient(90deg,var(--lk-t1),var(--lk-t2));-webkit-background-clip:text;background-clip:text;
   filter:drop-shadow(0 2px 14px rgba(0,0,0,.16))}
 /* 알림: 시계 아래 여백을 두고, 카드 높이를 넉넉히, 텍스트는 카드 안에서만 보이게 */
-.lk-notis{margin-top:3cqh;width:min(92cqw,420px);display:flex;flex-direction:column;gap:10px}
+.lk-notis{margin-top:1.2cqh;width:min(84cqw,400px);display:flex;flex-direction:column;gap:10px}
 .lk-notis:empty{display:none}
 .lk-n{padding:16px 16px 14px;min-height:92px;box-sizing:border-box;max-width:100%;overflow:hidden;border-radius:20px;background:rgba(255,255,255,.2);
   -webkit-backdrop-filter:blur(26px) saturate(1.6);backdrop-filter:blur(26px) saturate(1.6);
@@ -92,6 +92,6 @@
 #screen:has(#lock:not([data-state=open])) #story-intro-notice{z-index:100001}
 #screen:has(#lock[data-state=pass]) #story-intro-notice,#screen:has(#lock[data-state=unlocking]) #story-intro-notice{opacity:0;pointer-events:none}
 
-#lk-del{grid-column:1;grid-row:4;justify-self:center;align-self:center;width:var(--k);height:var(--k)}
+#lk-del{grid-column:1;grid-row:4;justify-self:center;align-self:center;width:calc(var(--k)*.56);height:calc(var(--k)*.56);border-radius:50%;background:rgba(0,0,0,.28);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 .lk-pad .act.del svg{width:calc(var(--k)*.3);height:calc(var(--k)*.3);stroke-width:1.5}
 .lk-pad .act.del.dim{opacity:.45}

@@ -1,7 +1,7 @@
 /* Story sequence controller — uses the site's existing KakaoTalk UI */
 (()=> {
  const style=document.createElement("style");
- style.textContent="#story-ui{position:absolute;inset:0;z-index:1000;pointer-events:none;font-family:var(--font,-apple-system,sans-serif)}#story-ui .toast{pointer-events:auto;position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;right:12px;background:rgba(248,248,250,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#171717;border:0;border-radius:18px;padding:12px;box-shadow:0 4px 20px #0002;display:flex;gap:11px;text-align:left;align-items:center;width:calc(100% - 24px)}#story-ui .ico{width:40px;height:40px;border-radius:10px;object-fit:cover;flex:none}#story-ui .copy{font-size:13px;line-height:1.35;flex:1;min-width:0}#story-ui b{display:block;margin-bottom:4px;font-weight:650}#story-ui .preview{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}#story-ui .toast{animation:st-in .6s cubic-bezier(.2,.9,.25,1) both}@keyframes st-in{0%{opacity:0;transform:translateY(-90px) scale(.94)}55%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}#kko-app #kk-ta::placeholder{color:#b5b5b5}#story-ui .when{font-size:11px;color:#777;align-self:flex-start;white-space:nowrap}";
+ style.textContent="#story-ui{position:absolute;inset:0;z-index:1000;pointer-events:none;font-family:var(--font,-apple-system,sans-serif)}#story-ui .toast{pointer-events:auto;position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;right:12px;background:rgba(248,248,250,.78);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:#171717;border:0;border-radius:18px;padding:12px;box-shadow:0 4px 20px #0002;display:flex;gap:11px;text-align:left;align-items:center;width:calc(100% - 24px)}#story-ui .ico{width:40px;height:40px;border-radius:10px;object-fit:cover;flex:none}#story-ui .copy{font-size:13px;line-height:1.35;flex:1;min-width:0}#story-ui b{display:block;margin-bottom:4px;font-weight:650}#story-ui .preview{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}#story-ui .toast{animation:st-in 1.2s cubic-bezier(.22,.8,.3,1) both}@keyframes st-in{0%{opacity:0;transform:translateY(-150px) scale(.94)}30%{opacity:1}100%{opacity:1;transform:translateY(0) scale(1)}}#kko-app #kk-ta::placeholder{color:#b5b5b5}#story-ui .when{font-size:11px;color:#777;align-self:flex-start;white-space:nowrap}";
  document.head.appendChild(style);
  const root=document.createElement("div");root.id="story-ui";document.querySelector("#screen")?.appendChild(root);
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
@@ -15,7 +15,7 @@
  const DENY_URL="https://entertain.naver.com/article/sample/4";
  const MANAGER_Q="너 윤호랑 헤어졌냐?",BRO="형",BRO_REPLY="뭔솔?";
  /* 윤호 카톡: 첫 메시지는 '배고팡', 나머지는 기존 대사 그대로 (탭할 때마다 한 줄씩) */
- const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","윤호야아...",[16,2]],["f0",".",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,7]],["f0","빨리왕 💗",[16,7]]];
+ const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","윤호야아...",[16,2]],["f0",".",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,15]],["f0","빨리왕 💗",[16,15]]];
  /* 모든 대사는 탭할 때마다 한 줄씩 표시. [16,7]은 실제 대기 시간이 아니라 표시할 채팅 시각 */
  const DOT_IDX=4,LONG_IDX=5;
  /* 형 카톡: 탭하자마자 전부 즉시 표시 (딜레이를 주려면 ms 값을 넣으면 됨: [기사에 아니라고 떴길래, 무슨 일 있는 건 아니지?, 기사 링크]) */
@@ -37,7 +37,7 @@
  const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
  const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
 
- const toast=(name,msg,app="KakaoTalk")=>{if(app==="Instagram"||app==="Naver")playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
+ const toast=(name,msg,app="KakaoTalk")=>{if(app==="KakaoTalk"&&window.KakaoApp&&KakaoApp.playNotificationTone)KakaoApp.playNotificationTone();else playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
  function openBrother(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
