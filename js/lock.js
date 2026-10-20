@@ -6,7 +6,7 @@
   if (!L) return;
   var $ = function (s) { return L.querySelector(s); };
   var state = 'locked', busy = false, checking = false, buf = '';
-  var dots = L.querySelectorAll('.lk-dots i'), act = $('#lk-act'), dotsBox = $('.lk-dots');
+  var dots = L.querySelectorAll('.lk-dots i'), act = $('#lk-act'), delBtn = $('#lk-del'), dotsBox = $('.lk-dots');
   var ICON_DEL = '<svg viewBox="0 0 24 24"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>';
 
   if (getComputedStyle(L.parentElement).position === 'static') L.parentElement.style.position = 'relative';
@@ -56,10 +56,11 @@
     if (busy || state !== 'pass' || checking) return;
     hold(T + 40); setState('locked');
   }
+  delBtn.innerHTML = ICON_DEL;
   function render() {
     dots.forEach(function (d, i) { d.classList.toggle('on', i < buf.length); });
-    if (buf.length) { act.innerHTML = ICON_DEL; act.setAttribute('aria-label', '삭제'); act.dataset.m = 'del'; }
-    else { act.textContent = '취소'; act.setAttribute('aria-label', '취소'); act.dataset.m = 'cancel'; }
+    act.textContent = '취소'; act.setAttribute('aria-label', '취소'); act.dataset.m = 'cancel';
+    delBtn.classList.toggle('dim', !buf.length);
   }
   function press(d) {
     if (state !== 'pass' || busy || checking || buf.length >= 6) return;
@@ -99,7 +100,8 @@
   L.querySelector('.lk-pad').addEventListener('click', function (e) {
     var k = e.target.closest('button'); if (!k) return;
     if (k.dataset.k != null) press(k.dataset.k);
-    else if (k.id === 'lk-act') { if (buf) del(); else back(); }
+    else if (k.id === 'lk-del') del();
+    else if (k.id === 'lk-act') back();
   });
   document.addEventListener('keydown', function (e) {
     if (state === 'locked' && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowUp')) { e.preventDefault(); enter(); }

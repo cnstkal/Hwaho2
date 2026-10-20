@@ -9,13 +9,13 @@
  /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
  const DENY_TITLE="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
  const DENY_URL="https://entertain.naver.com/article/sample/4";
- const MANAGER_Q="너 윤호랑 헤어졌냐?",BRO="형";
+ const MANAGER_Q="너 윤호랑 헤어졌냐?",BRO="형",BRO_REPLY="뭔 소리야.";
  /* 윤호 카톡: 첫 메시지는 '배고팡', 나머지는 기존 대사 그대로 (탭할 때마다 한 줄씩) */
  const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","아니 윤호야",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,7]],["f0","빨리왕 💗",[16,7]]];
 
  /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 유지 ---- */
  const KEY="hwaho-story-v1";
- const STAGES=["manager-wait","manager-msg","deny-reading","yunho-call","yunho-alert","yunho-chat","ig-alert","instagram","final-wait","final-alert","final-article"];
+ const STAGES=["manager-wait","manager-msg","brother-chat","brother-link","deny-reading","yunho-call","yunho-alert","yunho-chat","ig-alert","instagram","final-wait","final-alert","final-article"];
  const FINAL_URL="https://entertain.naver.com/article/sample/6",NAVER_ICON="images/app/Naver/IMG_7151.png",FINAL_TITLE="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”",FINAL_DELAY=3000;
  let stage="idle",started=false,yunhoIndex=0,viewedAt=0,igViewedAt=0;
  const persist=()=>{if(!started)return;const v={v:2,started:true,stage,yunhoIndex,viewedAt,igViewedAt};try{if(window.HwahoStability)window.HwahoStability.writeJSON(KEY,v);else localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
@@ -36,11 +36,12 @@
  /* 4. 열애 인정 기사 확인(story:start) 3초 후 성현 카톡 */
  function start(){if(started||window.HwahoIntroActive)return;started=true;yunhoIndex=0;viewedAt=0;igViewedAt=0;setStage("manager-wait");later("m1",managerMsg,3000);}
  const bro1=()=>KakaoApp.appendStoryMessage(MANAGER_Q,"text","","c19","f7",[14,52]);
+ const broReply=()=>KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c19","me",[14,52]);
  const bro2=()=>KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);
+ const onBrotherTap=()=>{if(stage!=="manager-msg"&&stage!=="brother-chat")return;setStage("brother-link");broReply();later("bro2",()=>{if(stage==="brother-link")bro2();},1600);hint();};
  function managerMsg(){
   if(stage!=="manager-wait")return;
   bro1();setStage("manager-msg");toast(BRO,MANAGER_Q);
-  later("m2",bro2,1500);
  }
  /* 5. 열애 부인 기사를 연 시점부터 7초 후 윤호 전화 */
  function ringYunho(){if(window.FaceTimeApp&&typeof FaceTimeApp.ring==="function")FaceTimeApp.ring({caller:"윤둥이",kind:"yunho"});}
@@ -63,7 +64,7 @@
  root.addEventListener("click",e=>{
   const b=e.target.closest("[data-story]");if(!b||b.dataset.story!=="open")return;
   const t=stage;root.innerHTML="";
-  if(t==="manager-msg"){bro1();bro2();openBrother();}
+  if(t==="manager-msg"){bro1();setStage("brother-chat");openBrother();hint();}
   else if(t==="yunho-alert"){setStage("yunho-chat");openYunhoChat();if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();}
   else if(t==="ig-alert"){setStage("instagram");document.dispatchEvent(new CustomEvent("story:instagram-published"));if(window.Home)Home.openApp("instagram");if(window.IgApp)IgApp.open();}
   else if(t==="final-alert"){setStage("final-article");forceSafari(FINAL_URL);}
@@ -72,25 +73,27 @@
  /* 성현 카톡의 기사 링크 → 사파리 (이미 등록된 기사로 이동) */
  document.addEventListener("story:manager-link-opened",e=>{
   const url=(e.detail&&e.detail.url)||DENY_URL;
-  if(stage==="manager-msg"||stage==="deny-reading"){root.innerHTML="";if(stage==="manager-msg"){viewedAt=0;setStage("deny-reading");}if(window.KakaoApp)KakaoApp.close();forceSafari(url);}
+  if(stage==="brother-link"||stage==="deny-reading"){root.innerHTML="";if(stage==="brother-link"){viewedAt=0;setStage("deny-reading");}if(window.KakaoApp)KakaoApp.close();forceSafari(url);}
   else forceSafari(url);
  });
  /* 열애 부인 기사가 실제로 열린 시점부터 7초 */
  document.addEventListener("story:deny-article-viewed",()=>{
-  if((stage!=="manager-msg"&&stage!=="deny-reading")||viewedAt)return;
+  if((stage!=="brother-link"&&stage!=="deny-reading")||viewedAt)return;
   root.innerHTML="";viewedAt=Date.now();setStage("deny-reading");scheduleCall(7000);
  });
  document.addEventListener("story:call-ended",e=>{if(e.detail&&e.detail.kind==="yunho")yunhoAfterCall();});
 
  function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;sendYunho();if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
- document.addEventListener("click",e=>{if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
+ document.addEventListener("click",e=>{if(stage==="manager-msg"||stage==="brother-chat"){if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c19"&&e.target.closest("#kko-app #kk-msgs"))onBrotherTap();return;}if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
 
  /* ---- 새로고침 후 복원: 끝난 이벤트는 다시 실행하지 않는다 ---- */
  function resume(){
   if(["instagram","final-wait","final-alert","final-article"].indexOf(stage)>=0)document.dispatchEvent(new CustomEvent("story:instagram-published"));
   switch(stage){
    case "manager-wait":later("m1",managerMsg,3000);break;
-   case "manager-msg":bro1();bro2();toast(BRO,MANAGER_Q);break;
+   case "manager-msg":bro1();toast(BRO,MANAGER_Q);break;
+   case "brother-chat":bro1();break;
+   case "brother-link":bro1();broReply();bro2();break;
    case "deny-reading":if(viewedAt)scheduleCall(7000-(Date.now()-viewedAt));break;
    case "yunho-call":ringYunho();break;
    case "yunho-alert":toast("윤둥이",yunhoLines[0][1]);break;
@@ -105,7 +108,7 @@
  else if(window.HwahoIntroFresh&&window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
 
  /* 윤둥이 방 입력창 힌트 (탭으로 진행) */
- function hint(){const t=document.querySelector("#kko-app #kk-ta");if(!t)return;const on=stage==="yunho-chat"&&yunhoIndex<yunhoLines.length&&window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c0";const v=on?"화면을 탭하세요.":"";if(t.placeholder!==v)t.placeholder=v;}
+ function hint(){const t=document.querySelector("#kko-app #kk-ta");if(!t)return;const cid=window.KakaoApp&&KakaoApp.currentChatId?KakaoApp.currentChatId():null;const on=(stage==="yunho-chat"&&yunhoIndex<yunhoLines.length&&cid==="c0")||((stage==="manager-msg"||stage==="brother-chat")&&cid==="c19");const v=on?"화면을 탭하세요.":"";if(t.placeholder!==v)t.placeholder=v;}
  {const ka=document.getElementById("kko-app");if(ka&&window.MutationObserver)new MutationObserver(hint).observe(ka,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});}
  document.addEventListener("click",()=>setTimeout(hint,60),true);
  window.HwahoStory={start,get stage(){return stage;},get started(){return started;}};

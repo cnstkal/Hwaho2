@@ -189,7 +189,7 @@ const KakaoApp = (() => {
 
   if (D.v9 !== 1) {
     const T = d => new Date(`2026-${d}+09:00`).getTime(), mk = a => a.map(([f, t, d]) => ({ id: uid(), from: f, text: t, ts: T(d) }));
-    const NM = { f1: "김철수", f2: "정성현(매니저)", f8: "오승호(믹싱)", f9: "한지안", f6: "문도현", f10: "강레도", h1: "최민재(무대감독)", h2: "박서준(조명)", h3: "김태훈(레코드)", h4: "이성민(동창)", h5: "윤수아 실장" };
+    const NM = { f1: "김철수", f2: "성현이형", f8: "오승호(믹싱)", f9: "한지안", f6: "문도현", f10: "강레도", h1: "최민재(무대감독)", h2: "박서준(조명)", h3: "김태훈(레코드)", h4: "이성민(동창)", h5: "윤수아 실장" };
     D.friends.forEach(f => { if (NM[f.id]) f.name = NM[f.id]; });
     [["f11", "백진우(편곡)"], ["f12", "서하린(보컬 디렉터)"], ["f13", "윤재호 (띵신고)"], ["f14", "강태민 (띵신고)"], ["f15", "조현우 (띵신고)"]].forEach(([id, name]) => { if (!fr(id)) D.friends.push({ id, name, st: "", fav: 0, hid: 1 }); });
     D.friends = D.friends.filter(f => f.id !== "ad4"); D.chats = D.chats.filter(c => c.id !== "c7" && c.id !== "c12");
@@ -435,7 +435,7 @@ const KakaoApp = (() => {
     "윤둥이": "윤호/IMG_0012.jpeg",
     "아빠": "아빠/C954DC40-2B5B-446F-997A-C49C13F0C07F.png",
     "형": "형/IMG_7422.jpeg",
-    "정성현(매니저)": "성현이형(매니저)/IMG_7422.jpeg",
+    "성현이형": "성현이형(매니저)/IMG_7422.jpeg",
     "김철수": "철수/609BC795-2DDD-4E26-8E22-62FAD41F247F.png",
     "송민기 (FIXON)": "민기/IMG_7425.jpeg",
     "김홍중 (NO1)": "홍중/IMG_7424.jpeg"
