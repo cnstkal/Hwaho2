@@ -427,7 +427,7 @@ ${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY
     const h = x.hostname.replace(/^www\./, ""), p = x.pathname, g = k => x.searchParams.get(k) || "", t = g("t"), is = d => h === d || h.endsWith("." + d);
     if (is("dcinside.com")) return { title: "국내힙합 갤러리 - DCinside", html: dcPage() };
     const K = is("google.com") ? "g" : is("naver.com") ? "n" : is("youtube.com") ? "y" : is("wikipedia.org") ? "w" : is("apple.com") ? "a" : is("github.com") ? "h" : is("dispatch.co.kr") ? "d" : h === "news.ycombinator.com" ? "k" : ""; if (!K) return null;
-    if (K === "n" && h === "entertain.naver.com" && p.startsWith("/article")) { const id = p.endsWith("/9263514") ? "6" : p.endsWith("/7418206") ? "4" : (p.match(/\/article\/(?:sample\/)?(\d+)$/) || [])[1]; const a = NVN.find(x => x.id === id && nvVis(x)) || NVN[0]; return { title: a.title, html: nvEnt(a.id) }; }
+    if (K === "n" && h === "entertain.naver.com" && p.startsWith("/article")) { const id = p.endsWith("/9263514") ? "6" : p.endsWith("/7418206") ? "4" : p.endsWith("/5831047") ? "3" : (p.match(/\/article\/(?:sample\/)?(\d+)$/) || [])[1]; const a = NVN.find(x => x.id === id && nvVis(x)) || NVN[0]; return { title: a.title, html: nvEnt(a.id) }; }
     if (K === "d") return { title: p.startsWith("/article") ? "[단독] 마스♥정윤호, 심야 데이트 포착 - Atspatch" : "Atspatch", html: p.startsWith("/article") ? dpArt() : dpMain() };
     const root = p === "/" || p === "" || (K === "a" && /^\/kr\/?$/.test(p));
     let q = ""; if (K === "g" && p === "/search") q = g("q"); else if (K === "n" && h === "search.naver.com") q = g("query"); else if (K === "h" && p === "/search") q = g("q"); else if (K === "y" && p === "/results") q = g("search_query");
