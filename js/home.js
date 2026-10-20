@@ -93,8 +93,8 @@ window.APPS = {
   const WX_ICON = `<svg class="wx-cloud" viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.6-9.96A6.5 6.5 0 0 1 19 9.5a4 4 0 0 1-.5 7.96z"/></svg>`;
   const widgetsHtml = () => {
     const d = new Date();
-    return `<div class="wgt wgt-wx" aria-label="서울특별시 날씨 17도 흐림"><div class="wx-city">서울특별시<svg viewBox="0 0 12 12"><path d="M6 0l6 12-6-3-6 3z"/></svg></div><div class="wx-temp">17°</div><div class="wx-foot">${WX_ICON}<div class="wx-desc">흐림</div><div class="wx-minmax">최고:20° 최저:11°</div></div></div>` +
-      `<button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span></button>`;
+    return `<div class="wgt-wrap"><div class="wgt wgt-wx" aria-label="서울특별시 날씨 17도 흐림"><div class="wx-city">서울특별시<svg viewBox="0 0 12 12"><path d="M6 0l6 12-6-3-6 3z"/></svg></div><div class="wx-temp">17°</div><div class="wx-foot">${WX_ICON}<div class="wx-desc">흐림</div><div class="wx-minmax">최고:20° 최저:11°</div></div></div><span class="wgt-lbl">날씨</span></div>` +
+      `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span></button><span class="wgt-lbl">캘린더</span></div>`;
   };
   const render = () => {
     renderApps(APPS.grid.filter(app => !HIDDEN_HOME_APPS.has(app.id)), $("#grid"));
