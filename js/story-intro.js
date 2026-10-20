@@ -6,7 +6,7 @@
  const kakaoTopTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
  let audioUnlocked=false, pendingKakaoTone=false, pendingGeneralTone=false;
  for(const tone of [generalTone,kakaoTopTone]){tone.preload="auto";tone.load();}
- function playKakaoTopTone(){if(!audioUnlocked){pendingKakaoTone=true;return;}try{if(window.KakaoApp&&KakaoApp.playNotificationTone){KakaoApp.playNotificationTone();return;}}catch(e){}try{kakaoTopTone.pause();kakaoTopTone.currentTime=0;kakaoTopTone.muted=false;kakaoTopTone.volume=1;const p=kakaoTopTone.play();if(p&&p.catch)p.catch(()=>{pendingKakaoTone=true;});}catch(e){pendingKakaoTone=true;}}
+ function playKakaoTopTone(){if(!audioUnlocked){pendingKakaoTone=true;return;}try{kakaoTopTone.pause();kakaoTopTone.currentTime=0;kakaoTopTone.muted=false;kakaoTopTone.volume=1;const p=kakaoTopTone.play();if(p&&p.catch)p.catch(()=>{pendingKakaoTone=true;});}catch(e){pendingKakaoTone=true;}}
  function playGeneralTone(){if(!audioUnlocked){pendingGeneralTone=true;return;}try{generalTone.pause();generalTone.currentTime=0.5;generalTone.muted=false;generalTone.volume=1;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{pendingGeneralTone=true;});}catch(e){pendingGeneralTone=true;}}
  document.addEventListener("pointerdown",function unlockStoryAudio(){
   audioUnlocked=true;
@@ -20,8 +20,9 @@
     else {tone.pause();tone.muted=wasMuted;}
    }catch(e){tone.muted=false;}
   }
-  const tone=pendingKakaoTone?kakaoTopTone:pendingGeneralTone?generalTone:null;
-  if(tone){pendingKakaoTone=false;pendingGeneralTone=false;try{tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;});}catch(e){if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;}}
+  const queuedKakao=pendingKakaoTone, queuedGeneral=pendingGeneralTone;
+  pendingKakaoTone=false;pendingGeneralTone=false;
+  if(queuedKakao||queuedGeneral){const tone=queuedKakao?kakaoTopTone:generalTone;try{tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;});}catch(e){if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;}}
  },{once:true,capture:true});
  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
