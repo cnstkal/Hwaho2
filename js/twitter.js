@@ -96,12 +96,12 @@ const XApp = (() => {
   };
   const av = (u, s) => {
     const file = X_PROFILE_FILES[u.id];
-    const shared = window.HwahoIdentity && window.HwahoIdentity.avatar(u.id);
-    const base = u.id === "_starhwa_" ? "./images/app/Twitter/Profile/_starhwa_/IMG_7232.jpeg?v=20261020-6" : (file ? `./images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}?v=20261020-6` : (shared || ""));
     const fallback = X_PROFILE_FALLBACK[u.id];
-    const fallbackUrl = u.id === "_starhwa_" ? "./images/app/Instagram/Profile/_starhwa_/IMG_7064.jpeg?v=20261020-6" : (fallback ? `./images/app/Instagram/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(fallback)}?v=20261020-6` : "");
-    const img = base ? `<img alt="" src="${base}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="${fallbackUrl ? `this.onerror=function(){this.style.display='none'};this.src='${fallbackUrl}'` : "this.style.display='none'"}">` : "";
-    return `<div class="x-av" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;background:transparent">${img}</div>`;
+    const shared = window.HwahoIdentity && window.HwahoIdentity.avatar(u.id);
+    const base = u.id === "_starhwa_" ? "./images/app/Twitter/Profile/_starhwa_/IMG_7232.jpeg?v=20261020-8" : (file ? "./images/app/Twitter/Profile/" + encodeURIComponent(u.id) + "/" + encodeURIComponent(file) + "?v=20261020-8" : (shared || ""));
+    const fallbackUrl = u.id === "_starhwa_" ? "./images/app/Instagram/Profile/_starhwa_/IMG_7064.jpeg?v=20261020-8" : (fallback ? "./images/app/Instagram/Profile/" + encodeURIComponent(u.id) + "/" + encodeURIComponent(fallback) + "?v=20261020-8" : "");
+    const img = base ? "<img alt=\"\" src=\"" + base + "\" style=\"position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit\" onerror=\"" + (fallbackUrl ? "this.onerror=null;this.src='" + fallbackUrl + "'" : "this.style.display='none'") + "\">" : "";
+    return "<div class=\"x-av\" style=\"position:relative;overflow:hidden;width:" + s + "px;height:" + s + "px;background:transparent\">" + img + "</div>";
   };
   const txt = t => esc(t).replace(/(#[\p{L}\p{N}_]+|@[A-Za-z0-9_]+)/gu, m => `<span class="x-lk" data-g="tag" data-q="${m}">${m}</span>`);
   const imHtml = im => `<div class="x-im" style="aspect-ratio:${im[1]}/${im[2]}"><img src="${typeof im[0] === "string" ? im[0] : art(im[0], im[1], im[2])}" width="${im[1] * 100}" height="${im[2] * 100}" alt="" draggable="false"></div>`;
