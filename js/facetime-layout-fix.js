@@ -86,9 +86,6 @@
 #ft-root .ft-cg button {
   min-height: 0;
 }
-`;
-  document.head.appendChild(s);
-})();
 
 /* 대화 말풍선이 통화 버튼·라벨 뒤로 비치지 않도록 영역을 분리 */
 #ft-root .ft-pb {
@@ -101,3 +98,6 @@
   gap: clamp(10px, 1.8vh, 16px) 0 !important;
   z-index: 3 !important;
 }
+`;
+  document.head.appendChild(s);
+})();
