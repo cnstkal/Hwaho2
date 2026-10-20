@@ -439,6 +439,16 @@ const KakaoApp = (() => {
     D.v25 = 1; save();
   }
 
+  /* v29: 성현이형(매니저)은 c3. 이전 잘못된 방(c19)을 건드리지 않고 c3의 스토리 찌꺼기와 저장된 진행 상태만 초기화 */
+  if (D.v29 !== 1) {
+    const managerChat = D.chats.find(c => c.id === "c3");
+    const cut = new Date("2026-10-19T00:00:00+09:00").getTime();
+    if (managerChat) managerChat.msgs = managerChat.msgs.filter(m => !m.storySequence && (m.ts || 0) < cut);
+    if (managerChat) managerChat.unread = 0;
+    D.v29 = 1; save();
+    try { localStorage.removeItem("hwaho-story-v1"); } catch (e) {}
+  }
+
   /* v28: 성현이형 스토리 대화방(c19)에 남아 있는 이전 샘플 대화를 제거하고 스토리 진행 상태를 초기화 */
   if (D.v28 !== 1) {
     const managerStoryChat = D.chats.find(c => c.id === "c19");
