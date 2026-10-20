@@ -1,4 +1,4 @@
-/* Intro sequence: lock screen -> missed manager call -> urgent alerts -> Dispatch -> second call -> acknowledgement article. */
+/* Intro sequence: lock screen -> missed manager call -> urgent alerts -> Atspatch -> second call -> acknowledgement article. */
 (()=> {
  const MANAGER="성현이형(매니저)", AVATAR="images/app/KakaoTalk/Profile/성현이형(매니저)/IMG_7422.jpeg";
  const DISPATCH="https://www.dispatch.co.kr/article/1";
@@ -24,7 +24,7 @@
   pendingKakaoTone=false;pendingGeneralTone=false;
   if(queuedKakao||queuedGeneral){const tone=queuedKakao?kakaoTopTone:generalTone;try{tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;});}catch(e){if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;}}
  },{once:true,capture:true});
- const ACK="https://entertain.naver.com/article/sample/3";
+ const ACK="https://entertain.naver.com/article/5831047";
  const KEY="hwaho-story-intro-v3";
  const $=s=>document.querySelector(s);
  const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}})();
