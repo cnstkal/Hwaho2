@@ -439,6 +439,15 @@ const KakaoApp = (() => {
     D.v25 = 1; save();
   }
 
+  /* v28: 성현이형 스토리 대화방(c19)에 남아 있는 이전 샘플 대화를 제거하고 스토리 진행 상태를 초기화 */
+  if (D.v28 !== 1) {
+    const managerStoryChat = D.chats.find(c => c.id === "c19");
+    if (managerStoryChat) { managerStoryChat.msgs = []; managerStoryChat.unread = 0; }
+    D.v28 = 1; save();
+    try { localStorage.removeItem("hwaho-story-v1"); } catch (e) {}
+    try { if (window.HwahoStability && typeof window.HwahoStability.remove === "function") window.HwahoStability.remove("hwaho-story-v1"); } catch (e) {}
+  }
+
   /* v26: 사용자 지정 카톡/기사 시간 수정. 로컬에 이미 저장된 대화에도 적용 */
   if (D.v27 !== 1) {
     const hong = D.chats.find(c => c.id === "c15");
