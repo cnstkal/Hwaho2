@@ -194,7 +194,8 @@ const GptApp = (() => {
       case "sbclose": sb(false); break;
       case "new": newChat(); break;
       case "chat": if (LOCK(b.dataset.id)) break; stop(); cur = b.dataset.id; render(); sb(false); break;
-      case "model": case "more": case "plus": openPop(a === "model" ? "pm" : a === "more" ? "pc" : "pp"); break;
+      case "model": case "more": openPop(a === "model" ? "pm" : "pc"); break;
+      case "plus": closePops(); openQ(); break; /* + 버튼: 질문 선택창 */
       case "scr": closePops(); break;
       case "pickm": S.model = +b.dataset.i; save(); closePops(); render(true); break;
       case "fu": { if (gen) break; const f = FOLLOW[+b.dataset.p][+b.dataset.i]; let c = chat(); if (!c) { c = { id: "c" + Date.now().toString(36), title: f.q.slice(0, 40), ts: 0, msgs: [] }; S.chats.push(c); cur = c.id; } c.msgs.push({ r: "u", t: f.q }); c.ts = Date.now(); save(); start(c, f.q); break; }
@@ -214,6 +215,7 @@ const GptApp = (() => {
   const ta = $("#gp-ta");
   ta.addEventListener("input", () => { fit(); btn(); });
   ta.addEventListener("focus", () => openQ());
+  ta.addEventListener("click", () => openQ());
   ta.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing && !matchMedia("(pointer:coarse)").matches) { e.preventDefault(); send(); } });
   $("#gp-q").addEventListener("input", sbList);
   let tx = null; const sbEl = $("#gp-sb");
