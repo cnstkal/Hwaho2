@@ -110,18 +110,19 @@ const FaceTimeApp = (() => {
   function startRingtone(){ stopRingtone(); try { const p = ringtone.play(); if (p && typeof p.catch === "function") p.catch(() => {}); } catch(e) {} }
   const DEFAULT_DIALOGUE = [
     ["성화","여보세요?","me",1500],
-    ["성화","전화는 왜 안받았어?","me",1800],
-    ["성화","괜찮은 거 맞지?","me",1800],
-    ["윤호","나야 괜찮지","them",1900],
-    ["성화","아니 근데 사실무근은 무슨 소리야?","me",2300],
-    ["윤호","왜?","them",1400],
+    ["성화","너 왜 이렇게 전화를 안 받아","me",1800],
+    ["성화","별 문제 없지?","me",1800],
+    ["윤호","응 괜찮아","them",1900],
+    ["성화","아니 사실무근은 뭐야?","me",2300],
+    ["윤호","그게 왜?","them",1400],
+    ["성화","왜라니","me",1500],
     ["성화","우리 헤어졌어?","me",1700],
     ["윤호","아니?","them",1300],
-    ["성화","그럼 왜?","me",1500],
-    ["성화","알았어","me",1300],
-    ["성화","정정기사는 내줄거지?","me",1900],
-    ["윤호","형 하는 거 봐서","them",1900],
-    ["성화","아니 윤호야,","me",1300]
+    ["성화","근데 왜 기사가 그렇게 나","me",1700],
+    ["성화","…아냐 됐다","me",1500],
+    ["성화","정정 기사 낼 거지?","me",1900],
+    ["윤호","형 하는 거 보고","them",1900],
+    ["성화","아, 윤호야아… 장난치지 말고…","me",1800]
   ];
   let dialogue = DEFAULT_DIALOGUE;
   function setAlert(on){alertOpen=!!on;el("ft-dim").classList.toggle("on",on);el("ft-alert").classList.toggle("on",on);el("ft-alert").setAttribute("aria-hidden",on?"false":"true");}
