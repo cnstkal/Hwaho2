@@ -65,7 +65,7 @@ window.IgApp = (() => {
         ? "images/app/Instagram/Profile/" + encodeURIComponent(id) + "/" + encodeURIComponent(photo)
         : (((window.HwahoIdentity && window.HwahoIdentity.avatar(id)) || "") + (id === "_starhwa_" ? "?v=20261019" : ""));
     const photoSrc = id === "_starhwa_" ? "./images/app/Instagram/Profile/_starhwa_/IMG_7064.jpeg?v=20261020-4" : (src ? (src.startsWith("images/") ? "./" + src : src) + (src.includes("?") ? "&" : "?") + "v=20261020-4" : "");
-    return `<div class="ig-av ${extra}" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${Math.round(s * .42)}px;background:linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))"><span>${esc([...u.name][0] || "")}</span>${photoSrc ? `<img alt="" src="${photoSrc}" onerror="this.onerror=null;this.style.display='none';const fallback=this.parentElement.querySelector('span');if(fallback)fallback.style.display='grid'" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : ""}</div>`;
+    return `<div class="ig-av ${extra}" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;background:transparent">${photoSrc ? `<img alt="" src="${photoSrc}" onerror="this.onerror=null;this.style.display=\'none\'" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;border-radius:inherit">` : ""}</div>`;
   };
   const ago = ts => { const m = Math.floor((Date.now() - ts) / 6e4); return m < 1 ? "방금" : m < 60 ? m + "분 전" : m < 1440 ? Math.floor(m / 60) + "시간 전" : Math.floor(m / 1440) + "일 전"; };
   const dedupeComments = items => {
