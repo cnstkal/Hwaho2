@@ -7,7 +7,12 @@ const KakaoApp = (() => {
   kakaoTone.preload = "auto";
   kakaoTone.load();
   document.addEventListener("pointerdown", function unlockkakaoTone(){
-    try { kakaoTone.muted = true; const p = kakaoTone.play(); if (p && p.then) p.then(() => { kakaoTone.pause(); kakaoTone.currentTime = 0; kakaoTone.muted = false; }).catch(() => { kakaoTone.muted = false; }); else kakaoTone.muted = false; } catch(e) { kakaoTone.muted = false; }
+    try {
+      kakaoTone.muted = false;
+      kakaoTone.currentTime = 0;
+      const p = kakaoTone.play();
+      if (p && p.then) p.then(() => { kakaoTone.pause(); kakaoTone.currentTime = 0; }).catch(() => {});
+    } catch(e) {}
   }, { once: true, capture: true });
   function playKakaoTone(){try{kakaoTone.currentTime=0;const p=kakaoTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
   const I = {
