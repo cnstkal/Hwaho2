@@ -3,6 +3,9 @@
 const KakaoApp = (() => {
   const $ = q => document.querySelector(q), el = $("#kko-app"), screen = $("#screen");
   const ic = p => `<svg viewBox="0 0 24 24">${p}</svg>`;
+  const kakaoTone = new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3", document.currentScript?.src || location.href).href);
+  kakaoTone.preload = "auto";
+  function playKakaoTone(){try{kakaoTone.currentTime=0;const p=kakaoTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
   const I = {
     search: ic('<circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/>'), add: ic('<circle cx="10" cy="8" r="3.500"/><path d="M3.500 19.500c.8-3.500 3.200-5 6.500-5s5.700 1.500 6.500 5M19 8v6M16 11h6"/>'),
     note: ic('<path d="M9 18V6l10-2v12"/><circle cx="6.500" cy="18" r="2.500"/><circle cx="16.500" cy="16" r="2.500"/>'), gear: ic('<circle cx="12" cy="12" r="3"/><path d="M12 3v2.500M12 18.500V21M3 12h2.500M18.500 12H21M5.600 5.600l1.800 1.800M16.600 16.600l1.800 1.800M5.600 18.400l1.800-1.800M16.600 7.400l1.800-1.800"/>'),
@@ -511,6 +514,7 @@ const KakaoApp = (() => {
     if (!D.chats.includes(c)) D.chats.push(c); c.msgs.push({ id: uid(), from: "me", text, ts: Date.now() }); c.unread = 0; inp().value = ""; grow(); save(); room();
     if (!c.ad) setTimeout(() => {
       c.msgs.push({ id: uid(), from: c.ids[Math.floor(Math.random() * c.ids.length)], text: REPLIES[Math.floor(Math.random() * REPLIES.length)], ts: Date.now() });
+       playKakaoTone();
       if (!cur || cur.id !== c.id) c.unread = (c.unread || 0) + 1; save(); if (cur && cur.id === c.id) room(); else renderMain();
     }, 1500 + Math.random() * 1500);
   }
@@ -576,6 +580,7 @@ const KakaoApp = (() => {
       /* at=[시,분] 이면 같은 분 안에 여러 메시지를 1초 간격으로 쌓는다 */
       if (Array.isArray(at)) { const base = new Date(2026, 9, 19, at[0], at[1], 0).getTime(), same = c.msgs.filter(m => m.storySequence && m.ts >= base && m.ts < base + 60000).length; ts = Math.max(base + same * 1000, lastTs + 1); }
       c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts });
+       if(from !== "me") playKakaoTone();
       /* 지금 보고 있는 채팅방이면 읽음, 아니면 상대 메시지만 안 읽음 수에 반영 */
       if (isOpen && cur && cur.id === c.id) c.unread = 0;
       else if (from !== "me") c.unread = (c.unread || 0) + 1;
