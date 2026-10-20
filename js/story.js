@@ -10,6 +10,8 @@
   function playGeneralNotificationTone(){if(!storyGeneralAudioUnlocked){storyGeneralAudioPending=true;return;}try{generalNotificationTone.pause();generalNotificationTone.currentTime=0.5;generalNotificationTone.muted=false;generalNotificationTone.volume=1;const p=generalNotificationTone.play();if(p&&p.catch)p.catch(()=>{storyGeneralAudioPending=true;});}catch(e){storyGeneralAudioPending=true;}}
  document.addEventListener("pointerdown",function unlockGeneralStoryAudio(){storyGeneralAudioUnlocked=true;try{generalNotificationTone.muted=true;const p=generalNotificationTone.play();if(p&&p.then)p.then(()=>{generalNotificationTone.pause();generalNotificationTone.currentTime=0;generalNotificationTone.muted=false;if(storyGeneralAudioPending){storyGeneralAudioPending=false;playGeneralNotificationTone();}}).catch(()=>{generalNotificationTone.muted=false;storyGeneralAudioUnlocked=false;});}catch(e){generalNotificationTone.muted=false;storyGeneralAudioUnlocked=false;}},{once:true,capture:true});
  const MANAGER="성현이형(매니저)";
+ /* 매니저 스토리 통화는 기기 시각과 무관한 고정 가상 시각(2026-10-19 16:45 KST)을 사용 */
+ const MANAGER_CALL_TIMESTAMP="2026-10-19T16:45:00+09:00";
  /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
  const DENY_TITLE="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
  const DENY_URL="https://entertain.naver.com/article/7418206";
