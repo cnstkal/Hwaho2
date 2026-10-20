@@ -164,11 +164,11 @@ const SafariApp = (() => {
       rows: `${row("출생", "1998.04.03")}${row("소속사", "IH레코드")}${row("데뷔", "2018.02.12 EP 앨범 [SKIN]")}${row("사이트", lk(["인스타그램", "X(트위터)", "유튜브"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
     } : {
       image: "images/app/Naver/Yunho/d9ac4246460057e1170dbb1f7c0ffabd.jpg",
-      rows: `${row("출생", "1999.03.23")}${row("신체", "186cm")}${row("소속사", lk(["몰라몰라컴퍼니"]))}${row("학력", lk(["서울공연예술고등학교"]))}${row("수상", "2025년 아시아 아티스트 어워즈 AAA 뉴웨이브")}${row("사이트", lk(["공식홈페이지", "인스타그램", "팬카페"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
+      rows: `${row("출생", "1999.03.23")}${row("신체", "186cm")}${row("소속사", lk(["노바웨이브엔터테인먼트"]))}${row("학력", lk(["서울공연예술고등학교"]))}${row("수상", "2025년 아시아 아티스트 어워즈 AAA 뉴웨이브")}${row("사이트", lk(["공식홈페이지", "인스타그램", "팬카페"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
     };
     return `<div class="nv rs"><div class="rs-sb"><svg class="n" viewBox="0 0 24 24"><path d="M3 3h6.200l5.800 9V3h6v18h-6.200L9 12v9H3z" fill="#03c75a"/></svg><b>${displayName}</b><button data-nv="rclr" class="cl" aria-label="지우기"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#8e9096"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></button><svg class="mic" viewBox="0 0 24 24" fill="none" stroke="#1ec997" stroke-width="2" stroke-linecap="round"><rect x="8.500" y="2.500" width="7" height="12" rx="3.500"/><path d="M5 11.500a7 7 0 0 0 14 0M12 18.500V22"/></svg></div>
 <div class="rs-tb"><span class="ai">AI<i>N</i></span><span>이미지</span><span>뉴스</span><span>클립</span><span>블로그</span><span>카페</span><span>지식iN</span><span>동영상</span><span>쇼핑</span></div>
-<div class="rs-bd"><div class="rs-hd"><div class="t"><b>${displayName}</b><i>⋮</i></div><small>${seonghwa ? "박성화, 마스 · 래퍼" : "정윤호 · 가수"}</small><div class="rs-cp"><span class="on">전체</span><span>프로필</span><span>수상</span><span>최근영상</span><span>필모그래피</span><span>활동</span></div></div>
+<div class="rs-bd"><div class="rs-hd"><div class="t"><b>${displayName}</b><i>⋮</i></div><small>${seonghwa ? "박성화, 마스 · 래퍼" : "정윤호 · 배우"}</small><div class="rs-cp"><span class="on">전체</span><span>프로필</span><span>수상</span><span>최근영상</span><span>필모그래피</span><span>활동</span></div></div>
 <div class="rs-tbl"><div class="rs-ph"><img src="${profile.image}" alt="${esc(q)} 프로필 사진"></div>${profile.rows || ""}</div></div>${nvNews(seonghwa ? NVN[2] : (nvFinal() ? NVN[4] : NVN[3]), NVN[1])} </div>`;
   }
   (() => { const s = document.createElement("style"); s.textContent = `
