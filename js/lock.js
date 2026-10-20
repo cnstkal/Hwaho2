@@ -6,6 +6,9 @@
   if (!L) return;
   var $ = function (s) { return L.querySelector(s); };
   var state = 'locked', busy = false, checking = false, buf = '';
+  var UNLOCK_KEY = 'hwaho2_lock_unlocked';
+  function wasUnlocked() { try { return localStorage.getItem(UNLOCK_KEY) === '1'; } catch (e) { return false; } }
+  function saveUnlocked(value) { try { if (value) localStorage.setItem(UNLOCK_KEY, '1'); else localStorage.removeItem(UNLOCK_KEY); } catch (e) {} }
   var dots = L.querySelectorAll('.lk-dots i'), act = $('#lk-act'), delBtn = $('#lk-del'), dotsBox = $('.lk-dots');
   var ICON_DEL = '<svg viewBox="0 0 24 24"><path d="M9 5h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-6-7z"/><path d="M12.5 9.5l5 5M17.5 9.5l-5 5"/></svg>';
 
@@ -72,6 +75,7 @@
   }
   function del() { if (state !== 'pass' || checking || !buf) return; buf = buf.slice(0, -1); render(); }
   function ok() {
+    saveUnlocked(true);
     setState('unlocking');
     setTimeout(function () { setState('open'); buf = ''; checking = false; render(); }, T + 30);
   }
@@ -128,8 +132,8 @@
       if (box.children.length < 2) { box.appendChild(el); }
       else { box.replaceChild(el, box.children[notiSlot]); notiSlot = (notiSlot + 1) % 2; }
     },
-    lock: function () { buf = ''; checking = false; render(); setState('locked'); }
+    lock: function () { saveUnlocked(false); buf = ''; checking = false; render(); setState('locked'); }
   };
 
-  syncBg(); window.addEventListener('load', syncBg); tick(); render(); setState('locked');
+  syncBg(); window.addEventListener('load', syncBg); tick(); render(); setState(wasUnlocked() ? 'open' : 'locked');
 })();
