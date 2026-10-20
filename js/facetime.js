@@ -19,7 +19,6 @@ const FaceTimeApp = (() => {
   <div class="ft-ab"><button data-ft="no">아니요</button><button data-ft="yes" class="b">네</button></div>
 </div>
 <div class="ft-incoming" id="ft-incoming" aria-hidden="true">
-  <div class="ft-in-small">전화가 오고 있습니다</div>
   <div class="ft-contact-avatar">${CFG.caller.slice(0,1)}</div>
   <div class="ft-in-name">${CFG.caller}</div>
   <div class="ft-in-sub">${CFG.callerSub}</div>
