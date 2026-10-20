@@ -11,9 +11,12 @@
  const DENY_URL="https://entertain.naver.com/article/sample/4";
  const MANAGER_Q="너 윤호랑 헤어졌냐?",BRO="형",BRO_REPLY="뭔솔?";
  /* 윤호 카톡: 첫 메시지는 '배고팡', 나머지는 기존 대사 그대로 (탭할 때마다 한 줄씩) */
- const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","아니 윤호야",[16,2]],["f0",".",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,7]],["f0","빨리왕 💗",[16,7]]];
- /* '.' 는 '아니 윤호야' 직후 자동 전송, 무뼈국물닭발 대사는 '.' 전송 시점부터 정확히 5분 뒤 자동 전송 */
- const DOT_IDX=4,LONG_IDX=5,DOT_DELAY=1500,YUNHO_WAIT=5*60*1000;
+ const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","윤호야아...",[16,2]],["f0",".",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,7]],["f0","빨리왕 💗",[16,7]]];
+ /* '.' 는 '윤호야아...' 와 같은 탭에서 즉시 전송, 무뼈국물닭발 대사는 '.' 전송 시점부터 정확히 5분 뒤 자동 전송 */
+ const DOT_IDX=4,LONG_IDX=5,DOT_DELAY=0,YUNHO_WAIT=5*60*1000;
+ /* 형 카톡: 탭하자마자 전부 즉시 표시 (딜레이를 주려면 ms 값을 넣으면 됨: [기사에 아니라고 떴길래, 무슨 일 있는 건 아니지?, 기사 링크]) */
+ const BRO_DELAYS=[0,0,0];
+ const after=(k,fn,ms)=>{if(ms>0)later(k,fn,ms);else{cancel(k);fn();}};
 
  /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 유지 ---- */
  const KEY="hwaho-story-v1";
@@ -42,7 +45,7 @@
  const broCare1=()=>KakaoApp.appendStoryMessage("기사에 아니라고 떴길래","text","","c19","f7",[14,52]);
  const broCare2=()=>KakaoApp.appendStoryMessage("무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);
  const bro2=()=>KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);
- const onBrotherTap=()=>{if(stage!=="manager-msg"&&stage!=="brother-chat")return;setStage("brother-link");broReply();later("bro2a",()=>{if(stage==="brother-link")broCare1();},1400);later("bro2b",()=>{if(stage==="brother-link")broCare2();},3000);later("bro3",()=>{if(stage==="brother-link")bro2();},4800);hint();};
+ const onBrotherTap=()=>{if(stage!=="manager-msg"&&stage!=="brother-chat")return;setStage("brother-link");broReply();after("bro2a",()=>{if(stage==="brother-link")broCare1();},BRO_DELAYS[0]);after("bro2b",()=>{if(stage==="brother-link")broCare2();},BRO_DELAYS[1]);after("bro3",()=>{if(stage==="brother-link")bro2();},BRO_DELAYS[2]);hint();};
  function managerMsg(){
   if(stage!=="manager-wait")return;
   bro1();setStage("manager-msg");toast(BRO,MANAGER_Q);
@@ -62,7 +65,7 @@
   const [from,msg,at]=yunhoLines[yunhoIndex++];
   if(isDot)dotAt=Date.now();/* 5분 타이머 기준: '.' 가 전송된 시점 (한 번만 기록) */
   persist();KakaoApp.appendStoryMessage(msg,"text","","c0",from,at);hint();
-  if(yunhoIndex===DOT_IDX)later("ydot",sendDot,DOT_DELAY);/* '아니 윤호야' 직후 → '.' 예약 */
+  if(yunhoIndex===DOT_IDX)after("ydot",sendDot,DOT_DELAY);/* '윤호야아...' 직후 → '.' 즉시 */
   else if(yunhoIndex===LONG_IDX)scheduleLong();/* '.' 전송 직후 → 5분 타이머 시작 */
  }
  /* '.' 자동 전송 (중복 방지: 인덱스·단계가 맞을 때만, 타이머는 이름당 하나) */
@@ -126,7 +129,7 @@
    case "deny-reading":if(viewedAt)scheduleCall(9000-(Date.now()-viewedAt));break;
    case "yunho-call":ringYunho();break;
    case "yunho-alert":toast("윤둥이",yunhoLines[0][1]);break;
-   case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();else if(yunhoIndex===DOT_IDX)later("ydot",sendDot,DOT_DELAY);else if(yunhoIndex===LONG_IDX)scheduleLong();break;
+   case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();else if(yunhoIndex===DOT_IDX)after("ydot",sendDot,DOT_DELAY);else if(yunhoIndex===LONG_IDX)scheduleLong();break;
    case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
    case "final-wait":scheduleFinal(FINAL_DELAY-(Date.now()-igViewedAt));break;
    case "final-alert":toast("네이버 뉴스",FINAL_TITLE,"Naver");break;
