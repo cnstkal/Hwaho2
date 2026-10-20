@@ -155,7 +155,7 @@ const PhoneApp = (() => {
   }
   function endCall() {
     if (!call) return; const ended = call, onEnd = call.onEnd; clearTimeout(call.t1); clearInterval(call.iv); call.pt.forEach(clearTimeout);
-    if (ended.storyDialogue && !ended.storyReplay) { D.calls.unshift({ id: uid(), num: ended.num, dir: "in", ts: Date.now(), dur: Math.max(0, Math.floor((Date.now() - (ended.t0 || Date.now())) / 1000)), storyKey: ended.storyKey || "", storyDialogue: ended.storyDialogue.map(l => [l[0], l[1]]) }); save(); }
+    if (ended.storyDialogue && !ended.storyReplay) { const sh = D.contacts.find(x => x.name === "성현이형(매니저)"); const storyTs = sh && String(sh.num) === String(ended.num) ? new Date("2026-10-19T16:45:00+09:00").getTime() : Date.now(); D.calls.unshift({ id: uid(), num: ended.num, dir: "in", ts: storyTs, dur: Math.max(0, Math.floor((Date.now() - (ended.t0 || Date.now())) / 1000)), storyKey: ended.storyKey || "", storyDialogue: ended.storyDialogue.map(l => [l[0], l[1]]) }); save(); }
     call = null; cEl.classList.remove("on"); screen.classList.remove("in-call"); render(); renderOv();
     if (onEnd) { try { onEnd(); } catch (e) {} }
   }
