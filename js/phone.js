@@ -62,7 +62,7 @@ const PhoneApp = (() => {
   const byNum = n => dg(n) ? D.contacts.find(c => dg(c.num) === dg(n)) : null, nameOf = n => (byNum(n) || {}).name || (fmt(n) && msk(fmt(n))) || "알 수 없음";
   const byId = id => D.contacts.find(c => c.id === id), pad = n => String(n).padStart(2, "0");
   const tm = d => `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`;
-  function ft(ts) { const d = new Date(ts), base = new Date(2026, 9, 19), df = Math.round((base - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 1 ? "어제" : df < 7 ? "월화수목금토일"[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`; }
+  function ft(ts, c, n) { if (c && c.dir === "out" && n === 7 && nameOf(c.num) === "윤둥이") return "오늘"; const d = new Date(ts), base = new Date(2026, 9, 19), df = Math.round((base - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 1 ? "어제" : df < 7 ? "월화수목금토일"[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`; }
   const fdur = s => s >= 3600 ? `${Math.floor(s / 3600)}시간 ${Math.floor(s % 3600 / 60)}분 ${s % 60}초` : s >= 60 ? `${Math.floor(s / 60)}분 ${s % 60}초` : `${s}초`, mmss = s => `${pad(Math.floor(s / 60))}:${pad(s % 60)}`;
   const initial = n => /[0-9+*#\s-]/.test((n || "")[0] || "#") ? "" : n[0];
   const av = (n, c = "tl-av") => `<div class="${c}">${esc(initial(n)) || ic('<circle cx="12" cy="9" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500" fill="currentColor"/>').replace("<svg", '<svg style="width:55%;height:55%;fill:#fff;stroke:none"')}</div>`;
@@ -79,7 +79,7 @@ const PhoneApp = (() => {
   function pRec() {
     const l = D.calls.filter(c => filt === "all" || c.dir === "miss").sort((a, b) => b.ts - a.ts);
     const G = []; l.forEach(c => { const g = G[G.length - 1]; if (g && dg(g.c.num) === dg(c.num) && g.c.dir === c.dir && !g.c.dur && !c.dur && g.last - c.ts <= 12e5) { g.n++; g.ids.push(c.id); g.last = c.ts; } else G.push({ c, n: 1, ids: [c.id], last: c.ts }); });
-    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="${(c.storyDialogue || (c.blueRecord && SCRIPTS[c.blueRecord])) ? "replayrecord" : "noop"}" data-id="${c.id}" data-n="${esc(c.num)}"${(c.blueRecord || c.storyDialogue) ? ` data-b="${c.blueRecord || ""}" style="color:#007aff"` : ""}>${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${esc(nameOf(c.num))}</div><div class="tl-sub"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${ft(c.ts)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
+    return `<div class="tl-bar"><button class="tl-b" data-t="edit">${edit ? "완료" : "편집"}</button>${edit ? `<button class="tl-b" data-t="clearall">지우기</button>` : "<span></span>"}</div><div class="tl-title">최근 통화</div><div class="tl-seg"><button class="${filt === "all" ? "on" : ""}" data-t="seg" data-k="all">전체</button><button class="${filt === "miss" ? "on" : ""}" data-t="seg" data-k="miss">부재중</button></div><div class="tl-list">${G.map(({ c, n, ids }) => { const m = c.dir === "miss"; return `<div class="tl-r" data-t="${(c.storyDialogue || (c.blueRecord && SCRIPTS[c.blueRecord])) ? "replayrecord" : "noop"}" data-id="${c.id}" data-n="${esc(c.num)}"${(c.blueRecord || c.storyDialogue) ? ` data-b="${c.blueRecord || ""}" style="color:#007aff"` : ""}>${edit ? `<button class="tl-minus" data-t="delcall" data-id="${ids.join(",")}">−</button>` : ""}<span class="tl-dir ${m ? "red" : ""}"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${c.dir === "out" ? I.out : I.inn}</span><div class="tl-rb"><div class="tl-nm ${m ? "red" : ""}"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${esc(nameOf(c.num))}</div><div class="tl-sub"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${byNum(c.num) ? "휴대전화" : "알 수 없음"}${n > 1 ? " (" + n + ")" : ""}${c.dur ? " · " + fdur(c.dur) : ""}</div></div><span class="tl-tm"${(c.blueRecord || c.storyDialogue) ? ' style="color:#007aff"' : ""}>${ft(c.ts, c, n)}</span><button class="tl-i" data-t="cdet" data-id="${c.id}" aria-label="정보">${I.info}</button></div>`; }).join("") || empty(filt === "miss" ? "부재중 전화가 없습니다." : "최근 통화가 없습니다.")}</div>`;
   }
   function conList() {
     const q = conQ.trim().toLowerCase(), l = D.contacts.filter(c => !q || c.name.toLowerCase().includes(q) || (dg(q) && dg(c.num).includes(dg(q)))).sort((a, b) => { const x = grp(a.name), y = grp(b.name); return x[0] - y[0] || a.name.localeCompare(b.name, "ko"); });
@@ -180,6 +180,28 @@ const PhoneApp = (() => {
     const m = D.contacts.find(x => x.name === "엄마");
     if (m && !D.calls.some(x => x.blueRecord === "mom-call-jul3")) D.calls.push({ id: uid(), num: m.num, dir: "in", ts: new Date("2026-07-03T20:10:00+09:00").getTime(), dur: 210, blueRecord: "mom-call-jul3", fixed: 1 });
     D.v19 = 1; save();
+  }
+  if (D.v21 !== 1) {
+    const y = D.contacts.find(c => c.name === "윤둥이");
+    const sh = D.contacts.find(c => c.name === "성현이형(매니저)");
+    if (y) {
+      const yNum = String(y.num);
+      D.calls = D.calls.filter(c => {
+        if (String(c.num) !== yNum || c.dir !== "out") return true;
+        const d = new Date(c.ts);
+        const hm = d.getHours() * 60 + d.getMinutes();
+        const sec = d.getSeconds();
+        // Remove only the crossed-out 3-call group, 4-call group, 6m52s call, and 1h30m call.
+        if (c.dur === 412) return false;
+        if (c.dur === 5400 && hm === 21 * 60 + 50) return false;
+        if (!c.dur && sec === 0 && [15*60+10,15*60+12,15*60+14,15*60+20,15*60+22,15*60+24,15*60+26].includes(hm)) return false;
+        return true;
+      });
+    }
+    if (sh) {
+      D.calls = D.calls.filter(c => !(String(c.num) === String(sh.num) && c.dir === "in" && c.dur === 96));
+    }
+    D.v21 = 1; save();
   }
   if (D.v20 !== 1) {
     const sh = D.contacts.find(c => c.name === "성현이형(매니저)");
