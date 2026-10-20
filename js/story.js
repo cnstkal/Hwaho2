@@ -16,6 +16,7 @@
  const DOT_IDX=4,LONG_IDX=5,DOT_DELAY=0,YUNHO_WAIT=5*60*1000;
  /* 형 카톡: 탭하자마자 전부 즉시 표시 (딜레이를 주려면 ms 값을 넣으면 됨: [기사에 아니라고 떴길래, 무슨 일 있는 건 아니지?, 기사 링크]) */
  const BRO_DELAYS=[0,0,0];
+ let brotherIndex=0;
  const after=(k,fn,ms)=>{if(ms>0)later(k,fn,ms);else{cancel(k);fn();}};
 
  /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 유지 ---- */
@@ -23,7 +24,7 @@
  const STAGES=["manager-wait","manager-msg","brother-chat","brother-link","deny-reading","yunho-call","yunho-alert","yunho-chat","ig-alert","instagram","final-wait","final-alert","final-article"];
  const FINAL_URL="https://entertain.naver.com/article/sample/6",NAVER_ICON="images/app/Naver/IMG_7151.png",FINAL_TITLE="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”",FINAL_DELAY=6000;
  let stage="idle",started=false,yunhoIndex=0,viewedAt=0,igViewedAt=0,dotAt=0;
- const persist=()=>{if(!started)return;const v={v:2,started:true,stage,yunhoIndex,viewedAt,igViewedAt,dotAt};try{if(window.HwahoStability)window.HwahoStability.writeJSON(KEY,v);else localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
+ const persist=()=>{if(!started)return;const v={v:2,started:true,stage,yunhoIndex,brotherIndex,viewedAt,igViewedAt,dotAt};try{if(window.HwahoStability)window.HwahoStability.writeJSON(KEY,v);else localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
  const setStage=s=>{stage=s;persist();};
  const load=()=>{try{const s=window.HwahoStability?window.HwahoStability.readJSON(KEY,null):JSON.parse(localStorage.getItem(KEY));if(s&&s.v===2&&s.started===true&&STAGES.indexOf(s.stage)>=0)return s;}catch(e){}return null;};
 
@@ -45,7 +46,18 @@
  const broCare1=()=>KakaoApp.appendStoryMessage("기사에 아니라고 떴길래","text","","c19","f7",[14,52]);
  const broCare2=()=>KakaoApp.appendStoryMessage("무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);
  const bro2=()=>KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);
- const onBrotherTap=()=>{if(stage!=="manager-msg"&&stage!=="brother-chat")return;setStage("brother-link");broReply();after("bro2a",()=>{if(stage==="brother-link")broCare1();},BRO_DELAYS[0]);after("bro2b",()=>{if(stage==="brother-link")broCare2();},BRO_DELAYS[1]);after("bro3",()=>{if(stage==="brother-link")bro2();},BRO_DELAYS[2]);hint();};
+ const onBrotherTap=()=>{
+  if(stage!=="brother-chat")return;
+  /* 한 번 탭할 때마다 메시지 하나만 표시 */
+  if(brotherIndex===0)broReply();
+  else if(brotherIndex===1)broCare1();
+  else if(brotherIndex===2)broCare2();
+  else if(brotherIndex===3){bro2();setStage("brother-link");}
+  else return;
+  brotherIndex++;
+  persist();
+  hint();
+ };
  function managerMsg(){
   if(stage!=="manager-wait")return;
   bro1();setStage("manager-msg");toast(BRO,MANAGER_Q);
@@ -116,7 +128,7 @@
  document.addEventListener("story:call-ended",e=>{if(e.detail&&e.detail.kind==="yunho")yunhoAfterCall();});
 
  function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;if(yunhoIndex===DOT_IDX||yunhoIndex===LONG_IDX)return;/* '.' 예약·5분 대기 중에는 탭으로 진행하지 않음 */sendYunho();if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
- document.addEventListener("click",e=>{if(stage==="manager-msg"||stage==="brother-chat"){if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c19"&&e.target.closest("#kko-app #kk-msgs"))onBrotherTap();return;}if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
+ document.addEventListener("click",e=>{if(stage==="brother-chat"){if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c19"&&e.target.closest("#kko-app #kk-msgs"))onBrotherTap();return;}if(stage==="manager-msg")return;if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
 
  /* ---- 새로고침 후 복원: 끝난 이벤트는 다시 실행하지 않는다 ---- */
  function resume(){
@@ -136,7 +148,7 @@
   }
  }
  const saved=load();
- if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));viewedAt=Number(saved.viewedAt)||0;igViewedAt=Number(saved.igViewedAt)||0;dotAt=Number(saved.dotAt)||0;resume();}
+ if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));brotherIndex=Math.max(0,Math.min(4,saved.brotherIndex|0));viewedAt=Number(saved.viewedAt)||0;igViewedAt=Number(saved.igViewedAt)||0;dotAt=Number(saved.dotAt)||0;resume();}
  else if(window.HwahoIntroFresh&&window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
 
  /* 윤둥이 방 입력창 힌트 (탭으로 진행) */
