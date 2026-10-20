@@ -449,18 +449,17 @@ const KakaoApp = (() => {
       const patchText = (oldText, newText) => hong.msgs.forEach(m => { if (m.text === oldText) m.text = newText; });
       patchText("어제 만든 비트 들어봤어?", "어제 보낸 거 들어봤어?");
       patchText("우리 어제 몇시까지 마셨지", "우리 몇 시까지 마셨지");
+      /* 홍중의 축하 메시지는 10/19 오후 5시 */
       const congratulate = hong.msgs.find(m => m.text === "축하한다");
       if (congratulate) congratulate.ts = new Date("2026-10-19T17:00:00+09:00").getTime();
-      const cut = new Date("2026-10-19T00:00:00+09:00").getTime();
-      D.chats.forEach(c => {
-        if (c.ids && c.ids.includes("f4") && c.ids.length === 1) {
-          c.msgs = c.msgs.filter(m => {
-            const d = new Date(m.ts);
-            return !(d.getFullYear() === 2026 && d.getMonth() === 9 && d.getDate() === 19);
-          });
-          c.unread = 0;
-        }
-      });
+      /* 민기 개인 카톡의 10/19 기록을 통째로 삭제 */
+      const mingyu = D.chats.find(c => c.ids && c.ids.length === 1 && c.ids[0] === "f4");
+      if (mingyu) {
+        const cut = new Date("2026-10-19T00:00:00+09:00").getTime();
+        const end = new Date("2026-10-20T00:00:00+09:00").getTime();
+        mingyu.msgs = mingyu.msgs.filter(m => !(m.ts >= cut && m.ts < end));
+        mingyu.unread = 0;
+      }
     }
     D.v26 = 1; save();
   }
