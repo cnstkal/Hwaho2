@@ -62,7 +62,7 @@ const PhoneApp = (() => {
   const byNum = n => dg(n) ? D.contacts.find(c => dg(c.num) === dg(n)) : null, nameOf = n => (byNum(n) || {}).name || (fmt(n) && msk(fmt(n))) || "알 수 없음";
   const byId = id => D.contacts.find(c => c.id === id), pad = n => String(n).padStart(2, "0");
   const tm = d => `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`;
-  function ft(ts, c, n) { if (c && nameOf(c.num) === "성현이형(매니저)" && (c.blueRecord || c.storyDialogue)) return "오늘"; if (c && c.dir === "out" && n === 7 && nameOf(c.num) === "윤둥이") return "오늘"; if (c && c.dir === "in" && nameOf(c.num) === "윤둥이" && c.ts === Math.max(-Infinity, ...D.calls.filter(x => x.dir === "in" && nameOf(x.num) === "윤둥이").map(x => x.ts))) return "오늘"; const d = new Date(ts), base = new Date(2026, 9, 19), df = Math.round((base - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 1 ? "어제" : df < 7 ? "월화수목금토일"[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`; }
+  function ft(ts, c, n) { if (c && nameOf(c.num) === "성현이형(매니저)" && (c.blueRecord || c.storyDialogue)) return "오늘"; if (c && c.dir === "out" && n === 7 && nameOf(c.num) === "윤둥이") return "오늘"; const d = new Date(ts), base = new Date(2026, 9, 19), df = Math.round((base - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 1 ? "어제" : df < 7 ? "월화수목금토일"[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`; }
   const fdur = s => s >= 3600 ? `${Math.floor(s / 3600)}시간 ${Math.floor(s % 3600 / 60)}분 ${s % 60}초` : s >= 60 ? `${Math.floor(s / 60)}분 ${s % 60}초` : `${s}초`, mmss = s => `${pad(Math.floor(s / 60))}:${pad(s % 60)}`;
   const initial = n => /[0-9+*#\s-]/.test((n || "")[0] || "#") ? "" : n[0];
   const av = (n, c = "tl-av") => `<div class="${c}">${esc(initial(n)) || ic('<circle cx="12" cy="9" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500" fill="currentColor"/>').replace("<svg", '<svg style="width:55%;height:55%;fill:#fff;stroke:none"')}</div>`;
@@ -190,7 +190,6 @@ const PhoneApp = (() => {
         dir: "in",
         ts: new Date("2026-10-15T18:05:00+09:00").getTime(),
         dur: 3741,
-        blueRecord: "yunho-call-oct15-1805",
         fixed: 1
       });
     }
@@ -229,6 +228,16 @@ const PhoneApp = (() => {
     const sh = D.contacts.find(c => c.name === "성현이형(매니저)");
     D.calls = D.calls.filter(c => c.blueRecord !== "sunghyun-call-today" && !(sh && c.num === sh.num && c.dir === "in" && c.dur === 180));
     D.v20 = 1; save();
+  }
+  if (D.v24 !== 1) {
+    // The 2026-10-15 incoming Yun둥이 call (1:02:21) is a normal black call record, not a blue story call.
+    D.calls.forEach(c => {
+      if (c.dir === "in" && c.dur === 3741 && c.ts === new Date("2026-10-15T18:05:00+09:00").getTime() && String(c.num) === String((D.contacts.find(x => x.name === "윤둥이") || {}).num)) {
+        delete c.blueRecord;
+        c.fixed = 1;
+      }
+    });
+    D.v24 = 1; save();
   }
   const gotoMsg = n => { closeApp(); if (window.Home) Home.openApp("messages"); setTimeout(() => window.MessagesApp && MessagesApp.chat(n), 80); };
   function recordStoryMissedCall(name,key){if(key&&D.calls.some(x=>x.storyKey===key))return;const c=D.contacts.find(x=>x.name===name);D.calls.unshift({id:uid(),num:c?c.num:name,dir:"miss",ts:new Date("2026-10-19T16:45:00+09:00").getTime(),dur:0,storyKey:key||""});save();if(isOpen)render();}
