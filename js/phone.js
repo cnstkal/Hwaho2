@@ -62,7 +62,7 @@ const PhoneApp = (() => {
   const byNum = n => dg(n) ? D.contacts.find(c => dg(c.num) === dg(n)) : null, nameOf = n => (byNum(n) || {}).name || (fmt(n) && msk(fmt(n))) || "알 수 없음";
   const byId = id => D.contacts.find(c => c.id === id), pad = n => String(n).padStart(2, "0");
   const tm = d => `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`;
-  function ft(ts) { return "오늘"; }
+  function ft(ts) { const d = new Date(ts), base = new Date(2026, 9, 19), df = Math.round((base - new Date(d.getFullYear(), d.getMonth(), d.getDate())) / 864e5); return df <= 1 ? "어제" : df < 7 ? "월화수목금토일"[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`; }
   const fdur = s => s >= 3600 ? `${Math.floor(s / 3600)}시간 ${Math.floor(s % 3600 / 60)}분 ${s % 60}초` : s >= 60 ? `${Math.floor(s / 60)}분 ${s % 60}초` : `${s}초`, mmss = s => `${pad(Math.floor(s / 60))}:${pad(s % 60)}`;
   const initial = n => /[0-9+*#\s-]/.test((n || "")[0] || "#") ? "" : n[0];
   const av = (n, c = "tl-av") => `<div class="${c}">${esc(initial(n)) || ic('<circle cx="12" cy="9" r="3.500"/><path d="M5 20c1-4 4-5.500 7-5.500s6 1.500 7 5.500" fill="currentColor"/>').replace("<svg", '<svg style="width:55%;height:55%;fill:#fff;stroke:none"')}</div>`;
