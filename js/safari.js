@@ -673,3 +673,6 @@ window.SafariApp = SafariApp;
 
 /* App-specific styles moved from base.css */
 (()=>{const s=document.createElement("style");s.textContent="#sf-view{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;touch-action:pan-y;background:#fff;-webkit-overflow-scrolling:touch}\n#sf-view.start{background:#f2f2f7}";document.head.appendChild(s);})();
+
+/* 댓글 목록 아래쪽에 남는 불필요한 구분선 제거 */
+(()=>{const s=document.createElement("style");s.textContent="#saf-app .cm .cm-c:last-of-type{border-bottom:0!important}#saf-app .en-sp{border-top:0!important}";document.head.appendChild(s);})();
