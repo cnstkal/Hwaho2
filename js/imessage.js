@@ -311,6 +311,14 @@ const MessagesApp = (() => {
   try { localStorage.setItem(SEED_KEY, "1"); } catch (e) {}
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(convs)); } catch (e) {} };
   { let done = false; try { done = localStorage.getItem("ios-msgs-list-date-v5") === "1"; } catch (e) {} if (!done) { const fixed = {"박대표님":[11,21],"박재영(대표)":[11,21],"카카오":[12,3],"KB국민은행":[13,56],"KB국민카드":[13,56]}; const rest = convs.filter(c => c.msgs && c.msgs.length && !Object.prototype.hasOwnProperty.call(fixed,c.name)); const start = new Date(2026,9,13,9,0,0,0), end = new Date(2026,9,18,20,0,0,0); rest.forEach((conv,i) => { let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; const d=new Date(start.getTime()+Math.floor(i*(end.getTime()-start.getTime())/Math.max(1,rest.length-1))); latest.ts=d.getTime(); }); for (const conv of convs) { if (!Object.prototype.hasOwnProperty.call(fixed,conv.name) || !conv.msgs || !conv.msgs.length) continue; let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; const d=new Date(); d.setHours(fixed[conv.name][0],fixed[conv.name][1],0,0); latest.ts=d.getTime(); } try { localStorage.setItem("ios-msgs-list-date-v5","1"); } catch(e) {} save(); } }
+  { let done = false; try { done = localStorage.getItem("ios-msgs-list-date-v6") === "1"; } catch (e) {} if (!done) {
+    const fixed = new Set(["박대표님","박재영(대표)","카카오","KB국민은행","KB국민카드"]);
+    const groups = [convs.filter(c => c.msgs && c.msgs.length && !fixed.has(c.name) && !c.kind), convs.filter(c => c.msgs && c.msgs.length && !fixed.has(c.name) && c.kind === "svc"), convs.filter(c => c.msgs && c.msgs.length && !fixed.has(c.name) && c.kind === "spam"), convs.filter(c => c.msgs && c.msgs.length && !fixed.has(c.name) && c.kind && c.kind !== "svc" && c.kind !== "spam")];
+    const mixed = []; for (let i=0; groups.some(g => i < g.length); i++) for (const g of groups) if (g[i]) mixed.push(g[i]);
+    const start = new Date(2026,9,13,9,0,0,0), end = new Date(2026,9,18,20,0,0,0);
+    mixed.forEach((conv,i) => { let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; latest.ts = start.getTime() + Math.floor(i*(end.getTime()-start.getTime())/Math.max(1,mixed.length-1)); });
+    try { localStorage.setItem("ios-msgs-list-date-v6","1"); } catch(e) {} save();
+  } }
   { let mg = 0; try { mg = localStorage.getItem("ios-msgs-mig11"); } catch (e) {}
     if (!mg) {
       const DEL = ["홍중", "민기", "철수", "성현이형", "엄마", "형", "팬카페 운영팀", "승호형(믹싱)", "소율 누나"], RN = { "레도형": "강레도", "박대표님": "박재영(대표)", "강PD": "강민우(PD)", "한감독님": "한서진(감독)", "정팀장님": "정우석(팀장)", "쇼미 김작가님": "김하나(쇼미 작가)", "도현": "문도현", "지안": "한지안", "세준(사진)": "임세준(사진)" };
