@@ -155,5 +155,5 @@ position:absolute;inset:0;z-index:8;overflow:hidden;background:var(--bg);color:v
 
 /* 편집기: 실제 메모앱처럼 전체 흰 배경, 날짜는 본문 상단 가운데(함께 스크롤) */
 #notes-app .nt-pe,#notes-app .nt-pe .nt-tbar{background:#fff}
-#notes-app .nt-pe .nt-es{margin:0;padding:0 20px 24px;background:none;border-radius:0;box-shadow:none}
+#notes-app .nt-pe .nt-es{position:relative;min-height:0;flex:1;margin:0;padding:0 20px 24px;background:none;border-radius:0;box-shadow:none}
 #notes-app .nt-pe .nt-dt{display:block;text-align:center;font-size:13px;color:var(--sc);padding:8px 0 14px;margin:0}
