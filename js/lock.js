@@ -11,6 +11,14 @@
 
   if (getComputedStyle(L.parentElement).position === 'static') L.parentElement.style.position = 'relative';
 
+  /* 암호 힌트: 점과 키패드 사이 (은은한 회색 글씨) */
+  if (dotsBox && !L.querySelector('.lk-hint')) {
+    var hint = document.createElement('div');
+    hint.className = 'lk-hint';
+    hint.textContent = '힌트 : 🐶';
+    dotsBox.insertAdjacentElement('afterend', hint);
+  }
+
   function setState(s) { state = s; L.dataset.state = s; }
   function hold(ms) { busy = true; setTimeout(function () { busy = false; }, ms); }
 
@@ -103,6 +111,7 @@
   });
 
   /* optional API: HwahoLock.notify({app,title,body,time}) / HwahoLock.lock() */
+  var notiSlot = 0;
   window.HwahoLock = {
     promptUnlock: function () { if (state === 'locked') enter(); },
     notify: function (n) {
@@ -112,7 +121,10 @@
       a.textContent = n.app || ''; t.textContent = n.time || '지금'; p.className = 't';
       b.textContent = n.title || ''; p.textContent = n.body || '';
       h.appendChild(a); h.appendChild(t); el.appendChild(h); el.appendChild(b); el.appendChild(p);
-      $('#lk-notis').appendChild(el);
+      var box = $('#lk-notis');
+      /* 알림은 최대 2개: 이미 2개면 같은 자리에서 하나씩 교체 (아래로 쌓지 않음) */
+      if (box.children.length < 2) { box.appendChild(el); }
+      else { box.replaceChild(el, box.children[notiSlot]); notiSlot = (notiSlot + 1) % 2; }
     },
     lock: function () { buf = ''; checking = false; render(); setState('locked'); }
   };
