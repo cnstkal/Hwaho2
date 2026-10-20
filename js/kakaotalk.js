@@ -655,7 +655,7 @@ const KakaoApp = (() => {
       if (window.HwahoClock && !Array.isArray(at)) { const lastStory = c.msgs.reduce((a, m) => m.storySequence ? Math.max(a, m.ts || 0) : a, 0); ts = Math.max(window.HwahoClock.now().getTime(), lastStory + 1000); at = null; }
       /* 스토리 진행 중 내가 보내는 카톡의 표시 시각은 오후 2:52로 고정한다.
          상태바 시계(HwahoClock)는 변경하지 않는다. */
-      if (from === "me") {
+      if (from === "me" && !(Array.isArray(at) && c.id === "c0")) {
         const base = new Date(2026, 9, 19, 14, 52, 0).getTime();
         const same = c.msgs.filter(m => m.storySequence && m.from === "me" && m.ts >= base && m.ts < base + 60000).length;
         ts = base + same * 1000;
