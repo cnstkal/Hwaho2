@@ -103,7 +103,7 @@ const PhoneApp = (() => {
   }
   const pSearch = () => `<div class="tl-bar"></div><div class="tl-title">검색</div><div class="tl-search">${I.search}<input id="tl-sq" placeholder="연락처, 최근 통화" autocomplete="off"></div><div class="tl-list" id="tl-sr">${results("")}</div>`;
   const PAGES = { fav: pFav, rec: pRec, con: pCon, key: pKey, search: pSearch };
-  el.innerHTML = `<div class="tl-main"><div id="tl-c"></div><div class="tl-tabs" id="tl-tabs">${[["fav", "즐겨찾기", I.star], ["rec", "최근 통화", I.clock], ["con", "연락처", I.person], ["key", "키패드", I.keys], ["search", "검색", I.search]].map(t => `<button data-t="tab" data-k="${t[0]}"${t[0] === "search" ? ' disabled aria-disabled="true"' : ""}>${t[2]}<span>${t[1]}</span></button>`).join("")}</div></div><div class="tl-ov" id="tl-ov"></div><div class="tl-sb" id="tl-sb" data-t="sheetx"></div><div class="tl-sh" id="tl-sh"></div><div class="tl-call-s" id="tl-cs-w"></div>`;
+  el.innerHTML = `<div class="tl-main"><div id="tl-c"></div><div class="tl-tabs" id="tl-tabs">${[["fav", "즐겨찾기", I.star], ["rec", "최근 통화", I.clock], ["con", "연락처", I.person], ["key", "키패드", I.keys], ["search", "검색", I.search]].map(t => `<button data-t="tab" data-k="${t[0]}"${(t[0] === "search" || t[0] === "con") ? ' disabled aria-disabled="true"' : ""}>${t[2]}<span>${t[1]}</span></button>`).join("")}</div></div><div class="tl-ov" id="tl-ov"></div><div class="tl-sb" id="tl-sb" data-t="sheetx"></div><div class="tl-sh" id="tl-sh"></div><div class="tl-call-s" id="tl-cs-w"></div>`;
   const cEl = $("#tl-cs-w"), shEl = $("#tl-sh"), sbEl = $("#tl-sb"), ovEl = $("#tl-ov");
   function render() { $("#tl-c").innerHTML = PAGES[tab](); document.querySelectorAll("#tl-tabs button").forEach(b => b.classList.toggle("on", b.dataset.k === tab)); }
   const updKey = () => { $("#tl-kd").innerHTML = kdisp(); $("#tl-kdel").style.visibility = keyNum ? "visible" : "hidden"; };
@@ -258,7 +258,7 @@ const PhoneApp = (() => {
   el.addEventListener("click", e => {
     const t = e.target.closest("[data-t]"); if (!t) return; const d = t.dataset;
     switch (d.t) {
-      case "tab": if (d.k === "search") break; tab = d.k; edit = false; ovs = []; renderOv(); render(); break;
+      case "tab": if (d.k === "search" || d.k === "con") break; tab = d.k; edit = false; ovs = []; renderOv(); render(); break;
       case "edit": edit = !edit; render(); break;
       case "seg": filt = d.k; render(); break;
       case "callc": { const c = byId(d.id); if (c) startCall(c.num); break; }
