@@ -123,7 +123,7 @@ const SafariApp = (() => {
   function nvMain() {
     return `<div class="nv"><div class="nv-main">
 <div class="nv-bar"><div class="nv-l"><span class="nv-ic">${nvI.menu}</span><span class="nv-ic pay">${nvI.pay}</span></div><div class="nv-r"><span class="nv-ic bell">${nvI.bell}<em>48</em></span><span class="nv-ic">${nvI.user}</span></div></div>
-<div class="nv-sw"><span class="nv-tip">AI탭에서 대화하기</span><button class="nv-sb" data-nv="open" aria-label="검색">${nvI.N}<span class="nv-sp"></span><span class="nv-cm">${nvI.cam}</span><i class="nv-dv"></i><span class="nv-ai">${nvI.ai}</span></button></div>
+<div class="nv-sw"><button class="nv-sb" data-nv="open" aria-label="검색">${nvI.N}<span class="nv-sp"></span><span class="nv-cm">${nvI.cam}</span><i class="nv-dv"></i><span class="nv-ai">${nvI.ai}</span></button></div>
 
 <div class="nv-sv"><span>${nvI.mail}메일</span><span>${nvI.cafe}카페</span><span>${nvI.shop}쇼핑</span><u></u><span class="t">뉴스</span><span class="t">엔터</span><span class="t">지식</span><span class="t">쇼핑라이브</span><span class="t">웹툰</span><span class="t">블로그</span><span class="t">지도</span></div>
 <div class="nv-wx"><span class="w">${nvI.moon}<b>18°</b><b>서울</b></span><i></i><span class="s">나스닥 종합 <b>27,366.17</b> <em>▲0.64%</em></span></div>
