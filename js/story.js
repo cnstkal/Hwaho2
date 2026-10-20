@@ -39,13 +39,13 @@ const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
 const toast=(name,msg,app="KakaoTalk")=>{if(app==="KakaoTalk"&&window.KakaoApp&&typeof KakaoApp.playNotificationTone==="function")KakaoApp.playNotificationTone();else playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
 function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
 function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
-function openBrother(){if(window.HwahoClock)HwahoClock.set(14,52,0);if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
+function openBrother(){if(window.HwahoClock)HwahoClock.set(14,52,0);if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
 function openYunhoChat(){if(window.Home)Home.openApp("kakaotalk");if(window.KakaoApp){KakaoApp.open();KakaoApp.openStoryChat("c0");}}
 /* 4. 열애 인정 기사 확인(story:start) 3초 후 성현 카톡 */
 function start(){if(started||window.HwahoIntroActive)return;started=true;yunhoIndex=0;viewedAt=0;igViewedAt=0;dotAt=0;setStage("manager-wait");later("m1",managerMsg,8000);}
 const setBrotherTime=()=>{if(window.HwahoClock)HwahoClock.set(14,52,0);};
 const bro1=()=>{setBrotherTime();KakaoApp.appendStoryMessage(MANAGER_Q,"text","","c19","f7",[14,52]);};
-const broReply=()=>{setBrotherTime();KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c3","me",[14,52]);};
+const broReply=()=>{setBrotherTime();KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c19","me",[14,52]);};
 const broCare1=()=>{setBrotherTime();KakaoApp.appendStoryMessage("기사에 아니라고 떴길래","text","","c19","f7",[14,52]);};
 const broCare2=()=>{setBrotherTime();KakaoApp.appendStoryMessage("무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);};
 const bro2=()=>{setBrotherTime();KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);};
@@ -111,7 +111,7 @@ root.innerHTML="";viewedAt=performance.now();setStage("deny-reading");scheduleCa
 });
 document.addEventListener("story:call-ended",e=>{if(e.detail&&e.detail.kind==="yunho")yunhoAfterCall();});
 function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;sendYunho();if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
-document.addEventListener("click",e=>{if(stage==="brother-chat"){if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c3"&&e.target.closest("#kko-app #kk-msgs"))onBrotherTap();return;}if(stage==="manager-msg")return;if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
+document.addEventListener("click",e=>{if(stage==="brother-chat"){if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c19"&&e.target.closest("#kko-app #kk-msgs"))onBrotherTap();return;}if(stage==="manager-msg")return;if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
 /* ---- 새로고침 후 복원: 끝난 이벤트는 다시 실행하지 않는다 ---- */
 function resume(){
 if(["instagram","final-wait","final-alert","final-article"].indexOf(stage)>=0)document.dispatchEvent(new CustomEvent("story:instagram-published"));
@@ -133,7 +133,7 @@ const saved=load();
 if(saved){started=true;stage=saved.stage;yunhoIndex=Math.max(0,Math.min(yunhoLines.length,saved.yunhoIndex|0));brotherIndex=Math.max(0,Math.min(4,saved.brotherIndex|0));viewedAt=Number(saved.viewedAt)||0;igViewedAt=Number(saved.igViewedAt)||0;dotAt=Number(saved.dotAt)||0;resume();}
 else if(window.HwahoIntroFresh&&window.KakaoApp&&typeof KakaoApp.purgeStoryMessages==="function")KakaoApp.purgeStoryMessages();
 /* 윤둥이 방 입력창 힌트 (탭으로 진행) */
-function hint(){const t=document.querySelector("#kko-app #kk-ta");if(!t)return;const cid=window.KakaoApp&&KakaoApp.currentChatId?KakaoApp.currentChatId():null;const on=(stage==="yunho-chat"&&yunhoIndex<yunhoLines.length&&yunhoIndex!==DOT_IDX&&yunhoIndex!==LONG_IDX&&cid==="c0")||((stage==="manager-msg"||stage==="brother-chat")&&cid==="c3");const v=on?"화면을 탭하세요.":"";if(t.placeholder!==v)t.placeholder=v;}
+function hint(){const t=document.querySelector("#kko-app #kk-ta");if(!t)return;const cid=window.KakaoApp&&KakaoApp.currentChatId?KakaoApp.currentChatId():null;const on=(stage==="yunho-chat"&&yunhoIndex<yunhoLines.length&&yunhoIndex!==DOT_IDX&&yunhoIndex!==LONG_IDX&&cid==="c0")||((stage==="manager-msg"||stage==="brother-chat")&&cid==="c19");const v=on?"화면을 탭하세요.":"";if(t.placeholder!==v)t.placeholder=v;}
 {const ka=document.getElementById("kko-app");if(ka&&window.MutationObserver)new MutationObserver(hint).observe(ka,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});}
 document.addEventListener("click",()=>setTimeout(hint,60),true);
 window.HwahoStory={start,get stage(){return stage;},get started(){return started;}};
