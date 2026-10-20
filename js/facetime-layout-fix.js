@@ -29,7 +29,7 @@
   text-align: center;
 }
 #ft-root .ft-contact-avatar {
-  margin: auto 0 0 !important;
+  margin: clamp(12px, 4vh, 40px) 0 0 !important;
   flex: none;
   width: clamp(84px, 18vh, 112px) !important;
   height: clamp(84px, 18vh, 112px) !important;
