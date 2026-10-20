@@ -120,7 +120,7 @@ const SafariApp = (() => {
     ref: '<svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.700" stroke-linecap="round" stroke-linejoin="round"><path d="M19.500 12a7.500 7.500 0 1 1-2.300-5.400M19.500 4v4.500H15"/></svg>'
   };
   const nvCard = (bg, ico, t, hue) => `<div class="nv-cd" style="background:${bg}"><div class="nv-cg"></div><div class="nv-ct"><i style="background:hsl(${hue} 55% 55%)">${ico}</i><b>${t}</b></div></div>`;
-  const nvTop = () => [NVN[5], NVN[0]].map(a => `<div class="nv-tp" data-nv="nws" data-id="${a.id}"><small>${a.outlet} · ${a.ago}</small><b>${esc(a.title)}</b></div>`).join("");
+  const nvTop = () => `<div class="nv-tpl">${NVN.map(a => `<div class="nv-tp" data-nv="nws" data-id="${a.id}"><small>${a.outlet} · ${a.ago}</small><b>${esc(a.title)}</b></div>`).join("")}</div>`;
   function nvMain() {
     return `<div class="nv"><div class="nv-main">
 <div class="nv-bar"><div class="nv-l"><span class="nv-ic">${nvI.menu}</span><span class="nv-ic pay">${nvI.pay}</span></div><div class="nv-r"><span class="nv-ic bell">${nvI.bell}<em>48</em></span><span class="nv-ic">${nvI.user}</span></div></div>
