@@ -87,7 +87,7 @@ window.IgApp = (() => {
 <div class="ig-cmw">${cmHtml(p)}</div><div class="ig-tm">${p.t}</div></article>`; };
   const RECOMMENDED = ["xnn****", "iwaitedfortherightmo****", "sgyun***"];
   const story = (u, me, i, recommended = false) => `<button class="ig-s${recommended ? " ig-srec" : ""}" data-g="story" data-i="${i}"><div class="ig-ring ${me ? "me" : ""}${S.seen[u.id] && !me ? " seen" : ""}">${av(u, 58)}${me ? '<i class="ig-add">+</i>' : ""}${recommended ? '<i class="ig-follow-rec" aria-label="친구 추가"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="9" r="4.5"/><path d="M4.5 24c.7-5 3.8-7.5 8.5-7.5 2.3 0 4.1.6 5.4 1.7M24 17v10M19 22h10"/></svg></i>' : ""}</div><span>${me ? "내 스토리" : esc(u.id)}</span></button>`;
-  const SU = ["_starhwa_", "no1likeme8_8", "fixon_n_on", "private.ego", "han.gangster", "opps.on.read", ...RECOMMENDED], stsHtml = () => {
+  const SU = ["_starhwa_", "no1likeme8_8", "fixon_n_on", "private.ego", "han.gangster", "opps.on.read"], stsHtml = () => {
     const normal = SU.filter(id => !RECOMMENDED.includes(id)).map((id, k) => ({ id, k })).sort((a, b) => { const av = a.k === 0 || !S.seen[a.id] ? 0 : 1; const bv = b.k === 0 || !S.seen[b.id] ? 0 : 1; return av - bv || a.k - b.k; });
     return normal.map(({ id }) => story(usr(id), id === "_starhwa_", SU.indexOf(id))).join("") + RECOMMENDED.map(id => story(usr(id), false, SU.indexOf(id), true)).join("");
   };
