@@ -27,8 +27,6 @@ window.APPS = {
       `<path d="M16 20a6 6 0 0 1 6-6h16a6 6 0 0 1 6 6v12a6 6 0 0 1-6 6H29l-8 7v-7h-1a4 4 0 0 1-4-4z" fill="#fff"/><path d="M23 26h14M23 32h9" stroke="#e8321f" stroke-width="2.6" stroke-linecap="round"/>` },
     { id: "chatgpt", label: "ChatGPT", img: "images/app/ChatGPT/IMG_7156.png", svg:
       `<rect width="60" height="60" fill="#10a37f"/><g fill="none" stroke="#fff" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"><path d="M30 14l12 7v14M30 46l-12-7V25M18 25l12-7"/><path d="M30 14l-12 7v10M18 39l12 7 12-7M42 21v10" opacity=".0"/><circle cx="30" cy="30" r="6.500"/><path d="M30 14v9.500M42 21l-8.200 4.800M42 39l-8.200-4.800M30 46v-9.500M18 39l8.200-4.800M18 21l8.200 4.800"/></g>` },
-    { id: "spotify", label: "Spotify", img: "images/app/Spotify/IMG_7153.jpeg", svg:
-      `<rect width="60" height="60" fill="#000"/><circle cx="30" cy="30" r="19" fill="#1ed760"/><g fill="none" stroke="#000" stroke-linecap="round"><path d="M19.5 25c8.500-2.700 18-2 24 2" stroke-width="3.400"/><path d="M21 31.500c7-1.900 14.500-1.200 19.500 1.800" stroke-width="3"/><path d="M22.500 37.500c5.200-1.200 10.500-.8 14.500 1.400" stroke-width="2.600"/></g>` },
     { id: "fromm", label: "fromm(아티용)", img: "images/app/Fromm/IMG_7146.png", svg:
       `<defs><linearGradient id="fmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff86ab"/><stop offset="1" stop-color="#7a5cff"/></linearGradient></defs><rect width="60" height="60" fill="url(#fmg)"/><path d="M16 22a7 7 0 0 1 7-7h14a7 7 0 0 1 7 7v10a7 7 0 0 1-7 7H29l-8 7v-7a7 7 0 0 1-5-6.700z" fill="#fff"/><path d="M30 35c-5-3.500-7.500-6-7.500-9a4 4 0 0 1 7.500-1.800A4 4 0 0 1 37.500 26c0 3-2.500 5.500-7.500 9z" fill="#ff5a8a"/>` },
     { id: "youtube", label: "YouTube", img: "images/app/YouTube/IMG_7155.png", svg:
@@ -53,6 +51,8 @@ window.APPS = {
       `<circle cx="30" cy="30" r="20" fill="#0a84ff"/><circle cx="30" cy="30" r="20" fill="none" stroke="#fff" stroke-width="1.200" opacity=".7"/><path d="M30 12v3M30 45v3M12 30h3M45 30h3" stroke="#fff" stroke-width="1.400" stroke-linecap="round"/><path d="M37.500 22.500L33 33l-10.500 4.500L27 27z" fill="#ff3b30"/><path d="M22.500 37.500L27 27l6 6z" fill="#fff"/>` },
     { id: "kakaotalk", label: "카카오톡", img: "images/app/KakaoTalk/IMG_7149.png", svg:
       `<rect width="60" height="60" fill="#FEE500"/><ellipse cx="30" cy="28.500" rx="15" ry="12.500" fill="#2b1d1d"/><path d="M23 37l-3 7 8-4.500z" fill="#2b1d1d"/><g fill="#FEE500"><path d="M24 24v9h2.400v-9zM21 24h8.400v2.200H21z"/><path d="M33 24v9h2.400v-4l4 4h3l-4.500-4.800L42 24h-2.800l-3.800 4V24z"/></g>` },
+    { id: "spotify", label: "Spotify", img: "images/app/Spotify/IMG_7153.jpeg", svg:
+      `<rect width="60" height="60" fill="#000"/><circle cx="30" cy="30" r="19" fill="#1ed760"/><g fill="none" stroke="#000" stroke-linecap="round"><path d="M19.5 25c8.500-2.700 18-2 24 2" stroke-width="3.400"/><path d="M21 31.500c7-1.900 14.500-1.200 19.500 1.800" stroke-width="3"/><path d="M22.500 37.500c5.200-1.200 10.500-.8 14.500 1.400" stroke-width="2.600"/></g>` },
   ],
 };
 
