@@ -23,7 +23,8 @@
 .lk-isl{position:absolute;left:50%;top:11px;width:120px;height:35px;margin-left:-60px;border-radius:26px;background:#000;
   transition:width var(--T) var(--E),height var(--T) var(--E),margin var(--T) var(--E)}
 
-#lock[data-state=pass] .lk-isl{width:min(52cqw,205px);height:52px;margin-left:calc(min(52cqw,205px)/-2)}
+/* 암호 화면에서도 다이내믹 아일랜드는 홈 화면과 같은 크기 */
+#lock[data-state=pass] .lk-isl{width:120px;height:35px;margin-left:-60px}
 
 .lk-bat{display:flex;align-items:center}
 .lk-bat .b{position:relative;width:25px;height:12.5px;border-radius:4px;border:1px solid rgba(255,255,255,.45);padding:1.5px}
@@ -39,14 +40,16 @@
   font-variant-numeric:tabular-nums;color:transparent;
   background:linear-gradient(90deg,var(--lk-t1),var(--lk-t2));-webkit-background-clip:text;background-clip:text;
   filter:drop-shadow(0 2px 14px rgba(0,0,0,.16))}
-.lk-notis{margin-top:4cqh;width:min(92cqw,420px);display:flex;flex-direction:column;gap:8px}
+/* 알림: 시계 아래 여백을 두고, 카드 높이를 넉넉히, 텍스트는 카드 안에서만 보이게 */
+.lk-notis{margin-top:3cqh;width:min(92cqw,420px);display:flex;flex-direction:column;gap:10px}
 .lk-notis:empty{display:none}
-.lk-n{padding:12px 14px;border-radius:20px;background:rgba(255,255,255,.2);
+.lk-n{padding:16px 16px 14px;min-height:92px;box-sizing:border-box;max-width:100%;overflow:hidden;border-radius:20px;background:rgba(255,255,255,.2);
   -webkit-backdrop-filter:blur(26px) saturate(1.6);backdrop-filter:blur(26px) saturate(1.6);
   border:.5px solid rgba(255,255,255,.18);box-shadow:0 6px 24px rgba(0,0,0,.14)}
-.lk-n .h{display:flex;justify-content:space-between;font-size:12px;font-weight:500;opacity:.75;margin-bottom:2px;text-transform:uppercase}
-.lk-n b{display:block;font-size:15px;font-weight:600}
-.lk-n span.t{display:block;font-size:14px;opacity:.9;margin-top:1px}
+.lk-n .h{display:flex;justify-content:space-between;font-size:12px;font-weight:500;opacity:.75;margin-bottom:6px;text-transform:uppercase}
+.lk-n b{display:block;font-size:15px;font-weight:600;line-height:1.35;overflow-wrap:anywhere;word-break:keep-all;white-space:normal}
+.lk-n span.t{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:14px;opacity:.9;margin-top:4px;
+  line-height:1.4;overflow-wrap:anywhere;word-break:keep-all;white-space:normal}
 /* bottom shortcuts */
 .lk-bottom{position:absolute;left:0;right:0;bottom:calc(34px + 2.2cqh);display:flex;justify-content:space-between;padding:0 max(34px,11.7cqw);
   z-index:2;transition:opacity 260ms ease,transform var(--T) var(--E)}
@@ -57,15 +60,17 @@
 .lk-ico svg{width:26px;height:26px;fill:none;stroke:#0a0a0a;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 /* passcode */
 .lk-pass{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;
-  padding:calc(54px + 6.5cqh) 0 calc(26px + 3.2cqh);opacity:0;transform:translateY(18px);pointer-events:none;
+  padding:calc(54px + 9.5cqh) 0 calc(26px + 3.2cqh);opacity:0;transform:translateY(18px);pointer-events:none;
   transition:opacity 280ms ease,transform var(--T) var(--E)}
 #lock[data-state=pass] .lk-pass{opacity:1;transform:none;pointer-events:auto;transition-delay:70ms,70ms}
 .lk-title{font-size:clamp(17px,5.4cqw,21px);font-weight:400;letter-spacing:.01em;text-shadow:0 1px 8px rgba(0,0,0,.2)}
-.lk-dots{display:flex;gap:min(6.1cqw,24px);margin-top:min(3.6cqh,28px)}
+.lk-dots{display:flex;gap:min(6.1cqw,24px);margin-top:calc(min(3.6cqh,28px) + 2.4cqh)}
 .lk-dots i{width:13px;height:13px;border-radius:50%;border:2px solid #fff;box-sizing:border-box;transition:background .12s,transform .12s}
 .lk-dots i.on{background:#fff}
 .lk-dots.shake{animation:lkshake 380ms cubic-bezier(.36,.07,.19,.97)}
 @keyframes lkshake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-7px)}40%,60%{transform:translateX(7px)}}
+/* 힌트: 점과 키패드 사이, 은은한 회색 */
+.lk-hint{margin-top:3.2cqh;font-size:clamp(13px,3.8cqw,15px);color:rgba(255,255,255,.55);text-shadow:0 1px 6px rgba(0,0,0,.25);letter-spacing:.02em}
 .lk-pad{--k:min(19.6cqw,10.2cqh,82px);margin-top:auto;display:grid;grid-template-columns:repeat(3,var(--k));
   column-gap:min(6.1cqw,24px);row-gap:min(2.2cqh,19px)}
 .lk-pad .k{width:var(--k);height:var(--k);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -77,6 +82,9 @@
 .lk-pad .act{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;font-size:calc(var(--k)*.22);font-weight:400;text-shadow:0 1px 6px rgba(0,0,0,.25)}
 .lk-pad .act:active{background:none;opacity:.55}
 .lk-pad .act svg{width:calc(var(--k)*.4);height:calc(var(--k)*.4);fill:none;stroke:#fff;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+/* 0은 8 바로 아래 중앙, 삭제 버튼은 0 오른쪽 */
+.lk-pad .k[data-k="0"]{grid-column:2;grid-row:4}
+#lk-act{grid-column:3;grid-row:4;justify-self:center;align-self:center;width:var(--k);height:var(--k)}
 .lk-home{position:absolute;left:50%;bottom:8px;width:min(36cqw,140px);height:5px;margin-left:calc(min(36cqw,140px)/-2);border-radius:3px;background:rgba(255,255,255,.9);z-index:3}
 
 /* Intro: incoming call and notices must sit above the lock screen */
