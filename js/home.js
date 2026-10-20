@@ -5,7 +5,7 @@
  * 아이콘 이미지로 교체: 앱 항목에 `img: "icons/kakaotalk.png"` 추가 (정사각형 PNG, 모서리는 자동 마스킹).
  * 배경 이미지로 교체: WALLPAPER 에 "url(wallpapers/bg.jpg)" 지정.
  */
-window.WALLPAPER = ""; // 예: "url(wallpapers/bg.jpg)" — 비워 두면 기본 그라데이션
+window.WALLPAPER = "url(wallpapers/bg.jpg)"; // 홈 화면과 잠금 화면이 같은 이미지를 사용합니다.
 
 const g = (id, a, b) => `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="60" height="60" fill="url(#${id})"/>`;
 
@@ -95,7 +95,7 @@ window.APPS = {
     const d = new Date(), cd = new Date(2026, 9, 19), dow = ["일","월","화","수","목","금","토"];
     /* D+ 위젯: 시작일 2023.03.01 부터 오늘까지 (당일 포함). 배경 사진은 비워 둠 */
     const days = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2023, 3, 4)) / 864e5) + 1;
-    return `<div class="wgt-wrap"><div class="wgt wgt-dd" aria-label="내 강아지 ${days}일"><div class="dd-top"><b>내 강아지</b><span>2023.04.04(화)</span></div><div class="dd-num">${days}일</div></div></div>` +
+    return `<div class="wgt-wrap"><div class="wgt wgt-dd" aria-label="내 강아지 ${days}일" style="background-image:linear-gradient(180deg,rgba(20,22,30,.42),rgba(20,22,30,.72)),url(images/app/PetWidget/8897d0ed31f5bd09bf7d95c1ed92995e.jpg)"><div class="dd-top"><b>내 강아지</b><span>2023.04.04(화)</span></div><div class="dd-num">${days}일</div></div></div>` +
       `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[cd.getDay()]}</span><span class="cw-day">${cd.getDate()}</span><span class="cw-sch"><b>최종 녹음</b></span></button></div>`;
   };
   const render = () => {
