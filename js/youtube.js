@@ -11,7 +11,7 @@
     {u:"dailylog",t:"3시간 전",x:"분위기 너무 좋다",l:18,r:0,av:"#8e6f5a"}
   ];
   const commentsByVideo = {
-    v9: [{u:"@mars_rapper",t:"2시간 전",x:"솔직히 와꾸 믿고 깝치는 것 같아서 ㅈ같았는데 그냥 인정한다. 네가 이겼다.",l:5821,r:127,av:"#5b6bc0"}, ...defaultComments.slice(1)],
+    v9: [{u:"@mars_rapper",t:"2시간 전",x:"솔직히 와꾸 믿고 나온 것 같아서 ㅈ같았는데 그냥 인정한다. 네가 이겼다.",l:5821,r:127,av:"#5b6bc0"}, ...defaultComments.slice(1)],
     v10: [{u:"@dailyissue",t:"1시간 전",x:"성공이 좋긴 좋구나",l:2408,r:36,av:"#2b2b2b"}, ...defaultComments.slice(1)],
     v11: [{u:"@drama_archive",t:"3주 전",x:"이 장면이 전회차 통틀어서 기석이를 제일 잘 보여준 것 같아서 좋았음...",l:1842,r:52,av:"#8e6f5a"}, ...defaultComments.slice(1)]
   };
