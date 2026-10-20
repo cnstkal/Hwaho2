@@ -91,3 +91,7 @@
 #screen:has(#lock:not([data-state=open])) #ft-root{z-index:100000}
 #screen:has(#lock:not([data-state=open])) #story-intro-notice{z-index:100001}
 #screen:has(#lock[data-state=pass]) #story-intro-notice,#screen:has(#lock[data-state=unlocking]) #story-intro-notice{opacity:0;pointer-events:none}
+
+#lk-del{grid-column:1;grid-row:4;justify-self:center;align-self:center;width:var(--k);height:var(--k)}
+.lk-pad .act.del svg{width:calc(var(--k)*.3);height:calc(var(--k)*.3);stroke-width:1.5}
+.lk-pad .act.del.dim{opacity:.45}
