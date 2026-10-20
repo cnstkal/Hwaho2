@@ -4,15 +4,14 @@
  const DISPATCH="https://www.dispatch.co.kr/article/1";
  const generalTone = new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3", document.currentScript?.src || location.href).href);
  const kakaoTopTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
- kakaoTopTone.preload = "auto"; kakaoTopTone.load();
- document.addEventListener("pointerdown", function unlockKakaoTopTone(){ try { kakaoTopTone.muted=true; const p=kakaoTopTone.play(); if(p&&p.then)p.then(()=>{kakaoTopTone.pause();kakaoTopTone.currentTime=0;kakaoTopTone.muted=false;}).catch(()=>{kakaoTopTone.muted=false;}); } catch(e){kakaoTopTone.muted=false;} }, {once:true,capture:true});
- function playKakaoTopTone(){try{kakaoTopTone.pause();kakaoTopTone.currentTime=0;kakaoTopTone.muted=false;kakaoTopTone.volume=1;const p=kakaoTopTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
- generalTone.preload = "auto";
- generalTone.load();
- document.addEventListener("pointerdown", function unlockGeneralTone(){
-  try { generalTone.muted = true; const p = generalTone.play(); if (p && p.then) p.then(() => { generalTone.pause(); generalTone.currentTime = 0; generalTone.muted = false; }).catch(() => { generalTone.muted = false; }); else generalTone.muted = false; } catch(e) { generalTone.muted = false; }
- }, { once: true, capture: true });
- function playGeneralTone(){try{generalTone.currentTime=0.5;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+ let audioUnlocked=false, pendingKakaoTone=false, pendingGeneralTone=false;
+ for(const tone of [generalTone,kakaoTopTone]){tone.preload="auto";tone.load();}
+ function playKakaoTopTone(){if(!audioUnlocked){pendingKakaoTone=true;return;}try{kakaoTopTone.pause();kakaoTopTone.currentTime=0;kakaoTopTone.muted=false;kakaoTopTone.volume=1;const p=kakaoTopTone.play();if(p&&p.catch)p.catch(()=>{pendingKakaoTone=true;});}catch(e){pendingKakaoTone=true;}}
+ function playGeneralTone(){if(!audioUnlocked){pendingGeneralTone=true;return;}try{generalTone.pause();generalTone.currentTime=0.5;generalTone.muted=false;generalTone.volume=1;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{pendingGeneralTone=true;});}catch(e){pendingGeneralTone=true;}}
+ document.addEventListener("pointerdown",function unlockStoryAudio(){
+  audioUnlocked=true;
+  try{const tone=pendingKakaoTone?kakaoTopTone:pendingGeneralTone?generalTone:null;if(tone){pendingKakaoTone=false;pendingGeneralTone=false;tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{});}}catch(e){}
+ },{once:true,capture:true});
  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
  const $=s=>document.querySelector(s);
