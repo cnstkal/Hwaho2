@@ -12,7 +12,6 @@ const g = (id, a, b) => `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y
 window.APPS = {
   // 홈 그리드 (위→아래, 왼→오)
   grid: [
-    { id: "calendar", label: "캘린더", dynamic: "calendar" },
     { id: "photos", label: "사진", img: "images/app/Photos/photos.svg", svg:
       `<rect width="60" height="60" fill="#fff"/><g style="mix-blend-mode:multiply"><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ffcc00"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ff9500" transform="rotate(45 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ff3b30" transform="rotate(90 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#ff2d92" transform="rotate(135 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#af52de" transform="rotate(180 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#007aff" transform="rotate(225 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#32ade6" transform="rotate(270 30 30)"/><ellipse cx="30" cy="19" rx="6.500" ry="11" fill="#34c759" transform="rotate(315 30 30)"/></g>` },
     { id: "messages", label: "메시지", img: "images/app/iMessage/ios-message.svg", svg:
@@ -90,7 +89,19 @@ window.APPS = {
   }
   // 에브리타임은 앱 데이터와 구현을 유지한 채 홈 화면에서만 숨김 처리합니다. 다시 활성화하려면 필터에서 every time 제외 조건을 제거하세요.
   const HIDDEN_HOME_APPS = new Set(["everytime"]);
-  const render = () => { renderApps(APPS.grid.filter(app => !HIDDEN_HOME_APPS.has(app.id)), $("#grid")); renderApps(APPS.dock, $("#dock")); };
+  /* 홈 위젯: 날씨(표시만) · 캘린더(누르면 캘린더 앱으로 이동). 2x2 크기로 맨 위에 놓임 */
+  const WX_ICON = `<svg class="wx-cloud" viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.6-9.96A6.5 6.5 0 0 1 19 9.5a4 4 0 0 1-.5 7.96z"/></svg>`;
+  const widgetsHtml = () => {
+    const d = new Date();
+    return `<div class="wgt wgt-wx" aria-label="서울특별시 날씨 17도 흐림"><div class="wx-city">서울특별시<svg viewBox="0 0 12 12"><path d="M6 0l6 12-6-3-6 3z"/></svg></div><div class="wx-temp">17°</div><div class="wx-foot">${WX_ICON}<div class="wx-desc">흐림</div><div class="wx-minmax">최고:20° 최저:11°</div></div></div>` +
+      `<button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span></button>`;
+  };
+  const render = () => {
+    renderApps(APPS.grid.filter(app => !HIDDEN_HOME_APPS.has(app.id)), $("#grid"));
+    $("#grid").insertAdjacentHTML("afterbegin", widgetsHtml());
+    $("#wgt-cal").addEventListener("click", () => Home.openApp("calendar"));
+    renderApps(APPS.dock, $("#dock"));
+  };
   render();
 
   /* ---------- 앱 열기/홈 복귀 훅 (앱 UI는 추후 구현) ---------- */
