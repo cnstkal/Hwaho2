@@ -1,7 +1,7 @@
 /* iOS-style lock screen (add-on). Does not touch existing storage/state. */
 (function () {
   'use strict';
-  var PW = '990323', T = 420;
+  var PW = '0323', T = 420;
   var L = document.getElementById('lock');
   if (!L) return;
   var $ = function (s) { return L.querySelector(s); };
@@ -63,9 +63,9 @@
     delBtn.classList.toggle('dim', !buf.length);
   }
   function press(d) {
-    if (state !== 'pass' || busy || checking || buf.length >= 6) return;
+    if (state !== 'pass' || busy || checking || buf.length >= PW.length) return;
     buf += d; render();
-    if (buf.length === 6) {
+    if (buf.length === PW.length) {
       checking = true;
       setTimeout(buf === PW ? ok : fail, 160);
     }
