@@ -39,7 +39,7 @@
   function tick() {
     var c = document.getElementById('clock'), m = c && c.textContent.match(/\d{1,2}:\d{2}/), d = new Date();
     $('#lk-time').textContent = m ? m[0] : (d.getHours() % 12 || 12) + ':' + ('0' + d.getMinutes()).slice(-2);
-    $('#lk-date').textContent = (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + DAYS[d.getDay()] + '요일';
+    var fd = new Date(2026, 9, 19); $('#lk-date').textContent = (fd.getMonth() + 1) + '월 ' + fd.getDate() + '일 ' + DAYS[fd.getDay()] + '요일';
     var bl = document.getElementById('bat-level'), w = bl && parseFloat(bl.style.width);
     if (w) $('.lk-bat .b i').style.width = w + '%';
   }

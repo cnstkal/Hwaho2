@@ -418,6 +418,12 @@ const KakaoApp = (() => {
     }
     D.v24 = 1; save();
   }
+  /* v25: 성현이형(c3) 대화방의 10/19 이후 기록(스토리 메시지 포함) 제거 — 10/18 이전 기록은 유지 */
+  if (D.v25 !== 1) {
+    const c3 = D.chats.find(c => c.id === "c3"), cut = new Date(2026, 9, 19).getTime();
+    if (c3) c3.msgs = c3.msgs.filter(m => !m.storySequence && (m.ts || 0) < cut);
+    D.v25 = 1; save();
+  }
   const cname = c => c.name || (fr(c.ids[0]) || {}).name || "알 수 없음";
   const col = id => { let h = 0; for (const x of id) h = (h * 41 + x.charCodeAt(0)) % 360; return `hsl(${h} 45% 68%)`; };
   const KAKAO_PHOTOS = {
@@ -445,7 +451,7 @@ const KakaoApp = (() => {
   const pad = n => String(n).padStart(2, "0"), fixedDate = new Date(2026, 9, 19), tm = ts => { const d = new Date(ts); return `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`; };
   const day = ts => { const d = new Date(ts); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }, dl = ts => { const d = new Date(ts), w = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"]; return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 ${w[d.getDay()]}`; };
   function lt(ts) {
-    const d = new Date(ts), now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), date = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const d = new Date(ts), now = new Date(2026, 9, 19), today = new Date(now.getFullYear(), now.getMonth(), now.getDate()), date = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     const diff = Math.round((today - date) / 864e5);
     if (diff === 0) return tm(ts);
     if (diff === 1) return "어제";

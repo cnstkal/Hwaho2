@@ -348,7 +348,7 @@ const MessagesApp = (() => {
   const av = (n, k) => `<div class="ms-av${k ? " " + k : ""}" style="position:relative;overflow:hidden">${k === "spam" ? "!" : esc(n.trim()[0] || "?")}</div>`;
   const pad = n => String(n).padStart(2, "0");
   function ftime(ts) {
-    const d = new Date(ts), n = new Date(), d0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()), n0 = new Date(n.getFullYear(), n.getMonth(), n.getDate()), diff = Math.round((n0 - d0) / 864e5);
+    const d = new Date(ts), n = new Date(2026, 9, 19), d0 = new Date(d.getFullYear(), d.getMonth(), d.getDate()), n0 = new Date(n.getFullYear(), n.getMonth(), n.getDate()), diff = Math.round((n0 - d0) / 864e5);
     const t = `${d.getHours() < 12 ? "오전" : "오후"} ${d.getHours() % 12 || 12}:${pad(d.getMinutes())}`;
     return diff <= 0 ? t : diff === 1 ? "어제" : diff < 7 ? "월화수목금토일".split("")[(d.getDay() + 6) % 7] + "요일" : `${d.getFullYear()}. ${d.getMonth() + 1}. ${d.getDate()}.`;
   }
