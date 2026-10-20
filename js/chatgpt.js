@@ -57,7 +57,11 @@ const GptApp = (() => {
   }
 
   /* ---------- 응답 ---------- */
+  /* 미리 준비된 질문 3개 (답변은 나중에 채움) */
+  const PRESET_Q = ["마스가 누구야?", "정윤호가 누구야?", "마스랑 정윤호는 어떤 관계야?"];
+  const PRESET_A = ["", "", ""];
   function reply(q) {
+    const pi = PRESET_Q.indexOf(q); if (pi >= 0) return PRESET_A[pi];
     const s = q.replace(/\s+/g, " ").slice(0, 40);
     if (/^(안녕|하이|hi\b|hello)/i.test(q)) return "안녕하세요! 무엇을 도와드릴까요?";
     if (/코드|code|함수|스크립트|python|파이썬|자바스크립트|javascript/i.test(q)) return ["요청하신 내용에 맞는 예시 코드예요.", "", F + "python", "def fibonacci(n):", "    a, b = 0, 1", "    for _ in range(n):", "        yield a", "        a, b = b, a + b", "", "print(list(fibonacci(10)))", F, "", "- " + T + "yield" + T + "로 값을 하나씩 만들어 **메모리를 아껴요**.", "- " + T + "list()" + T + "로 감싸면 한 번에 확인할 수 있어요."].join("\n");
@@ -137,7 +141,7 @@ const GptApp = (() => {
       : `<div class="gp-sec c">${q ? "검색 결과가 없어요" : "대화 기록이 없어요"}</div>`;
   }
   function sb(o) { $("#gp-sb").classList.toggle("open", o); $("#gp-sm").classList.toggle("on", o); if (o) { $("#gp-q").value = ""; sbList(); } else $("#gp-q").blur(); }
-  const POPS = ["pm", "pc", "pp"];
+  const POPS = ["pm", "pc", "pp", "qp"];
   function closePops() { POPS.forEach(p => $("#gp-" + p).classList.remove("on")); $("#gp-scr").classList.remove("on"); }
   function openPop(id) {
     const p = $("#gp-" + id), was = p.classList.contains("on"); closePops(); if (was) return;
@@ -146,6 +150,8 @@ const GptApp = (() => {
     if (id === "pp") { p.innerHTML = SAMPLES.map((s, i) => `<button class="gp-pi" data-a="sample" data-i="${i}">${s[0]}<b>${s[1]}</b></button>`).join(""); p.style.bottom = (el.getBoundingClientRect().bottom - $("#gp-cp").getBoundingClientRect().top + 4) + "px"; }
     p.classList.add("on"); $("#gp-scr").classList.add("on");
   }
+  function openQ() { const p = $("#gp-qp"), ta = $("#gp-ta"); if (gen) return; p.innerHTML = PRESET_Q.map((q, i) => `<button class="gp-pi" data-a="preset" data-i="${i}"><b>${q}</b></button>`).join(""); p.style.bottom = (el.getBoundingClientRect().bottom - $("#gp-cp").getBoundingClientRect().top + 4) + "px"; p.classList.add("on"); $("#gp-scr").classList.add("on"); }
+  function sendPreset(i) { let c = chat(); const q = PRESET_Q[i]; if (!c) { c = { id: "c" + Date.now().toString(36), title: q.slice(0, 40), ts: 0, msgs: [] }; S.chats.push(c); cur = c.id; } c.msgs.push({ r: "u", t: q }); c.ts = Date.now(); save(); start(c, q); }
   function sheet(o) { $("#gp-sh").classList.toggle("on", o); $("#gp-dim").classList.toggle("on", o); const b = $("#gp-clr"); b.dataset.s = ""; b.querySelector("b").textContent = "모든 대화 삭제"; }
   function newChat() { stop(); cur = null; closePops(); render(); sb(false); }
 
@@ -162,7 +168,7 @@ const GptApp = (() => {
     <button class="gp-bt pl" id="gp-ac" data-a="act"></button></div>
     </div>
   <div class="gp-scr" id="gp-scr" data-a="scr"></div>
-  <div class="gp-pop" id="gp-pm"></div><div class="gp-pop" id="gp-pc"></div><div class="gp-pop" id="gp-pp"></div>
+  <div class="gp-pop" id="gp-qp"></div><div class="gp-pop" id="gp-pm"></div><div class="gp-pop" id="gp-pc"></div><div class="gp-pop" id="gp-pp"></div>
   <div class="gp-sm" id="gp-sm" data-a="sbclose"></div>
   <aside class="gp-sb" id="gp-sb"><div class="gp-st"><img class="gp-sidebar-logo" src="https://raw.githubusercontent.com/cnstkal/Hwaho2/main/images/app/ChatGPT/IMG_7156.png" alt=""><b>ChatGPT</b><span class="gp-sp"></span>
     <button class="gp-ib" data-a="new" aria-label="새 채팅">${I.compose}</button><button class="gp-ib" data-a="sbclose" aria-label="사이드바 닫기">${I.x}</button></div>
@@ -186,6 +192,7 @@ const GptApp = (() => {
       case "model": case "more": case "plus": openPop(a === "model" ? "pm" : a === "more" ? "pc" : "pp"); break;
       case "scr": closePops(); break;
       case "pickm": S.model = +b.dataset.i; save(); closePops(); render(true); break;
+      case "preset": { const i = +b.dataset.i; closePops(); $("#gp-ta").blur(); sendPreset(i); break; }
       case "sample": { const t = $("#gp-ta"); t.value = SAMPLES[+b.dataset.i][2]; closePops(); fit(); btn(); t.focus(); break; }
       case "act": if (gen) stop(); else if ($("#gp-ta").value.trim()) send(); else mic(); break;
       case "cc": copy(b.closest(".gp-cb").querySelector("code").textContent); flash(b, I.check + "<span>복사됨</span>"); break;
@@ -200,6 +207,7 @@ const GptApp = (() => {
   });
   const ta = $("#gp-ta");
   ta.addEventListener("input", () => { fit(); btn(); });
+  ta.addEventListener("focus", () => openQ());
   ta.addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !e.isComposing && !matchMedia("(pointer:coarse)").matches) { e.preventDefault(); send(); } });
   $("#gp-q").addEventListener("input", sbList);
   let tx = null; const sbEl = $("#gp-sb");

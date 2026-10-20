@@ -38,11 +38,12 @@
   })();
   /* 추가 일정: 기존 기기 저장 데이터에도 한 번만 반영 */
   (function addRequestedEvents() {
-    const KEY = "ioshome.calendar.userEvents.v1";
+    const KEY = "ioshome.calendar.userEvents.v2";
     if (load(KEY, false)) return;
     const extra = [
       { id: "user-yunho-japan-202610", title: "윤호랑 일본❤️", loc: "", notes: "", allDay: true, start: "2026-10-25T00:00", end: "2026-10-28T23:59", cal: "personal", rep: "", trv: "0", alr: "", url: "" },
-      { id: "user-anniversary-20261120", title: "7주년 ❤️", loc: "", notes: "", allDay: true, start: "2026-11-20T00:00", end: "2026-11-20T23:59", cal: "important", rep: "", trv: "0", alr: "", url: "" }
+      { id: "user-anniversary-20261120", title: "7주년 ❤️", loc: "", notes: "", allDay: true, start: "2026-11-20T00:00", end: "2026-11-20T23:59", cal: "important", rep: "", trv: "0", alr: "", url: "" },
+      { id: "user-final-recording-20261019", title: "최종 녹음", loc: "", notes: "", allDay: true, start: "2026-10-19T00:00", end: "2026-10-19T23:59", cal: "personal", rep: "", trv: "0", alr: "", url: "" }
     ];
     const ids = new Set(events.map(e => e.id));
     extra.forEach(e => { if (!ids.has(e.id)) events.push(e); });
@@ -441,9 +442,10 @@ ${editing ? '<div class="grp"><button class="row danger" data-act="ask-del">일�
         S.m = +t.dataset.m; S.view = "month";
         S.sel = `${S.y}-${pad(S.m + 1)}` === today.slice(0, 7) ? today : `${S.y}-${pad(S.m + 1)}-01`; render(); break;
       }
-      case "search": case "upcoming": S.view = "search"; S.q = ""; render(); break;
+      case "search": break; /* 검색 버튼: 반응 없음 */
+      case "upcoming": S.view = "search"; S.q = ""; render(); break;
       case "search-close": S.view = "month"; render(); break;
-      case "add": openEditor(null); break;
+      case "add": break; /* 추가(+) 버튼: 반응 없음 */
       case "today": { today = FIXED_TODAY; const d = pd(FIXED_TODAY); if (S.view === "year" || S.view === "search") S.view = "month"; S.sc = null; setMonth(d.getFullYear(), d.getMonth()); S.sel = today; render(); break; }
       case "cals": openCals(); break;
       case "ev-open": { const k = t.dataset.k; if (S.view === "search" && k) { S.sel = k; const d = pd(k); setMonth(d.getFullYear(), d.getMonth()); } openDetail(t.dataset.id, k); break; }

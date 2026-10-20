@@ -36,4 +36,4 @@
   #notes-app.hwaho-launching, #nt-app.hwaho-launching {
     animation-duration: .01ms !important;
   }
-}
+}#cam-app.hwaho-launching { animation: hwahoFrommStyleLaunch .38s cubic-bezier(.22,.8,.3,1) both !important; transform-origin: center center; }

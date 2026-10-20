@@ -94,8 +94,8 @@ window.APPS = {
   const widgetsHtml = () => {
     const d = new Date(), dow = ["일","월","화","수","목","금","토"];
     /* D+ 위젯: 시작일 2023.03.01 부터 오늘까지 (당일 포함). 배경 사진은 비워 둠 */
-    const days = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2023, 2, 1)) / 864e5) + 1;
-    return `<div class="wgt-wrap"><div class="wgt wgt-dd" aria-label="윤호 ${days}일"><div class="dd-top"><b>윤호</b><span>2023.03.01(수)</span></div><div class="dd-num">${days}일</div></div></div>` +
+    const days = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2023, 3, 4)) / 864e5) + 1;
+    return `<div class="wgt-wrap"><div class="wgt wgt-dd" aria-label="내 강아지 ${days}일"><div class="dd-top"><b>내 강아지</b><span>2023.04.04(화)</span></div><div class="dd-num">${days}일</div></div></div>` +
       `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span><span class="cw-sch"><b>최종 녹음</b></span></button></div>`;
   };
   const render = () => {

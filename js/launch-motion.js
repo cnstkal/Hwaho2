@@ -1,6 +1,6 @@
 /* Shared app launch animation: observe every app's existing visible/open state. */
 (() => {
-  const ids = ["cal-app","pho-app","msg-app","tel-app","saf-app","kko-app","ig-app","clk-app","x-app","et-app","gp-app","sp-app","fm-app","yt-app","nf-app","dg-app","bm-app","am-app","notes-app","nt-app"];
+  const ids = ["cam-app","cal-app","pho-app","msg-app","tel-app","saf-app","kko-app","ig-app","clk-app","x-app","et-app","gp-app","sp-app","fm-app","yt-app","nf-app","dg-app","bm-app","am-app","notes-app","nt-app"];
   const roots = ids.map(id => document.getElementById(id)).filter(Boolean);
   const wasActive = new WeakMap();
   const timers = new WeakMap();
