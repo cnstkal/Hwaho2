@@ -5,8 +5,10 @@
  document.head.appendChild(style);
  const root=document.createElement("div");root.id="story-ui";document.querySelector("#screen")?.appendChild(root);
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
- const generalNotificationTone=new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3",document.currentScript?.src||location.href).href);generalNotificationTone.preload="auto";
- function playGeneralNotificationTone(){try{generalNotificationTone.pause();generalNotificationTone.currentTime=0.5;generalNotificationTone.volume=1;const p=generalNotificationTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+ const generalNotificationTone=new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3",document.currentScript?.src||location.href).href);generalNotificationTone.preload="auto";generalNotificationTone.load();
+ let storyGeneralAudioUnlocked=false,storyGeneralAudioPending=false;
+ document.addEventListener("pointerdown",function unlockGeneralStoryAudio(){storyGeneralAudioUnlocked=true;try{generalNotificationTone.muted=true;const p=generalNotificationTone.play();if(p&&p.then)p.then(()=>{generalNotificationTone.pause();generalNotificationTone.currentTime=0;generalNotificationTone.muted=false;if(storyGeneralAudioPending){storyGeneralAudioPending=false;playGeneralNotificationTone();}}).catch(()=>{generalNotificationTone.muted=false;});}catch(e){generalNotificationTone.muted=false;}},{once:true,capture:true});
+ function playGeneralNotificationTone(){if(!storyGeneralAudioUnlocked){storyGeneralAudioPending=true;return;}try{generalNotificationTone.pause();generalNotificationTone.currentTime=0.5;generalNotificationTone.muted=false;generalNotificationTone.volume=1;const p=generalNotificationTone.play();if(p&&p.catch)p.catch(()=>{storyGeneralAudioPending=true;});}catch(e){storyGeneralAudioPending=true;}}
  const MANAGER="성현이형(매니저)";
  /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
  const DENY_TITLE="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
