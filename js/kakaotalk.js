@@ -14,7 +14,7 @@ const KakaoApp = (() => {
       if (p && p.then) p.then(() => { kakaoTone.pause(); kakaoTone.currentTime = 0; }).catch(() => {});
     } catch(e) {}
   }, { once: true, capture: true });
-  function playKakaoTone(){try{kakaoTone.currentTime=0;const p=kakaoTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
+  function playKakaoTone(){try{kakaoTone.pause();kakaoTone.currentTime=0; kakaoTone.volume=1; const p=kakaoTone.play();if(p&&p.catch)p.catch(()=>{ });}catch(e){}}
   function playNotificationTone(){playKakaoTone();}
   const I = {
     search: ic('<circle cx="10.500" cy="10.500" r="6.500"/><path d="M15.500 15.500l5 5"/>'), add: ic('<circle cx="10" cy="8" r="3.500"/><path d="M3.500 19.500c.8-3.500 3.200-5 6.500-5s5.700 1.500 6.500 5M19 8v6M16 11h6"/>'),
