@@ -76,7 +76,7 @@ const GptApp = (() => {
   /* ---------- 렌더링 ---------- */
   const acHtml = last => `<div class="gp-ac"><button data-a="cm" aria-label="복사">${I.copy}</button>${last ? `<button data-a="rg" aria-label="다시 생성">${I.redo}</button>` : ""}</div>`;
   const msgHtml = (m, i, last) => m.r === "u" ? `<div class="gp-m u" data-i="${i}">${esc(m.t)}</div>`
-    : `<div class="gp-m a" data-i="${i}"><div class="gp-tx">${m.t ? md(m.t) : '<div class="gp-dot"></div>'}</div>${m.t && !(gen && gen.m === m) ? acHtml(last) : ""}${m.t && m.fu !== undefined && !(gen && gen.m === m) ? `<div class="gp-fus">${FOLLOW[m.fu].map((f, k) => `<button class="gp-fu" data-a="fu" data-p="${m.fu}" data-i="${k}">${esc(f.q)}</button>`).join("")}</div>` : ""}</div>`;
+    : `<div class="gp-m a" data-i="${i}"><div class="gp-tx">${m.t ? md(m.t) : '<div class="gp-dot"></div>'}</div>${m.t && !(gen && gen.m === m) ? acHtml(last) : ""}</div>`;
   const toBottom = () => requestAnimationFrame(() => { const s = $("#gp-sc"); s.scrollTop = s.scrollHeight; });
   function render(keep) {
     const c = chat(), has = c && c.msgs.length, bd = $("#gp-bd");
@@ -111,7 +111,7 @@ const GptApp = (() => {
     gen.tm = setTimeout(function tick() {
       if (!gen || gen.m !== m) return;
       n = Math.min(full.length, n + step + (Math.random() * 2 | 0)); m.t = full.slice(0, n); stream(m);
-      if (n >= full.length) { gen = null; const pi = PRESET_Q.indexOf(q); if (FOLLOW[pi]) m.fu = pi; save(); btn(); render(true); } else gen.tm = setTimeout(tick, 28);
+      if (n >= full.length) { gen = null; save(); btn(); render(true); } else gen.tm = setTimeout(tick, 28);
     }, 700);
   }
   function stop() {
@@ -153,7 +153,9 @@ const GptApp = (() => {
     if (id === "pp") { p.innerHTML = SAMPLES.map((s, i) => `<button class="gp-pi" data-a="sample" data-i="${i}">${s[0]}<b>${s[1]}</b></button>`).join(""); p.style.bottom = (el.getBoundingClientRect().bottom - $("#gp-cp").getBoundingClientRect().top + 4) + "px"; }
     p.classList.add("on"); $("#gp-scr").classList.add("on");
   }
-  function openQ() { const p = $("#gp-qp"), ta = $("#gp-ta"); if (gen) return; p.innerHTML = PRESET_Q.map((q, i) => `<button class="gp-pi" data-a="preset" data-i="${i}"><b>${q}</b></button>`).join(""); p.style.bottom = (el.getBoundingClientRect().bottom - $("#gp-cp").getBoundingClientRect().top + 4) + "px"; p.classList.add("on"); $("#gp-scr").classList.add("on"); }
+  /* 선택창 목록: 기본은 질문 3개, "마스가 누구야?" 를 고른 뒤에는 마스 대신 "쇼미더머니 43" 이 붙음 */
+  function pickList() { const c = chat(); const last = c && [...c.msgs].reverse().find(m => m.r === "u"); if (last && last.t === PRESET_Q[0]) return [{ q: PRESET_Q[1], preset: 1 }, { q: PRESET_Q[2], preset: 2 }, { q: FOLLOW[0][0].q, fu: [0, 0] }]; return PRESET_Q.map((q, i) => ({ q, preset: i })); }
+  function openQ() { const p = $("#gp-qp"), ta = $("#gp-ta"); if (gen) return; p.innerHTML = pickList().map(it => it.fu ? `<button class="gp-pi" data-a="fu" data-p="${it.fu[0]}" data-i="${it.fu[1]}"><b>${it.q}</b></button>` : `<button class="gp-pi" data-a="preset" data-i="${it.preset}"><b>${it.q}</b></button>`).join(""); p.style.bottom = (el.getBoundingClientRect().bottom - $("#gp-cp").getBoundingClientRect().top + 4) + "px"; p.classList.add("on"); $("#gp-scr").classList.add("on"); }
   function sendPreset(i) { let c = chat(); const q = PRESET_Q[i]; if (!c) { c = { id: "c" + Date.now().toString(36), title: q.slice(0, 40), ts: 0, msgs: [] }; S.chats.push(c); cur = c.id; } c.msgs.push({ r: "u", t: q }); c.ts = Date.now(); save(); start(c, q); }
   function sheet(o) { $("#gp-sh").classList.toggle("on", o); $("#gp-dim").classList.toggle("on", o); const b = $("#gp-clr"); b.dataset.s = ""; b.querySelector("b").textContent = "모든 대화 삭제"; }
   function newChat() { stop(); cur = null; closePops(); render(); sb(false); }
