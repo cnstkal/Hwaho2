@@ -239,6 +239,18 @@ const PhoneApp = (() => {
     });
     D.v24 = 1; save();
   }
+  if (D.v25 !== 1) {
+    const yunho = D.contacts.find(x => x.name === "윤둥이");
+    if (yunho) {
+      const yesterdayStart = new Date("2026-10-20T00:00:00+09:00").getTime();
+      const todayStart = new Date("2026-10-21T00:00:00+09:00").getTime();
+      const yesterdayCall = D.calls
+        .filter(x => String(x.num) === String(yunho.num) && x.ts >= yesterdayStart && x.ts < todayStart)
+        .sort((a, b) => b.ts - a.ts)[0];
+      if (yesterdayCall) yesterdayCall.dur = 182;
+    }
+    D.v25 = 1; save();
+  }
   const gotoMsg = n => { closeApp(); if (window.Home) Home.openApp("messages"); setTimeout(() => window.MessagesApp && MessagesApp.chat(n), 80); };
   function recordStoryMissedCall(name,key){if(key&&D.calls.some(x=>x.storyKey===key))return;const c=D.contacts.find(x=>x.name===name);D.calls.unshift({id:uid(),num:c?c.num:name,dir:"miss",ts:new Date("2026-10-19T16:45:00+09:00").getTime(),dur:0,storyKey:key||""});save();if(isOpen)render();}
 
