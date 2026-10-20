@@ -79,6 +79,7 @@
   if(yunhoIndex>=yunhoLines.length)return;
   const isDot=yunhoIndex===DOT_IDX;
   const [from,msg,at]=yunhoLines[yunhoIndex++];
+  if(Array.isArray(at)&&window.HwahoClock)HwahoClock.set(at[0],at[1],0);
   if(isDot)dotAt=0;
   persist();KakaoApp.appendStoryMessage(msg,"text","","c0",from,at);hint();
  }
