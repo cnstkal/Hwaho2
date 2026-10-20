@@ -12,7 +12,7 @@
  const MANAGER="성현이형(매니저)";
  /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
  const DENY_TITLE="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
- const DENY_URL="https://entertain.naver.com/article/sample/4";
+ const DENY_URL="https://entertain.naver.com/article/7418206";
  const MANAGER_Q="너 윤호랑 헤어졌냐?",BRO="형",BRO_REPLY="뭔솔?";
  /* 윤호 카톡: 첫 메시지는 '배고팡', 나머지는 기존 대사 그대로 (탭할 때마다 한 줄씩) */
  const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","윤호야아...",[16,2]],["f0",".",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,15]],["f0","빨리왕 💗",[16,15]]];
@@ -26,7 +26,7 @@
  /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 유지 ---- */
  const KEY="hwaho-story-v1";
  const STAGES=["manager-wait","manager-msg","brother-chat","brother-link","deny-reading","yunho-call","yunho-alert","yunho-chat","ig-alert","instagram","final-wait","final-alert","final-article"];
- const FINAL_URL="https://entertain.naver.com/article/sample/6",NAVER_ICON="images/app/Naver/IMG_7151.png",FINAL_TITLE="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”",FINAL_DELAY=6000;
+ const FINAL_URL="https://entertain.naver.com/article/9263514",NAVER_ICON="images/app/Naver/IMG_7151.png",FINAL_TITLE="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”",FINAL_DELAY=6000;
  let stage="idle",started=false,yunhoIndex=0,viewedAt=0,igViewedAt=0,dotAt=0;
  const persist=()=>{if(!started)return;const v={v:2,started:true,stage,yunhoIndex,brotherIndex,viewedAt,igViewedAt,dotAt};try{if(window.HwahoStability)window.HwahoStability.writeJSON(KEY,v);else localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
  const setStage=s=>{stage=s;persist();};
