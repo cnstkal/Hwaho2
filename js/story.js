@@ -5,6 +5,8 @@
  document.head.appendChild(style);
  const root=document.createElement("div");root.id="story-ui";document.querySelector("#screen")?.appendChild(root);
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
+ const generalNotificationTone=new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3",document.currentScript?.src||location.href).href);generalNotificationTone.preload="auto";
+ function playGeneralNotificationTone(){try{generalNotificationTone.pause();generalNotificationTone.currentTime=0.5;generalNotificationTone.volume=1;const p=generalNotificationTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
  const MANAGER="성현이형(매니저)";
  /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
  const DENY_TITLE="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
@@ -33,7 +35,7 @@
  const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
  const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
 
- const toast=(name,msg,app="KakaoTalk")=>{const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
+ const toast=(name,msg,app="KakaoTalk")=>{if(app==="Instagram"||app==="Naver")playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
  function openBrother(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
