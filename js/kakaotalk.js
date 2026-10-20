@@ -69,9 +69,6 @@ const KakaoApp = (() => {
         { id: uid(), from: "me", text: "사랑해❤️", ts: new Date("2026-10-17T17:21:20+09:00").getTime() },
         { id: uid(), from: "f0", text: "나두", ts: new Date("2026-10-17T17:22:00+09:00").getTime() },
 
-        { id: uid(), from: "me", text: "윤호야 너 들은 거 잇어?", ts: new Date("2026-10-18T14:20:00+09:00").getTime() },
-        { id: uid(), from: "me", text: "난 없는데 진짜 미치겠다", ts: new Date("2026-10-18T14:20:20+09:00").getTime() },
-        { id: uid(), from: "me", text: "회사야? 내가 갈까?", ts: new Date("2026-10-18T14:20:40+09:00").getTime() },
         { id: uid(), from: "me", text: "똑똑", ts: new Date("2026-10-18T15:18:00+09:00").getTime() },
         { id: uid(), from: "me", text: "혹시 나도 모르는 사이에 우리 헤어진거 아니지?", ts: new Date("2026-10-18T15:18:20+09:00").getTime() },
         { id: uid(), from: "me", text: "전화 좀 받아 ㅜㅜ", ts: new Date("2026-10-18T15:18:40+09:00").getTime() }
