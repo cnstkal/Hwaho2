@@ -8,23 +8,7 @@
  for(const tone of [generalTone,kakaoTopTone]){tone.preload="auto";tone.load();}
  function playKakaoTopTone(){/* Keep external background music playing; browser audio focus would interrupt it. */}
  function playGeneralTone(){/* Notification visuals remain; no audio focus interruption. */}
- document.addEventListener("pointerdown",function unlockStoryAudio(){
-  audioUnlocked=true;
-  /* iOS Safari must start each audio element during a real user gesture.
-     Muted priming here lets later story timers replay the same elements. */
-  for(const tone of [generalTone,kakaoTopTone]){
-   try{
-    const wasMuted=tone.muted;tone.muted=true;tone.volume=1;
-    const p=tone.play();
-    if(p&&p.then)p.then(()=>{tone.pause();try{tone.currentTime=0;}catch(e){}tone.muted=wasMuted;}).catch(()=>{tone.muted=wasMuted;});
-    else {tone.pause();tone.muted=wasMuted;}
-   }catch(e){tone.muted=false;}
-  }
-  const queuedKakao=pendingKakaoTone, queuedGeneral=pendingGeneralTone;
-  pendingKakaoTone=false;pendingGeneralTone=false;
-  if(queuedKakao||queuedGeneral){const tone=queuedKakao?kakaoTopTone:generalTone;try{tone.muted=false;tone.volume=1;tone.currentTime=tone===generalTone?0.5:0;const p=tone.play();if(p&&p.catch)p.catch(()=>{if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;});}catch(e){if(tone===kakaoTopTone)pendingKakaoTone=true;else pendingGeneralTone=true;}}
- },{once:true,capture:true});
- const ACK="https://entertain.naver.com/article/sample/3";
+  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
  const $=s=>document.querySelector(s);
  const saved=(()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){return null}})();
