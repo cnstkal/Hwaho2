@@ -225,7 +225,7 @@ const PhoneApp = (() => {
       case "delcon": confirmSheet("이 연락처를 삭제할까요?", "연락처 삭제", "dodelcon", `data-id="${d.id}"`); break;
       case "dodelcon": D.contacts = D.contacts.filter(c => c.id !== d.id); save(); closeSheet(); ovs = []; renderOv(); render(); break;
       case "sheetx": closeSheet(); break;
-      case "key": if (keyNum.length < 20) { keyNum += d.k; updKey(); } break;
+      case "key": break; /* 키패드 입력 고정: 아무 동작 없음 */
       case "keydel": keyNum = keyNum.slice(0, -1); updKey(); break;
       case "keycall": { if (!keyNum) { const l = D.calls.filter(c => c.dir === "out").sort((a, b) => b.ts - a.ts)[0]; if (l) { keyNum = l.num; updKey(); } break; } const n = keyNum; startCall(n); break; }
       case "cmute": call.mute ^= 1; renderCall(); break;
@@ -234,7 +234,7 @@ const PhoneApp = (() => {
       case "crec": call.rec ^= 1; renderCall(); break;
       case "ckeys": call.keys = true; renderCall(); break;
       case "ckeyx": call.keys = false; renderCall(); break;
-      case "ckey": call.dt += d.k; renderCall(); break;
+      case "ckey": break; /* 통화 중 키패드 입력 고정 */
       case "endcall": endCall(); break;
     }
   });

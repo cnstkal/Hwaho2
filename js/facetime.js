@@ -181,7 +181,7 @@ const FaceTimeApp = (() => {
       case "accept":openCall();break;
       case "end":endCall();break;
       case "mute":case "speaker":b.classList.toggle("off");break;
-      case "keypad":case "add":b.classList.toggle("off");break;
+      case "keypad":break; /* 키패드 고정: 아무 동작 없음 */case "add":b.classList.toggle("off");break;
     }
   });
   document.addEventListener("app:close",()=>{stopRingtone();if(state==="call")endCall();});
