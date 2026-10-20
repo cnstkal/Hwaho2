@@ -99,7 +99,7 @@ const FaceTimeApp = (() => {
   let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false, curKind = "", lastOpts = null;
   const storyStarted = () => !!(window.HwahoStory && window.HwahoStory.started);
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
-  const ringtone = new Audio(new URL("../audio/iphone-original-ringtone.mp3", document.currentScript?.src || location.href).href);
+  const ringtone = new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3", document.currentScript?.src || location.href).href);
   ringtone.loop = true;
   ringtone.preload = "auto";
   ringtone.load();
