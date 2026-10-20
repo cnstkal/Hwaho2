@@ -37,7 +37,7 @@
  const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
  const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
 
- const toast=(name,msg,app="KakaoTalk")=>{playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
+ const toast=(name,msg,app="KakaoTalk")=>{if(app==="KakaoTalk"&&window.KakaoApp&&typeof KakaoApp.playNotificationTone==="function")KakaoApp.playNotificationTone();else playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
  function openBrother(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
