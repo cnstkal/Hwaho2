@@ -181,6 +181,13 @@ const PhoneApp = (() => {
     if (m && !D.calls.some(x => x.blueRecord === "mom-call-jul3")) D.calls.push({ id: uid(), num: m.num, dir: "in", ts: new Date("2026-07-03T20:10:00+09:00").getTime(), dur: 210, blueRecord: "mom-call-jul3", fixed: 1 });
     D.v19 = 1; save();
   }
+  if (D.v22 !== 1) {
+    const y = D.contacts.find(c => c.name === "윤둥이");
+    if (y) {
+      D.calls = D.calls.filter(c => !(String(c.num) === String(y.num) && c.dir === "in" && c.dur === 5400));
+    }
+    D.v22 = 1; save();
+  }
   if (D.v21 !== 1) {
     const y = D.contacts.find(c => c.name === "윤둥이");
     const sh = D.contacts.find(c => c.name === "성현이형(매니저)");
