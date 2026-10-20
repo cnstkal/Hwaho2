@@ -524,7 +524,6 @@ const KakaoApp = (() => {
     if (!D.chats.includes(c)) D.chats.push(c); c.msgs.push({ id: uid(), from: "me", text, ts: Date.now() }); c.unread = 0; inp().value = ""; grow(); save(); room();
     if (!c.ad) setTimeout(() => {
       c.msgs.push({ id: uid(), from: c.ids[Math.floor(Math.random() * c.ids.length)], text: REPLIES[Math.floor(Math.random() * REPLIES.length)], ts: Date.now() });
-       playKakaoTone();
       if (!cur || cur.id !== c.id) c.unread = (c.unread || 0) + 1; save(); if (cur && cur.id === c.id) room(); else renderMain();
     }, 1500 + Math.random() * 1500);
   }
