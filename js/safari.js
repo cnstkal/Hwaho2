@@ -120,6 +120,7 @@ const SafariApp = (() => {
     ref: '<svg viewBox="0 0 24 24" fill="none" stroke="#222" stroke-width="1.700" stroke-linecap="round" stroke-linejoin="round"><path d="M19.500 12a7.500 7.500 0 1 1-2.300-5.400M19.500 4v4.500H15"/></svg>'
   };
   const nvCard = (bg, ico, t, hue) => `<div class="nv-cd" style="background:${bg}"><div class="nv-cg"></div><div class="nv-ct"><i style="background:hsl(${hue} 55% 55%)">${ico}</i><b>${t}</b></div></div>`;
+  const nvTop = () => [NVN[5], NVN[0]].map(a => `<div class="nv-tp" data-nv="nws" data-id="${a.id}"><small>${a.outlet} · ${a.ago}</small><b>${esc(a.title)}</b></div>`).join("");
   function nvMain() {
     return `<div class="nv"><div class="nv-main">
 <div class="nv-bar"><div class="nv-l"><span class="nv-ic">${nvI.menu}</span><span class="nv-ic pay">${nvI.pay}</span></div><div class="nv-r"><span class="nv-ic bell">${nvI.bell}<em>48</em></span><span class="nv-ic">${nvI.user}</span></div></div>
@@ -127,7 +128,7 @@ const SafariApp = (() => {
 
 <div class="nv-sv"><span>${nvI.mail}메일</span><span>${nvI.cafe}카페</span><span>${nvI.shop}쇼핑</span><u></u><span class="t">뉴스</span><span class="t">엔터</span><span class="t">지식</span><span class="t">쇼핑라이브</span><span class="t">웹툰</span><span class="t">블로그</span><span class="t">지도</span></div>
 <div class="nv-wx"><span class="w">${nvI.moon}<b>18°</b><b>서울</b></span><i></i><span class="s">나스닥 종합 <b>27,366.17</b> <em>▲0.64%</em></span></div>
-<div class="nv-cs">${nvCard("linear-gradient(160deg,#8fc8ef,#e8f5ff 55%,#f6d78b)", "☀️", "서울 · 맑음 18°", 8)}${nvCard("linear-gradient(160deg,#9db5ca,#e7edf2 55%,#d4dce7)", "🌤️", "내일 · 구름 조금 20°", 30)}${nvCard("linear-gradient(160deg,#8ba8c7,#dbe6ef 55%,#f2e5c9)", "🌦️", "주간 날씨 · 16°~22°", 210)}</div>
+${nvTop()}
 </div><div class="nv-sr"></div></div>`;
   }
   const nvRecent = () => NV.recent.length ? NV.recent.map(r => `<div class="nv-rr" data-nv="rc" data-id="${r.id}"><span class="c">${nvI.clock}</span><b>${esc(r.q)}</b><small>${r.d}</small><button class="x" data-nv="rx" data-id="${r.id}" aria-label="삭제">${nvI.x}</button></div>`).join("") : `<div class="nv-em">최근 검색어가 없습니다.</div>`;
