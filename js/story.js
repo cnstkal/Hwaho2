@@ -89,7 +89,7 @@
  /* 8. 윤호 새 게시물을 실제로 확인한 뒤 3초 후 네이버 최종 인정 기사 알림 */
  function finalAlert(){if(stage!=="final-wait")return;if(window.HwahoClock)HwahoClock.set(16,45,0);setStage("final-alert");toast("네이버 뉴스",FINAL_TITLE,"Naver");}
  function scheduleFinal(ms){later("final",finalAlert,Math.max(0,ms));}
- document.addEventListener("story:yunho-post-viewed",()=>{if(stage!=="instagram"||igViewedAt)return;igViewedAt=Date.now();setStage("final-wait");scheduleFinal(FINAL_DELAY);});
+ document.addEventListener("story:yunho-post-viewed",()=>{if(stage!=="instagram"||igViewedAt)return;igViewedAt=performance.now();setStage("final-wait");scheduleFinal(FINAL_DELAY);});
  document.addEventListener("story:final-article-viewed",()=>{if(stage==="final-alert"||stage==="final-article"){root.innerHTML="";setStage("final-article");}});
  /* 7. 윤호 카톡 대화가 끝나면 즉시 인스타 알림 */
  function scheduleInstagramAlert(){later("ig",()=>{if(stage!=="yunho-chat")return;setStage("ig-alert");toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},1500);}
@@ -112,7 +112,7 @@
  /* 열애 부인 기사가 실제로 열린 시점부터 7초 */
  document.addEventListener("story:deny-article-viewed",()=>{
   if((stage!=="brother-link"&&stage!=="deny-reading")||viewedAt)return;
-  root.innerHTML="";viewedAt=Date.now();setStage("deny-reading");scheduleCall(9000);
+  root.innerHTML="";viewedAt=performance.now();setStage("deny-reading");scheduleCall(9000);
  });
  document.addEventListener("story:call-ended",e=>{if(e.detail&&e.detail.kind==="yunho")yunhoAfterCall();});
 
@@ -127,12 +127,12 @@
    case "manager-msg":bro1();toast(BRO,MANAGER_Q);break;
    case "brother-chat":bro1();break;
    case "brother-link":bro1();broReply();broCare1();broCare2();bro2();break;
-   case "deny-reading":if(viewedAt)scheduleCall(9000-(Date.now()-viewedAt));break;
+   case "deny-reading":if(viewedAt)scheduleCall(9000-(performance.now()-viewedAt));break;
    case "yunho-call":ringYunho();break;
    case "yunho-alert":toast("윤둥이",yunhoLines[0][1]);break;
    case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();break;
    case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
-   case "final-wait":scheduleFinal(FINAL_DELAY-(Date.now()-igViewedAt));break;
+   case "final-wait":scheduleFinal(FINAL_DELAY-(performance.now()-igViewedAt));break;
    case "final-alert":toast("네이버 뉴스",FINAL_TITLE,"Naver");break;
   }
  }
