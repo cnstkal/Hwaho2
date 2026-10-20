@@ -7,7 +7,7 @@
  const KAKAO_ICON="images/app/KakaoTalk/IMG_7149.png";
  const generalNotificationTone=new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone%20trimmed.mp3",document.currentScript?.src||location.href).href);generalNotificationTone.preload="auto";generalNotificationTone.load();
  let storyGeneralAudioUnlocked=false,storyGeneralAudioPending=false;
- document.addEventListener("pointerdown",function unlockGeneralStoryAudio(){storyGeneralAudioUnlocked=true;try{generalNotificationTone.muted=true;const p=generalNotificationTone.play();if(p&&p.then)p.then(()=>{generalNotificationTone.pause();generalNotificationTone.currentTime=0;generalNotificationTone.muted=false;if(storyGeneralAudioPending){storyGeneralAudioPending=false;playGeneralNotificationTone();}}).catch(()=>{generalNotificationTone.muted=false;});}catch(e){generalNotificationTone.muted=false;}},{once:true,capture:true});
+ document.addEventListener("pointerdown",function unlockGeneralStoryAudio(){storyGeneralAudioUnlocked=true;try{generalNotificationTone.muted=true;const p=generalNotificationTone.play();if(p&&p.then)p.then(()=>{generalNotificationTone.pause();generalNotificationTone.currentTime=0;generalNotificationTone.muted=false;if(storyGeneralAudioPending){storyGeneralAudioPending=false;playGeneralNotificationTone();}}).catch(()=>{generalNotificationTone.muted=false;storyGeneralAudioUnlocked=false;});}catch(e){generalNotificationTone.muted=false;storyGeneralAudioUnlocked=false;}},{once:true,capture:true});
  function playGeneralNotificationTone(){if(!storyGeneralAudioUnlocked){storyGeneralAudioPending=true;return;}try{generalNotificationTone.pause();generalNotificationTone.currentTime=0.5;generalNotificationTone.muted=false;generalNotificationTone.volume=1;const p=generalNotificationTone.play();if(p&&p.catch)p.catch(()=>{storyGeneralAudioPending=true;});}catch(e){storyGeneralAudioPending=true;}}
  const MANAGER="성현이형(매니저)";
  /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
@@ -37,7 +37,7 @@
  const later=(k,fn,ms)=>{clearTimeout(timers[k]);timers[k]=setTimeout(()=>{delete timers[k];fn();},ms);};
  const cancel=k=>{clearTimeout(timers[k]);delete timers[k];};
 
- const toast=(name,msg,app="KakaoTalk")=>{if(app==="KakaoTalk"&&window.KakaoApp&&KakaoApp.playNotificationTone)KakaoApp.playNotificationTone();else playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
+ const toast=(name,msg,app="KakaoTalk")=>{playGeneralNotificationTone();const icon=app==="Instagram"?"images/app/Instagram/IMG_7148.png":app==="Naver"?NAVER_ICON:KAKAO_ICON;root.innerHTML='<button class="toast" data-story="open"><img class="ico" src="'+icon+'" alt=""><span class="copy"><b>'+name+'</b><span class="preview">'+msg+'</span></span><span class="when">지금</span></button>';};
  function openManager(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c3");}
  function forceSafari(url){if(window.Home)Home.openApp("safari");if(window.SafariApp){SafariApp.open();SafariApp.navigate(url);}}
  function openBrother(){if(window.Home)Home.openApp("kakaotalk");KakaoApp.open();KakaoApp.openStoryChat("c19");}
