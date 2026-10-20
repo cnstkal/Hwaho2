@@ -128,7 +128,7 @@ const SafariApp = (() => {
 
 <div class="nv-sv"><span>${nvI.mail}메일</span><span>${nvI.cafe}카페</span><span>${nvI.shop}쇼핑</span><u></u><span class="t">뉴스</span><span class="t">엔터</span><span class="t">지식</span><span class="t">쇼핑라이브</span><span class="t">웹툰</span><span class="t">블로그</span><span class="t">지도</span></div>
 <div class="nv-wx"><span class="w">${nvI.moon}<b>18°</b><b>서울</b></span><i></i><span class="s">나스닥 종합 <b>27,366.17</b> <em>▲0.64%</em></span></div>
-${nvTop()}
+<div aria-hidden="true" style="height:300px"></div>
 </div><div class="nv-sr"></div></div>`;
   }
   const nvRecent = () => NV.recent.length ? NV.recent.map(r => `<div class="nv-rr" data-nv="rc" data-id="${r.id}"><span class="c">${nvI.clock}</span><b>${esc(r.q)}</b><small>${r.d}</small><button class="x" data-nv="rx" data-id="${r.id}" aria-label="삭제">${nvI.x}</button></div>`).join("") : `<div class="nv-em">최근 검색어가 없습니다.</div>`;
@@ -162,7 +162,7 @@ ${nvTop()}
     const displayName = seonghwa ? "마스" : "정윤호";
     const profile = seonghwa ? {
       image: "images/app/Naver/Seonghwa/1969d38e20fc29da97dda95cfb8fd503.jpg",
-      rows: `${row("출생", "1998.04.03")}${row("소속사", "IH레코드")}${row("데뷔", "2018.02.12 EP 앨범 [SKIN]")}${row("사이트", lk(["인스타그램", "X(트위터)", "유튜브"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
+      rows: `${row("출생", "1998.04.03")}${row("소속사", "오프비트 레코드")}${row("데뷔", "2018.02.12 EP 앨범 [SKIN]")}${row("사이트", lk(["인스타그램", "X(트위터)", "유튜브"]))}${row("활동", lk(["방송", "공연", "곡", "앨범"]))}`
     } : {
       image: "images/app/Naver/Yunho/d9ac4246460057e1170dbb1f7c0ffabd.jpg",
       rows: `${row("출생", "1999.03.23")}${row("신체", "186cm")}${row("소속사", lk(["노바웨이브엔터테인먼트"]))}${row("학력", lk(["서울공연예술고등학교"]))}${row("수상", "2025년 아시아 아티스트 어워즈 AAA 뉴웨이브")}${row("사이트", lk(["공식홈페이지", "인스타그램", "팬카페"]))}${row("활동", lk(["방송", "영화", "드라마"]))}`
