@@ -3,7 +3,7 @@
 const KakaoApp = (() => {
   const $ = q => document.querySelector(q), el = $("#kko-app"), screen = $("#screen");
   const ic = p => `<svg viewBox="0 0 24 24">${p}</svg>`;
-  const kakaoTone = new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3", document.currentScript?.src || location.href).href);
+  const kakaoTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
   kakaoTone.preload = "auto";
   kakaoTone.load();
   document.addEventListener("pointerdown", function unlockkakaoTone(){
