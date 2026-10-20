@@ -15,12 +15,12 @@ const MANAGER_CALL_TIMESTAMP="2026-10-19T16:45:00+09:00";
 /* 기존에 등록된 열애 부인 기사 (네이버 엔터 sample/4) */
 const DENY_TITLE="정윤호 측, 마스 열애설에 선 긋기…“사실무근, 열애 관계 아니다”";
 const DENY_URL="https://entertain.naver.com/article/7418206";
-const MANAGER_Q="너 윤호랑 헤어졌냐?",BRO="형",BRO_REPLY="뭔솔?";
+const MANAGER_Q="윤호랑 헤어졌냐?",BRO="형",BRO_REPLY="뭔솔?";
 /* 윤호 카톡: 첫 메시지는 '배고팡', 나머지는 기존 대사 그대로 (탭할 때마다 한 줄씩) */
 const yunhoLines=[["f0","배고팡",[16,2]],["me","그게 지금 할 말이야?",[16,2]],["me","야",[16,2]],["me","윤호야아...",[16,2]],["f0","대답",[16,2]],["me","무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?",[16,15]],["f0","빨리왕 💕",[16,15]]];
 /* 모든 대사는 탭할 때마다 한 줄씩 표시. [16,7]은 실제 대기 시간이 아니라 표시할 채팅 시각 */
 const DOT_IDX=4,LONG_IDX=5;
-/* 형 카톡: 탭하자마자 전부 즉시 표시 (딜레이를 주려면 ms 값을 넣으면 됨: [기사에 아니라고 떴길래, 무슨 일 있는 건 아니지?, 기사 링크]) */
+/* 형 카톡: 탭하자마자 전부 즉시 표시 (딜레이를 주려면 ms 값을 넣으면 됨: [기사 떴길래, 무슨 일 있는 건 아니지?, 기사 링크]) */
 const BRO_DELAYS=[0,0,0];
 let brotherIndex=0;
 const after=(k,fn,ms)=>{if(ms>0)later(k,fn,ms);else{cancel(k);fn();}};
@@ -46,7 +46,7 @@ function start(){if(started||window.HwahoIntroActive)return;started=true;yunhoIn
 const setBrotherTime=()=>{if(window.HwahoClock)HwahoClock.set(14,52,0);};
 const bro1=()=>{setBrotherTime();KakaoApp.appendStoryMessage(MANAGER_Q,"text","","c19","f7",[14,52]);};
 const broReply=()=>{setBrotherTime();KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c19","me",[14,52]);};
-const broCare1=()=>{setBrotherTime();KakaoApp.appendStoryMessage("기사에 아니라고 떴길래","text","","c19","f7",[14,52]);};
+const broCare1=()=>{setBrotherTime();KakaoApp.appendStoryMessage("기사 떴길래","text","","c19","f7",[14,52]);};
 const broCare2=()=>{setBrotherTime();KakaoApp.appendStoryMessage("무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);};
 const bro2=()=>{setBrotherTime();KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);};
 const onBrotherTap=()=>{
