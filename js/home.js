@@ -92,9 +92,11 @@ window.APPS = {
   /* 홈 위젯: 날씨(표시만) · 캘린더(누르면 캘린더 앱으로 이동). 2x2 크기로 맨 위에 놓임 */
   const WX_ICON = `<svg class="wx-cloud" viewBox="0 0 24 24"><path d="M7 18a5 5 0 0 1-.6-9.96A6.5 6.5 0 0 1 19 9.5a4 4 0 0 1-.5 7.96z"/></svg>`;
   const widgetsHtml = () => {
-    const d = new Date(2026, 9, 19);
-    return `<div class="wgt-wrap"><div class="wgt wgt-wx" aria-label="서울특별시 날씨 17도 흐림"><div class="wx-city">서울특별시<svg viewBox="0 0 12 12"><path d="M6 0l6 12-6-3-6 3z"/></svg></div><div class="wx-temp">17°</div><div class="wx-foot">${WX_ICON}<div class="wx-desc">흐림</div><div class="wx-minmax">최고:20° 최저:11°</div></div></div><span class="wgt-lbl">날씨</span></div>` +
-      `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span><span class="cw-sch"><b>최종 녹음</b></span></button><span class="wgt-lbl">캘린더</span></div>`;
+    const d = new Date(), dow = ["일","월","화","수","목","금","토"];
+    /* D+ 위젯: 시작일 2023.03.01 부터 오늘까지 (당일 포함). 배경 사진은 비워 둠 */
+    const days = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(2023, 2, 1)) / 864e5) + 1;
+    return `<div class="wgt-wrap"><div class="wgt wgt-dd" aria-label="윤호 ${days}일"><div class="dd-top"><b>윤호</b><span>2023.03.01(수)</span></div><div class="dd-num">${days}일</div></div></div>` +
+      `<div class="wgt-wrap"><button class="wgt wgt-cal" id="wgt-cal" type="button" aria-label="캘린더 열기"><span class="cw-dow">${DOW[d.getDay()]}</span><span class="cw-day">${d.getDate()}</span><span class="cw-sch"><b>최종 녹음</b></span></button></div>`;
   };
   const render = () => {
     renderApps(APPS.grid.filter(app => !HIDDEN_HOME_APPS.has(app.id)), $("#grid"));

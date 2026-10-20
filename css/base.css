@@ -960,3 +960,12 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 /* 페이지 점 숨김 */
 .page-dots{display:none}
 .en-sp.nocm{border-top:0;margin-top:0}
+
+/* D+ 위젯 (윤호): 사진 자리는 비워 둔 배경 */
+.wgt-dd{background:linear-gradient(160deg,#5a5f6e,#1d2029);color:#fff;justify-content:space-between;box-shadow:0 6px 20px rgba(0,0,0,.18);border:.5px solid rgba(255,255,255,.14)}
+.dd-top{display:flex;flex-direction:column;gap:2px}
+.dd-top b{font-size:calc(var(--icon)*.24);font-weight:700;line-height:1.1}
+.dd-top span{font-size:calc(var(--icon)*.17);opacity:.75}
+.dd-num{align-self:flex-end;font-size:calc(var(--icon)*.52);font-weight:600;letter-spacing:-.03em;line-height:1}
+/* 위젯 아래 앱 이름 없음, 앱 줄을 위로 */
+.wgt-wrap{margin-bottom:-14px}
