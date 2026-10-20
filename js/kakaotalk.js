@@ -180,6 +180,8 @@ const KakaoApp = (() => {
   { const y = D.friends && D.friends.find(f => f.id === "f0"); if (y) { y.name = "윤둥이"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }
   { const g = D.friends && D.friends.find(f => f.id === "f2"); if (g && g.name === "성현이형") { g.name = "성현이형(매니저)"; try { localStorage.setItem(KEY, JSON.stringify(D)); } catch(e) {} } }
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
+  /* 윤둥이가 보낸 마침표 메시지를 대답으로 수정 */
+  { let changed = false; (D.chats || []).forEach(chat => { if (chat.id === "c0" || (chat.ids || []).includes("f0")) (chat.msgs || []).forEach(msg => { if (msg.from === "f0" && msg.text === ".") { msg.text = "대답"; changed = true; } }); }); if (changed) save(); }
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
   /* 무뼈국물닭발 이후 윤둥이 메시지는 오후 4:15 로 고정 (이미 저장된 메시지도 보정) */
