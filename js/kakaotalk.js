@@ -184,6 +184,8 @@ const KakaoApp = (() => {
   const save = () => { try { if (window.HwahoStability) window.HwahoStability.writeJSON(KEY, D); else localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} };
   if (D.chatHistoryVersion === 6) save();
   if (D.chatHistoryVersion === 5) save();
+  /* 무뼈국물닭발 이후 윤둥이 메시지는 오후 4:15 로 고정 (이미 저장된 메시지도 보정) */
+  { if (!D.fix415) { const c0 = (D.chats || []).find(c => c.id === "c0"); if (c0) c0.msgs.forEach(m => { if (m.storySequence && m.text === "무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?") m.ts = new Date(2026, 9, 19, 16, 15, 0).getTime(); if (m.storySequence && m.text === "빨리왕 💗") m.ts = new Date(2026, 9, 19, 16, 15, 1).getTime(); }); D.fix415 = 1; save(); } }
   { const t0 = new Date().setHours(0, 0, 0, 0); if (D.day !== t0) { D.day = t0; save(); } } /* 대화 날짜는 설정된 날짜로 고정 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
 
@@ -585,7 +587,7 @@ const KakaoApp = (() => {
       const lastTs = c.msgs.reduce((a, m) => Math.max(a, m.ts || 0), 0), n = new Date(), clock = new Date(2026, 9, 19, n.getHours(), n.getMinutes(), n.getSeconds()).getTime();
       let ts = Math.max(clock, lastTs + 60000);
       /* 스토리 시계가 있으면 그 시각(초 단위)을 그대로 사용 — 상태바/알림/기사 시각과 일치 */
-      if (window.HwahoClock) { const lastStory = c.msgs.reduce((a, m) => m.storySequence ? Math.max(a, m.ts || 0) : a, 0); ts = Math.max(window.HwahoClock.now().getTime(), lastStory + 1000); at = null; }
+      if (window.HwahoClock && !Array.isArray(at)) { const lastStory = c.msgs.reduce((a, m) => m.storySequence ? Math.max(a, m.ts || 0) : a, 0); ts = Math.max(window.HwahoClock.now().getTime(), lastStory + 1000); at = null; }
       /* at=[시,분] 이면 같은 분 안에 여러 메시지를 1초 간격으로 쌓는다 */
       if (Array.isArray(at)) { const base = new Date(2026, 9, 19, at[0], at[1], 0).getTime(), same = c.msgs.filter(m => m.storySequence && m.ts >= base && m.ts < base + 60000).length; ts = Math.max(base + same * 1000, lastTs + 1); }
       c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts });
