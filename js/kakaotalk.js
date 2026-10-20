@@ -187,7 +187,8 @@ const KakaoApp = (() => {
   if (D.chatHistoryVersion === 5) save();
   /* 무뼈국물닭발 이후 윤둥이 메시지는 오후 4:15 로 고정 (이미 저장된 메시지도 보정) */
   { if (!D.fix1420) { (D.chats || []).forEach(c => { c.msgs.forEach(m => { if (m.from === "f4" && m.ts >= new Date("2026-10-19T00:00:00+09:00").getTime()) m.__del = 1; }); c.msgs = c.msgs.filter(m => !m.__del); }); D.fix1420 = 1; save(); } }
-  { if (!D.fix415) { const c0 = (D.chats || []).find(c => c.id === "c0"); if (c0) c0.msgs.forEach(m => { if (m.storySequence && m.text === "무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?") m.ts = new Date(2026, 9, 19, 16, 15, 0).getTime(); if (m.storySequence && m.text === "빨리왕 💗") m.ts = new Date(2026, 9, 19, 16, 15, 1).getTime(); }); D.fix415 = 1; save(); } }
+  /* 10/19 윤둥이 대화 시간 고정: 아래 항목은 매번 지정 시각으로 보정 */
+  { const c0 = (D.chats || []).find(c => c.id === "c0"); if (c0) { const t402 = new Date("2026-10-19T16:02:00+09:00").getTime(), t415 = new Date("2026-10-19T16:15:00+09:00").getTime(); c0.msgs.forEach(m => { if (["그게 지금 할 말이야?","야","윤호야아..."].includes(m.text)) m.ts = t402; if (m.text === "무뼈국물닭발에 치즈 주먹밥 계란찜 추가 맞지?") m.ts = t415; if (m.text === "빨리왕 💗") m.ts = t415 + 1000; }); save(); } }
   { const t0 = new Date().setHours(0, 0, 0, 0); if (D.day !== t0) { D.day = t0; save(); } } /* 대화 날짜는 설정된 날짜로 고정 */
   const fr = id => D.friends.find(f => f.id === id), chat = id => D.chats.find(c => c.id === id), last = c => c.msgs[c.msgs.length - 1];
 
