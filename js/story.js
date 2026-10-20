@@ -16,7 +16,7 @@
  /* ---- 상태: 단계는 localStorage에 저장해 새로고침 후에도 유지 ---- */
  const KEY="hwaho-story-v1";
  const STAGES=["manager-wait","manager-msg","brother-chat","brother-link","deny-reading","yunho-call","yunho-alert","yunho-chat","ig-alert","instagram","final-wait","final-alert","final-article"];
- const FINAL_URL="https://entertain.naver.com/article/sample/6",NAVER_ICON="images/app/Naver/IMG_7151.png",FINAL_TITLE="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”",FINAL_DELAY=3000;
+ const FINAL_URL="https://entertain.naver.com/article/sample/6",NAVER_ICON="images/app/Naver/IMG_7151.png",FINAL_TITLE="정윤호 측, 마스와 열애 인정…“서로 좋은 감정으로 만나고 있다”",FINAL_DELAY=6000;
  let stage="idle",started=false,yunhoIndex=0,viewedAt=0,igViewedAt=0;
  const persist=()=>{if(!started)return;const v={v:2,started:true,stage,yunhoIndex,viewedAt,igViewedAt};try{if(window.HwahoStability)window.HwahoStability.writeJSON(KEY,v);else localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
  const setStage=s=>{stage=s;persist();};
@@ -34,11 +34,12 @@
  function openYunhoChat(){if(window.Home)Home.openApp("kakaotalk");if(window.KakaoApp){KakaoApp.open();KakaoApp.openStoryChat("c0");}}
 
  /* 4. 열애 인정 기사 확인(story:start) 3초 후 성현 카톡 */
- function start(){if(started||window.HwahoIntroActive)return;started=true;yunhoIndex=0;viewedAt=0;igViewedAt=0;setStage("manager-wait");later("m1",managerMsg,3000);}
+ function start(){if(started||window.HwahoIntroActive)return;started=true;yunhoIndex=0;viewedAt=0;igViewedAt=0;setStage("manager-wait");later("m1",managerMsg,8000);}
  const bro1=()=>KakaoApp.appendStoryMessage(MANAGER_Q,"text","","c19","f7",[14,52]);
  const broReply=()=>KakaoApp.appendStoryMessage(BRO_REPLY,"text","","c19","me",[14,52]);
+ const broCare=()=>KakaoApp.appendStoryMessage("기사에 아니라고 떴길래. 둘이 무슨 일 있는 건 아니지?","text","","c19","f7",[14,52]);
  const bro2=()=>KakaoApp.appendStoryMessage(DENY_TITLE,"link",DENY_URL,"c19","f7",[14,52]);
- const onBrotherTap=()=>{if(stage!=="manager-msg"&&stage!=="brother-chat")return;setStage("brother-link");broReply();later("bro2",()=>{if(stage==="brother-link")bro2();},1600);hint();};
+ const onBrotherTap=()=>{if(stage!=="manager-msg"&&stage!=="brother-chat")return;setStage("brother-link");broReply();later("bro2",()=>{if(stage==="brother-link")broCare();},1400);later("bro3",()=>{if(stage==="brother-link")bro2();},3200);hint();};
  function managerMsg(){
   if(stage!=="manager-wait")return;
   bro1();setStage("manager-msg");toast(BRO,MANAGER_Q);
@@ -79,7 +80,7 @@
  /* 열애 부인 기사가 실제로 열린 시점부터 7초 */
  document.addEventListener("story:deny-article-viewed",()=>{
   if((stage!=="brother-link"&&stage!=="deny-reading")||viewedAt)return;
-  root.innerHTML="";viewedAt=Date.now();setStage("deny-reading");scheduleCall(7000);
+  root.innerHTML="";viewedAt=Date.now();setStage("deny-reading");scheduleCall(9000);
  });
  document.addEventListener("story:call-ended",e=>{if(e.detail&&e.detail.kind==="yunho")yunhoAfterCall();});
 
@@ -90,11 +91,11 @@
  function resume(){
   if(["instagram","final-wait","final-alert","final-article"].indexOf(stage)>=0)document.dispatchEvent(new CustomEvent("story:instagram-published"));
   switch(stage){
-   case "manager-wait":later("m1",managerMsg,3000);break;
+   case "manager-wait":later("m1",managerMsg,8000);break;
    case "manager-msg":bro1();toast(BRO,MANAGER_Q);break;
    case "brother-chat":bro1();break;
-   case "brother-link":bro1();broReply();bro2();break;
-   case "deny-reading":if(viewedAt)scheduleCall(7000-(Date.now()-viewedAt));break;
+   case "brother-link":bro1();broReply();broCare();bro2();break;
+   case "deny-reading":if(viewedAt)scheduleCall(9000-(Date.now()-viewedAt));break;
    case "yunho-call":ringYunho();break;
    case "yunho-alert":toast("윤둥이",yunhoLines[0][1]);break;
    case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();break;
