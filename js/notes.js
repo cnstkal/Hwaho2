@@ -25,7 +25,7 @@ function body(L){return {text:L.map(function(l){return l.replace(/^\[[ x]\] /,''
 function mk(id,t,L,upd,x){var b=body(L),o={id:id,title:t,text:b.text,html:b.html,fid:'f0',pin:false,tags:[],updated:upd};for(var k in x)o[k]=x[k];return o}
 if(!ld(K,0)){
 S.n.push(
-mk('seed_trash_lyr','살어리랏다',['살어리랏다','윤호없이못살어리랏다...'],now-21*D-36e5,{del:now-21*D,keep:1}),
+mk('seed_trash_lyr','살어리랏다',['살어리랏다','윤호없이못살어리랏다...'],Date.UTC(2026,6,2,11,0),{del:Date.UTC(2026,6,2,12,0),keep:1}),
 mk('seed_album','앨범 작업 체크',['[x] 타이틀곡 믹싱 마감 (9/3)','[x] 앨범 전달 (9/11)','[x] 발매 (10/1)','[ ] 11/20 발매곡 마스터링 확인','[ ] 합동 싱글(12/10) 가이드 녹음','[ ] 승호형한테 보컬 톤 레퍼런스 보내기','[ ] 연말 공연(12/18) 세트 줄이기'],now-2*D,{pin:true}),
 mk('seed_mix','믹싱 피드백 (승호형)',['보컬 S음 날카로움 → 디에서 2~3dB','킥 살짝 낮추고 808 롱테일 줄이기','2절 애드립 볼륨 -2','마스터링 전 헤드룸 -1dB 확보','후렴 더블링은 좌우 폭 좁게'],now-9*D),
 mk('seed_live','공연 체크리스트',['오프닝은 템포 높은 곡 3곡 연달아','멘트는 30초 이내','인이어 모니터 레벨 낮추기','앙코르는 타이틀곡','10/24 지방 / 10/31 해외 → 이동 시간 매니저한테 확인','물, 목 스프레이, 여분 마이크 커버'],now-12*D),
@@ -34,7 +34,7 @@ mk('seed_pw','비번',['사운드클라우드','yh0323s2!','','인스타그램',
 );saveN();sv(K,1)}
 var pw=byId('seed_pw');if(pw&&pw.updated>PWD&&pw.text.indexOf('yh0323s2!')>-1&&pw.text.indexOf('pizza!night')>-1){pw.updated=PWD;saveN()}
 if(pw&&pw.text.indexOf('스플라이스')>-1){pw.text=pw.text.replace('스플라이스\nhwaho0323beat\n\n','');pw.html=pw.html.replace('<div>스플라이스</div><div>hwaho0323beat</div><div><br></div>','');saveN()}
-var t=byId('seed_trash_lyr');if(t&&t.del){t.del=now-21*D;t.updated=now-21*D-36e5;t.keep=1;saveN()}
+var t=byId('seed_trash_lyr');if(t&&t.del){t.del=Date.UTC(2026,6,2,12,0);t.updated=Date.UTC(2026,6,2,11,0);t.keep=1;saveN()}
 })();
 /* ---------- 유틸 ---------- */
 var IC={
@@ -306,4 +306,4 @@ if(home&&window.MutationObserver){var raf=0;new MutationObserver(function(){if(r
 window.addEventListener('load',inject);
 })();
 
-;(function(){var K2='nt.seed.letter.v1';try{if(localStorage.getItem(K2))return}catch(e){}S.n.push({id:'seed_letter',title:'8월 1일',text:'',html:"<div>정말 미안해. 그때는 왜 몰랐을까. 네가 나한테 얼마나 많이 잘해줬는지, 이제 와서 이런 말 하는 것도 웃기고 염치없는 거 알아.</div><div>그래도 한 번만 더 기회를 주면 안 될까. 나 이제 오마카세도 데려가 줄 수 있는데...</div><div>나 아직도 너 너무 좋아하고 보고 싶어. 진심이야.</div><div>맨날 후회해. 내가 왜 그랬을까. 조금만 더 잘해 줄걸, 네 말 좀 들어 줄걸.</div><div>너는 나한테 진짜 잘해 줬는데 나는 왜 그게 당연한 줄 알았을까. 미안해. 진짜 미안해.</div><div>나 너랑 다시 만나고 싶어. 그냥 하는 말 아니야. 네가 싫다고 하면 어쩔 수 없는 거 아는데, 혹시나 하는 마음에.</div><div>어휴, 됐다. 못해먹겠네.</div>",fid:'f0',pin:false,tags:[],updated:Date.UTC(2026,7,1,22,0),lock:'0404',hint:'처음 만난 날, 우리 곁에 작은 친구가 있었지.'});saveN();try{localStorage.setItem(K2,'1')}catch(e){}})();
+;(function(){var K2='nt.seed.letter.v1';try{var sl0=S.n.find(function(x){return x.id==='seed_letter'});if(sl0&&sl0.hint!=='처음'){sl0.hint='처음';saveN()}}catch(e){}try{if(localStorage.getItem(K2))return}catch(e){}S.n.push({id:'seed_letter',title:'8월 1일',text:'',html:"<div>정말 미안해. 그때는 왜 몰랐을까. 네가 나한테 얼마나 많이 잘해줬는지, 이제 와서 이런 말 하는 것도 웃기고 염치없는 거 알아.</div><div>그래도 한 번만 더 기회를 주면 안 될까. 나 이제 오마카세도 데려가 줄 수 있는데...</div><div>나 아직도 너 너무 좋아하고 보고 싶어. 진심이야.</div><div>맨날 후회해. 내가 왜 그랬을까. 조금만 더 잘해 줄걸, 네 말 좀 들어 줄걸.</div><div>너는 나한테 진짜 잘해 줬는데 나는 왜 그게 당연한 줄 알았을까. 미안해. 진짜 미안해.</div><div>나 너랑 다시 만나고 싶어. 그냥 하는 말 아니야. 네가 싫다고 하면 어쩔 수 없는 거 아는데, 혹시나 하는 마음에.</div><div>어휴, 됐다. 못해먹겠네.</div>",fid:'f0',pin:false,tags:[],updated:Date.UTC(2026,7,1,22,0),lock:'0404',hint:'처음'});saveN();try{localStorage.setItem(K2,'1')}catch(e){}})();
