@@ -21,11 +21,11 @@ const MessagesApp = (() => {
   };
   const baseName = n => String(n).replace(/\(.*\)$/, "");
   const pickReply = n => { const a = REPLIES_BY[baseName(n)] || REPLIES; return a[Math.floor(Math.random() * a.length)]; };
-  const CL = () => (window.PhoneData ? PhoneData.names() : CONTACTS), KEY = "ios-msgs-v7", uid = () => Math.random().toString(36).slice(2, 9);
+  const CL = () => (window.PhoneData ? PhoneData.names() : CONTACTS), KEY = "ios-msgs-v8", uid = () => Math.random().toString(36).slice(2, 9);
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   let convs = [];
   try { convs = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
-  const SEED_KEY = "ios-msgs-seed40", H = 60, D = 1440, MIN = 6e4;
+  const SEED_KEY = "ios-msgs-seed41", H = 60, D = 1440, MIN = 6e4;
   const seedConvs = () => {
     const NOW = Date.now(), p2 = n => String(n).padStart(2, "0"), fmt = n => n.toLocaleString("en-US");
     const at = (d, h, m = 0) => { const x = new Date(NOW); x.setDate(x.getDate() - d); x.setHours(h, m, 0, 0); return x.getTime(); };
