@@ -21,11 +21,11 @@ const MessagesApp = (() => {
   };
   const baseName = n => String(n).replace(/\(.*\)$/, "");
   const pickReply = n => { const a = REPLIES_BY[baseName(n)] || REPLIES; return a[Math.floor(Math.random() * a.length)]; };
-  const CL = () => (window.PhoneData ? PhoneData.names() : CONTACTS), KEY = "ios-msgs-v8", uid = () => Math.random().toString(36).slice(2, 9);
+  const CL = () => (window.PhoneData ? PhoneData.names() : CONTACTS), KEY = "ios-msgs-v7", uid = () => Math.random().toString(36).slice(2, 9);
   const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   let convs = [];
   try { convs = JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) {}
-  const SEED_KEY = "ios-msgs-seed41", H = 60, D = 1440, MIN = 6e4;
+  const SEED_KEY = "ios-msgs-seed40", H = 60, D = 1440, MIN = 6e4;
   const seedConvs = () => {
     const NOW = Date.now(), p2 = n => String(n).padStart(2, "0"), fmt = n => n.toLocaleString("en-US");
     const at = (d, h, m = 0) => { const x = new Date(NOW); x.setDate(x.getDate() - d); x.setHours(h, m, 0, 0); return x.getTime(); };
@@ -308,7 +308,7 @@ const MessagesApp = (() => {
   };
   if (!convs.length) convs = seedConvs();
   else if (!localStorage.getItem(SEED_KEY)) convs = convs.concat(seedConvs().filter(s => !convs.some(c => c.name === s.name)));
-  try { localStorage.setItem(SEED_KEY, "1"); } catch (e) {}
+  try { localStorage.setItem(SEED_KEY, "1"); } catch (e) {} { let mk = 0; try { mk = localStorage.getItem("ios-msgs-mask1"); } catch (e) {} if (!mk) { const fx = t => typeof t === "string" ? t.replace(/\b(010-\d{4}|070-\d{4})-\d{4}\b/g, "$1-****") : t; convs.forEach(c => { c.name = fx(c.name); (c.msgs || []).forEach(m => { m.text = fx(m.text); }); }); try { localStorage.setItem("ios-msgs-mask1", "1"); } catch (e) {} save(); } }
   const save = () => { try { localStorage.setItem(KEY, JSON.stringify(convs)); } catch (e) {} };
   { let done = false; try { done = localStorage.getItem("ios-msgs-list-date-v5") === "1"; } catch (e) {} if (!done) { const fixed = {"박대표님":[11,21],"박재영(대표)":[11,21],"카카오":[12,3],"KB국민은행":[13,56],"KB국민카드":[13,56]}; const rest = convs.filter(c => c.msgs && c.msgs.length && !Object.prototype.hasOwnProperty.call(fixed,c.name)); const start = new Date(2026,9,13,9,0,0,0), end = new Date(2026,9,18,20,0,0,0); rest.forEach((conv,i) => { let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; const d=new Date(start.getTime()+Math.floor(i*(end.getTime()-start.getTime())/Math.max(1,rest.length-1))); latest.ts=d.getTime(); }); for (const conv of convs) { if (!Object.prototype.hasOwnProperty.call(fixed,conv.name) || !conv.msgs || !conv.msgs.length) continue; let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; const d=new Date(); d.setHours(fixed[conv.name][0],fixed[conv.name][1],0,0); latest.ts=d.getTime(); } try { localStorage.setItem("ios-msgs-list-date-v5","1"); } catch(e) {} save(); } }
   { let done = false; try { done = localStorage.getItem("ios-msgs-list-date-v6") === "1"; } catch (e) {} if (!done) {
