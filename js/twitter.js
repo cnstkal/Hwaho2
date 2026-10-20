@@ -97,9 +97,9 @@ const XApp = (() => {
   const av = (u, s) => {
     const file = X_PROFILE_FILES[u.id];
     const shared = window.HwahoIdentity && window.HwahoIdentity.avatar(u.id);
-    const base = file ? `images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}?v=20261020-3` : (shared || "");
+    const base = file ? `./images/app/Twitter/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(file)}?v=20261020-4` : (shared || "");
     const fallback = X_PROFILE_FALLBACK[u.id];
-    const fallbackUrl = fallback ? `images/app/Instagram/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(fallback)}` : "";
+    const fallbackUrl = fallback ? `./images/app/Instagram/Profile/${encodeURIComponent(u.id)}/${encodeURIComponent(fallback)}?v=20261020-4` : "";
     const bg = u.blank ? "#cfd9de" : `linear-gradient(135deg,hsl(${u.hue} 70% 62%),hsl(${(u.hue + 50) % 360} 70% 45%))`;
     return `<div class="x-av" style="position:relative;overflow:hidden;width:${s}px;height:${s}px;font-size:${R(s * .42)}px;background:${bg}">${u.blank ? "" : esc([...u.name][0] || "?")}<img alt="" src="${base}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit" onerror="${fallbackUrl ? `this.onerror=function(){this.style.display='none'};this.src='${fallbackUrl}'` : "this.style.display='none'"}"></div>`;
   };
