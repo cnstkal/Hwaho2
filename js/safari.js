@@ -263,7 +263,7 @@ const SafariApp = (() => {
 <div class="en-ti"><div class="pr">${esc(a.outlet)}</div><h1>${esc(a.title)}</h1><div class="dt" style="display:block!important;justify-content:initial!important;text-align:left!important;align-items:initial!important;margin:8px 0 0!important;padding:0!important;width:100%;"><span style="display:block!important;width:100%!important;margin:0!important;padding:0!important;text-align:left!important;float:none!important;transform:none!important;">입력 ${nvTodayTs(a.ts)}</span></div></div>
 ${a.nothumb ? "" : a.id === "6" && a.image ? `<div class="en-img en-img-full"><img src="${a.image}" alt="정윤호와 마스의 열애 인정 기사 사진" loading="lazy"></div>` : `<div class="en-img" style="${a.image ? `background-image:url(${a.image});background-size:cover;background-position:center` : a.blank ? `background:#eceef2` : `background:linear-gradient(150deg,hsl(${a.hue} 30% 70%),hsl(${a.hue + 30} 30% 28%))`}">${a.image || a.blank ? "" : "<em>SAMPLE</em>"}</div>`}
 <div class="en-bd">${a.body.map(p => `<p>${p}</p>`).join("")}</div>
-${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<div class="en-sp"></div></div>`;
+${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY : NVC, a.id)}<div class="en-sp${a.id === "3" || a.id === "6" ? " nocm" : ""}"></div></div>`;
   }
   document.addEventListener("click", e => {
     const t = e.target.closest(".nv [data-nv=nws]"); if (!t) return;
@@ -605,7 +605,7 @@ ${a.id === "3" || a.id === "6" ? "" : nvCmt((a.id === "4" || a.id === "5") ? NVY
       case "fwd": nav(1); break;
       case "share": share(); break;
       case "book": openPn(); break;
-      case "tabs": openTabs(); break;
+      case "tabs": break; /* 하단 페이지(탭) 버튼: 반응 없음 */
       case "ecancel": closeEdit(); break;
       case "vs": { const inpt = t.parentElement.querySelector("input"); vsubmit(d.site, inpt.value); break; }
             case "sgq": submit(d.q); break;

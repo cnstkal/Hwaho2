@@ -959,3 +959,4 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 .dock-wrap{margin-bottom:calc(env(safe-area-inset-bottom,0px) + 40px)}
 /* 페이지 점 숨김 */
 .page-dots{display:none}
+.en-sp.nocm{border-top:0;margin-top:0}
