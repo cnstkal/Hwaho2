@@ -2,6 +2,9 @@
 (()=> {
  const MANAGER="성현이형(매니저)", AVATAR="images/app/KakaoTalk/Profile/성현이형(매니저)/IMG_7422.jpeg";
  const DISPATCH="https://www.dispatch.co.kr/article/1";
+ const generalTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
+ generalTone.preload = "auto";
+ function playGeneralTone(){try{generalTone.currentTime=0;const p=generalTone.play();if(p&&p.catch)p.catch(()=>{});}catch(e){}}
  const ACK="https://entertain.naver.com/article/sample/3";
  const KEY="hwaho-story-intro-v3";
  const $=s=>document.querySelector(s);
@@ -26,7 +29,7 @@
  function showManagerChat(){if(stage!=="unlock-chat")return;stage="manager-chat";save();root.innerHTML="";if(window.KakaoApp){KakaoApp.openStoryChat("c3");sendText();sendLink();}}
  function place(){const stack=root.querySelector(".stack:not(.top)");if(stack)stack.style.top="39%"}
  function clearNotice(){root.innerHTML=""}
- function notice(title,body,app,fn,time){root.innerHTML="";const stack=document.createElement("div");stack.className="stack top";stack.appendChild(makeNotice(title,body,app,fn,time||"지금"));root.appendChild(stack);place()}
+ function notice(title,body,app,fn,time){root.innerHTML="";if(app!=="KakaoTalk")playGeneralTone();const stack=document.createElement("div");stack.className="stack top";stack.appendChild(makeNotice(title,body,app,fn,time||"지금"));root.appendChild(stack);place()}
  function ringFirst(){if(stage!=="first-call"||!window.FaceTimeApp)return;FaceTimeApp.ring({caller:MANAGER,kind:"manager-first",avatar:AVATAR,subtitle:"휴대전화"})}
  function urgent(){if(stage!=="first-call")return;if(window.PhoneApp&&PhoneApp.recordStoryMissedCall)PhoneApp.recordStoryMissedCall(MANAGER,"manager-first");stage="urgent";save();if(window.KakaoApp)KakaoApp.appendStoryMessage("뒤지기 싫으면 회사로 튀어온다 실시","text","","c3","f2",[22,14]);notice(MANAGER,"뒤지기 싫으면 회사로 튀어온다 실시","KakaoTalk",()=>{clearNotice();stage="dispatch";save();setTimeout(dispatchNotice,350)})}
  function dispatchNotice(){if(stage!=="dispatch")return;notice("Dispatch","[단독] \"누가 봐도 평범한 사이는 아니었다\"…마스♥정윤호, 심야 데이트 포착","Dispatch",()=>{clearNotice();stage="dispatch-reading";viewedAt=0;save();openArticle(DISPATCH);})}
