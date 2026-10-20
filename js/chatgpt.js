@@ -59,9 +59,12 @@ const GptApp = (() => {
   /* ---------- 응답 ---------- */
   /* 미리 준비된 질문 3개 (답변은 나중에 채움) */
   const PRESET_Q = ["마스가 누구야?", "정윤호가 누구야?", "마스랑 정윤호는 어떤 관계야?"];
+  /* 질문 선택 후 이어지는 후속 질문 (키: PRESET_Q 인덱스) */
+  const FOLLOW = { 0: [ { q: "쇼미더머니 43에 대해 설명해줘", a: "《쇼미더머니 43》은 2026년 4월 24일 첫 방송을 시작해 7월 24일 파이널을 끝으로 막을 내린 대한민국의 힙합 서바이벌 프로그램이야! 🔥\n\n이번 시즌은 참가자들의 랩 실력뿐만 아니라 음악적 개성과 프로듀서와의 시너지를 중점적으로 보여 주며 화제를 모았어. 치열한 경쟁과 예상치 못한 반전, 참가자들의 성장 서사가 어우러지면서 시청자들의 큰 관심을 끌었지. 🎧✨\n\n🏆 이번 시즌의 가장 큰 화제는 단연 마스(MARS)!\n마스는 프로듀서 NO1과 FIXON의 선택을 받으며 주목받았어. 독보적인 음악적 색깔과 탄탄한 랩 실력으로 강렬한 인상을 남겼지만, 파이널 진출까지의 과정이 순탄하지만은 않았어.\n\n한 차례 탈락의 고배를 마셨던 마스는 패자부활전을 통해 기적적으로 생존하며 다시 한번 자신의 실력을 증명할 기회를 얻었어. 🔥 탈락 위기에서 살아 돌아온 뒤 더욱 강렬한 무대를 선보이며 파이널까지 진출했고, 결국 7월 24일 최종 우승이라는 놀라운 결과를 만들어 냈지! 🏆🥹\n\n오랜 무명 생활을 견뎌 온 래퍼가 탈락의 위기까지 극복하고 정상에 오른 만큼, 마스의 우승은 이번 시즌을 상징하는 가장 인상적인 순간으로 꼽혀. 💿💗\n\n단순한 우승을 넘어 자신의 음악과 가능성을 대중에게 확실히 각인시킨 마스! 과연 그가 앞으로 어떤 음악을 보여 줄지 기대가 모이고 있어. 🎶✨" } ] };
   const PRESET_A = ["마스는 2018년 2월 12일 싱글 앨범 《SKIN》으로 데뷔한 래퍼야! 💿 본명은 박성화, 1998년 4월 3일생이고 IH 레코드 소속이야. 🖤\n\n사실 마스는 데뷔 이후 정말 긴 무명 생활을 겪었어. 🥹 음악을 계속하기도 어려울 만큼 경제적으로 힘들어서 프로듀싱 관련 외주 작업이나 상하차 아르바이트까지 하면서 버텼다고 해.\n\n그런데 이번에 방영된 《쇼미더머니 43》에서 인생 역전을 이뤄냈어! 🔥 독보적인 음악 색깔과 압도적인 랩 실력으로 화제를 모으더니, 결국 파이널에서 당당히 최종 우승까지 차지했거든. 🏆✨\n\n오랜 무명 시절을 견디고 마침내 자신의 실력을 증명해 낸 거라 대중의 반응도 엄청났어. 지금은 그야말로 힙합 신의 대세 래퍼로 자리 잡았지! 🎧💗\n\n그런데 마스가 쇼미에서 어떤 무대로 우승했는지 알아? 👀🔥 아니면 마스의 과거 무명 시절 이야기가 더 궁금해?", "정윤호는 1999년 3월 23일생 배우로, 노바웨이브엔터테인먼트 소속이야! 💗 서울공연예술고등학교 출신이며, 2021년 로맨스 드라마 《너와 나의 계절》로 데뷔했어. 🌷\n\n데뷔 이후 출연하는 작품마다 좋은 성적을 거두며 탄탄한 연기력과 독보적인 비주얼로 주목받았고, 현재는 차세대 대세 배우로 자리 잡았어. ✨ 특히 2025년에는 아시아 아티스트 어워즈(AAA)에서 수상하며 배우로서의 입지를 더욱 굳혔지! 🏆\n\n최근에는 드라마 《백!스테이지》에서 주연 기석 역을 맡아 열연을 펼쳤어. 🎭 작품은 최고 시청률 12%를 기록하며 화제를 모았고, 약 두 달 전 종영했어.\n\n꾸준히 필모그래피를 쌓아 오면서 흥행력까지 입증한 배우인 만큼, 앞으로의 행보도 기대되는 스타야. 💐\n\n그런데 혹시 정윤호가 출연했던 작품 중에서 가장 화제가 됐던 작품이나 대표작도 궁금해? 👀💗", "최근 연예계를 뜨겁게 달군 마스와 정윤호의 열애설! 🔥 디스패치가 두 사람의 열애설을 보도하면서 화제가 시작됐어.\n\n보도 직후 마스 측은 열애 사실을 빠르게 인정했지만, 정윤호 측은 사실무근이라는 입장을 밝혀 양측의 입장이 엇갈렸어. 이에 대중 사이에서는 마스의 노이즈 마케팅이 아니냐는 추측부터 마스의 일방적인 짝사랑이라는 반응까지 다양한 의견이 쏟아졌지. 👀\n\n그런데 몇 시간 지나지 않아 정윤호 측 역시 열애 사실을 인정하면서 상황이 반전됐어. 💥\n\n마스 측의 설명에 따르면 두 사람은 2023년부터 교제해 온 연인 사이야. 특히 마스는 오랜 무명 생활로 힘들었던 시절부터 자신의 곁을 지켜 준 정윤호에게 고마움을 전하며, 정윤호가 자신에게 무척 소중한 존재라는 사실을 밝혔어. 🥹💗\n\n화려한 성공을 거두기 전부터 함께해 온 두 사람인 만큼, 이번 열애 소식에 팬들의 관심도 더욱 뜨거워지고 있어. ✨\n\n그런데 두 사람의 열애설이 처음 보도됐을 당시에는 정윤호 측의 부인 때문에 논란이 상당했어. 과연 두 사람은 이와 관련해 추가적인 입장을 밝힐까? 💬"];
   function reply(q) {
     const pi = PRESET_Q.indexOf(q); if (pi >= 0) return PRESET_A[pi];
+    for (const k of Object.keys(FOLLOW)) { const f = FOLLOW[k].find(x => x.q === q); if (f) return f.a; }
     const s = q.replace(/\s+/g, " ").slice(0, 40);
     if (/^(안녕|하이|hi\b|hello)/i.test(q)) return "안녕하세요! 무엇을 도와드릴까요?";
     if (/코드|code|함수|스크립트|python|파이썬|자바스크립트|javascript/i.test(q)) return ["요청하신 내용에 맞는 예시 코드예요.", "", F + "python", "def fibonacci(n):", "    a, b = 0, 1", "    for _ in range(n):", "        yield a", "        a, b = b, a + b", "", "print(list(fibonacci(10)))", F, "", "- " + T + "yield" + T + "로 값을 하나씩 만들어 **메모리를 아껴요**.", "- " + T + "list()" + T + "로 감싸면 한 번에 확인할 수 있어요."].join("\n");
@@ -73,7 +76,7 @@ const GptApp = (() => {
   /* ---------- 렌더링 ---------- */
   const acHtml = last => `<div class="gp-ac"><button data-a="cm" aria-label="복사">${I.copy}</button>${last ? `<button data-a="rg" aria-label="다시 생성">${I.redo}</button>` : ""}</div>`;
   const msgHtml = (m, i, last) => m.r === "u" ? `<div class="gp-m u" data-i="${i}">${esc(m.t)}</div>`
-    : `<div class="gp-m a" data-i="${i}"><div class="gp-tx">${m.t ? md(m.t) : '<div class="gp-dot"></div>'}</div>${m.t && !(gen && gen.m === m) ? acHtml(last) : ""}</div>`;
+    : `<div class="gp-m a" data-i="${i}"><div class="gp-tx">${m.t ? md(m.t) : '<div class="gp-dot"></div>'}</div>${m.t && !(gen && gen.m === m) ? acHtml(last) : ""}${m.t && m.fu !== undefined && !(gen && gen.m === m) ? `<div class="gp-fus">${FOLLOW[m.fu].map((f, k) => `<button class="gp-fu" data-a="fu" data-p="${m.fu}" data-i="${k}">${esc(f.q)}</button>`).join("")}</div>` : ""}</div>`;
   const toBottom = () => requestAnimationFrame(() => { const s = $("#gp-sc"); s.scrollTop = s.scrollHeight; });
   function render(keep) {
     const c = chat(), has = c && c.msgs.length, bd = $("#gp-bd");
@@ -108,7 +111,7 @@ const GptApp = (() => {
     gen.tm = setTimeout(function tick() {
       if (!gen || gen.m !== m) return;
       n = Math.min(full.length, n + step + (Math.random() * 2 | 0)); m.t = full.slice(0, n); stream(m);
-      if (n >= full.length) { gen = null; save(); btn(); render(true); } else gen.tm = setTimeout(tick, 28);
+      if (n >= full.length) { gen = null; const pi = PRESET_Q.indexOf(q); if (FOLLOW[pi]) m.fu = pi; save(); btn(); render(true); } else gen.tm = setTimeout(tick, 28);
     }, 700);
   }
   function stop() {
@@ -192,6 +195,7 @@ const GptApp = (() => {
       case "model": case "more": case "plus": openPop(a === "model" ? "pm" : a === "more" ? "pc" : "pp"); break;
       case "scr": closePops(); break;
       case "pickm": S.model = +b.dataset.i; save(); closePops(); render(true); break;
+      case "fu": { if (gen) break; const f = FOLLOW[+b.dataset.p][+b.dataset.i]; let c = chat(); if (!c) { c = { id: "c" + Date.now().toString(36), title: f.q.slice(0, 40), ts: 0, msgs: [] }; S.chats.push(c); cur = c.id; } c.msgs.push({ r: "u", t: f.q }); c.ts = Date.now(); save(); start(c, f.q); break; }
       case "preset": { const i = +b.dataset.i; closePops(); $("#gp-ta").blur(); sendPreset(i); break; }
       case "sample": { const t = $("#gp-ta"); t.value = SAMPLES[+b.dataset.i][2]; closePops(); fit(); btn(); t.focus(); break; }
       case "act": if (gen) stop(); else if ($("#gp-ta").value.trim()) send(); else mic(); break;

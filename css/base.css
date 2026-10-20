@@ -993,3 +993,6 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 #am-app.hwaho-launching,
 #notes-app.hwaho-launching,
 #nt-app.hwaho-launching{animation:hwahoFrommStyleLaunch .38s cubic-bezier(.22,.8,.3,1) both !important;transform-origin:center center}
+/* 지피티 후속 질문 버튼 */
+.gp-fus{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.gp-fu{border:1px solid #d9d9d9;border-radius:18px;padding:8px 14px;font-size:14px;background:#fff;color:#0d0d0d;text-align:left}
