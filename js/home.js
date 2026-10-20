@@ -5,7 +5,7 @@
  * 아이콘 이미지로 교체: 앱 항목에 `img: "icons/kakaotalk.png"` 추가 (정사각형 PNG, 모서리는 자동 마스킹).
  * 배경 이미지로 교체: WALLPAPER 에 "url(wallpapers/bg.jpg)" 지정.
  */
-window.WALLPAPER = "url(wallpapers/bg.jpg)"; // 홈 화면과 잠금 화면이 같은 이미지를 사용합니다.
+window.WALLPAPER = "url(images/wallpapers/PlanKim-iOS-18-Wallpaper-Blue-Light.jpg)"; // 홈 화면과 잠금 화면 공통 배경
 
 const g = (id, a, b) => `<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="60" height="60" fill="url(#${id})"/>`;
 
