@@ -86,7 +86,7 @@
  function finalAlert(){if(stage!=="final-wait")return;setStage("final-alert");toast("네이버 뉴스",FINAL_TITLE,"Naver");}
  function scheduleFinal(ms){later("final",finalAlert,Math.max(0,ms));}
  document.addEventListener("story:yunho-post-viewed",()=>{if(stage!=="instagram"||igViewedAt)return;igViewedAt=Date.now();setStage("final-wait");scheduleFinal(FINAL_DELAY);});
- document.addEventListener("story:final-article-viewed",()=>{if(stage==="final-alert"||stage==="final-article"){root.innerHTML="";setStage("final-article");}});
+ document.addEventListener("story:final-article-viewed",()=>{if(stage==="final-alert"||stage==="final-article"){root.innerHTML="";if(window.HwahoClock)HwahoClock.set(16,2,0);setStage("final-article");}});
  /* 7. 윤호 카톡 대화가 끝나면 즉시 인스타 알림 */
  function scheduleInstagramAlert(){later("ig",()=>{if(stage!=="yunho-chat")return;setStage("ig-alert");toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");},1500);}
 
