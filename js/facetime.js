@@ -102,6 +102,10 @@ const FaceTimeApp = (() => {
   const ringtone = new Audio(new URL("../audio/iphone-original-ringtone.mp3", document.currentScript?.src || location.href).href);
   ringtone.loop = true;
   ringtone.preload = "auto";
+  ringtone.load();
+  document.addEventListener("pointerdown", function unlockringtone(){
+    try { ringtone.muted = true; const p = ringtone.play(); if (p && p.then) p.then(() => { ringtone.pause(); ringtone.currentTime = 0; ringtone.muted = false; }).catch(() => { ringtone.muted = false; }); else ringtone.muted = false; } catch(e) { ringtone.muted = false; }
+  }, { once: true, capture: true });
   function stopRingtone(){ ringtone.pause(); try { ringtone.currentTime = 0; } catch(e) {} }
   function startRingtone(){ stopRingtone(); try { const p = ringtone.play(); if (p && typeof p.catch === "function") p.catch(() => {}); } catch(e) {} }
   const DEFAULT_DIALOGUE = [
