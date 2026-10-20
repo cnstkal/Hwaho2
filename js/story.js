@@ -77,11 +77,8 @@
   const [from,msg,at]=yunhoLines[yunhoIndex++];
   if(isDot)dotAt=Date.now();/* 5분 타이머 기준: '.' 가 전송된 시점 (한 번만 기록) */
   persist();KakaoApp.appendStoryMessage(msg,"text","","c0",from,at);hint();
-  if(yunhoIndex===DOT_IDX)after("ydot",sendDot,DOT_DELAY);/* '윤호야아...' 직후 → '.' 즉시 */
-  else if(yunhoIndex===LONG_IDX)scheduleLong();/* '.' 전송 직후 → 5분 타이머 시작 */
+  if(yunhoIndex===LONG_IDX)scheduleLong();/* '.' 를 탭해 보낸 직후 → 5분 타이머 시작 */
  }
- /* '.' 자동 전송 (중복 방지: 인덱스·단계가 맞을 때만, 타이머는 이름당 하나) */
- function sendDot(){if(stage!=="yunho-chat"||yunhoIndex!==DOT_IDX)return;sendYunho();}
  /* 5분 대기: dotAt 기준 남은 시간만큼만 예약 — 새로고침/재진입해도 처음부터 다시 세지 않는다 */
  function scheduleLong(){
   if(stage!=="yunho-chat"||yunhoIndex!==LONG_IDX)return;
@@ -127,7 +124,7 @@
  });
  document.addEventListener("story:call-ended",e=>{if(e.detail&&e.detail.kind==="yunho")yunhoAfterCall();});
 
- function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;if(yunhoIndex===DOT_IDX||yunhoIndex===LONG_IDX)return;/* '.' 예약·5분 대기 중에는 탭으로 진행하지 않음 */sendYunho();if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
+ function nextYunhoMessage(){if(stage!=="yunho-chat"||yunhoIndex>=yunhoLines.length)return;if(yunhoIndex===LONG_IDX)return;/* 마지막 닭발 메시지는 '.' 전송 후 5분이 지나야 표시 */sendYunho();if(yunhoIndex===yunhoLines.length)scheduleInstagramAlert();}
  document.addEventListener("click",e=>{if(stage==="brother-chat"){if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()==="c19"&&e.target.closest("#kko-app #kk-msgs"))onBrotherTap();return;}if(stage==="manager-msg")return;if(stage!=="yunho-chat")return;if(window.KakaoApp&&KakaoApp.currentChatId&&KakaoApp.currentChatId()!=="c0")return;const box=e.target.closest("#kko-app #kk-msgs");if(box)nextYunhoMessage();},true);
 
  /* ---- 새로고침 후 복원: 끝난 이벤트는 다시 실행하지 않는다 ---- */
@@ -141,7 +138,7 @@
    case "deny-reading":if(viewedAt)scheduleCall(9000-(Date.now()-viewedAt));break;
    case "yunho-call":ringYunho();break;
    case "yunho-alert":toast("윤둥이",yunhoLines[0][1]);break;
-   case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();else if(yunhoIndex===DOT_IDX)after("ydot",sendDot,DOT_DELAY);else if(yunhoIndex===LONG_IDX)scheduleLong();break;
+   case "yunho-chat":if(yunhoIndex>=yunhoLines.length)scheduleInstagramAlert();else if(yunhoIndex===LONG_IDX)scheduleLong();break;
    case "ig-alert":toast("Instagram","yunou._.u 님이 게시물을 올렸습니다","Instagram");break;
    case "final-wait":scheduleFinal(FINAL_DELAY-(Date.now()-igViewedAt));break;
    case "final-alert":toast("네이버 뉴스",FINAL_TITLE,"Naver");break;
