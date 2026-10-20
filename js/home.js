@@ -227,7 +227,7 @@ window.APPS = {
   const dayMs = () => { const n = new Date(); return n.getTime() - new Date(n.getFullYear(), n.getMonth(), n.getDate()).getTime(); };
   let ckOff = null; try { const v = localStorage.getItem(CK); if (v !== null && v !== "") ckOff = Number(v); } catch (e) {}
   const ckSet = (h, m, s = 0) => { ckOff = (h * 3600 + m * 60 + s) * 1000 - dayMs(); try { localStorage.setItem(CK, String(ckOff)); } catch (e) {} document.dispatchEvent(new CustomEvent("story:clock")); };
-  if (ckOff === null || isNaN(ckOff)) ckSet(14, 24, 50);
+  if (ckOff === null || isNaN(ckOff)) ckSet(14, 25, 0); /* 스토리 시작 시각 (오후 2:25) */
   const ckNow = () => new Date(new Date(2026, 9, 19).getTime() + ((((dayMs() + ckOff) % DAY) + DAY) % DAY));
   window.HwahoClock = { now: ckNow, set: ckSet, hm() { const d = ckNow(); return [d.getHours(), d.getMinutes()]; }, label() { const d = ckNow(); return (d.getHours() < 12 ? "오전 " : "오후 ") + (d.getHours() % 12 || 12) + ":" + String(d.getMinutes()).padStart(2, "0"); } };
   let lastDay = 19, tickT = 0;
