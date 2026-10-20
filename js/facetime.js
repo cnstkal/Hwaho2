@@ -99,6 +99,11 @@ const FaceTimeApp = (() => {
   let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false, curKind = "", lastOpts = null;
   const storyStarted = () => !!(window.HwahoStory && window.HwahoStory.started);
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
+  const ringtone = new Audio(new URL("../audio/iphone-original-ringtone.mp3", document.currentScript?.src || location.href).href);
+  ringtone.loop = true;
+  ringtone.preload = "auto";
+  function stopRingtone(){ ringtone.pause(); try { ringtone.currentTime = 0; } catch(e) {} }
+  function startRingtone(){ stopRingtone(); try { const p = ringtone.play(); if (p && typeof p.catch === "function") p.catch(() => {}); } catch(e) {} }
   const DEFAULT_DIALOGUE = [
     ["성화","여보세요?","me",1500],
     ["성화","전화는 왜 안받았어?","me",1800],
@@ -121,7 +126,7 @@ const FaceTimeApp = (() => {
   /* 안내창은 한 번에 하나만, 그리고 스토리가 이미 시작된 뒤에는 다시 띄우지 않는다 */
   function prompt(){if(state!=="idle"||alertOpen||storyStarted()||window.HwahoIntroActive)return;state="prompt";setAlert(true);}
   /* 수신 화면의 이름/아바타 요소는 id가 아니라 class로 존재하므로 root 안에서 class로 찾는다 */
-  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};lastOpts=options;curKind=options.kind||"";CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-call-head b").textContent=CFG.caller;root.querySelector(".ft-call-avatar").textContent=ini;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
+  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};lastOpts=options;curKind=options.kind||"";CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-call-head b").textContent=CFG.caller;root.querySelector(".ft-call-avatar").textContent=ini;state="ringing";showIncoming(true);startRingtone();vib([400,200,400,200,400]);}
   function playDialogue(){
     if(state!=="call")return;
     if(lineIndex>=dialogue.length){endCall();return;}
@@ -150,7 +155,7 @@ const FaceTimeApp = (() => {
       if(PhoneApp.storyCall({name:CFG.caller,lines:dialogue.map(l=>[l[0],l[1],l[3]]),onEnd:finishCall}))return;
       state="ringing";showIncoming(true);
     }
-        clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="call";sec=0;lineIndex=0;if(curKind==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-connected"));
+        clearTimeout(missT);clearTimeout(dialogueT);stopRingtone();showIncoming(false);state="call";sec=0;lineIndex=0;if(curKind==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-connected"));
     el("ft-transcript").innerHTML="";showCall(true);el("ft-st").textContent="연결 중…";
     clearInterval(tickT);tickT=setInterval(()=>{sec++;el("ft-st").textContent="00:"+String(sec).padStart(2,"0");},1000);
     dialogueT=setTimeout(playDialogue,900);
@@ -167,14 +172,14 @@ const FaceTimeApp = (() => {
     switch(b.dataset.ft){
       case "yes":if(!alertOpen)break;setAlert(false);state="prompt";clearTimeout(ringT);ringT=0;document.dispatchEvent(new CustomEvent("story:start"));break;
       case "no":if(!alertOpen)break;setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{ringT=0;if(state==="idle")prompt();},40000);break;
-      case "decline":clearTimeout(missT);showIncoming(false);state="idle";if(curKind==="manager-second"){document.dispatchEvent(new CustomEvent("story:manager-second-declined"));break;}{const o=lastOpts||{},mgr=String(o.kind||"").indexOf("manager")===0;missT=setTimeout(()=>{if(state==="idle")ring(mgr&&o.redial?Object.assign({},o,{dialogue:o.redial}):o);},mgr?20000:1000);}break;
+      case "decline":clearTimeout(missT);stopRingtone();showIncoming(false);state="idle";if(curKind==="manager-second"){document.dispatchEvent(new CustomEvent("story:manager-second-declined"));break;}{const o=lastOpts||{},mgr=String(o.kind||"").indexOf("manager")===0;missT=setTimeout(()=>{if(state==="idle")ring(mgr&&o.redial?Object.assign({},o,{dialogue:o.redial}):o);},mgr?20000:1000);}break;
       case "accept":openCall();break;
       case "end":endCall();break;
       case "mute":case "speaker":b.classList.toggle("off");break;
       case "keypad":case "add":b.classList.toggle("off");break;
     }
   });
-  document.addEventListener("app:close",()=>{if(state==="call")endCall();});
+  document.addEventListener("app:close",()=>{stopRingtone();if(state==="call")endCall();});
   const q=new URLSearchParams(location.search).get("ft");
   let viewed=0,fired=false;
   const timer=setInterval(()=>{
