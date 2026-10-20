@@ -306,10 +306,10 @@ const MessagesApp = (() => {
       abs("070-7743-****", "spam", false, [[0, "엄마야 폰 액정 깨져서 임시폰으로 문자해 ㅠㅠ 급하게 부탁할 게 있는데 이 번호로 톡 줄 수 있어?", at(2, 11, 40)]]),
     ];
   };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(convs)); } catch (e) {} };
   if (!convs.length) convs = seedConvs();
   else if (!localStorage.getItem(SEED_KEY)) convs = convs.concat(seedConvs().filter(s => !convs.some(c => c.name === s.name)));
   try { localStorage.setItem(SEED_KEY, "1"); } catch (e) {} { let mk = 0; try { mk = localStorage.getItem("ios-msgs-mask1"); } catch (e) {} if (!mk) { const fx = t => typeof t === "string" ? t.replace(/\b(010-\d{4}|070-\d{4})-\d{4}\b/g, "$1-****") : t; convs.forEach(c => { c.name = fx(c.name); (c.msgs || []).forEach(m => { m.text = fx(m.text); }); }); try { localStorage.setItem("ios-msgs-mask1", "1"); } catch (e) {} save(); } }
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(convs)); } catch (e) {} };
   { let done = false; try { done = localStorage.getItem("ios-msgs-list-date-v5") === "1"; } catch (e) {} if (!done) { const fixed = {"박대표님":[11,21],"박재영(대표)":[11,21],"카카오":[12,3],"KB국민은행":[13,56],"KB국민카드":[13,56]}; const rest = convs.filter(c => c.msgs && c.msgs.length && !Object.prototype.hasOwnProperty.call(fixed,c.name)); const start = new Date(2026,9,13,9,0,0,0), end = new Date(2026,9,18,20,0,0,0); rest.forEach((conv,i) => { let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; const d=new Date(start.getTime()+Math.floor(i*(end.getTime()-start.getTime())/Math.max(1,rest.length-1))); latest.ts=d.getTime(); }); for (const conv of convs) { if (!Object.prototype.hasOwnProperty.call(fixed,conv.name) || !conv.msgs || !conv.msgs.length) continue; let latest=conv.msgs[0]; for (const msg of conv.msgs) if ((msg.ts||0)>(latest.ts||0)) latest=msg; const d=new Date(); d.setHours(fixed[conv.name][0],fixed[conv.name][1],0,0); latest.ts=d.getTime(); } try { localStorage.setItem("ios-msgs-list-date-v5","1"); } catch(e) {} save(); } }
   { let done = false; try { done = localStorage.getItem("ios-msgs-list-date-v6") === "1"; } catch (e) {} if (!done) {
     const fixed = new Set(["박대표님","박재영(대표)","카카오","KB국민은행","KB국민카드"]);
