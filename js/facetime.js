@@ -96,7 +96,7 @@ const FaceTimeApp = (() => {
 `;
   document.head.appendChild(style);
   const el = id => $("#" + id);
-  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false;
+  let state = "idle", missT = 0, ringT = 0, tickT = 0, dialogueT = 0, sec = 0, lineIndex = 0, alertOpen = false, curKind = "", lastOpts = null;
   const storyStarted = () => !!(window.HwahoStory && window.HwahoStory.started);
   const vib = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} };
   const DEFAULT_DIALOGUE = [
@@ -119,9 +119,9 @@ const FaceTimeApp = (() => {
   function showIncoming(on){el("ft-incoming").classList.toggle("on",on);el("ft-incoming").setAttribute("aria-hidden",on?"false":"true");}
   function showCall(on){el("ft-call").classList.toggle("on",on);el("ft-call").setAttribute("aria-hidden",on?"false":"true");}
   /* 안내창은 한 번에 하나만, 그리고 스토리가 이미 시작된 뒤에는 다시 띄우지 않는다 */
-  function prompt(){if(state!=="idle"||alertOpen||storyStarted())return;state="prompt";setAlert(true);}
+  function prompt(){if(state!=="idle"||alertOpen||storyStarted()||window.HwahoIntroActive)return;state="prompt";setAlert(true);}
   /* 수신 화면의 이름/아바타 요소는 id가 아니라 class로 존재하므로 root 안에서 class로 찾는다 */
-  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-call-head b").textContent=CFG.caller;root.querySelector(".ft-call-avatar").textContent=ini;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
+  function ring(options={}){clearTimeout(missT);if(state==="call"||state==="ringing")return;if(typeof options==="string")options={caller:options};lastOpts=options;curKind=options.kind||"";CFG.caller=options.caller||"윤둥이";dialogue=Array.isArray(options.dialogue)?options.dialogue:DEFAULT_DIALOGUE;const ini=CFG.caller.slice(0,1);root.querySelector(".ft-in-name").textContent=CFG.caller;root.querySelector(".ft-contact-avatar").textContent=ini;root.querySelector(".ft-call-head b").textContent=CFG.caller;root.querySelector(".ft-call-avatar").textContent=ini;state="ringing";showIncoming(true);vib([400,200,400,200,400]);}
   function playDialogue(){
     if(state!=="call")return;
     if(lineIndex>=dialogue.length){endCall();return;}
@@ -136,14 +136,14 @@ const FaceTimeApp = (() => {
     dialogueT=setTimeout(()=>{if(lineIndex>=dialogue.length)endCall();else playDialogue();},wait);
   }
   function openCall(){
-    clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="call";sec=0;lineIndex=0;
+    clearTimeout(missT);clearTimeout(dialogueT);showIncoming(false);state="call";sec=0;lineIndex=0;if(curKind==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-connected"));
     el("ft-transcript").innerHTML="";showCall(true);el("ft-st").textContent="연결 중…";
     clearInterval(tickT);tickT=setInterval(()=>{sec++;el("ft-st").textContent="00:"+String(sec).padStart(2,"0");},1000);
     dialogueT=setTimeout(playDialogue,900);
   }
   function endCall(){
     if(state!=="call")return;
-    clearInterval(tickT);clearTimeout(dialogueT);state="idle";showCall(false);document.dispatchEvent(new CustomEvent("story:call-ended"));
+    clearInterval(tickT);clearTimeout(dialogueT);state="idle";showCall(false);const k=curKind,who=CFG.caller;document.dispatchEvent(new CustomEvent("story:call-ended",{detail:{kind:k,caller:who}}));if(k==="manager-second")document.dispatchEvent(new CustomEvent("story:manager-call-ended"));
     el("ft-transcript").innerHTML="";
     root.querySelectorAll('[data-ft="mute"],[data-ft="speaker"]').forEach(b=>b.classList.remove("off"));
   }
@@ -152,7 +152,7 @@ const FaceTimeApp = (() => {
     switch(b.dataset.ft){
       case "yes":if(!alertOpen)break;setAlert(false);state="prompt";clearTimeout(ringT);ringT=0;document.dispatchEvent(new CustomEvent("story:start"));break;
       case "no":if(!alertOpen)break;setAlert(false);state="idle";clearTimeout(ringT);ringT=setTimeout(()=>{ringT=0;if(state==="idle")prompt();},40000);break;
-      case "decline":clearTimeout(missT);showIncoming(false);state="idle";missT=setTimeout(()=>{if(state==="idle")ring();},1000);break;
+      case "decline":clearTimeout(missT);showIncoming(false);state="idle";missT=setTimeout(()=>{if(state==="idle")ring(lastOpts||{});},1000);break;
       case "accept":openCall();break;
       case "end":endCall();break;
       case "mute":case "speaker":b.classList.toggle("off");break;
