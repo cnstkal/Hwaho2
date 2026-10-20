@@ -3,7 +3,7 @@
  const MANAGER="성현이형(매니저)", AVATAR="images/app/KakaoTalk/Profile/성현이형(매니저)/IMG_7422.jpeg";
  const DISPATCH="https://www.dispatch.co.kr/article/1";
  const generalTone = new Audio(new URL("../audio/kakaotalk/iphone%20notification%20tone.mp3", document.currentScript?.src || location.href).href);
- const kakaoTopTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
+ const kakaoTopTone = new Audio(new URL("../audio/general/%E1%84%8F%E1%85%A1%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%90%E1%85%A9%E1%86%A8.mp3", document.currentScript?.src || location.href).href);
  let audioUnlocked=false, pendingKakaoTone=false, pendingGeneralTone=false;
  for(const tone of [generalTone,kakaoTopTone]){tone.preload="auto";tone.load();}
  function playKakaoTopTone(){if(!audioUnlocked){pendingKakaoTone=true;return;}try{kakaoTopTone.pause();kakaoTopTone.currentTime=0;kakaoTopTone.muted=false;kakaoTopTone.volume=1;const p=kakaoTopTone.play();if(p&&p.catch)p.catch(()=>{pendingKakaoTone=true;});}catch(e){pendingKakaoTone=true;}}

@@ -941,3 +941,12 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 .cw-dow{font-size:calc(var(--icon)*.2);font-weight:600;line-height:1.1}
 .cw-day{font-size:calc(var(--icon)*.85);font-weight:300;line-height:1.05;letter-spacing:-.03em;margin-top:2px}
 .wgt-cal:active{transform:scale(.97);transition:transform .12s}
+
+/* 위젯: 1:1 비율, 글래스 효과 */
+.wgt{aspect-ratio:1/1;height:auto}
+.wgt-wx,.wgt-cal{background:rgba(36,40,50,.42);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);border:.5px solid rgba(255,255,255,.2);box-shadow:0 6px 24px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.25);color:#fff}
+.wgt-cal{justify-content:flex-start;padding:calc(var(--icon)*.22);color:#fff}
+.cw-dow{font-size:calc(var(--icon)*.22);font-weight:500}
+.cw-day{font-size:calc(var(--icon)*.85);font-weight:300;margin-top:2px}
+.cw-sch{margin-top:auto;padding:calc(var(--icon)*.1) calc(var(--icon)*.14);border-radius:calc(var(--icon)*.12);background:rgba(90,150,255,.22);border-left:3px solid #4d9bff;font-size:calc(var(--icon)*.2);font-weight:600;color:#9cc8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.cw-sch b{font-weight:600}
