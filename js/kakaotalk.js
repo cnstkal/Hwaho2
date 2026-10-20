@@ -652,8 +652,17 @@ const KakaoApp = (() => {
       let ts = Math.max(clock, lastTs + 60000);
       /* 스토리 시계가 있으면 그 시각(초 단위)을 그대로 사용 — 상태바/알림/기사 시각과 일치 */
       if (window.HwahoClock && !Array.isArray(at)) { const lastStory = c.msgs.reduce((a, m) => m.storySequence ? Math.max(a, m.ts || 0) : a, 0); ts = Math.max(window.HwahoClock.now().getTime(), lastStory + 1000); at = null; }
-      /* at=[시,분] 이면 같은 분 안에 여러 메시지를 1초 간격으로 쌓는다 */
-      if (Array.isArray(at)) { const base = new Date(2026, 9, 19, at[0], at[1], 0).getTime(), same = c.msgs.filter(m => m.storySequence && m.ts >= base && m.ts < base + 60000).length; ts = Math.max(base + same * 1000, lastTs + 1); }
+      /* 스토리 진행 중 내가 보내는 카톡의 표시 시각은 오후 2:52로 고정한다.
+         상태바 시계(HwahoClock)는 변경하지 않는다. */
+      if (from === "me") {
+        const base = new Date(2026, 9, 19, 14, 52, 0).getTime();
+        const same = c.msgs.filter(m => m.storySequence && m.from === "me" && m.ts >= base && m.ts < base + 60000).length;
+        ts = base + same * 1000;
+      } else if (Array.isArray(at)) {
+        const base = new Date(2026, 9, 19, at[0], at[1], 0).getTime();
+        const same = c.msgs.filter(m => m.storySequence && m.ts >= base && m.ts < base + 60000).length;
+        ts = Math.max(base + same * 1000, lastTs + 1);
+      }
       c.msgs.push({ id: uid(), from, text, type: type === "link" ? "story-link" : "text", url, storySequence: true, ts });
       /* 지금 보고 있는 채팅방이면 읽음, 아니면 상대 메시지만 안 읽음 수에 반영 */
       if (isOpen && cur && cur.id === c.id) c.unread = 0;
