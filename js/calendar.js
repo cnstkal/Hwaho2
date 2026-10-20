@@ -42,11 +42,18 @@
     if (load(KEY, false)) return;
     const extra = [
       { id: "user-yunho-japan-202610", title: "윤호랑 일본❤️", loc: "", notes: "", allDay: true, start: "2026-10-25T00:00", end: "2026-10-28T23:59", cal: "school", rep: "", trv: "0", alr: "", url: "" },
-      { id: "user-anniversary-20261120", title: "7주년 ❤️", loc: "", notes: "", allDay: true, start: "2026-11-20T00:00", end: "2026-11-20T23:59", cal: "important", rep: "", trv: "0", alr: "", url: "" },
       { id: "user-final-recording-20261019", title: "최종 녹음", loc: "", notes: "", allDay: true, start: "2026-10-19T00:00", end: "2026-10-19T23:59", cal: "school", rep: "", trv: "0", alr: "", url: "" }
     ];
     const ids = new Set(events.map(e => e.id));
     extra.forEach(e => { if (!ids.has(e.id)) events.push(e); });
+    store(KEY_E, events); store(KEY, true);
+  })();
+  /* 삭제 요청 일정: 기존 기기에 저장된 7주년 일정도 제거 */
+  (function removeAnniversaryEvent() {
+    const KEY = "ioshome.calendar.removeAnniversary20261021";
+    if (load(KEY, false)) return;
+    events = events.filter(e => e.id !== "user-anniversary-20261120" &&
+      !(e.title === "7주년 ❤️" && String(e.start).slice(0, 10) === "2026-11-20"));
     store(KEY_E, events); store(KEY, true);
   })();
   /* 일정 수정(베트남 삭제, 쇼미 평일 재배치): 기존 저장 데이터에도 한 번만 반영 */
