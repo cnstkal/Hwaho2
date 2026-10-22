@@ -1,194 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>Hwaho AI</title>
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo",sans-serif;overflow:hidden}
-body{display:grid;place-items:center;background:#0b0d14;color:#fff}
-
-/* 폰 화면: 좌우 여백 0, 화면 꽉 채움 */
-#phone{position:relative;width:100vw;height:100dvh;margin:0;display:flex;flex-direction:column;overflow:hidden;isolation:isolate;
-  background:
-    radial-gradient(ellipse 80% 38% at 78% 78%,#ffb347 0%,#f28d3a 35%,transparent 70%),
-    radial-gradient(ellipse 70% 30% at 20% 92%,#ffe27a 0%,#f0b24a 40%,transparent 72%),
-    radial-gradient(ellipse 90% 40% at 8% 55%,#34b3a0 0%,#2c8f9c 40%,transparent 75%),
-    radial-gradient(ellipse 80% 45% at 100% 40%,#2c5fd0 0%,#2a6fd8 40%,transparent 75%),
-    linear-gradient(180deg,#3a86d9 0%,#2f74cf 35%,#2a8ab8 65%,#e9a653 100%)}
-/* 월페이퍼 곡선 느낌 */
-#phone:before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(circle at 45% 62%,transparent 0 34%,#ffffff22 34.4%,transparent 35.4%),
-    radial-gradient(circle at 45% 62%,transparent 0 46%,#1b3f9a55 46.4%,transparent 48%),
-    radial-gradient(circle at 25% 78%,#ffffff26 0,transparent 30%)}
-/* 위 -> 아래 부드러운 빛 */
-#phone:after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(180deg,#ffffff14,transparent 25%,#0a1d5a22)}
-
-/* 글래스 공통 */
-.glass{background:linear-gradient(150deg,#ffffff52,#ffffff1f);
-  backdrop-filter:blur(26px) saturate(190%);-webkit-backdrop-filter:blur(26px) saturate(190%);
-  border:1px solid #ffffff59;
-  box-shadow:inset 0 1px 1px #ffffffb3,inset 0 -1px 2px #ffffff30,0 10px 30px #0a1d5a40}
-
-.status{position:absolute;top:0;left:0;right:0;z-index:10;height:calc(54px + env(safe-area-inset-top,0px));flex-shrink:0;padding:calc(16px + env(safe-area-inset-top,0px)) 30px 0 34px;display:flex;justify-content:space-between;align-items:center;pointer-events:none;background:var(--app-status-bg,transparent);transition:background-color .18s ease}
-.status #clock{font-size:17px;font-weight:600;letter-spacing:-.3px;color:#fff;text-shadow:0 1px 3px #0a1d5a40}
-.island{overflow:hidden;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:width .38s cubic-bezier(.2,.9,.25,1),height .38s cubic-bezier(.2,.9,.25,1),border-radius .38s cubic-bezier(.2,.9,.25,1);position:absolute;left:50%;top:calc(11px + env(safe-area-inset-top,0px));transform:translateX(-50%);width:120px;height:35px;border-radius:20px;background:#000}
-.status .signals{display:flex;gap:6px;align-items:center}
-.status svg{height:13px;width:auto}
-
-main{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));row-gap:24px;column-gap:0;padding:calc(env(safe-area-inset-top,0px) + 84px) 0 0;margin:0;align-content:start;width:100%;flex:1 1 auto;min-height:0}
-a{color:#fff;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;font-weight:500;text-shadow:0 1px 4px #10285e80;min-width:0}
-.icon{position:relative;width:60px;height:60px;border-radius:15px;display:grid;place-items:center;overflow:hidden;
-  background:linear-gradient(150deg,#ffffffee,#ffffffb8);
-  box-shadow:inset 0 1px 1px #fff,inset 0 -2px 3px #0000001a,0 8px 16px #0c224f40,0 1px 3px #0c224f30}
-.icon:before{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(180deg,#ffffff8c,transparent);pointer-events:none;z-index:2}
-svg{width:100%;height:100%;display:block}
-
-/* 검색 알약 */
-.search{position:relative;z-index:1;margin:auto auto 14px;height:36px;padding:0 18px;border-radius:20px;display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;color:#ffffffee;flex-shrink:0}
-.search svg{width:14px;height:14px}
-
-/* 독: 좌우 여백 0 */
-.dock{position:absolute;z-index:1;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 46px);transform:translateX(-50%);width:auto;height:84px;padding:0 14px;border-radius:42px;display:flex;align-items:center;justify-content:center;gap:16px}
-.dock .icon{width:60px;height:60px;border-radius:15px}
-.dock a{gap:0;text-shadow:none;transform:translateY(0)}
-
-#phone.app-open .dock{background:var(--app-bottom-bg,#fff);box-shadow:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}#phone.app-open .dock>a{visibility:hidden}.island.ex{width:300px;height:64px;border-radius:32px}.island .isl-t,.island .isl-s{max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25;padding:0 14px}.island .isl-t{font-size:13px;font-weight:600}.island .isl-s{font-size:11px;opacity:.7}#phone.app-open .homebar{left:0;right:0;width:auto;transform:none;bottom:0;height:calc(28px + env(safe-area-inset-bottom,0px));align-items:flex-end;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 6px);background:var(--app-bottom-bg,#fff)}.homebar{position:absolute;z-index:12;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 2px);width:150px;height:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.homebar:after{content:"";width:138px;height:5px;border-radius:999px;background:rgba(235,235,240,.9);box-shadow:0 0 2px rgba(0,0,0,.16);pointer-events:none}#phone.app-light .homebar:after{background:rgba(0,0,0,.8);box-shadow:none}
-
-iframe{display:none;position:absolute;top:54px;left:0;right:0;bottom:0;width:100%;height:calc(100% - 54px);border:0;background:#fff;z-index:5;opacity:1;transform:translateY(0) scale(1);transform-origin:center;will-change:opacity,transform}
-iframe.app-entering{display:block;animation:appEnter .28s cubic-bezier(.2,.85,.25,1) both}
-iframe.app-leaving{display:block;animation:appLeave .20s cubic-bezier(.4,0,.8,.2) both}
-@keyframes appEnter{
-  0%{opacity:.7;transform:translateY(38px) scale(.84);clip-path:inset(8% 8% 2% round 34px);filter:brightness(.88)}
-  68%{opacity:1;transform:translateY(-3px) scale(1.012);clip-path:inset(0 round 3px);filter:brightness(1.03)}
-  100%{opacity:1;transform:translateY(0) scale(1);clip-path:inset(0 round 0);filter:brightness(1)}
-}
-@keyframes appLeave{
-  0%{opacity:1;transform:translateY(0) scale(1);clip-path:inset(0 round 0);filter:brightness(1)}
-  100%{opacity:.72;transform:translateY(34px) scale(.86);clip-path:inset(7% 7% 1% round 32px);filter:brightness(.9)}
-}
-#phone.app-opening main,#phone.app-opening .dock{animation:homeDim .32s cubic-bezier(.2,.8,.2,1) both}
-#phone.app-closing main,#phone.app-closing .dock{animation:homeReturn .38s cubic-bezier(.16,1,.3,1) both}
-@keyframes homeDim{to{opacity:.42;transform:scale(.94) translateY(8px);filter:blur(1.5px)}}
-@keyframes homeReturn{from{opacity:.42;transform:scale(.94) translateY(8px);filter:blur(1.5px)}to{opacity:1;transform:scale(1) translateY(0);filter:blur(0)}}
-/* 하단 홈 인디케이터가 앱 종료/홈 복귀 역할을 대신합니다. */
-
-/* 데스크톱에서만 폰 프레임, 모바일은 꽉 찬 화면 */
-@media(min-width:700px){#phone{height:min(100dvh,900px);width:min(100vw,calc(100dvh*.5625),506px);border-radius:0}}
-</style>
-</head>
-<body><div id="phone">
-<div class="status"><span id="clock">10:11</span><div class="island" id="island" role="status" aria-live="polite"></div><span class="signals"><svg viewBox="0 0 20 14" fill="none"><path d="M1 4.6C6 -.2 14 -.2 19 4.6M4 8c3.5-3.2 8.5-3.2 12 0M7.5 11.3c1.5-1.3 3.5-1.3 5 0" stroke="white" stroke-width="2" stroke-linecap="round"/></svg><svg viewBox="0 0 28 14" fill="none"><rect x="1" y="1" width="23" height="12" rx="3.5" stroke="#ffffff88" stroke-width="1"/><rect id="battery-fill" x="2.5" y="2.5" width="15" height="9" rx="2.2" fill="white"/><path d="M26 5v4" stroke="#ffffff88" stroke-width="1.6" stroke-linecap="round"/></svg></span></div>
-<main><a href="apps/Photo.html"><span class="icon"><svg viewBox="0 0 40 40"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff5d8f"/><stop offset=".5" stop-color="#ffd34f"/><stop offset="1" stop-color="#6bc7ff"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="17" fill="url(#g)"/><circle cx="20" cy="20" r="9" fill="white"/><circle cx="20" cy="20" r="6" fill="#ff7c9e"/><circle cx="29" cy="11" r="2" fill="white"/></svg></span>사진</a>
-<a href="apps/instagram.html"><span class="icon"><svg viewBox="0 0 40 40"><defs><linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#ffb52e"/><stop offset=".5" stop-color="#e1306c"/><stop offset="1" stop-color="#7438c9"/></linearGradient></defs><rect x="3" y="3" width="34" height="34" rx="10" fill="url(#ig)"/><rect x="10" y="10" width="20" height="20" rx="6" fill="none" stroke="white" stroke-width="2.5"/><circle cx="20" cy="20" r="5" fill="none" stroke="white" stroke-width="2.5"/><circle cx="27" cy="13" r="1.7" fill="white"/></svg></span>인스타</a>
-<a href="apps/Dcinside.html"><span class="icon"><svg viewBox="0 0 40 40"><rect x="3" y="3" width="34" height="34" rx="17" fill="#252a34"/><text x="20" y="25" font-size="17" font-weight="900" text-anchor="middle" fill="white">dc</text></svg></span>디시</a>
-<a href="apps/Kakaotalk.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#fee500"/><path d="M20 8C12.8 8 7 12.5 7 18c0 3.3 2.1 6.2 5.4 7.9l-1.2 5.2 6.1-3.3c.9.1 1.8.2 2.7.2 7.2 0 13-4.5 13-10S27.2 8 20 8z" fill="#342b22"/></svg></span>카카오톡</a>
-<a href="apps/IMessage.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#f8f8fa"/><path d="M20 6C12 6 6 11.2 6 17.8c0 3.4 1.7 6.4 4.5 8.5l-1 6 6.3-3.2c1.3.4 2.7.6 4.2.6 8 0 14-5.2 14-11.8S28 6 20 6z" fill="#29c65a"/></svg></span>iMessage</a>
-<a href="apps/Phone.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#35c759"/><path d="M12 7c-2 0-4 2-4 4 0 11 10 21 21 21 2 0 4-2 4-4v-4l-7-3-3 4c-4-2-6-4-8-8l4-3-3-7z" fill="white"/></svg></span>전화</a>
-<a href="apps/Memo.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#ffd84d"/><rect x="7" y="5" width="26" height="30" rx="3" fill="#fffdf4"/><path d="M12 13h16M12 19h16M12 25h12" stroke="#c4c4c4" stroke-width="1.5"/></svg></span>메모</a>
-<a href="apps/Settings.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#aeb4bd"/><g fill="#f8f8fa"><circle cx="20" cy="20" r="11"/><circle cx="20" cy="20" r="5" fill="#8e959e"/></g><g fill="#f8f8fa"><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(0 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(45 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(90 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(135 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(180 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(225 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(270 20 20)"/><rect x="18" y="4" width="4" height="8" rx="1" transform="rotate(315 20 20)"/></g><circle cx="20" cy="20" r="5" fill="#8e959e"/></svg></span>설정</a>
-<a href="apps/Translate.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#e8f1ff"/><rect x="4" y="7" width="21" height="25" rx="4" fill="#2878ed"/><rect x="15" y="10" width="21" height="23" rx="4" fill="#fff"/><path d="M20 17h11M20 21h8M20 25h9" stroke="#2878ed" stroke-width="1.7" stroke-linecap="round"/><path d="M9 15h10M14 12v12M10 21l4 4 4-4" stroke="#fff" stroke-width="1.5" fill="none"/></svg></span>번역</a>
-<a href="apps/YouTube.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#fff"/><rect x="4" y="9" width="32" height="22" rx="6" fill="#ff0033"/><path d="M17 14l10 6-10 6z" fill="white"/></svg></span>YouTube</a>
-<a href="apps/music.html"><span class="icon"><svg viewBox="0 0 40 40"><defs><linearGradient id="musicIcon" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fa6b9a"/><stop offset="1" stop-color="#8a4de8"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#musicIcon)"/><path d="M24 9v18.5a5 5 0 1 1-3-4.6V14l11-3v13.5a5 5 0 1 1-3-4.6V7z" fill="white"/></svg></span>뮤직</a>
-<a href="apps/날씨.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#6ab8ff"/><circle cx="25" cy="14" r="7" fill="#ffd95c"/><path d="M11 29a7 7 0 0 1 1-14 10 10 0 0 1 19 4 5 5 0 0 1 0 10z" fill="#fff"/></svg></span>날씨</a>
-<a href="apps/Calendar.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="9" fill="#fff"/><rect x="4" y="7" width="32" height="29" rx="5" fill="#fff" stroke="#e2e2e7"/><path d="M4 12a5 5 0 0 1 5-5h22a5 5 0 0 1 5 5v5H4z" fill="#ff453a"/><path d="M12 4v7M28 4v7" stroke="#888" stroke-width="2.5" stroke-linecap="round"/><text x="20" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#222">22</text></svg></span>캘린더</a>
-<a href="apps/Postype.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#2d7ff9"/><path d="M11 7h12c8 0 12 5 12 12S31 31 23 31h-5v5H8V7zm7 7v10h5c3 0 5-2 5-5s-2-5-5-5z" fill="#fff"/></svg></span>포스타입</a>
-<a href="apps/X.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#000"/><path d="M9 8h7.5l6.2 8.2L29.5 8H33L24.3 18l8.5 14h-7.5l-6.8-9-7.8 9H7.2l9.6-11z" fill="#fff"/></svg></span>X</a>
-<a href="apps/yuyu.html"><span class="icon"><svg viewBox="0 0 40 40"><defs><linearGradient id="yuyuBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b8a4ff"/><stop offset="1" stop-color="#7560e8"/></linearGradient></defs><rect width="40" height="40" rx="10" fill="url(#yuyuBg)"/><path d="M8 11.5A5.5 5.5 0 0 1 13.5 6h13A5.5 5.5 0 0 1 32 11.5v11a5.5 5.5 0 0 1-5.5 5.5H19l-7 5v-5.6a5.5 5.5 0 0 1-4-5.3z" fill="#fff"/><path d="m20 10 1.7 4.3L26 16l-4.3 1.7L20 22l-1.7-4.3L14 16l4.3-1.7z" fill="#8c79ef"/><circle cx="26.5" cy="23.5" r="2" fill="#b7a8ff"/></svg></span>yuyu</a></main>
-
-<div class="dock glass"><a href="apps/Phone.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#35c759"/><path d="M12 7c-2 0-4 2-4 4 0 11 10 21 21 21 2 0 4-2 4-4v-4l-7-3-3 4c-4-2-6-4-8-8l4-3-3-7z" fill="white"/></svg></span></a><a href="apps/Kakaotalk.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#fee500"/><path d="M20 8C12.8 8 7 12.5 7 18c0 3.3 2.1 6.2 5.4 7.9l-1.2 5.2 6.1-3.3c.9.1 1.8.2 2.7.2 7.2 0 13-4.5 13-10S27.2 8 20 8z" fill="#342b22"/></svg></span></a><a href="apps/IMessage.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#29c65a"/><path d="M20 6C12 6 6 11.2 6 17.8c0 3.4 1.7 6.4 4.5 8.5l-1 6 6.3-3.2c1.3.4 2.7.6 4.2.6 8 0 14-5.2 14-11.8S28 6 20 6z" fill="white"/></svg></span></a><a href="apps/Photo.html"><span class="icon"><svg viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="#f8f8fa"/><circle cx="20" cy="20" r="13" fill="#ff8b9b"/><circle cx="20" cy="20" r="6" fill="white"/></svg></span></a></div><div class="homebar" role="button" tabindex="0" aria-label="홈으로 이동"></div>
-<iframe id="app" title="앱"></iframe>
-<script>
-const frame=document.getElementById('app'),homebar=document.querySelector('.homebar'),phone=document.getElementById('phone');
-function sizeAppFrame(){const top=frame.dataset.selfpad?0:document.querySelector('.status').offsetHeight,bot=document.querySelector('.homebar').offsetHeight;frame.style.setProperty('position','absolute','important');frame.style.setProperty('top',top+'px','important');frame.style.setProperty('left','0','important');frame.style.setProperty('right','0','important');frame.style.setProperty('bottom',bot+'px','important');frame.style.setProperty('width','100%','important');frame.style.setProperty('height',Math.max(0,phone.clientHeight-top-bot)+'px','important');}
-sizeAppFrame();window.addEventListener('resize',sizeAppFrame);
-let closeTimer;
-function goHome(){
-  if(frame.style.display==='none') return;
-  frame.classList.remove('app-entering');
-  frame.classList.add('app-leaving');
-  phone.classList.remove('app-opening');phone.classList.add('app-closing');
-  clearTimeout(closeTimer);
-  closeTimer=setTimeout(()=>{frame.src='about:blank';frame.style.display='none';document.querySelector('.status').style.setProperty('--app-status-bg','transparent');document.querySelector('.status').style.color='';frame.classList.remove('app-leaving','app-entering');phone.classList.remove('app-closing','app-open','app-light');},150);
-}
-function tick(){const d=new Date(),h=d.getHours()%12||12,m=String(d.getMinutes()).padStart(2,'0');document.getElementById('clock').textContent=h+':'+m}tick();setInterval(tick,10000);
-// 브라우저가 배터리 상태 접근을 지원하는 경우 실제 잔량을 표시합니다.
-if(navigator.getBattery){navigator.getBattery().then(battery=>{const fill=document.getElementById('battery-fill');const draw=()=>{fill.setAttribute('width',Math.max(1,15*battery.level));fill.setAttribute('fill',battery.level<=0.2?'#ff453a':'white')};draw();battery.addEventListener('levelchange',draw);}).catch(()=>{});}
-document.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{
-  e.preventDefault();
-  clearTimeout(closeTimer);
-  phone.classList.remove('app-closing','app-opening');phone.classList.add('app-opening','app-open');
-  frame.classList.remove('app-leaving','app-entering');
-  delete frame.dataset.selfpad;frame.style.display='block';
-  sizeAppFrame();
-  frame.src=a.getAttribute('href');
-  void frame.offsetWidth;
-  frame.classList.add('app-entering');
-}));
-function syncStatusBar(){
-  const status=document.querySelector('.status');
-  try{
-    const d=frame.contentDocument;
-    if(!d){status.style.setProperty('--app-status-bg','transparent');return;}
-    const transparent=v=>!v||v==='transparent'||v==='rgba(0, 0, 0, 0)';
-    const candidates=[d.querySelector('header'),d.querySelector('nav'),d.querySelector('main'),d.querySelector('[role="main"]'),d.body,d.documentElement].filter(Boolean);
-    let color='';
-    for(const el of candidates){
-      const bg=frame.contentWindow.getComputedStyle(el).backgroundColor;
-      if(!transparent(bg)){color=bg;break;}
-    }
-    status.style.setProperty('--app-status-bg',color||'transparent');const bc=(()=>{try{const w=frame.contentWindow,d=frame.contentDocument;let el=d.elementFromPoint(w.innerWidth/2,w.innerHeight-4);while(el){const c=w.getComputedStyle(el).backgroundColor;if(c&&c!=='rgba(0, 0, 0, 0)'&&c!=='transparent')return c;el=el.parentElement;}}catch(e){}return color||'#fff';})();phone.style.setProperty('--app-bottom-bg',bc);const bm=(bc.match(/\d+(\.\d+)?/g)||[]).map(Number);if(bm.length>=3)phone.classList.toggle('app-light',(.2126*bm[0]+.7152*bm[1]+.0722*bm[2])/255>0.62);
-    const fg=(color.match(/rgba?\(([^)]+)\)/)||[])[1];
-    if(fg){
-      const nums=fg.split(',').slice(0,3).map(v=>parseFloat(v.trim()));
-      if(nums.length===3){
-        const luminance=(.2126*nums[0]+.7152*nums[1]+.0722*nums[2])/255;
-        status.style.color=luminance>0.62?'#111':'#fff';
-        status.querySelectorAll('svg').forEach(svg=>svg.style.color=status.style.color);
-      }
-    }
-  }catch(e){status.style.setProperty('--app-status-bg','transparent');}
-}
-function silenceApp(){
-  try{
-    const w=frame.contentWindow,d=frame.contentDocument;
-    if(!w||!d)return;
-    const mute=()=>{
-      d.querySelectorAll('audio,video').forEach(m=>{try{m.muted=true;m.defaultMuted=true;m.volume=0;m.setAttribute('muted','');}catch(e){}});
-      d.querySelectorAll('audio').forEach(m=>{try{m.pause();}catch(e){}});
-    };
-    mute();
-    if(!w.__hwahoSilenceInstalled){
-      w.__hwahoSilenceInstalled=true;
-      try{
-        const proto=w.HTMLMediaElement&&w.HTMLMediaElement.prototype;
-        if(proto){
-          const play=proto.play;
-          proto.play=function(){this.muted=true;this.defaultMuted=true;this.volume=0;return play.call(this);};
-        }
-      }catch(e){}
-      try{
-        if(w.AudioContext&&w.AudioContext.prototype){
-          const resume=w.AudioContext.prototype.resume;
-          w.AudioContext.prototype.resume=function(){return this.suspend();};
-        }
-        if(w.webkitAudioContext&&w.webkitAudioContext.prototype){
-          w.webkitAudioContext.prototype.resume=function(){return this.suspend();};
-        }
-      }catch(e){}
-      try{new w.MutationObserver(mute).observe(d.documentElement,{childList:true,subtree:true});}catch(e){}
-    }
-  }catch(e){}
-}
-frame.addEventListener('load',()=>{silenceApp();syncStatusBar();try{if(frame.contentDocument&&frame.contentDocument.documentElement.hasAttribute('data-selfpad')){frame.dataset.selfpad='1';document.querySelector('.status').style.setProperty('--app-status-bg','transparent');sizeAppFrame();}}catch(e){}});
-frame.addEventListener('animationend',e=>{if(e.animationName==='appEnter')frame.classList.remove('app-entering');});
-let hbY=null,hbX=0;
-homebar.addEventListener('pointerdown',e=>{hbY=e.clientY;hbX=e.clientX;try{homebar.setPointerCapture(e.pointerId)}catch(_){}});
-homebar.addEventListener('pointerup',e=>{if(hbY===null)return;const dy=hbY-e.clientY,dx=Math.abs(hbX-e.clientX),dist=Math.hypot(dx,dy);hbY=null;if(dist<14||(dy>18&&dy>dx*.8))goHome();});
-homebar.addEventListener('pointercancel',()=>{hbY=null});
-window.Island={show(i){const el=document.getElementById('island');if(!el)return;el.classList.add('ex');el.innerHTML='';const t=document.createElement('span');t.className='isl-t';t.textContent=i&&i.title||'';const a=document.createElement('span');a.className='isl-s';a.textContent=i&&i.artist||'';el.append(t,a);},hide(){const el=document.getElementById('island');if(!el)return;el.classList.remove('ex');el.textContent='';}};
-homebar.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();goHome()}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')goHome()});
-</script></div></body></html>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Home">
+<meta name="theme-color" content="#000000">
+<meta name="format-detection" content="telephone=no">
+<title>Home</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="css/base.css?v=20261015-2"><link rel="stylesheet" href="css/notes.css?v=20261015-2"><link rel="stylesheet" href="css/lock.css?v=1"></head>
+<body>
+<div id="device">
+<div id="screen">
+<div id="wallpaper"></div>
+<header id="statusbar">
+<div class="sb-left"><span id="clock">9:41</span></div>
+<div class="island" id="isl" role="button" aria-label="다이내믹 아일랜드"><div class="isl-m"><span class="isl-th"></span><span class="isl-bars"><i></i><i></i><i></i><i></i></span></div><div class="isl-x"><div class="isl-r1"><span class="isl-th big"></span><div class="isl-tx"><b></b><small></small></div><span class="isl-bars"><i></i><i></i><i></i><i></i></span></div><div class="isl-pg"><small class="a">0:00</small><div class="isl-bar"><i></i></div><small class="b">0:00</small></div><div class="isl-ct"><button data-i="prev" aria-label="이전 곡"></button><button data-i="pp" aria-label="재생/일시정지"></button><button data-i="next" aria-label="다음 곡"></button></div></div></div>
+<div class="sb-right">
+<svg class="sb-wifi" viewBox="0 0 18 14" aria-label="Wi-Fi"><path d="M1 4.2C5.5.3 12.5.3 17 4.2L15.4 5.8C11.8 2.7 6.2 2.7 2.6 5.8Z"/><path d="M4 7.2c2.9-2.5 7.1-2.5 10 0l-1.6 1.6c-2-1.7-4.8-1.7-6.8 0Z"/><path d="M7 10.2c1.2-1 2.8-1 4 0L9 12.3Z"/></svg>
+<div class="sb-battery" aria-label="배터리">
+<div class="bat-body"><i id="bat-level"></i><svg class="bat-bolt" viewBox="0 0 10 14" aria-hidden="true"><path d="M6.3 0L.8 7.7h3.5L3.4 14l5.8-8.1H5.7z" fill="#000"/></svg></div>
+<div class="bat-cap"></div>
+</div>
+</div>
+</header>
+<main id="home">
+<section class="grid" id="grid" aria-label="앱"></section>
+<div class="spacer"></div>
+<div class="page-dots" aria-hidden="true"><i class="on"></i><i></i></div>
+<nav class="dock-wrap" aria-label="독"><div class="dock" id="dock"></div></nav>
+</main>
+<div id="cal-app" aria-hidden="true"></div>
+<div id="cam-app" aria-hidden="true"></div>
+<div id="pho-app" aria-hidden="true"></div>
+<div id="msg-app" aria-hidden="true"></div>
+<div id="tel-app" aria-hidden="true"></div>
+<div id="saf-app" aria-hidden="true"></div>
+<div id="kko-app" aria-hidden="true"></div>
+<div id="ig-app" aria-hidden="true"></div>
+<div id="clk-app" aria-hidden="true"></div>
+<div id="x-app" aria-hidden="true"></div>
+<div id="et-app" aria-hidden="true"></div>
+<div id="gp-app" aria-hidden="true"></div>
+<div id="sp-app" aria-hidden="true"></div>
+<div id="fm-app" aria-hidden="true"></div>
+<div id="nt-app" aria-hidden="true"></div>
+<div id="yt-app" aria-hidden="true"></div>
+<div id="nf-app" aria-hidden="true"></div>
+<div id="dg-app" aria-hidden="true"></div>
+<div id="bm-app" aria-hidden="true"></div>
+<div id="am-app" aria-hidden="true"></div>
+<div id="home-indicator-zone" aria-label="홈으로 이동"><div id="home-indicator" aria-hidden="true"></div></div>
+<div id="lock" data-state="locked" aria-label="잠금 화면"><div class="lk-bg"></div><div class="lk-shade"></div>
+<div class="lk-bar"><div class="lk-l"><svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg></div><div class="lk-isl"></div>
+<div class="lk-r"><svg width="17" height="12" viewBox="0 0 18 14"><path d="M1 4.2C5.5.3 12.5.3 17 4.2L15.4 5.8C11.8 2.7 6.2 2.7 2.6 5.8Z"/><path d="M4 7.2c2.9-2.5 7.1-2.5 10 0l-1.6 1.6c-2-1.7-4.8-1.7-6.8 0Z"/><path d="M7 10.2c1.2-1 2.8-1 4 0L9 12.3Z"/></svg><div class="lk-bat"><div class="b"><i></i></div><div class="c"></div></div></div></div>
+<div class="lk-main"><div class="lk-date" id="lk-date"></div><div class="lk-time" id="lk-time"></div><div class="lk-notis" id="lk-notis"></div></div>
+<div class="lk-bottom"><button class="lk-ico" aria-label="손전등"><svg viewBox="0 0 24 24"><path d="M8 2h8v4l-1.5 2v3.5L12 22l-2.5-10.5V8L8 6z"/><path d="M8 5h8"/></svg></button><button class="lk-ico" aria-label="카메라"><svg viewBox="0 0 24 24"><path d="M4 8h3l1.5-2.5h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.2" r="3.6"/></svg></button></div>
+<div class="lk-pass"><div class="lk-title">암호 입력</div><div class="lk-dots"><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="lk-pad"><button class="k" data-k="1"><b>1</b><small></small></button><button class="k" data-k="2"><b>2</b><small>ABC</small></button><button class="k" data-k="3"><b>3</b><small>DEF</small></button><button class="k" data-k="4"><b>4</b><small>GHI</small></button><button class="k" data-k="5"><b>5</b><small>JKL</small></button><button class="k" data-k="6"><b>6</b><small>MNO</small></button><button class="k" data-k="7"><b>7</b><small>PQRS</small></button><button class="k" data-k="8"><b>8</b><small>TUV</small></button><button class="k" data-k="9"><b>9</b><small>WXYZ</small></button><span></span><button class="k" data-k="0"><b>0</b><small></small></button><button class="k act" id="lk-act" data-m="cancel">취소</button></div></div>
+<div class="lk-home"></div></div>
+</div>
+</div>
+<script src="js/home.js?v=20261015-3"></script>
+<script src="js/calendar.js?v=20261015-2"></script>
+<script src="js/photos.js?v=20261015-2"></script>
+<script src="js/imessage.js?v=20261015-2"></script>
+<script src="js/phone.js?v=20261015-2"></script>
+<script src="js/safari.js?v=20261015-2"></script>
+<script src="js/kakaotalk.js?v=20261015-2"></script>
+<script src="js/instagram.js?v=20261015-3"></script>
+<script src="js/clock.js?v=20261015-2"></script>
+<script src="js/twitter.js?v=20261015-2"></script>
+<script src="js/everytime.js?v=20261015-2"></script>
+<script src="js/chatgpt.js?v=20261015-2"></script>
+<script src="js/spotify.js?v=20261015-2"></script>
+<script src="js/fromm.js?v=20261015-2"></script>
+<script src="js/netflix.js?v=20261015-2"></script>
+<script src="js/karrot.js?v=20261015-2"></script>
+<script src="js/notes.js?v=20261015-2"></script>
+<script src="js/youtube.js?v=20261015-2"></script>
+<script src="js/baemin.js?v=20261015-3"></script>
+<script src="js/fromm-app.js?v=20261015-4"></script>
+<script src="js/view-only.js?v=20261015-2"></script>
+<script src="js/lock.js?v=1"></script>
+<!-- 새로고침 시 앱 화면을 복원하지 않고 항상 홈 화면에서 시작 -->
+</body>
+</html>
