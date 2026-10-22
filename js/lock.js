@@ -98,6 +98,11 @@
     if (dy < -40 || (Math.abs(dx) < 10 && Math.abs(dy) < 10)) enter();
   });
   L.addEventListener('pointercancel', function () { down = false; });
+  /* iOS Safari fallback: ensure a normal tap always opens the passcode screen. */
+  L.addEventListener('click', function (e) {
+    if (state !== 'locked' || e.target.closest('.lk-ico')) return;
+    enter();
+  });
   [].forEach.call(L.querySelectorAll('.lk-ico'), function (b) { b.addEventListener('click', function (e) { e.stopPropagation(); }); });
 
   /* keypad */
