@@ -1013,3 +1013,9 @@ html.pvo,html.pvo body,#screen:has(#pv.on),#pv.on{background:#000!important}
 #saf-app .sf-pg :where(hr){display:none!important}
 /* Keep status icons vertically aligned with the centerline of Dynamic Island. */
 #statusbar .sb-left,#statusbar .sb-right{transform:translateY(-5px)}
+
+/* Global polish: remove common horizontal header/divider rules from simulated webpages. */
+#saf-app .sf-pg :where(header,nav,[role="banner"],[role="navigation"],.pt-header,.pt-top,.pt-nav,.postype-header,.postype-nav){border-top-color:transparent!important;border-bottom-color:transparent!important;box-shadow:none!important}
+#saf-app .sf-pg :where(hr){display:none!important}
+/* Align status icons with Dynamic Island centerline. */
+#statusbar .sb-left,#statusbar .sb-right{transform:translateY(-5px)}
